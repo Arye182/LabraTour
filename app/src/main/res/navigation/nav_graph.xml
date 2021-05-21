@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
-
+    app:startDestination="@id/loginSignupFragment">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.labratour.ui.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        android:id="@+id/loginSignupFragment"
+        android:name="com.example.labratour.ui.LoginSignupFragment"
+        android:label="Hello Sir">
         <action
-            android:id="@+id/action_homeFragment_to_loginFragment"
+            android:id="@+id/action_loginSignupFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -21,6 +19,44 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.labratour.ui.LoginFragment"
-        android:label="fragmernt_login"
-        tools:layout="@layout/fragmernt_login" />
+        android:label="Log In"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.labratour.ui.HomeFragment"
+        android:label="User Home">
+        <argument
+            android:name="username"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.labratour.ui.SearchFragment"
+        android:label="SearchFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.labratour.ui.SettingsFragment"
+        android:label="Settings" />
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.example.labratour.ui.TermsFragment"
+        android:label="TermsFragment" />
+    <action
+        android:id="@+id/action_global_termsFragment"
+        app:destination="@id/termsFragment"
+        app:enterAnim="@anim/slide_in_top"
+        app:exitAnim="@anim/slide_out_bottom"
+        app:popEnterAnim="@anim/slide_in_bottom"
+        app:popExitAnim="@anim/slide_out_top" />
 </navigation>
