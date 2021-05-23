@@ -1,4 +1,7 @@
 package com.example.labratour.ui
 
-class SignUpFragmentTwo {
+import androidx.fragment.app.Fragment
+import com.example.labratour.R
+
+class SignUpFragmentTwo : Fragment(R.layout.fragment_signup_two){
 }

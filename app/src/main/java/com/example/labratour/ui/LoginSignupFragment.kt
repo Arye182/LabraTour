@@ -17,5 +17,10 @@ class LoginSignupFragment : Fragment(R.layout.fragment_login_signup) {
             val action = LoginSignupFragmentDirections.actionLoginSignupFragmentToLoginFragment()
             findNavController().navigate(action)
         }
+
+        button_signup.setOnClickListener{
+            val action = LoginSignupFragmentDirections.actionLoginSignupFragmentToSignUpFragmentOne()
+            findNavController().navigate(action)
+        }
     }
 }

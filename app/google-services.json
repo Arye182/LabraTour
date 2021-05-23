@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "695779981859",
+    "project_id": "labratour-b5c00",
+    "storage_bucket": "labratour-b5c00.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695779981859:android:627bae5afb721d1b4b8f96",
+        "android_client_info": {
+          "package_name": "com.example.labratour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695779981859-2grhrll0bvk5l65drt061eulqm60pfqb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.labratour",
+            "certificate_hash": "a89f5ebfb31a5cc4379a86af25e6e865fde4d861"
+          }
+        },
+        {
+          "client_id": "695779981859-hmnu4g713h9m0amsk4o3eur1i8dc7rhf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtOwS1dDN1Q2S3-R_dh_5VNrKSCcYcpkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695779981859-hmnu4g713h9m0amsk4o3eur1i8dc7rhf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

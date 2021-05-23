@@ -13,8 +13,9 @@ class LoginFragment : Fragment(R.layout.fragment_login){
         button_login_second.setOnClickListener {
             val username = edit_text_username.text.toString()
             val password = edit_text_password.text.toString()
-            val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(username, password)
-            findNavController().navigate(action)
+            //val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            //val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment(username, password)
+            //findNavController().navigate(action)
         }
     }
 }

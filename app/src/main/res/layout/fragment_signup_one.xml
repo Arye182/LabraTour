@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.LoginFragment">
+    tools:context=".ui.SignUpFragmentOne">
 
 
     <FrameLayout
@@ -18,12 +18,12 @@
 
     </FrameLayout>
 
-
+    <!--email-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_login_layout"
+        android:id="@+id/email_signup_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email id"
+        android:hint="Email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_image"
@@ -35,18 +35,17 @@
             android:id="@+id/edit_text_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="abc@gmail.com"
             android:inputType="textEmailAddress"/>
     </com.google.android.material.textfield.TextInputLayout>
-
+    <!--password-->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pass_login_layout"
+        android:id="@+id/pass_signup_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/email_login_layout"
+        app:layout_constraintTop_toBottomOf="@id/email_signup_layout"
         android:layout_marginStart="16dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="16dp"
@@ -57,16 +56,20 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
-
+    <!--password-->
+    <!--password-->
+    <!--password-->
+    <!--password-->
+    <!--password-->
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_login_second"
+        android:id="@+id/button_signup_second"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pass_login_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/pass_signup_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
