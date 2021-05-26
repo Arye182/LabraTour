@@ -1,4 +1,4 @@
-package com.example.labratour.ui
+package com.example.labratour.ui.login
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment

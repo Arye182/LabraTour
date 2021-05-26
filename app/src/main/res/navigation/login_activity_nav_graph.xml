@@ -6,7 +6,7 @@
     app:startDestination="@id/loginSignupFragment">
     <fragment
         android:id="@+id/loginSignupFragment"
-        android:name="com.example.labratour.ui.LoginSignupFragment"
+        android:name="com.example.labratour.ui.login.LoginSignupFragment"
         android:label="Hello Sir">
         <action
             android:id="@+id/action_loginSignupFragment_to_loginFragment"
@@ -17,26 +17,41 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_loginSignupFragment_to_signUpFragmentOne"
-            app:destination="@id/signUpFragmentOne" />
+            app:destination="@id/signUpFragmentOne"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.labratour.ui.LoginFragment"
+        android:name="com.example.labratour.ui.login.LoginFragment"
         android:label="Log In"
         tools:layout="@layout/fragment_login">
     </fragment>
     <fragment
         android:id="@+id/signUpFragmentOne"
-        android:name="com.example.labratour.ui.SignUpFragmentOne"
+        android:name="com.example.labratour.ui.login.SignUpFragmentOne"
         android:label="fragment_signup_one"
         tools:layout="@layout/fragment_signup_one" >
         <action
             android:id="@+id/action_signUpFragmentOne_to_signUpFragmentTwo"
-            app:destination="@id/signUpFragmentTwo" />
+            app:destination="@id/signUpFragmentTwo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/signUpFragmentTwo"
-        android:name="com.example.labratour.ui.SignUpFragmentTwo"
+        android:name="com.example.labratour.ui.login.SignUpFragmentTwo"
         android:label="fragment_signup_two"
-        tools:layout="@layout/fragment_signup_two" />
+        tools:layout="@layout/fragment_signup_two" >
+        <argument
+            android:name="email"
+            app:argType="string" />
+        <argument
+            android:name="password"
+            app:argType="string" />
+    </fragment>
 </navigation>
