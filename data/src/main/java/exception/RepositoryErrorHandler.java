@@ -1,6 +1,6 @@
 package exception;
 
-import LabraTour.domain.;
+
 
 public class RepositoryErrorHandler implements ErrorHandler {
     private final Exception exception;
