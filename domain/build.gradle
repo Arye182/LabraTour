@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+
 }
 
 android {
@@ -16,7 +17,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -41,4 +41,13 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //noinspection GradleCompatible
+    implementation "com.android.support:support-core-utils:27.0.0"
+    implementation 'com.squareup.retrofit2:converter-gson:latest.version'
+    implementation 'com.squareup.retrofit2:retrofit:latest.version'
+    implementation 'com.google.code.gson:gson:latest.version'
+    //noinspection GradleCompatible,GradleCompatible
+    implementation 'com.android.support:recyclerview-v5:latest.version'
+
+
 }

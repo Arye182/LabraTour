@@ -1,8 +1,27 @@
 plugins {
-    id 'java-library'
+    //id 'java-library'
+    id 'com.android.application'
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_7
     targetCompatibility = JavaVersion.VERSION_1_7
+}
+dependencies {
+
+  def dataDependencies = rootProject.dependencies
+   def testDependencies = rootProject.dependencies
+//    implementation 'com.squareup.retrofit2:converter-gson:latest.version'
+//    implementation 'com.squareup.retrofit2:retrofit:latest.version'
+//    implementation 'com.google.code.gson:gson:latest.version'
+    //noinspection GradleCompatible,GradleCompatible
+    //implementation 'com.android.support:recyclerview-v5:latest.version'
+    implementation project(':domain')
+//    compileOnly dataDependencies.javaxAnnotation
+//    implementation dataDependencies.javaxInject
+//    implementation dataDependencies.okHttp
+//    implementation dataDependencies.gson
+ //   implementation dataDependencies.rxJava
+   // implementation dataDependencies.rxAndroid
+//    implementation dataDependencies.androidAnnotations
 }
