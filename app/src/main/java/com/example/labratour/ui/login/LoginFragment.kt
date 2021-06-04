@@ -7,15 +7,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.labratour.HomeActivity
 import com.example.labratour.R
+import com.example.labratour.utils.ProgressBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment(R.layout.fragment_login){
+    val mypb : ProgressBar = ProgressBar()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // logging in!
         button_login_second.setOnClickListener {
+            activity?.let { it1 ->
+                mypb.showProgressBar(resources.getString(R.string.please_wait),
+                    it1, view)
+            }
             val email = login_edit_text_email.text.toString()
             val password = login_edit_text_password.text.toString()
             when {
@@ -40,10 +47,8 @@ class LoginFragment : Fragment(R.layout.fragment_login){
                         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                             // if registration succeed
                             if (task.isSuccessful) {
+                                mypb.hideProgressBar()
                                 val firebaseUser: FirebaseUser = task.result!!.user!!
-                                Toast.makeText(
-                                    activity, "You Were Registered Successfully.", Toast.LENGTH_SHORT
-                                ).show()
                                 // intent to the home user activity and fragments! this is a crutial part! a lot of needs to be done
                                 val intent =
                                     Intent(activity, HomeActivity::class.java)
@@ -53,7 +58,9 @@ class LoginFragment : Fragment(R.layout.fragment_login){
                                 startActivity(intent)
                                 activity?.finish()
                             } else {
-                                // registration failed
+
+                                // login failed
+                                mypb.hideProgressBar()
                                 Toast.makeText(
                                     activity, task.exception!!.message.toString(), Toast.LENGTH_SHORT
                                 ).show()

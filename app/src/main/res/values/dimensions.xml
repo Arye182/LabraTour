@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="splash_title_text_size">35sp</dimen>
+    <dimen name="progress_bar_size">50dp</dimen>
 
 
 </resources>

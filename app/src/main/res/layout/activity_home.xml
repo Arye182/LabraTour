@@ -11,9 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light" />
+        style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/home_nav_host_fragment"

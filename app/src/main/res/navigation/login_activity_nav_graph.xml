@@ -48,6 +48,15 @@
         android:label="fragment_signup_two"
         tools:layout="@layout/fragment_signup_two" >
         <argument
+            android:name="first_name"
+            app:argType="string" />
+        <argument
+            android:name="last_name"
+            app:argType="string" />
+        <argument
+            android:name="user_name"
+            app:argType="string" />
+        <argument
             android:name="email"
             app:argType="string" />
         <argument
