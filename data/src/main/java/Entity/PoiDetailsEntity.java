@@ -1,6 +1,6 @@
-//package Entity;
+package Entity;
 //
-//public class PoiDetailsEntity  @JsonCreator constructor(
+public class PoiDetailsEntity  {}
 ////    @JsonProperty("id") val id: Int,
 ////    @JsonProperty("name") val name: String,
 ////    @JsonProperty("genre") val genre: String?,
@@ -12,4 +12,4 @@
 ////                BandDetails(id, name, genre, description, year,
 ////        if (picture == null) null else URL(picture), albums.map { it.toAlbum() })
 //  }
-//)
+//)}

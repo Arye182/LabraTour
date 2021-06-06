@@ -2,6 +2,10 @@
 buildscript {
     ext.kotlin_version = "1.4.32"
     ext.nav_version = "2.3.5"
+    ext.rxJavaVersion = "2.0.2"
+    ext.arrowVersion = "1.0.0"
+    ext.gsonVersion = "2.3"
+    ext.javaxInjectVersion = "1"
     repositories {
         google()
         jcenter()

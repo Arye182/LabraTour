@@ -1,6 +1,25 @@
 package Entity.mapper;
 
-public class PoiEntityJsonMapper {
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+
+import Entity.PoiEntity;
+
+public class PoiEntityJsonMapper extends EntityJsonMapper<PoiEntity> {
+    @Override
+    public PoiEntity transformEntity(String jsonResponse) throws JsonSyntaxException {
+        final Type poiEntityType = new TypeToken<PoiEntity>(){}.getType();
+        return this.gson.fromJson(jsonResponse, poiEntityType);
+    }
+
+    @Override
+    public List<PoiEntity> transformEntityCollection(String listJsonResponse) throws JsonSyntaxException {
+        final Type listOfPoiEntityType = new TypeToken<List<PoiEntity>>(){}.getType();
+        return this.gson.fromJson(listJsonResponse, listOfPoiEntityType);
+    }
 }
 //package com.fernandocejas.android10.sample.data.entity.mapper;
 //

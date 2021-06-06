@@ -1,5 +1,23 @@
 package Entity.mapper;
-public class PoiDetailsEntityJsonMapper {
+
+import com.google.gson.JsonSyntaxException;
+
+import java.util.List;
+
+import Entity.PoiDetailsEntity;
+
+public class PoiDetailsEntityJsonMapper extends EntityJsonMapper <PoiDetailsEntity> {
+
+
+    @Override
+    public PoiDetailsEntity transformEntity(String jsonRespomse) throws JsonSyntaxException {
+        return null;
+    }
+
+    @Override
+    public List<PoiDetailsEntity> transformEntityCollection(String listJsonResponse) throws JsonSyntaxException {
+        return null;
+    }
 }
 //package com.fernandocejas.android10.sample.data.entity.mapper;
 //
