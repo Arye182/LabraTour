@@ -1,6 +1,8 @@
 package repositories;
 
-public class UserRepositoryImpl {
+import Entity.mapper.RatedPoiEntityDataMapper;
+
+public class PoiRepositoryImpl {
 
   // package com.fernandocejas.android10.sample.data.repository;
   //
@@ -20,16 +22,16 @@ public class UserRepositoryImpl {
   // @Singleton
   // public class UserDataRepository implements UserRepository {
   //
-  private final UserDataStoreFactory userDataStoreFactory;
-  private final UserEntityDataMapper userEntityDataMapper;
+  private final RatedPoiEntityDataMapper ratedPoiEntityDataMapper;
 
   /**
    * Constructs a {@link UserRepository}.
    * @param userEntityDataMapper {@link UserEntityDataMapper}.
    */
   @Inject
-  UserRepositoryImpl(UserEntityDataMapper userEntityDataMapper) {
-    this.userEntityDataMapper = userEntityDataMapper;
+  PoiRepositoryImpl(RatedPoiEntityDataMapper ratedPoiEntityDataMapper) {
+    this.ratedPoiEntityDataMapper = ratedPoiEntityDataMapper;
+
   }
   //
       @Override public Observable<List<User>> users() {
