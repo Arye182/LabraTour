@@ -59,9 +59,11 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_login"
-        android:layout_width="162dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:text="LOGIN"
         app:layout_constraintBottom_toTopOf="@+id/button_signup"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,8 +73,10 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button_signup"
-        android:layout_width="162dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="sign up"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -148,33 +148,40 @@
             <!--button continue-->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_signup_second"
-                android:layout_width="162dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="32dp"
                 android:text="Continue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pass_confirmation_signup_layout" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+                android:layout_marginBottom="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/button_signup_second">
+
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Already have an acount?"/>
+                    android:text="Already have an acount? " />
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/log_in_clickable_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Log In" />
+                    android:text="Log In"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
