@@ -1,27 +1,45 @@
 package com.example.Entity;
 
 public class User {
-    private final int userId;
+    private final String userId;
 
-    public User(int userId) {
+    public User(String userId) {
         this.userId = userId;
     }
 
     private String fullName;
     private String email;
-    private String homeDistrict;
+    private String UserName;
+    private String Phone;
+    private String address;
 //    private Object clusters;
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public String getHomeDistrict() {
-        return homeDistrict;
+    public void setUserName(String userName) {
+        UserName = userName;
     }
 
-    public void setHomeDistrict(String homeDistrict) {
-        this.homeDistrict = homeDistrict;
+    public void setPhone(String phone) {
+        Phone = phone;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public String getPhone() {
+        return Phone;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public String getFullName() {
