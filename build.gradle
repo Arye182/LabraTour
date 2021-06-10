@@ -6,6 +6,7 @@ buildscript {
     ext.arrowVersion = "1.0.0"
     ext.gsonVersion = "2.3"
     ext.javaxInjectVersion = "1"
+    ext.okHttpVersion = "2.5.0"
     repositories {
         google()
         jcenter()

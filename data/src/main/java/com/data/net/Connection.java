@@ -1,6 +1,15 @@
 package com.data.net;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 class Connection implements Callable<String> {
 
@@ -10,12 +19,12 @@ class Connection implements Callable<String> {
     private URL url;
     private String response;
 
-    private ApiConnection(String url) throws MalformedURLException {
+    private Connection(String url) throws MalformedURLException {
         this.url = new URL(url);
     }
 
-    static ApiConnection createGET(String url) throws MalformedURLException {
-        return new ApiConnection(url);
+    static Connection createGET(String url) throws MalformedURLException {
+        return new Connection(url);
     }
 
     /**
