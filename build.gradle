@@ -8,6 +8,10 @@ buildscript {
     ext.javaxInjectVersion = "1"
     ext.okHttpVersion = "2.5.0"
     ext.koin_version = "3.0.2"
+    ext.testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    ext.jUnitVersion = "4.12"
+    ext.assertJVersion = "1.7.1"
+    ext.mockitoVersion = "1.9.5"
     repositories {
         google()
         jcenter()
@@ -33,4 +37,7 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+task runDomainUnitTests(dependsOn: [':domain:test']) {
+    description 'Run unit tests for the domain layer.'
 }
