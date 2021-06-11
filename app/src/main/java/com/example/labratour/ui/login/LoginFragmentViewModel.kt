@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 
 
 class LoginFragmentViewModel (private val loginUseCase: LogInUseCase) : ViewModel() {
+    //private val loginUseCase: LogInUseCase
     // args
     private lateinit var password : String
     private lateinit var email : String
@@ -39,9 +40,9 @@ class LoginFragmentViewModel (private val loginUseCase: LogInUseCase) : ViewMode
             success.value = true
         }
         override fun  onError(exception : Throwable ){
-            isLoading.value = false
-            success.value = false
-            error.value = exception.message.toString()
+            isLoading.postValue(false)
+            success.postValue(false)
+            error.postValue(exception.message.toString())
         }
         fun  onNext(){
         }
@@ -51,7 +52,7 @@ class LoginFragmentViewModel (private val loginUseCase: LogInUseCase) : ViewMode
     fun login(email: String, password: String){
         this.email = email
         this.password = password
-        this.isLoading.value = true
+        this.isLoading.postValue(true)
         this.loginUseCase.execute(LogInObserver(), email, password)
     }
 }

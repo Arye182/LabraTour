@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_login.*
 
-import org.koin.androidx.viewmodel.ext.android.viewModel
+//import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment(R.layout.fragment_login){
 
@@ -28,8 +28,7 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // logging in!
-        email = login_edit_text_email.text.toString()
-        password = login_edit_text_password.text.toString()
+
         button_login_second.setOnClickListener {login(view)}
         register_clickable_text.setOnClickListener{register()}
         forgot_password.setOnClickListener{forgotPassword()}
@@ -70,6 +69,10 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     }
 
     private fun login (view: View) {
+        val email = login_edit_text_email.text.toString()
+        val password = login_edit_text_password.text.toString()
+        this.email = email
+        this.password = password
         when {
             // check if fields are not empty
             TextUtils.isEmpty(email.trim { it <= ' ' }) -> {
