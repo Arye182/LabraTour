@@ -33,10 +33,11 @@ public class RatedPoi {
     public void setUserRating(int userRating) {
         this.userRating = userRating;
     }
-    public String setAggregatedUsersRatings(double aggregatedUsersRatings) {
+    public void setAggregatedUsersRatings(double aggregatedUsersRatings) {
         this.aggregatedUsersRatings = aggregatedUsersRatings;
 
-    }public void setPriceLevel(int priceLevel) {
+    }
+    public void setPriceLevel(int priceLevel) {
         this.priceLevel = priceLevel;
     }
     public void setTypes(ArraySet<String> types) {

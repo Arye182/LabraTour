@@ -22,12 +22,14 @@ class LoginFragment : Fragment(R.layout.fragment_login){
 
     private val mypb : ProgressBar = ProgressBar()
     private val viewModel: LoginFragmentViewModel by viewModels()
-    val email = login_edit_text_email.text.toString()
-    val password = login_edit_text_password.text.toString()
+    lateinit var email : String
+    lateinit var password: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // logging in!
+        email = login_edit_text_email.text.toString()
+        password = login_edit_text_password.text.toString()
         button_login_second.setOnClickListener {login(view)}
         register_clickable_text.setOnClickListener{register()}
         forgot_password.setOnClickListener{forgotPassword()}
