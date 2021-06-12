@@ -12,6 +12,7 @@ buildscript {
     ext.jUnitVersion = "4.12"
     ext.assertJVersion = "1.7.1"
     ext.mockitoVersion = "1.9.5"
+    ext.rxAndroidVersion ="2.0.1"
 
     repositories {
         google()
