@@ -14,12 +14,10 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import com.datasource.UserDataSourceFactory;
 
-@Singleton
 public class UserRepositoryImpl implements UserRepository {
     private UserDataSourceFactory userDataSourceFactory;
     private UserDataMapper userDataMapper;
     private final CloudUserDataSource cloudUserDataSource;
-    @Inject
     public UserRepositoryImpl(CloudUserDataSource cloudUserDataSource) {
         this.cloudUserDataSource = userDataSourceFactory.createCloudDataSource();
         this.userDataMapper = new UserDataMapper();
