@@ -1,3 +1,5 @@
+package com.utils;
+
 import com.example.executors.ExecutionThread;
 
 import java.util.concurrent.LinkedBlockingQueue;

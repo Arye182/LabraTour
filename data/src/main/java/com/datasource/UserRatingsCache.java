@@ -1,4 +1,4 @@
-package repositories.datasource;
+package com.datasource;
 
 //import Entity.RatedPoiEntity;
 //import io.reactivex.Observable;

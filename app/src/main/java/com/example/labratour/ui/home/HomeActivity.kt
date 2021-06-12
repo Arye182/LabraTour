@@ -1,4 +1,4 @@
-package com.example.labratour
+package com.example.labratour.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.labratour.HomeActivityNavGraphDirections
 import com.example.labratour.R
 import kotlinx.android.synthetic.main.activity_home.*
 

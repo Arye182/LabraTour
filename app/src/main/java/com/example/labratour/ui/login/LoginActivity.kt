@@ -1,4 +1,4 @@
-package com.example.labratour
+package com.example.labratour.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.example.labratour.ui.home.HomeActivity
+import com.example.labratour.R
 import com.google.firebase.auth.FirebaseAuth
 
 
