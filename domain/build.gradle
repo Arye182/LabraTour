@@ -50,8 +50,8 @@ dependencies {
     //noinspection GradleCompatible,GradleCompatible
     //implementation 'com.android.support:recyclerview-v5:latest.version'
    implementation "junit:junit:${jUnitVersion}"
-    implementation "org.mockito:mockito-core:${mockitoVersion}"
-    implementation "org.assertj:assertj-core:${assertJVersion}"
+   // implementation "org.mockito:mockito-core:${mockitoVersion}"
+   // implementation "org.assertj:assertj-core:${assertJVersion}"
 
 
 
