@@ -1,4 +1,4 @@
-package com.data.net;
+package com.net;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

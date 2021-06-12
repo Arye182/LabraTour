@@ -1,4 +1,4 @@
-package com.data.net;
+package com.net;
 
 public class UserApi {
 
