@@ -31,8 +31,8 @@ class LoginFragment : Fragment(R.layout.fragment_login){
         super.onCreate(savedInstanceState)
         // create the view model for login fragment manualy with factory - we do that in OnCreate Method
         val dataFactory :UserDataSourceFactory = UserDataSourceFactory(FirebaseAuth.getInstance())
-        val data : CloudUserDataSource = dataFactory.createCloudDataSource()
-        val userRepo : UserRepositoryImpl = UserRepositoryImpl(data)
+        //val data : CloudUserDataSource = dataFactory.createCloudDataSource()
+        val userRepo : UserRepositoryImpl = UserRepositoryImpl(dataFactory)
         val useCase : LogInUseCase = LogInUseCase(userRepo,JobExecutor(), UIThread())
         val viewModelFactory = LoginFragmentViewModelFactory(useCase)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginFragmentViewModel::class.java)
