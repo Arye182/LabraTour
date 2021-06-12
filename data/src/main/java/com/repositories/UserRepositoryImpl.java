@@ -15,9 +15,10 @@ public class UserRepositoryImpl implements UserRepository {
     private UserDataSourceFactory userDataSourceFactory;
     private UserDataMapper userDataMapper;
     private final CloudUserDataSource cloudUserDataSource;
-    public UserRepositoryImpl(CloudUserDataSource cloudUserDataSource) {
+    public UserRepositoryImpl(UserDataSourceFactory userDataSourceFactory) {
         this.cloudUserDataSource = userDataSourceFactory.createCloudDataSource();
         this.userDataMapper = new UserDataMapper();
+        this.userDataSourceFactory = userDataSourceFactory;
   }
 //    public String addUser(User user) throws Exception {
 //        return cloudUserDataSource.insert(UserDataMapper.transform(user));
