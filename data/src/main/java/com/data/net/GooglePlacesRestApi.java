@@ -2,7 +2,7 @@ package com.data.net;
 
 import android.content.Context;
 
-import Entity.mapper.RatedPoiEntityJsonMapper;
+import com.Entity.mapper.RatedPoiEntityJsonMapper;
 
 public class GooglePlacesRestApi implements RestApi{
     String MY_API_KEY = "AIzaSyBXOteaabBVfmHXUYYyOgRv-DcE05g6-1E";

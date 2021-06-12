@@ -65,16 +65,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation project(':domain')
+    implementation project(':data')
     // https://firebase.google.com/docs/android/setup#available-libraries
     // rxJava
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-
-    // Koin main features for Android (Scope,ViewModel ...)
-    implementation "io.insert-koin:koin-android:$koin_version"
-    // Koin Android - experimental builder extensions
-    implementation "io.insert-koin:koin-android-ext:$koin_version"
-    // Koin for Jetpack WorkManager
-    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
-    // Koin for Jetpack Compose (unstable version)
-    //implementation "io.insert-koin:koin-androidx-compose:$koin_version"
 }

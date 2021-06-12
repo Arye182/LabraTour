@@ -1,17 +1,9 @@
 package com.example.labratour.ui.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
 
-import useCases.DefaultObserver
-import useCases.LogInUseCase
-
-
-
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.useCases.DefaultObserver
+import com.example.useCases.LogInUseCase
 
 
 class LoginFragmentViewModel (private val loginUseCase: LogInUseCase) : ViewModel() {

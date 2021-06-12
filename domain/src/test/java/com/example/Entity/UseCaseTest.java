@@ -3,8 +3,8 @@ package com.example.Entity;
 
 import org.junit.rules.ExpectedException;
 
-import executors.ExecutionThread;
-import executors.PostExecutionThread;
+import com.example.executors.ExecutionThread;
+import com.example.executors.PostExecutionThread;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UseCaseTestClass {

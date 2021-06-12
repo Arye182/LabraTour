@@ -1,7 +1,7 @@
 package com.data.net;
 
 import io.reactivex.Observable;
-import Entity.RatedPoiEntity;
+import com.Entity.RatedPoiEntity;
 
 public interface RestApi {
 String My_API_KEY = "AIzaSyBXOteaabBVfmHXUYYyOgRv-DcE05g6-1E"

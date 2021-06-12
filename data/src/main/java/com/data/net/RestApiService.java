@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 
 import java.util.List;
 
-import Entity.RatedPoiEntity;
+import com.Entity.RatedPoiEntity;
 import Entity.mapper.PoiEntityJsonMapper;
 import io.reactivex.Observable;
 

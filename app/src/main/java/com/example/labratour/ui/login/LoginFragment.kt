@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.HomeActivity
 import com.example.labratour.R
@@ -15,15 +16,36 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.fragment_login.*
+import com.repositories.UserRepositoryImpl
+
 
 //import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment(R.layout.fragment_login){
 
     private val mypb : ProgressBar = ProgressBar()
-    private val viewModel: LoginFragmentViewModel by viewModels()
+    private lateinit var viewModel: LoginFragmentViewModel
     lateinit var email : String
     lateinit var password: String
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val userRepo : UserRepositoryImpl = UserRepositoryImpl()
+        viewModel = ViewModelProvider(this, factory).get(LoginFragmentViewModel::class.java)
+        binding.myViewModel = connectionViewModel
+        binding.lifecycleOwner = this
+
+
+
+        val dao:ConnectionDAO = ConnectionDataBase.getInstance(application).connectionDAO
+        val repository = ConnectionRepository(dao)
+        val factory = ConnectionViewModelFactory(repository)
+        connectionViewModel = ViewModelProvider(this, factory).get(ConnectionViewModel::class.java)
+        binding.myViewModel = connectionViewModel
+        binding.lifecycleOwner = this
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
