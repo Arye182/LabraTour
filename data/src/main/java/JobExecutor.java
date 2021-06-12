@@ -10,7 +10,8 @@ public class JobExecutor implements ExecutionThread {
 
 
     public JobExecutor() {
-        this.threadPoolExecutor = new ThreadPoolExecutor(3, 5, 10, TimeUnit.SECONDS,
+        this.threadPoolExecutor = new ThreadPoolExecutor(3, 5, 10,
+                TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>(), new JobThreadFactory());
     }
 

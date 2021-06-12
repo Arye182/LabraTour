@@ -8,7 +8,7 @@ public class UIThread implements PostExecutionThread{
 
 
 
-public UIThread() {}
+//public UIThread() {}
 
 @Override public Scheduler getScheduler() {
         return AndroidSchedulers.mainThread();
