@@ -1,26 +1,27 @@
 package com.repositories;
 
+import com.Entity.UserEntity;
+import com.Entity.mapper.UserDataMapper;
 import com.example.Entity.User;
+import com.example.repositories.UserRepository;
 import com.google.firebase.auth.AuthResult;
+import com.repositories.datasource.CloudUserDataSource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.Entity.UserEntity;
-import com.Entity.mapper.UserDataMapper;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
-import com.example.repositories.UserRepository;
-
-import com.repositories.datasource.CloudUserDataSource;
+import repositories.datasource.UserDataSourceFactory;
 
 @Singleton
 public class UserRepositoryImpl implements UserRepository {
-    private CloudUserDataSource cloudUserDataSource;
+    private UserDataSourceFactory userDataSourceFactory;
     private UserDataMapper userDataMapper;
+    private final CloudUserDataSource cloudUserDataSource;
     @Inject
     public UserRepositoryImpl(CloudUserDataSource cloudUserDataSource) {
-        this.cloudUserDataSource = cloudUserDataSource;
+        this.cloudUserDataSource = userDataSourceFactory.createCloudDataSource();
         this.userDataMapper = new UserDataMapper();
   }
 //    public String addUser(User user) throws Exception {
