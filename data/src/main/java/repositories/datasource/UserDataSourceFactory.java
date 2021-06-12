@@ -12,7 +12,7 @@ public class UserDataSourceFactory {
 
 
 
-    UserDataSourceFactory(FirebaseAuth firebaseAuth) {
+    public UserDataSourceFactory(FirebaseAuth firebaseAuth) {
         this.firebaseAuth = firebaseAuth;
 
     }
