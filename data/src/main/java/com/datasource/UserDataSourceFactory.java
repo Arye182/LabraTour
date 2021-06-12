@@ -1,7 +1,6 @@
-package repositories.datasource;
+package com.datasource;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.repositories.datasource.CloudUserDataSource;
 
 import javax.inject.Singleton;
 

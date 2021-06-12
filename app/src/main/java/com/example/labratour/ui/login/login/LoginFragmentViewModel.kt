@@ -1,4 +1,4 @@
-package com.example.labratour.ui.login
+package com.example.labratour.ui.login.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 

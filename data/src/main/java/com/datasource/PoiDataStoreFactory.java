@@ -1,4 +1,4 @@
-package com.repositories.datasource;
+package com.datasource;
 
 import android.content.Context;
 

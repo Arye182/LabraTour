@@ -5,14 +5,14 @@ import com.Entity.mapper.UserDataMapper;
 import com.example.Entity.User;
 import com.example.repositories.UserRepository;
 import com.google.firebase.auth.AuthResult;
-import com.repositories.datasource.CloudUserDataSource;
+import com.datasource.CloudUserDataSource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
-import repositories.datasource.UserDataSourceFactory;
+import com.datasource.UserDataSourceFactory;
 
 @Singleton
 public class UserRepositoryImpl implements UserRepository {

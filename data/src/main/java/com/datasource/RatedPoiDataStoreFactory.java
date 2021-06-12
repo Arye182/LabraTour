@@ -1,4 +1,4 @@
-package repositories.datasource;
+package com.datasource;
 
 //@Singleton
 ////public class RatedPoiDataStoreFactory {
