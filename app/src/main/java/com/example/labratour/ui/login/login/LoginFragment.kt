@@ -25,20 +25,15 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     private lateinit var viewModel: LoginFragmentViewModel
     private lateinit var email : String
     private lateinit var password: String
-    private lateinit var thread : UIThread
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // create the view model for login fragment manualy with factory - we do that in OnCreate Method
-        thread = UIThread()
-        val data : CloudUserDataSource = UserDataSourceFactory(
-            FirebaseAuth.getInstance()
-        ).createCloudDataSource()
+        val dataFactory :UserDataSourceFactory = UserDataSourceFactory(FirebaseAuth.getInstance())
+        val data : CloudUserDataSource = dataFactory.createCloudDataSource()
         val userRepo : UserRepositoryImpl = UserRepositoryImpl(data)
-        val useCase : LogInUseCase = LogInUseCase(userRepo,
-            JobExecutor(), UIThread()
-        )
+        val useCase : LogInUseCase = LogInUseCase(userRepo,JobExecutor(), UIThread())
         val viewModelFactory = LoginFragmentViewModelFactory(useCase)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginFragmentViewModel::class.java)
     }
