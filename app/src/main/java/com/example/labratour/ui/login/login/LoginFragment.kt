@@ -23,8 +23,6 @@ class LoginFragment : Fragment(R.layout.fragment_login){
 
     private val mypb : ProgressBar = ProgressBar()
     private lateinit var viewModel: LoginFragmentViewModel
-    private lateinit var email : String
-    private lateinit var password: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +68,8 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     private fun loginResult(view: View) {
         if (viewModel.success.value!!) {
             // intent to the home user activity and fragments! this is a crucial part! a lot of needs to be done
+            val email = login_edit_text_email.text.toString()
+            val password = login_edit_text_password.text.toString()
             val intent = Intent(activity, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.putExtra("user_id", FirebaseAuth.getInstance().currentUser!!.uid)
@@ -84,8 +84,6 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     private fun login (view: View) {
         val email = login_edit_text_email.text.toString()
         val password = login_edit_text_password.text.toString()
-        this.email = email
-        this.password = password
         when {
             // check if fields are not empty
             TextUtils.isEmpty(email.trim { it <= ' ' }) -> {
