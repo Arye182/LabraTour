@@ -6,7 +6,7 @@
     app:startDestination="@id/loginSignupFragment">
     <fragment
         android:id="@+id/loginSignupFragment"
-        android:name="com.example.labratour.presentation.ui.login.welcome.LoginSignupFragment"
+        android:name="com.example.labratour.presentation.ui.welcome.LoginSignupFragment"
         android:label="Hello Sir">
         <action
             android:id="@+id/action_loginSignupFragment_to_loginFragment"

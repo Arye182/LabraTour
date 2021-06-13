@@ -1,4 +1,4 @@
-package com.example.labratour.presentation.ui.login.welcome
+package com.example.labratour.presentation.ui.welcome
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

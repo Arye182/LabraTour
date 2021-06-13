@@ -9,7 +9,7 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.LabraTour">
-        <activity android:name=".presentation.ui.login.welcome.SplashActivity"
+        <activity android:name=".presentation.ui.welcome.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LabraTour.NoActionBar">
             <intent-filter>
