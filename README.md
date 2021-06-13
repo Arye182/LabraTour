@@ -3,7 +3,7 @@
 # Description  
 A - Mobile Android App that helps getting customized reccomended Points-Of-Interests. 
 
-![Alt ScreenShot](LabraTour/GitHubPics/app_screen_1.PNG?raw=true "ScreenShot 1")
+![Alt ScreenShot](https://github.com/Arye182/LabraTour/blob/master/GitHubPics/app_screen_1.JPG?raw=true "ScreenShot 1")
 
 # Clean - Architecture 
 we use clean architecture in our project. all UI and View is in the presentation Module.
