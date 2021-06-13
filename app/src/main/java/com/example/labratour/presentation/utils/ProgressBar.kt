@@ -1,4 +1,4 @@
-package com.example.labratour.utils
+package com.example.labratour.presentation.utils
 
 
 import android.app.Activity

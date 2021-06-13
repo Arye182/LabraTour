@@ -1,11 +1,11 @@
-package com.example.labratour.ui.login.welcome
+package com.example.labratour.presentation.ui.login.welcome
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
-import com.example.labratour.ui.login.LoginActivity
+import com.example.labratour.presentation.ui.login.LoginActivity
 import com.example.labratour.R
 
 class SplashActivity : AppCompatActivity() {

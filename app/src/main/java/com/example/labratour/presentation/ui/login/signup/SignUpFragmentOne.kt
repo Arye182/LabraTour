@@ -1,4 +1,4 @@
-package com.example.labratour.ui.login.signup
+package com.example.labratour.presentation.ui.login.signup
 
 import android.os.Bundle
 import android.text.TextUtils

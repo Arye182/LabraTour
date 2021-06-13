@@ -1,4 +1,4 @@
-package com.example.labratour.ui.login.signup
+package com.example.labratour.presentation.ui.login.signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.labratour.R
-import com.example.labratour.ui.home.HomeActivity
-import com.example.labratour.utils.ProgressBar
+import com.example.labratour.presentation.ui.home.HomeActivity
+import com.example.labratour.presentation.utils.ProgressBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

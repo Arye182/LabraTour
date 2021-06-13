@@ -6,7 +6,7 @@
     app:startDestination="@id/loginSignupFragment">
     <fragment
         android:id="@+id/loginSignupFragment"
-        android:name="com.example.labratour.ui.login.welcome.LoginSignupFragment"
+        android:name="com.example.labratour.presentation.ui.login.welcome.LoginSignupFragment"
         android:label="Hello Sir">
         <action
             android:id="@+id/action_loginSignupFragment_to_loginFragment"
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.labratour.ui.login.login.LoginFragment"
+        android:name="com.example.labratour.presentation.ui.login.login.LoginFragment"
         android:label="Log In"
         tools:layout="@layout/fragment_login">
         <action
@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragmentOne"
-        android:name="com.example.labratour.ui.login.signup.SignUpFragmentOne"
+        android:name="com.example.labratour.presentation.ui.login.signup.SignUpFragmentOne"
         android:label="fragment_signup_one"
         tools:layout="@layout/fragment_signup_one" >
         <action
@@ -65,7 +65,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragmentTwo"
-        android:name="com.example.labratour.ui.login.signup.SignUpFragmentTwo"
+        android:name="com.example.labratour.presentation.ui.login.signup.SignUpFragmentTwo"
         android:label="fragment_signup_two"
         tools:layout="@layout/fragment_signup_two" >
         <argument
@@ -86,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.labratour.ui.login.forgotpassword.ForgotPasswordFragment"
+        android:name="com.example.labratour.presentation.ui.login.forgotpassword.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment" >
         <action
             android:id="@+id/action_forgotPasswordFragment_to_loginFragment"

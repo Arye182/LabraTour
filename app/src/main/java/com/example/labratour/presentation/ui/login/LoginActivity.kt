@@ -1,4 +1,4 @@
-package com.example.labratour.ui.login
+package com.example.labratour.presentation.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
-import com.example.labratour.ui.home.HomeActivity
+import com.example.labratour.presentation.ui.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {

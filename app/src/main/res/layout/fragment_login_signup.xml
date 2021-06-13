@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.login.welcome.LoginSignupFragment"
+    tools:context=".presentation.ui.login.welcome.LoginSignupFragment"
     android:background="@color/reply_blue_800">
 
 

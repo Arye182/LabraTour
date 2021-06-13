@@ -1,4 +1,4 @@
-package com.example.labratour.ui.home
+package com.example.labratour.presentation.ui.home
 
 import android.os.Bundle
 import android.view.Menu

@@ -1,4 +1,4 @@
-package com.example.labratour.ui.login.login
+package com.example.labratour.presentation.ui.login.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,16 +7,16 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.labratour.data.datasource.UserDataSourceFactory
 import com.example.labratour.R
-import com.example.labratour.ui.home.HomeActivity
-import com.example.labratour.utils.ProgressBar
-import com.example.labratour.utils.UIThread
-import com.example.labratour.domain.useCases.LogInUseCase
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
+import com.example.labratour.data.datasource.UserDataSourceFactory
 import com.example.labratour.data.repositories.UserRepositoryImpl
 import com.example.labratour.data.utils.JobExecutor
+import com.example.labratour.domain.useCases.LogInUseCase
+import com.example.labratour.presentation.ui.home.HomeActivity
+import com.example.labratour.presentation.utils.ProgressBar
+import com.example.labratour.presentation.utils.UIThread
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
 
 /**
@@ -38,8 +38,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             UserRepositoryImpl(
                 dataFactory
             )
-        val useCase = LogInUseCase(userRepo,
-            JobExecutor(), UIThread())
+        val useCase = LogInUseCase(
+            userRepo,
+            JobExecutor(), UIThread()
+        )
         val viewModelFactory = LoginFragmentViewModelFactory(useCase)
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(LoginFragmentViewModel::class.java)

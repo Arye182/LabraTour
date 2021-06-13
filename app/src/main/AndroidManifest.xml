@@ -9,7 +9,7 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.LabraTour">
-        <activity android:name=".ui.login.welcome.SplashActivity"
+        <activity android:name=".presentation.ui.login.welcome.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.LabraTour.NoActionBar">
             <intent-filter>
@@ -17,10 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.LoginActivity"
+        <activity android:name=".presentation.ui.login.LoginActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".presentation.ui.home.HomeActivity" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 
