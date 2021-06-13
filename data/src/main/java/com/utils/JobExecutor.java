@@ -1,6 +1,7 @@
 package com.utils;
 
 import com.example.executors.ExecutionThread;
+import com.google.firebase.database.annotations.NotNull;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -17,14 +18,14 @@ public class JobExecutor implements ExecutionThread {
                 new LinkedBlockingQueue<>(), new JobThreadFactory());
     }
 
-    @Override public void execute(Runnable runnable) {
+    @Override public void execute(@NotNull Runnable runnable) {
         this.threadPoolExecutor.execute(runnable);
     }
 
     private static class JobThreadFactory implements ThreadFactory {
         private int counter = 0;
 
-        @Override public Thread newThread( Runnable runnable) {
+        @Override public Thread newThread(@NotNull Runnable runnable) {
             return new Thread(runnable, "android_" + counter++);
         }
     }

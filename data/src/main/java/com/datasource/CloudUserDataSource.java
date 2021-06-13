@@ -2,17 +2,16 @@ package com.datasource;
 
 import androidx.annotation.NonNull;
 
+import com.Entity.UserEntity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.Entity.UserEntity;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 
 public class CloudUserDataSource {
   //
@@ -24,33 +23,39 @@ public class CloudUserDataSource {
 
   public Observable<AuthResult> login(final UserEntity userEntity) {
     return Observable.create(
-        new ObservableOnSubscribe<AuthResult>() {
-          @Override
-          public void subscribe(final ObservableEmitter<AuthResult> emitter) throws Exception {
-            firebaseAuth
-                .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
-                .addOnSuccessListener(
-                    new OnSuccessListener<AuthResult>() {
-                      @Override
-                      public void onSuccess(AuthResult authResult) {
-                        if (!emitter.isDisposed()) {
-                          emitter.onNext(authResult);
-                        }
-                      }
-                    })
-                .addOnFailureListener(
-                    new OnFailureListener() {
-                      @Override
-                      public void onFailure(@NonNull @NotNull Exception e) {
-                        if (!emitter.isDisposed()) {
-                          emitter.onError(e);
-                        }
-                      }
-                    });
+        emitter -> {
+          Task<AuthResult> authResultTask =
+              firebaseAuth.signInWithEmailAndPassword(
+                  userEntity.getEmail(), userEntity.getPassword());
+          if (authResultTask != null) {
+            authResultTask.addOnFailureListener(
+                new OnFailureListener() {
+                  @Override
+                  public void onFailure(@NonNull @NotNull Exception e) {
+                    if (!(emitter.isDisposed())) {
+                        emitter.onError(authResultTask.getException());
+                    }
+                  }
+                });
+            authResultTask.addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                @Override
+                public void onSuccess(AuthResult authResult) {
+                    if(!emitter.isDisposed())
+                    emitter.onComplete();
+                    }});
+
+                                                    }
+                                                }
+            );
           }
-        });
-  }
-      }
+        }
+
+
+
+
+
+
+
 //public class CloudUserDataSource {
 //
 //    private final FirebaseFirestore firestore;

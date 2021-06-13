@@ -7,9 +7,9 @@ public class UserEntity {
 
 
     @SerializedName("password")
-    private String password = null;
+    private String password;
     @SerializedName("email")
-    private String email = null;
+    private String email;
     private String uid;
     private String username;
     public UserEntity() {
@@ -18,7 +18,7 @@ public class UserEntity {
          */
     }
 
-    public UserEntity(String password, String email) {
+    public UserEntity(String email, String password) {
         this.email = email;
         this.password = password;
     }

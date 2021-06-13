@@ -34,9 +34,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Observable<User> login(final String password,
-                                       final String email) {
-        return this.cloudUserDataSource.login(new UserEntity(password, email))
+    public Observable<User> login(final String email,
+                                       final String password) {
+        return this.cloudUserDataSource.login(new UserEntity(email, password))
                 .map(new Function<AuthResult, UserEntity>() {
                     @Override
                     public UserEntity apply(AuthResult authResult) throws Exception {
