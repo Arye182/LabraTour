@@ -5,55 +5,72 @@ A - Mobile Android App that helps getting customized reccomended Points-Of-Inter
 
 ![Alt ScreenShot](/FlightControlWeb/ClientApp/src/images/flight_screen.PNG?raw=true "ScreenShot 1")
 
-# Clean - Architecture  
+# Clean - Architecture 
+we use clean architecture in our project. all UI and View is in the presentation Module.
+Domain is - .....
+Data is - .....
+
+
 Presentation Module:
 -----------------------------
-* Kotlin - Android Studio
-* Material Design - Components
-* One Activity Architecture
 * Module - App
+* Programming Language - Kotlin
+* Material Design - for much more responsive and better ui/ux
+* 2 main activities - Login and Home - the rest is managed in fragments
 * Navigation Component of Android X jetpack
 
 Domain Module:
 -----------------------------
-* Presentation Module
+* Module - Domain
+* Programming Language - Java
+* UseCases
+* Repositories
+* Reactive JX
+
 
 Data Module:
 -----------------------------
-* Presentation Module
-
-
+* Module - Data
+* Programming Language - Java
 
 
 # UnitTests (Unit-Tests):
 -----------------------------
 	
 
-
-# System Requiremnets  
+# System Requiremnets 
+----------------------------- 
 
 
 # Installation  
+-----------------------------
 
 
 # Support  
+-----------------------------
 arye.amsalem@gmail.com  
 miriyungreis@gmail.com
 
 # Roadmap  
+-----------------------------
 none.
 
 # Contributing  
+-----------------------------
 none.
 
 # Authors and acknowledgment  
+-----------------------------
 Arye182, miriyungreis
 
 # License  
+-----------------------------
 MIT
 
 # Project status  
+-----------------------------
 on progress
 
-# Git Hub Link ~ ~ for instructors 89111
+# Git Hub Link
+-----------------------------
 https://github.com/Arye182/LabraTour

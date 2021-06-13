@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
 import com.repositories.UserRepositoryImpl
 import com.example.useCases.LogInUseCase
-import com.datasource.CloudUserDataSource
 import com.datasource.UserDataSourceFactory
 
 class LoginFragment : Fragment(R.layout.fragment_login){
@@ -27,9 +26,9 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // create the view model for login fragment manually with factory - we do that in OnCreate Method
-        val dataFactory :UserDataSourceFactory = UserDataSourceFactory(FirebaseAuth.getInstance())
-        val userRepo : UserRepositoryImpl = UserRepositoryImpl(dataFactory)
-        val useCase : LogInUseCase = LogInUseCase(userRepo,JobExecutor(), UIThread())
+        val dataFactory = UserDataSourceFactory(FirebaseAuth.getInstance())
+        val userRepo = UserRepositoryImpl(dataFactory)
+        val useCase = LogInUseCase(userRepo,JobExecutor(), UIThread())
         val viewModelFactory = LoginFragmentViewModelFactory(useCase)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginFragmentViewModel::class.java)
     }
