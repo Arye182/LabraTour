@@ -1,6 +1,6 @@
 package com.example.labratour.utils;
 
-import com.example.executors.PostExecutionThread;
+import com.example.labratour.domain.executors.PostExecutionThread;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;

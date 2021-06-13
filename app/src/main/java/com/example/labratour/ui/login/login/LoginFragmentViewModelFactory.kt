@@ -2,7 +2,7 @@ package com.example.labratour.ui.login.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.useCases.LogInUseCase
+import com.example.labratour.domain.useCases.LogInUseCase
 
 /**
  * Login fragment view model factory

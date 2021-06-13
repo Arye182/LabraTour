@@ -2,8 +2,8 @@ package com.example.labratour.ui.login.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.useCases.DefaultObserver
-import com.example.useCases.LogInUseCase
+import com.example.labratour.domain.useCases.DefaultObserver
+import com.example.labratour.domain.useCases.LogInUseCase
 
 /**
  * Login fragment view model
