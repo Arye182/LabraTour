@@ -10,7 +10,6 @@ we use clean architecture in our project. all UI and View is in the presentation
 Domain is - .....
 Data is - .....
 
-
 Presentation Module:
 -----------------------------
 * Module - App
@@ -27,24 +26,19 @@ Domain Module:
 * Repositories
 * Reactive JX
 
-
 Data Module:
 -----------------------------
 * Module - Data
 * Programming Language - Java
 
-
 # UnitTests (Unit-Tests):
 -----------------------------
-	
 
 # System Requiremnets 
 ----------------------------- 
 
-
 # Installation  
 -----------------------------
-
 
 # Support  
 -----------------------------
