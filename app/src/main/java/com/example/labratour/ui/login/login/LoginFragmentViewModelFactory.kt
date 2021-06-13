@@ -1,8 +1,6 @@
 package com.example.labratour.ui.login.login
 
 import com.example.useCases.LogInUseCase
-
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 

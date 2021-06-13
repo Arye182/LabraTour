@@ -5,8 +5,8 @@ A - Mobile Android App that helps getting customized reccomended Points-Of-Inter
 
 ![Alt ScreenShot](/FlightControlWeb/ClientApp/src/images/flight_screen.PNG?raw=true "ScreenShot 1")
 
-
-UI / UX:
+# Clean - Architecture  
+Presentation Module:
 -----------------------------
 * Kotlin - Android Studio
 * Material Design - Components
@@ -14,16 +14,18 @@ UI / UX:
 * Module - App
 * Navigation Component of Android X jetpack
 
-
-Back - End:
+Domain Module:
 -----------------------------
-* 
-* 
-* 
-* 
-* 
+* Presentation Module
 
-FlightControlUnitTests (Unit-Tests):
+Data Module:
+-----------------------------
+* Presentation Module
+
+
+
+
+# UnitTests (Unit-Tests):
 -----------------------------
 * 
 * 

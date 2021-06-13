@@ -14,23 +14,9 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // pressing continue on the sign up first window - will pass args to second fragment
-        // and continue the registration process
-        button_signup_second.setOnClickListener{
-            // check if the user entered something :D
-            when {
-                validateRegisterDetails(view) -> {
-                    val first_name : String = sign_up_edit_text_first_name.text.toString().trim { it <= ' ' }
-                    val last_name : String = sign_up_edit_text_Last_name.text.toString().trim { it <= ' ' }
-                    val user_name : String = sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
-                    val email : String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
-                    val password : String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
-                    // move on to next step!
-                    val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo(first_name, last_name, user_name, email, password)
-                    findNavController().navigate(action)
-                }
-            }
-        }
+        // onClickListeners
+        button_signup_second.setOnClickListener{moveToSecondRegistrationPage(view)}
+        log_in_clickable_text.setOnClickListener{moveTologIn(view)}
     }
 
     private fun validateRegisterDetails(view: View) : Boolean {
@@ -83,5 +69,26 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one){
                 true
             }
         }
+    }
+
+    private fun moveToSecondRegistrationPage(view : View){
+        // check if the user entered something :D
+        when {
+            validateRegisterDetails(view) -> {
+                val first_name : String = sign_up_edit_text_first_name.text.toString().trim { it <= ' ' }
+                val last_name : String = sign_up_edit_text_Last_name.text.toString().trim { it <= ' ' }
+                val user_name : String = sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
+                val email : String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
+                val password : String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
+                // move on to next step!
+                val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo(first_name, last_name, user_name, email, password)
+                findNavController().navigate(action)
+            }
+        }
+    }
+
+    private fun moveTologIn(view: View) {
+        val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToLoginFragment()
+        findNavController().navigate(action)
     }
 }

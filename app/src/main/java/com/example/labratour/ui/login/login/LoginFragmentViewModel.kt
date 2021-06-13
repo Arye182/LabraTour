@@ -15,18 +15,17 @@ class LoginFragmentViewModel (private val loginUseCase: LogInUseCase) : ViewMode
     val isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
-    // Create a LiveData with a String
+    // this is a string of error message that returned from log in task
     val error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
-
+    // this indicates if log in was success or not
     val success: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
 
-    // observes the use case work!
+    // observes the use case - log in
     private inner class LogInObserver : DefaultObserver<Void>() {
-        //private val mypb : ProgressBar = ProgressBar()
         override fun  onComplete(){
             isLoading.value = false
             success.value = true
@@ -34,13 +33,13 @@ class LoginFragmentViewModel (private val loginUseCase: LogInUseCase) : ViewMode
         override fun  onError(exception : Throwable ){
             isLoading.postValue(false)
             success.postValue(false)
-            error.postValue(exception.message.toString())
+            error.postValue(exception.message)
         }
         fun  onNext(){
         }
     }
 
-    // activate the use case of loading!
+    // activate the use case of log in the user
     fun login(email: String, password: String){
         this.email = email
         this.password = password

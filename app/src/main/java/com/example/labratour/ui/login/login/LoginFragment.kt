@@ -24,26 +24,26 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     private val mypb : ProgressBar = ProgressBar()
     private lateinit var viewModel: LoginFragmentViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // create the view model for login fragment manualy with factory - we do that in OnCreate Method
+        // create the view model for login fragment manually with factory - we do that in OnCreate Method
         val dataFactory :UserDataSourceFactory = UserDataSourceFactory(FirebaseAuth.getInstance())
-        //val data : CloudUserDataSource = dataFactory.createCloudDataSource()
         val userRepo : UserRepositoryImpl = UserRepositoryImpl(dataFactory)
         val useCase : LogInUseCase = LogInUseCase(userRepo,JobExecutor(), UIThread())
         val viewModelFactory = LoginFragmentViewModelFactory(useCase)
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginFragmentViewModel::class.java)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // logging in!
+        // setting up listeners and observes
         button_login_second.setOnClickListener {login(view)}
         register_clickable_text.setOnClickListener{onClickRegister()}
         forgot_password.setOnClickListener{onClickForgotPassword()}
+        // observe the view model state - is loading? and success
+        // if is loading true - show progress bar. if false hide.
         this.viewModel.isLoading.observe(viewLifecycleOwner,{showProgressBar(view)})
+        // if success is true - logging in was successful - move to next activity
         this.viewModel.success.observe(viewLifecycleOwner, {loginResult(view)})
     }
 
@@ -82,22 +82,18 @@ class LoginFragment : Fragment(R.layout.fragment_login){
     }
 
     private fun login (view: View) {
-        val email = login_edit_text_email.text.toString()
-        val password = login_edit_text_password.text.toString()
+        val email = login_edit_text_email.text.toString().trim { it <= ' ' }
+        val password = login_edit_text_password.text.toString().trim { it <= ' ' }
         when {
             // check if fields are not empty
-            TextUtils.isEmpty(email.trim { it <= ' ' }) -> {
+            TextUtils.isEmpty(email) -> {
                 Snackbar.make(view, R.string.missing_email, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.error)).show()
             }
-            TextUtils.isEmpty(password.trim { it <= ' ' }) -> {
+            TextUtils.isEmpty(password) -> {
                 Snackbar.make(view, R.string.missing_password, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.error)).show()
             }
             else -> {
                 // try to log in to the site
-                // prepare args :)
-                val email : String = email.toString().trim { it <= ' ' }
-                val password : String = password.trim { it <= ' ' }
-                // login with firebase
                 viewModel.login(email, password)
             }
         }
