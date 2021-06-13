@@ -1,9 +1,9 @@
 package com.example.labratour.ui.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -23,7 +23,8 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         // navigation container
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.homeFragment, R.id.searchFragment, R.id.settingsFragment)
@@ -33,10 +34,6 @@ class HomeActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         // bottom nav bar
         bottom_nav.setupWithNavController(navController)
-
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return if(item.itemId == R.id.termsAndConditions){
+        return if (item.itemId == R.id.termsAndConditions) {
             val action = HomeActivityNavGraphDirections.actionGlobalTermsFragment()
             navController.navigate(action)
             true
@@ -58,4 +55,3 @@ class HomeActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
-

@@ -19,6 +19,8 @@ Presentation Module:
 -----------------------------
 * Module - App
 * Programming Language - Kotlin
+* Kotlin Documantation
+* Coding Style For Kotlin - KTLINT
 * Material Design - for much more responsive and better ui/ux
 * 2 main activities - Login and Home - the rest is managed in fragments
 * Navigation Component of Android X jetpack

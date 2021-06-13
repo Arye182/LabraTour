@@ -9,45 +9,51 @@ import com.example.labratour.R
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_signup_one.*
 
-
-class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one){
+class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // onClickListeners
-        button_signup_second.setOnClickListener{moveToSecondRegistrationPage(view)}
-        log_in_clickable_text.setOnClickListener{moveTologIn(view)}
+        button_signup_second.setOnClickListener { moveToSecondRegistrationPage(view) }
+        log_in_clickable_text.setOnClickListener { moveTologIn(view) }
     }
 
-    private fun validateRegisterDetails(view: View) : Boolean {
+    private fun validateRegisterDetails(view: View): Boolean {
         return when {
             // check first name not empty
             TextUtils.isEmpty(sign_up_edit_text_first_name.text.toString().trim { it <= ' ' }) -> {
-                Snackbar.make(view, R.string.missing_first_name, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.error)).show()
+                Snackbar.make(view, R.string.missing_first_name, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
                 false
             }
             // check last name not empty
             TextUtils.isEmpty(sign_up_edit_text_Last_name.text.toString().trim { it <= ' ' }) -> {
-                Snackbar.make(view, R.string.missing_last_name, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.error)).show()
+                Snackbar.make(view, R.string.missing_last_name, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
                 false
             }
             // check user name not empty
             TextUtils.isEmpty(sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }) -> {
-                Snackbar.make(view, R.string.missing_user_name, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.error)).show()
+                Snackbar.make(view, R.string.missing_user_name, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
                 false
             }
             // check email not empty
             TextUtils.isEmpty(sign_up_edit_text_email.text.toString().trim { it <= ' ' }) -> {
-                Snackbar.make(view, R.string.missing_email, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.error)).show()
+                Snackbar.make(view, R.string.missing_email, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
                 false
             }
             // check password not empty
             TextUtils.isEmpty(sign_up_edit_text_password.text.toString().trim { it <= ' ' }) -> {
-                Snackbar.make(view, R.string.missing_password, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.error)).show()
+                Snackbar.make(view, R.string.missing_password, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
                 false
             }
             // check confirmation password not empty
-            TextUtils.isEmpty(sign_up_edit_text_password_confirmation.text.toString().trim { it <= ' ' }) -> {
+            TextUtils.isEmpty(
+                sign_up_edit_text_password_confirmation.text.toString().trim { it <= ' ' }
+            ) -> {
                 Snackbar.make(
                     view,
                     R.string.missing_confirmation_password,
@@ -56,7 +62,9 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one){
                 false
             }
             // check passwords
-            sign_up_edit_text_password.text.toString().trim{ it <= ' ' } != sign_up_edit_text_password_confirmation.text.toString().trim{ it <= ' ' } -> {
+            sign_up_edit_text_password.text.toString()
+                .trim { it <= ' ' } != sign_up_edit_text_password_confirmation.text.toString()
+                .trim { it <= ' ' } -> {
                 Snackbar.make(
                     view,
                     R.string.password_confirmation_failed,
@@ -65,23 +73,33 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one){
                 false
             }
             else -> {
-                Snackbar.make(view, R.string.registration_validated, Snackbar.LENGTH_SHORT).setBackgroundTint(resources.getColor(R.color.success)).show()
+                Snackbar.make(view, R.string.registration_validated, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.success)).show()
                 true
             }
         }
     }
 
-    private fun moveToSecondRegistrationPage(view : View){
+    private fun moveToSecondRegistrationPage(view: View) {
         // check if the user entered something :D
         when {
             validateRegisterDetails(view) -> {
-                val first_name : String = sign_up_edit_text_first_name.text.toString().trim { it <= ' ' }
-                val last_name : String = sign_up_edit_text_Last_name.text.toString().trim { it <= ' ' }
-                val user_name : String = sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
-                val email : String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
-                val password : String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
+                val first_name: String =
+                    sign_up_edit_text_first_name.text.toString().trim { it <= ' ' }
+                val last_name: String =
+                    sign_up_edit_text_Last_name.text.toString().trim { it <= ' ' }
+                val user_name: String =
+                    sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
+                val email: String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
+                val password: String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
                 // move on to next step!
-                val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo(first_name, last_name, user_name, email, password)
+                val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo(
+                    first_name,
+                    last_name,
+                    user_name,
+                    email,
+                    password
+                )
                 findNavController().navigate(action)
             }
         }

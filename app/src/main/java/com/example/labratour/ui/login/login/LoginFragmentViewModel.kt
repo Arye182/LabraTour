@@ -1,50 +1,74 @@
 package com.example.labratour.ui.login.login
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
 import com.example.useCases.DefaultObserver
 import com.example.useCases.LogInUseCase
 
-
-class LoginFragmentViewModel (private val loginUseCase: LogInUseCase) : ViewModel() {
-    //private val loginUseCase: LogInUseCase
-    // args
-    private lateinit var password : String
-    private lateinit var email : String
+/**
+ * Login fragment view model
+ *
+ * @property loginUseCase
+ * @constructor Create empty Login fragment view model
+ */
+class LoginFragmentViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
     // live data
     val isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
+
     // this is a string of error message that returned from log in task
     val error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
+
     // this indicates if log in was success or not
     val success: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
 
-    // observes the use case - log in
+    /**
+     * Log in observer
+     *
+     * @constructor Create empty Log in observer
+     */
     private inner class LogInObserver : DefaultObserver<Void>() {
-        override fun  onComplete(){
+        /**
+         * On complete
+         *
+         */
+        override fun onComplete() {
             isLoading.value = false
             success.value = true
         }
-        override fun  onError(exception : Throwable ){
+
+        /**
+         * On error
+         *
+         * @param exception
+         */
+        override fun onError(exception: Throwable) {
             isLoading.postValue(false)
             success.postValue(false)
             error.postValue(exception.message)
         }
-        fun  onNext(){
+
+        /**
+         * On next
+         *
+         */
+        fun onNext() {
         }
     }
 
-    // activate the use case of log in the user
-    fun login(email: String, password: String){
-        this.email = email
-        this.password = password
+    /**
+     * Login
+     * activate the use case of log in the user
+     * @param email
+     * @param password
+     */
+    fun login(email: String, password: String) {
         this.isLoading.postValue(true)
         this.loginUseCase.execute(LogInObserver(), email, password)
     }
 }
-

@@ -6,12 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import com.example.labratour.ui.home.HomeActivity
 import com.example.labratour.R
+import com.example.labratour.ui.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 
-
-class LoginActivity: AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,17 +28,14 @@ class LoginActivity: AppCompatActivity() {
             this.finish()
         }
 
-
         setContentView(R.layout.activity_login)
         // navigation container
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.login_nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.login_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
-
 }
