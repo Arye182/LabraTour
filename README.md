@@ -7,8 +7,13 @@ A - Mobile Android App that helps getting customized reccomended Points-Of-Inter
 
 # Clean - Architecture 
 we use clean architecture in our project. all UI and View is in the presentation Module.
-Domain is - .....
-Data is - .....
+we believe in clean code.
+* we use clean code - Modular with MVVM extended architecture (usecases etc.)
+* dependency injection is made manually
+* Presentation is handling only ui issues. it holds bridges to the layer undernith - the domain but does not
+responsible for the buisness logic that happens in there. it is only responsible for the view change!!!!
+* Domain is - .....
+* Data is - .....
 
 Presentation Module:
 -----------------------------
@@ -17,6 +22,8 @@ Presentation Module:
 * Material Design - for much more responsive and better ui/ux
 * 2 main activities - Login and Home - the rest is managed in fragments
 * Navigation Component of Android X jetpack
+* ViewModel
+
 
 Domain Module:
 -----------------------------
