@@ -1,12 +1,11 @@
 package com.example.useCases;
 
 
-import com.fernandocejas.arrow.checks.Preconditions;
-
 import com.example.executors.ExecutionThread;
 import com.example.executors.PostExecutionThread;
+import com.fernandocejas.arrow.checks.Preconditions;
+
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -37,14 +36,14 @@ public abstract class UseCase<T, RequestInput> {
         addDisposable((Disposable)observable.subscribeWith(observer));
     }
 
-    protected abstract void addDisposable(Observer<? super T> subscribeWith);
+
 
     public void dispose() {
         if (!myDisposables.isDisposed()) {
             myDisposables.dispose();
         }
     }
-    private void addDisposable(Disposable disposable) {
+    protected void addDisposable(Disposable disposable) {
         Preconditions.checkNotNull(disposable);
         Preconditions.checkNotNull(myDisposables);
         myDisposables.add(disposable);

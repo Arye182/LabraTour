@@ -1,15 +1,14 @@
 package com.example.useCases;
 
 
-import com.fernandocejas.arrow.checks.Preconditions;
-
 import com.example.executors.ExecutionThread;
 import com.example.executors.PostExecutionThread;
+import com.example.repositories.UserRepository;
+import com.fernandocejas.arrow.checks.Preconditions;
+
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import com.example.repositories.UserRepository;
 
 public class LogInUseCase extends UseCase<Void, LogInUseCase.RequestInput> {
      private UserRepository userRepository;
@@ -28,25 +27,22 @@ public class LogInUseCase extends UseCase<Void, LogInUseCase.RequestInput> {
         addDisposable(observable.subscribeWith(observer));
     }
     public Observable buildUseCaseObservable(RequestInput requestInput) {
-        return userRepository.login(requestInput.password, requestInput.email);
+        return userRepository.login(requestInput.email, requestInput.password);
     }
 
-    @Override
-    protected void addDisposable(Observer<? super Void> subscribeWith) {
 
-    }
 
     public static final class RequestInput {
 
         private final String password;
         private final String email;
 
-        private RequestInput(String password, String email){
+        private RequestInput(String email, String password){
             this.password = password;
             this.email = email;
         }
 
-        public static RequestInput forUser(String password, String email) {
+        public static RequestInput forUser(String email, String password) {
             return new RequestInput(password, email);
         }
 }
