@@ -6,6 +6,8 @@ import com.example.labratour.domain.executors.PostExecutionThread;
 import com.example.labratour.domain.repositories.UserRepository;
 import com.fernandocejas.arrow.checks.Preconditions;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -26,7 +28,7 @@ public class LogInUseCase extends UseCase<Void, LogInUseCase.RequestInput> {
                         .observeOn(postExecutionThread.getScheduler());
         addDisposable(observable.subscribeWith(observer));
     }
-    public Observable buildUseCaseObservable(RequestInput requestInput) {
+    public Observable buildUseCaseObservable(@NotNull RequestInput requestInput) {
         return userRepository.login(requestInput.email, requestInput.password);
     }
 
@@ -37,7 +39,7 @@ public class LogInUseCase extends UseCase<Void, LogInUseCase.RequestInput> {
         private final String password;
         private final String email;
 
-        private RequestInput(String email, String password){
+        public RequestInput(String email, String password){
             this.password = password;
             this.email = email;
         }

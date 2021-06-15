@@ -1,4 +1,4 @@
-package com.example.labratour
+package com.example.labratour.data
 
 import org.junit.Test
 

@@ -13,11 +13,11 @@ import io.reactivex.functions.Function;
 
 public class UserRepositoryImpl implements UserRepository {
     private UserDataSourceFactory userDataSourceFactory;
-    private UserDataMapper userDataMapper;
+ //   private UserDataMapper userDataMapper;
     private final CloudUserDataSource cloudUserDataSource;
     public UserRepositoryImpl(UserDataSourceFactory userDataSourceFactory) {
         this.cloudUserDataSource = userDataSourceFactory.createCloudDataSource();
-        this.userDataMapper = new UserDataMapper();
+      //  this.userDataMapper = new UserDataMapper();
         this.userDataSourceFactory = userDataSourceFactory;
   }
 //    public String addUser(User user) throws Exception {
@@ -40,13 +40,13 @@ public class UserRepositoryImpl implements UserRepository {
                 .map(new Function<AuthResult, UserEntity>() {
                     @Override
                     public UserEntity apply(AuthResult authResult) throws Exception {
-                        return UserDataMapper.transform(authResult);
+                        return new UserDataMapper().transform(authResult);
                     }
                 })
                 .map(new Function<UserEntity, User>() {
                     @Override
                     public User apply(UserEntity userEntity) throws Exception {
-                        return UserDataMapper.transform(userEntity);
+                        return new UserDataMapper().transform(userEntity);
                     }
                 });
     }

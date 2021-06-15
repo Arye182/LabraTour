@@ -3,8 +3,8 @@ package com.example.labratour.data.datasource;
 import androidx.annotation.NonNull;
 
 import com.example.labratour.data.Entity.UserEntity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +27,7 @@ public class CloudUserDataSource {
           Task<AuthResult> authResultTask =
               firebaseAuth.signInWithEmailAndPassword(
                   userEntity.getEmail(), userEntity.getPassword());
-          if (authResultTask != null) {
+          try{
             authResultTask.addOnFailureListener(
                 new OnFailureListener() {
                   @Override
@@ -37,17 +37,26 @@ public class CloudUserDataSource {
                     }
                   }
                 });
-            authResultTask.addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                @Override
-                public void onSuccess(AuthResult authResult) {
-                    if(!emitter.isDisposed())
-                    emitter.onComplete();
-                    }});
+            authResultTask.addOnCompleteListener(
+                    new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                            if(!emitter.isDisposed())
+                                emitter.onComplete();
+                            else{
 
-                                                    }
-                                                }
-            );
+                            }
+                        }
+                        });
+            }
+          catch (Throwable e ){
+              throw e;
           }
+        } );
+
+
+
+        }
         }
 
 
