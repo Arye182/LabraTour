@@ -6,7 +6,7 @@ public class RatedPoi {
 
 
         private final String placeId;
-        private String userId;
+        public String userId;
 
 
         //todo feturs in map

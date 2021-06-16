@@ -52,6 +52,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Observable addRate(String emeil, String ratedPoiId, int rate) {
+        return null;
+    }
+
+    @Override
     public void saveUser(User user) {
 
     }
