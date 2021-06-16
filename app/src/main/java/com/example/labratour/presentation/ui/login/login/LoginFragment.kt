@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
-import com.example.labratour.data.datasource.UserDataSourceFactory
-import com.example.labratour.data.repositories.UserRepositoryImpl
-import com.example.labratour.data.utils.JobExecutor
-import com.example.labratour.domain.useCases.LogInUseCase
+import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.ui.home.HomeActivity
+import com.example.labratour.presentation.ui.login.LoginActivity
 import com.example.labratour.presentation.utils.ProgressBar
-import com.example.labratour.presentation.utils.UIThread
+import com.example.labratour.presentation.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -26,25 +23,12 @@ import kotlinx.android.synthetic.main.fragment_login.*
  */
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private val mypb: ProgressBar = ProgressBar()
-    private lateinit var viewModel: LoginFragmentViewModel
+    private lateinit var viewModel: UserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // create the view model for login fragment manually with factory - we do that in OnCreate Method
-        val dataFactory =
-            UserDataSourceFactory(
-                FirebaseAuth.getInstance()
-            )
-        val userRepo =
-            UserRepositoryImpl(
-                dataFactory
-            )
-        val useCase = LogInUseCase(
-            userRepo,
-            JobExecutor(), UIThread()
-        )
-        val viewModelFactory = LoginFragmentViewModelFactory(useCase)
-        viewModel =
-            ViewModelProvider(this, viewModelFactory).get(LoginFragmentViewModel::class.java)
+        viewModel = (activity as LoginActivity?)?.userViewModel!!
+        val k = ((LabratourApplication.instance) as LabratourApplication).bla()
     }
 
     /**

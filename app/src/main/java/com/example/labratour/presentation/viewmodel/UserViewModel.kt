@@ -1,4 +1,4 @@
-package com.example.labratour.presentation.ui.login.login
+package com.example.labratour.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +11,8 @@ import com.example.labratour.domain.useCases.LogInUseCase
  * @property loginUseCase
  * @constructor Create empty Login fragment view model
  */
-class LoginFragmentViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
+class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
+
     // live data
     val isLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
