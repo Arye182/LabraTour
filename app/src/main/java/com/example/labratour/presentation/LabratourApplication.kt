@@ -2,6 +2,7 @@ package com.example.labratour.presentation
 
 import android.app.Application
 import android.util.Log
+import com.example.labratour.domain.di.DomainContainer
 import com.example.labratour.presentation.di.AppContainer
 import com.google.firebase.FirebaseApp
 
@@ -9,6 +10,7 @@ import com.google.firebase.FirebaseApp
 // in the AndroidManifest.xml file
 class LabratourApplication : Application() {
     lateinit var appContainer: AppContainer
+    lateinit var domainContainer: DomainContainer
 
     companion object {
         lateinit var instance: Application
@@ -21,6 +23,7 @@ class LabratourApplication : Application() {
         instance = this
         FirebaseApp.initializeApp(this)
         appContainer = AppContainer()
+        domainContainer = DomainContainer(this)
     }
 
     fun bla() {

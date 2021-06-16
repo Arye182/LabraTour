@@ -13,9 +13,9 @@ class FirebaseContainer {
     // instantiate firebase
     val firebaseDataBase = FirebaseAuth.getInstance()
     // instantiate data source factory to create the firebase data source
-    val userFirebaseDataSourceFactory = UserDataSourceFactory(firebaseDataBase)
+    //val userFirebaseDataSourceFactory = UserDataSourceFactory(firebaseDataBase)
     // create user repo
-    val userRepo = UserRepositoryImpl(userFirebaseDataSourceFactory)
+    val userRepo = UserRepositoryImpl(firebaseDataBase)
     // create login use case
     val loginUseCase = LogInUseCase(userRepo, JobExecutor(), UIThread())
     // userViewModel Factory
