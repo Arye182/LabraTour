@@ -1,6 +1,8 @@
 package com.example.labratour.domain.Entity;
 
-public class User {
+import java.util.Map;
+
+public class User<Atributes> {
     private final String userId;
 
     public User(String userId) {
@@ -12,6 +14,7 @@ public class User {
     private String UserName;
     private String Phone;
     private String address;
+    private final Atributes atributes;
 //    private Object clusters;
 
     public String getUserId() {
@@ -56,6 +59,10 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public  Atributes getAtributes() {
+        return atributes;
     }
 
 //    public String getDescription() {

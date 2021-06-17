@@ -2,7 +2,7 @@ package com.example.labratour.data;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Rate {
+public class RateEntity {
 
         public String poiId;
         @SerializedName("emeil")
@@ -18,7 +18,7 @@ public class Rate {
 
 
 
-        public Rate(String poiId, int rate, String author) {
+        public RateEntity(String poiId, int rate, String author) {
             this.author = author;
             this.poiId = poiId;
             this.author = author;

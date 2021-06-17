@@ -4,6 +4,7 @@ package com.example.labratour.data;
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.datasource.CloudUserDataSource;
 import com.example.labratour.data.datasource.UserDataSourceFactory;
+import com.example.labratour.data.di.FirebaseContainer;
 import com.example.labratour.data.repositories.UserRepositoryImpl;
 import com.example.labratour.domain.Entity.User;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +27,7 @@ public class UserRepositoryImplTest {
 
     private UserRepositoryImpl userRepository;
     @Mock
-    private UserDataSourceFactory mockUserDataSourceFactory;
+    private FirebaseContainer mockFirebase;
    // @Mock private UserDataMapper mockUserDataMapper;
    @Mock  private  CloudUserDataSource mockCloudUserDataSource;
    @Mock private AuthResult mockAuthResult;
@@ -34,8 +35,8 @@ public class UserRepositoryImplTest {
 
     @Before
     public void setUp() {
-        userRepository = new UserRepositoryImpl(mockUserDataSourceFactory);
-        given(mockUserDataSourceFactory.createCloudDataSource()).willReturn(mockCloudUserDataSource);
+        userRepository = new UserRepositoryImpl(mockFirebase);
+       // given(mockUserDataSourceFactory.createCloudDataSource()).willReturn(mockCloudUserDataSource);
 
 
     }
