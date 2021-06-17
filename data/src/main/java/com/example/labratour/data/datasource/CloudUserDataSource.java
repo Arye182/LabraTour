@@ -18,7 +18,10 @@ import io.reactivex.Observable;
 public class CloudUserDataSource {
   //
   private final FirebaseAuth firebaseAuth;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("message");
 
+myRef.setValue("Hello, World!");
   public CloudUserDataSource(FirebaseAuth firebaseAuth) {
     this.firebaseAuth = firebaseAuth;
   }
