@@ -3,9 +3,8 @@ package com.example.labratour.data.datasource;
 import androidx.annotation.NonNull;
 
 import com.example.labratour.data.Entity.UserEntity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -14,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
 public class CloudUserDataSource {
   //
@@ -36,36 +37,35 @@ public class CloudUserDataSource {
   //    }
   public Observable<AuthResult> login(final UserEntity userEntity) {
     return Observable.create(
-        emitter -> {
-          Task<AuthResult> authResultTask =
-              firebaseAuth.signInWithEmailAndPassword(
-                  userEntity.getEmail(), userEntity.getPassword());
-          try {
-            authResultTask.addOnFailureListener(
-                new OnFailureListener() {
-                  @Override
-                  public void onFailure(@NonNull @NotNull Exception e) {
-                    if (!(emitter.isDisposed())) {
-                      emitter.onError(authResultTask.getException());
-                    }
-                  }
-                });
-            authResultTask.addOnCompleteListener(
-                new OnCompleteListener<AuthResult>() {
-                  @Override
-                  public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                    if (!emitter.isDisposed()) emitter.onComplete();
-                    else {
-
-                    }
-                  }
-                });
-          } catch (Throwable e) {
-            throw e;
+        new ObservableOnSubscribe<AuthResult>() {
+          @Override
+          public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
+            firebaseAuth
+                .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
+                .addOnSuccessListener(
+                    new OnSuccessListener<AuthResult>() {
+                      @Override
+                      public void onSuccess(AuthResult authResult) {
+                        if (!(emitter.isDisposed())) {
+                          emitter.onNext(authResult);
+                        }
+                      }
+                    })
+                .addOnFailureListener(
+                    new OnFailureListener() {
+                      @Override
+                      public void onFailure(@NonNull @NotNull Exception e) {
+                        if (!emitter.isDisposed()) {
+                          emitter.onError(e);
+                        }
+                      }
+                    });
           }
         });
   }
-        }
+    }
+
+
 
 
 //        if (!(user==null)){
