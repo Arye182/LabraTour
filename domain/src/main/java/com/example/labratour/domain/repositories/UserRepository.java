@@ -9,6 +9,7 @@ import io.reactivex.Observable;
 public interface UserRepository {
     public Observable<User> getUser(String userId, boolean fromServer);
     public Observable login(String email, String  password);
-    public Observable addRate(String emeil, String ratedPoiId, int rate);
+
     public void saveUser(User user);
+
             }

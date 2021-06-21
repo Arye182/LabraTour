@@ -3,11 +3,10 @@ package com.example.labratour.data;
 
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.datasource.CloudUserDataSource;
-import com.example.labratour.data.datasource.UserDataSourceFactory;
-import com.example.labratour.data.di.FirebaseContainer;
 import com.example.labratour.data.repositories.UserRepositoryImpl;
 import com.example.labratour.domain.Entity.User;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import io.reactivex.Observable;
 
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,7 +25,7 @@ public class UserRepositoryImplTest {
 
     private UserRepositoryImpl userRepository;
     @Mock
-    private FirebaseContainer mockFirebase;
+    private FirebaseAuth mockFirebase;
    // @Mock private UserDataMapper mockUserDataMapper;
    @Mock  private  CloudUserDataSource mockCloudUserDataSource;
    @Mock private AuthResult mockAuthResult;
@@ -46,7 +44,6 @@ public class UserRepositoryImplTest {
         Observable<User> userObservable =  userRepository.login(FAKE_EMAIL, FAKE_PASSWORD);
 
         userRepository.login(FAKE_EMAIL, FAKE_PASSWORD);
-        verify(mockUserDataSourceFactory).createCloudDataSource();
         verify(mockCloudUserDataSource).login(new UserEntity(FAKE_EMAIL, FAKE_PASSWORD));
 
     }

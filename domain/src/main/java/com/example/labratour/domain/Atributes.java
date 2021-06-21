@@ -1,4 +1,4 @@
-package com.example.labratour.domain.Entity;
+package com.example.labratour.domain;
 
 
 
