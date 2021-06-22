@@ -1,6 +1,5 @@
 package com.example.labratour.presentation.di
 
-import com.example.labratour.data.datasource.UserDataSourceFactory
 import com.example.labratour.data.repositories.UserRepositoryImpl
 import com.example.labratour.data.utils.JobExecutor
 import com.example.labratour.domain.useCases.LogInUseCase
