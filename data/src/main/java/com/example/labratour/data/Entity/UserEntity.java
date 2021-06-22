@@ -40,10 +40,11 @@ private String Phone;
         private Atributes atributes;
         private SpscArrayQueue<RateEntity> rates;
 //    private Object clusters;
-
+    public UserEntity() {}
     public UserEntity(String email, String password) {
         this.email = email;
         this.password = password;
+
     }
 
         public String getUserId() {

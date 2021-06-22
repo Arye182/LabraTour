@@ -22,13 +22,15 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
 //public static final String CHILD_USERS = "users";
 public class UserEntityFirebaseStore {
+
+
         private final FirebaseDatabase database;
 
+  public UserEntityFirebaseStore() {
 
-        public UserEntityFirebaseStore() {
-                this.database = FirebaseDatabase.getInstance();
-                this.database.setPersistenceEnabled(true);        }
-
+    this.database = FirebaseDatabase.getInstance();
+    // this.database.setPersistenceEnabled(true);
+  }
 
         public Observable<String> createUserIfNotExists(UserEntity userEntity) {
         DatabaseReference databaseReference = database.getReference().child("users").child(userEntity.getUserId());
