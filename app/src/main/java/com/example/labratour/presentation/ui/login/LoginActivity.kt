@@ -21,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // arrange the activity instances like view model - using the dependency injection app shit
+        // arrange the activity instances like view model - using the dependency injection containers
         val appContainer = (application as LabratourApplication).appContainer
         val firebaseContainer = appContainer.firebaseContainer
         val userViewModelFactory = firebaseContainer.userViewModelFactory

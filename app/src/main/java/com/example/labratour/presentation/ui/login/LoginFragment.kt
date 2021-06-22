@@ -1,15 +1,13 @@
-package com.example.labratour.presentation.ui.login.login
+package com.example.labratour.presentation.ui.login
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
-import com.example.labratour.presentation.LabratourApplication
+import com.example.labratour.presentation.ui.base.BaseFragment
 import com.example.labratour.presentation.ui.home.HomeActivity
-import com.example.labratour.presentation.ui.login.LoginActivity
 import com.example.labratour.presentation.utils.ProgressBar
 import com.example.labratour.presentation.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -21,14 +19,13 @@ import kotlinx.android.synthetic.main.fragment_login.*
  *
  * @constructor Create empty Login fragment
  */
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val mypb: ProgressBar = ProgressBar()
     private lateinit var viewModel: UserViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // create the view model for login fragment manually with factory - we do that in OnCreate Method
         viewModel = (activity as LoginActivity?)?.userViewModel!!
-        val k = ((LabratourApplication.instance) as LabratourApplication).bla()
     }
 
     /**
@@ -40,15 +37,17 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // setting up listeners and observes
-        button_login_second.setOnClickListener { login(view) }
+        button_login_second.setOnClickListener { onClickLogin(view) }
         register_clickable_text.setOnClickListener { onClickRegister() }
         forgot_password.setOnClickListener { onClickForgotPassword() }
         // observe the view model state - is it loading? act accordingly
-        this.viewModel.isLoading.observe(viewLifecycleOwner, { handleProgressBar(view) })
+        this.viewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
         // observe if success is true - logging in was successful - move to next activity
-        this.viewModel.success.observe(viewLifecycleOwner, { loginResult(view) })
+        this.viewModel.logInTaskStatus.observe(viewLifecycleOwner, { onIsLoginSuccessChanged(view) })
+        // observe errors
+        this.viewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
     }
-
+    // ----------------------------------- On CLicks ----------------------------------------------
     /**
      * On click forgot password
      *
@@ -68,11 +67,37 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     /**
+     * Login
+     *
+     * @param view
+     */
+    private fun onClickLogin(view: View) {
+        val email = login_edit_text_email.text.toString().trim { it <= ' ' }
+        val password = login_edit_text_password.text.toString().trim { it <= ' ' }
+        when {
+            // check if fields are not empty
+            TextUtils.isEmpty(email) -> {
+                Snackbar.make(view, R.string.missing_email, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
+            }
+            TextUtils.isEmpty(password) -> {
+                Snackbar.make(view, R.string.missing_password, Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
+            }
+            else -> {
+                // try to log in to the site
+                viewModel.login(email, password)
+            }
+        }
+    }
+
+    // ----------------------------------- State Handlers -----------------------------------------
+    /**
      * Handle progress bar
      *
      * @param view
      */
-    private fun handleProgressBar(view: View) {
+    private fun onIsLoadingChanged(view: View) {
         if (viewModel.isLoading.value!!) {
             activity?.let { it1 ->
                 this.mypb.showProgressBar(
@@ -91,8 +116,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
      *
      * @param view
      */
-    private fun loginResult(view: View) {
-        if (viewModel.success.value!!) {
+    private fun onIsLoginSuccessChanged(view: View) {
+        if (viewModel.logInTaskStatus.value!!) {
             // intent to the home user activity and fragments! this is a crucial part! a lot of needs to be done
             val email = login_edit_text_email.text.toString()
             val password = login_edit_text_password.text.toString()
@@ -102,34 +127,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             intent.putExtra("email_id", email)
             startActivity(intent)
             activity?.finish()
-        } else if (!viewModel.success.value!!) {
-            Snackbar.make(view, viewModel.error.value.toString(), Snackbar.LENGTH_LONG)
-                .setBackgroundTint(resources.getColor(R.color.error)).show()
         }
     }
 
-    /**
-     * Login
-     *
-     * @param view
-     */
-    private fun login(view: View) {
-        val email = login_edit_text_email.text.toString().trim { it <= ' ' }
-        val password = login_edit_text_password.text.toString().trim { it <= ' ' }
-        when {
-            // check if fields are not empty
-            TextUtils.isEmpty(email) -> {
-                Snackbar.make(view, R.string.missing_email, Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(resources.getColor(R.color.error)).show()
-            }
-            TextUtils.isEmpty(password) -> {
-                Snackbar.make(view, R.string.missing_password, Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(resources.getColor(R.color.error)).show()
-            }
-            else -> {
-                // try to log in to the site
-                viewModel.login(email, password)
-            }
-        }
+    private fun onErrorChanged(view: View) {
+        Snackbar.make(view, this.viewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.error)).show()
     }
 }

@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.labratour.presentation.ui.login.login.LoginFragment"
+        android:name="com.example.labratour.presentation.ui.login.LoginFragment"
         android:label="Log In"
         tools:layout="@layout/fragment_login">
         <action
@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragmentOne"
-        android:name="com.example.labratour.presentation.ui.login.signup.SignUpFragmentOne"
+        android:name="com.example.labratour.presentation.ui.login.SignUpFragmentOne"
         android:label="fragment_signup_one"
         tools:layout="@layout/fragment_signup_one" >
         <action
@@ -65,28 +65,13 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragmentTwo"
-        android:name="com.example.labratour.presentation.ui.login.signup.SignUpFragmentTwo"
+        android:name="com.example.labratour.presentation.ui.login.SignUpFragmentTwo"
         android:label="fragment_signup_two"
         tools:layout="@layout/fragment_signup_two" >
-        <argument
-            android:name="first_name"
-            app:argType="string" />
-        <argument
-            android:name="last_name"
-            app:argType="string" />
-        <argument
-            android:name="user_name"
-            app:argType="string" />
-        <argument
-            android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.labratour.presentation.ui.login.forgotpassword.ForgotPasswordFragment"
+        android:name="com.example.labratour.presentation.ui.login.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment" >
         <action
             android:id="@+id/action_forgotPasswordFragment_to_loginFragment"

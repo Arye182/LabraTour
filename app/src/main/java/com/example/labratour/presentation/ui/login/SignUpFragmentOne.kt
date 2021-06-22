@@ -1,21 +1,42 @@
-package com.example.labratour.presentation.ui.login.signup
+package com.example.labratour.presentation.ui.login
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
+import com.example.labratour.presentation.LabratourApplication
+import com.example.labratour.presentation.models.User
+import com.example.labratour.presentation.utils.ProgressBar
+import com.example.labratour.presentation.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.fragment_signup_one.*
 
 class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
 
+    private val mypb: ProgressBar = ProgressBar()
+    private lateinit var viewModel: UserViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // retrieve view model
+        viewModel = (activity as LoginActivity?)?.userViewModel!!
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // onClickListeners
-        button_signup_second.setOnClickListener { moveToSecondRegistrationPage(view) }
+        button_signup_second.setOnClickListener { onClickSignUp(view) }
         log_in_clickable_text.setOnClickListener { moveTologIn(view) }
+        // observing view model
+        this.viewModel.signUpTaskStatus.observe(viewLifecycleOwner, { onSignUpTaskStatusChanged(view) })
+        // observe the view model state - is it loading? act accordingly
+        this.viewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
+        // observe errors
+        this.viewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
     }
 
     private fun validateRegisterDetails(view: View): Boolean {
@@ -73,15 +94,19 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
                 false
             }
             else -> {
-                Snackbar.make(view, R.string.registration_validated, Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(resources.getColor(R.color.success)).show()
+//                Snackbar.make(view, R.string.registration_validated, Snackbar.LENGTH_SHORT)
+//                    .setBackgroundTint(resources.getColor(R.color.success)).show()
                 true
             }
         }
     }
 
-    private fun moveToSecondRegistrationPage(view: View) {
-        // check if the user entered something :D
+    private fun moveTologIn(view: View) {
+        val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToLoginFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun onClickSignUp(view: View) {
         when {
             validateRegisterDetails(view) -> {
                 val first_name: String =
@@ -92,21 +117,56 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
                     sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
                 val email: String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
                 val password: String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
-                // move on to next step!
-                val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo(
-                    first_name,
-                    last_name,
-                    user_name,
-                    email,
-                    password
-                )
-                findNavController().navigate(action)
+                Log.i("Firebase", "Sign Up - Details Validated")
+                viewModel.signUp(email, password, first_name, last_name, user_name)
             }
         }
     }
 
-    private fun moveTologIn(view: View) {
-        val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToLoginFragment()
-        findNavController().navigate(action)
+    private fun onSignUpTaskStatusChanged(view: View) {
+        if (viewModel.signUpTaskStatus.value!!) {
+            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - registrating the user to cloud firestore")
+            registerUserToFireStore(viewModel.user)
+            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - moving to fragment two")
+            // move on to next step!
+            val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
+            findNavController().navigate(action)
+        }
+    }
+
+    private fun onIsLoadingChanged(view: View) {
+        if (viewModel.isLoading.value!!) {
+            activity?.let { it1 ->
+                this.mypb.showProgressBar(
+                    resources.getString(R.string.please_wait),
+                    it1,
+                    view
+                )
+            }
+        } else if (!viewModel.isLoading.value!!) {
+            this.mypb.hideProgressBar()
+        }
+    }
+
+    private fun onErrorChanged(view: View) {
+        Snackbar.make(view, this.viewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.error)).show()
+    }
+
+    private fun registerUserToFireStore(user: User) {
+        Log.i("Firebase", "Sign Up - Fragment One - sign up successful - trying to register user to cloud....")
+
+        val firesStore = (((activity as LoginActivity).application) as LabratourApplication).appContainer.firebaseContainer.firebaseFirestore
+        firesStore.collection("users").document(user.id).set(user, SetOptions.merge()).addOnSuccessListener {
+            view?.let { it1 ->
+                Snackbar.make(it1, "user saved", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.success)).show()
+            }
+        }.addOnFailureListener {
+            view?.let { it1 ->
+                Snackbar.make(it1, "failed to save user", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
+            }
+        }
     }
 }
