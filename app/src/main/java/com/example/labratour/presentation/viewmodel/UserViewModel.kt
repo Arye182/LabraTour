@@ -1,5 +1,6 @@
 package com.example.labratour.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.labratour.domain.useCases.DefaultObserver
@@ -24,7 +25,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
     }
 
     // this indicates if log in was success or not
-    val success: MutableLiveData<Boolean> by lazy {
+    val logInTaskStatus: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
 
@@ -39,8 +40,9 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
          *
          */
         override fun onComplete() {
+            Log.i("Firebase", "Log In Observer - On Complete...")
             isLoading.value = false
-            success.value = true
+            logInTaskStatus.value = true
         }
 
         /**
@@ -49,8 +51,9 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
          * @param exception
          */
         override fun onError(exception: Throwable) {
+            Log.i("Firebase", "Log In Observer - On Error: " + exception.message)
             isLoading.postValue(false)
-            success.postValue(false)
+            logInTaskStatus.postValue(false)
             error.postValue(exception.message)
         }
 
@@ -59,6 +62,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
          *
          */
         fun onNext() {
+            Log.i("Firebase", "Log In Observer - On Next...")
         }
     }
 
@@ -71,5 +75,15 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
     fun login(email: String, password: String) {
         this.isLoading.postValue(true)
         this.loginUseCase.execute(LogInObserver(), email, password)
+    }
+
+    fun signUp(email: String, password: String) {
+        this.isLoading.postValue(true)
+    }
+
+    fun forgotPassword() {
+    }
+
+    fun logOut() {
     }
 }

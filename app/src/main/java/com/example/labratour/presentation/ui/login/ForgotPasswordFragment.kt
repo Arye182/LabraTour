@@ -1,4 +1,4 @@
-package com.example.labratour.presentation.ui.login.forgotpassword
+package com.example.labratour.presentation.ui.login
 
 import android.os.Bundle
 import android.view.View
