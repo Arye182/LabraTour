@@ -6,7 +6,6 @@ import android.text.TextUtils
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
-import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.ui.base.BaseFragment
 import com.example.labratour.presentation.ui.home.HomeActivity
 import com.example.labratour.presentation.utils.ProgressBar
@@ -27,7 +26,6 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         super.onCreate(savedInstanceState)
         // create the view model for login fragment manually with factory - we do that in OnCreate Method
         viewModel = (activity as LoginActivity?)?.userViewModel!!
-        val k = ((LabratourApplication.instance) as LabratourApplication).bla()
     }
 
     /**
