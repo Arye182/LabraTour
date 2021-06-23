@@ -3,10 +3,10 @@ package com.example.labratour.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.labratour.data.Entity.UserEntity
+import com.example.labratour.domain.Entity.User
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.LogInUseCase
-import com.example.labratour.presentation.models.User
+import com.example.labratour.presentation.models.UserView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -37,14 +37,14 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
         MutableLiveData<Boolean>()
     }
 
-    lateinit var user: User
+    lateinit var user: UserView
 
     /**
      * Log in observer
      *
      * @constructor Create empty Log in observer
      */
-    private inner class LogInObserver : DefaultObserver<Void>() {
+    private inner class LogInObserver : DefaultObserver<UserView>() {
         /**
          * On complete
          *
@@ -70,7 +70,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
          * On next
          *
          */
-        override fun onNext(value: Void?) {
+        override fun onNext(value: UserView) {
             Log.i("Firebase", "Log In Observer - On Next...")
             logInTaskStatus.postValue(true)
         }
@@ -98,7 +98,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
                     isLoading.postValue(false)
                     signUpTaskStatus.postValue(true)
                     val firebaseUser: FirebaseUser = task.result!!.user!!
-                    user = User(firebaseUser.uid, firstName, lastName, userName, email)
+                    user = UserView(firebaseUser.uid, firstName, lastName, userName, email)
                     Log.i("Firebase", "Sign Up - User View Model - sign up successful, user: $firebaseUser")
                 } else {
                     // registration failed
