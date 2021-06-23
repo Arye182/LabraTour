@@ -9,11 +9,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FirebaseContainer {
-    // pushing it again
-    // create the view model for login fragment manually with factory - we do that in OnCreate Method
-    // instantiate firebase
-    val firebaseAuth = FirebaseAuth.getInstance()
+    // instantiate firebase firestore - this is the database
     val firebaseFirestore = FirebaseFirestore.getInstance()
+    // instatiate the firebase authenticator for log in
+    val firebaseAuth = FirebaseAuth.getInstance()
     // create user repo
     val userRepo = UserRepositoryImpl(firebaseAuth)
     // create user usecases
