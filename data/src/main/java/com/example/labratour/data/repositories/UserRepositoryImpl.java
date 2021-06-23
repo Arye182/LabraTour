@@ -52,6 +52,11 @@ public class UserRepositoryImpl implements UserRepository
                     public User apply(UserEntity userEntity) throws Exception {
                         return new UserDataMapper().transform(userEntity);
                     }
+                }).map(new Function<User, UserView>() {
+                    @Override
+                    public UserView apply(User user) throws Exception {
+                        return new UserDataMapper().transform(user);
+                    }
                 });
     }
 

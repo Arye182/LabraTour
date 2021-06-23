@@ -33,5 +33,14 @@ public class UserDataMapper {
 
     return user;
   }
+  public static UserView transform(UserEntity userEntity) {
+    UserView userView = null;
+    if (userEntity != null) {
+      user = new User(userEntity.getUserId());
+      user.setEmail(userEntity.getEmail());
+      user.setUserName(userEntity.getUserName());
+    }
+
+    return user;
         }
 
