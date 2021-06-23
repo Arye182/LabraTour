@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.example.labratour.data.Entity.UserEntity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -34,23 +35,23 @@ public class CloudUserDataSource {
   //        usersDBref.child("users").child(userId).setValue(user);
   //
   //    }
-  public Observable<Void> login(final UserEntity userEntity) {
+  public Observable<AuthResult> login(final UserEntity userEntity) {
     return Observable.create(
-        new ObservableOnSubscribe<Void>() {
+        new ObservableOnSubscribe<AuthResult>() {
 
 
             @Override
-          public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
+          public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
             firebaseAuth
                 .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
                 .addOnSuccessListener(
-                    new OnSuccessListener() {
+                    new OnSuccessListener<AuthResult>() {
 
 
                         @Override
-                        public void onSuccess(Object o) {
+                        public void onSuccess(AuthResult authResult) {
                             if (!(emitter.isDisposed())) {
-                                emitter.onNext(null);
+                                emitter.onNext(authResult);
                             }
                         }
 

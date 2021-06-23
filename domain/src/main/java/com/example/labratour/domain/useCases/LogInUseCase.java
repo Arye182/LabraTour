@@ -1,6 +1,7 @@
 package com.example.labratour.domain.useCases;
 
 
+import com.example.labratour.domain.Entity.User;
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
 import com.example.labratour.domain.repositories.UserRepository;
@@ -20,9 +21,9 @@ public class LogInUseCase extends UseCase<Void, LogInUseCase.RequestInput> {
         this.userRepository = userRepository;
     }
 
-    public void execute(DisposableObserver<Void> observer, String password, String email) {
+    public void execute(DisposableObserver<User> observer, String password, String email) {
         Preconditions.checkNotNull(observer);
-        final Observable<Void> observable =
+        final Observable<User> observable =
                 this.buildUseCaseObservable(new RequestInput(password, email))
                         .subscribeOn(Schedulers.from(executionThread))
                         .observeOn(postExecutionThread.getScheduler());
