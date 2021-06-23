@@ -41,7 +41,7 @@ public class UserRepositoryImpl implements UserRepository
     public Observable<User> login(final String email,
                                        final String password) {
         return this.cloudUserDataSource.login(new UserEntity(email, password))
-                .map(new Function<AuthResult, UserEntity>() {
+        .map(new Function<AuthResult, UserEntity>() {
                     @Override
                     public UserEntity apply(AuthResult authResult) throws Exception {
                         return new UserDataMapper().transform(authResult);
@@ -51,6 +51,11 @@ public class UserRepositoryImpl implements UserRepository
                     @Override
                     public User apply(UserEntity userEntity) throws Exception {
                         return new UserDataMapper().transform(userEntity);
+                    }
+                }).map(new Function<User, UserView>() {
+                    @Override
+                    public UserView apply(User user) throws Exception {
+                        return new UserDataMapper().transform(user);
                     }
                 });
     }

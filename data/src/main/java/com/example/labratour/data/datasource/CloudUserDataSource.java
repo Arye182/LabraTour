@@ -38,19 +38,29 @@ public class CloudUserDataSource {
   public Observable<AuthResult> login(final UserEntity userEntity) {
     return Observable.create(
         new ObservableOnSubscribe<AuthResult>() {
-          @Override
+
+
+            @Override
           public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
             firebaseAuth
                 .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
                 .addOnSuccessListener(
                     new OnSuccessListener<AuthResult>() {
-                      @Override
-                      public void onSuccess(AuthResult authResult) {
-                        if (!(emitter.isDisposed())) {
-                          emitter.onNext(authResult);
+
+
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            if (!(emitter.isDisposed())) {
+                                emitter.onNext(authResult);
+                            }
                         }
+
+
+
+
+
                       }
-                    })
+                    )
                 .addOnFailureListener(
                     new OnFailureListener() {
                       @Override
@@ -62,8 +72,7 @@ public class CloudUserDataSource {
                     });
           }
         });
-  }
-    }
+  }}
 
 
 
