@@ -2,7 +2,6 @@ package com.example.labratour.data.Entity.mapper;
 
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.domain.Entity.User;
-import com.example.labratour.presentation.models.UserView;
 import com.google.firebase.auth.AuthResult;
 
 public class UserDataMapper {
@@ -31,13 +30,13 @@ public class UserDataMapper {
     return user;
   }
 
-  public static UserView transform(User user) {
-    UserView userView = null;
-    if (user != null) {
-
-      userView =  new UserView(user.getUserId(), null, null, null, null, null, 0, null, 0);
-    }
-    return userView;
-  }
+//  public static UserView transform(User user) {
+//    UserView userView = null;
+//    if (user != null) {
+//
+//      userView =  new UserView(user.getUserId(), null, null, null, null, null, 0, null, 0);
+//    }
+//    return userView;
+//  }
     }
 
