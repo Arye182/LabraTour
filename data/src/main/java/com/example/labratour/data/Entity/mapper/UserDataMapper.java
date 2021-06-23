@@ -2,7 +2,10 @@ package com.example.labratour.data.Entity.mapper;
 
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.domain.Entity.User;
+import com.example.labratour.presentation.models.UserView;
 import com.google.firebase.auth.AuthResult;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public class UserDataMapper {
@@ -33,12 +36,11 @@ public class UserDataMapper {
 
     return user;
   }
-  public static UserView transform(UserEntity userEntity) {
-    UserView userView = null;
-    if (userEntity != null) {
-      user = new User(userEntity.getUserId());
-      user.setEmail(userEntity.getEmail());
-      user.setUserName(userEntity.getUserName());
+  public static UserView transform(User user) {
+    UserView userView = new UserView() ;
+    if (user != null) {
+      userView.
+
     }
 
     return user;
