@@ -6,7 +6,6 @@ import com.example.labratour.data.datasource.CloudUserDataSource;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
 import com.example.labratour.domain.Entity.User;
 import com.example.labratour.domain.repositories.UserRepository;
-import com.example.labratour.presentation.models.UserView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -53,9 +52,10 @@ public class UserRepositoryImpl implements UserRepository
                     public User apply(UserEntity userEntity) throws Exception {
                         return new UserDataMapper().transform(userEntity);
                     }
-//
+
                 });
-    }
+        }
+
 
 
 
