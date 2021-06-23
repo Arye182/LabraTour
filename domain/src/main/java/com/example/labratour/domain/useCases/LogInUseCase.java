@@ -10,10 +10,11 @@ import com.fernandocejas.arrow.checks.Preconditions;
 import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class LogInUseCase extends UseCase<Void, LogInUseCase.RequestInput> {
+public class LogInUseCase extends UseCase<User, LogInUseCase.RequestInput> {
      private UserRepository userRepository;
 
     public LogInUseCase(UserRepository userRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
@@ -21,17 +22,18 @@ public class LogInUseCase extends UseCase<Void, LogInUseCase.RequestInput> {
         this.userRepository = userRepository;
     }
 
-    public void execute(DisposableObserver<User> observer, String password, String email) {
+    public void execute(DisposableObserver observer, String password, String email) {
         Preconditions.checkNotNull(observer);
-        final Observable<User> observable =
+        final Observable observable =
                 this.buildUseCaseObservable(new RequestInput(password, email))
                         .subscribeOn(Schedulers.from(executionThread))
                         .observeOn(postExecutionThread.getScheduler());
-        addDisposable(observable.subscribeWith(observer));
+        addDisposable((Disposable) observable.subscribeWith(observer));
     }
     public Observable buildUseCaseObservable(@NotNull RequestInput requestInput) {
         return userRepository.login(requestInput.email, requestInput.password);
     }
+
 
 
 
