@@ -1,6 +1,8 @@
 package com.example.labratour.domain.Entity;
 
-public class User<Atributes> {
+import com.example.labratour.domain.Atributes;
+
+public class User {
     private final String userId;
 
 
@@ -17,7 +19,7 @@ public class User<Atributes> {
     private String UserName;
     private String Phone;
     private String address;
-    private  Atributes atributes;
+    private Atributes atributes;
 //    private Object clusters;
 
     public String getUserId() {
