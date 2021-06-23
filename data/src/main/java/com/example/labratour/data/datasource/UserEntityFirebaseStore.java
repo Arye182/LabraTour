@@ -29,7 +29,7 @@ public class UserEntityFirebaseStore {
   public UserEntityFirebaseStore() {
 // this.database.setPersistenceEnabled(true);
     this.database = FirebaseDatabase.getInstance();
-        this.database.setPersistenceEnabled(true);
+   //     this.database.setPersistenceEnabled(true);
   }
 
         public Observable<String> createUserIfNotExists(UserEntity userEntity) {
