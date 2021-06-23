@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.labratour.domain.Entity.User
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.LogInUseCase
-import com.example.labratour.presentation.models.UserView
+import com.example.labratour.presentation.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -37,14 +37,14 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
         MutableLiveData<Boolean>()
     }
 
-    lateinit var user: UserView
+    lateinit var user: UserModel
 
     /**
      * Log in observer
      *
      * @constructor Create empty Log in observer
      */
-    private inner class LogInObserver : DefaultObserver<UserView>() {
+    private inner class LogInObserver : DefaultObserver<User>() {
         /**
          * On complete
          *
@@ -70,7 +70,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
          * On next
          *
          */
-        override fun onNext(value: UserView) {
+        override fun onNext(value: User) {
             Log.i("Firebase", "Log In Observer - On Next...")
             logInTaskStatus.postValue(true)
         }
@@ -98,7 +98,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
                     isLoading.postValue(false)
                     signUpTaskStatus.postValue(true)
                     val firebaseUser: FirebaseUser = task.result!!.user!!
-                    user = UserView(firebaseUser.uid, firstName, lastName, userName, email)
+                    user = UserModel(firebaseUser.uid, firstName, lastName, userName, email)
                     Log.i("Firebase", "Sign Up - User View Model - sign up successful, user: $firebaseUser")
                 } else {
                     // registration failed
