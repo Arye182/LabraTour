@@ -5,14 +5,9 @@ import com.example.labratour.domain.Entity.User;
 import com.example.labratour.presentation.models.UserView;
 import com.google.firebase.auth.AuthResult;
 
-import org.jetbrains.annotations.NotNull;
-
-
 public class UserDataMapper {
 
-  public static UserEntity transform(User user) {
-   return null;
-  }
+
 
   public static UserEntity transform(AuthResult authResult) {
     UserEntity userEntity = null;
@@ -25,7 +20,6 @@ public class UserDataMapper {
     return userEntity;
   }
 
-
   public static User transform(UserEntity userEntity) {
     User user = null;
     if (userEntity != null) {
@@ -36,13 +30,14 @@ public class UserDataMapper {
 
     return user;
   }
+
   public static UserView transform(User user) {
-    UserView userView = new UserView() ;
+    UserView userView = null;
     if (user != null) {
-      userView
 
+      userView =  new UserView(user.getUserId(), null, null, null, null, null, 0, null, 0);
     }
-
-    return user;
-        }
+    return userView;
+  }
+    }
 
