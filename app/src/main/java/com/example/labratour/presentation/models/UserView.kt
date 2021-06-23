@@ -1,6 +1,6 @@
 package com.example.labratour.presentation.models
 
-class UserView(
+data class UserView(
     val id: String = "",
     val firstName: String = "",
     val lastName: String = "",
