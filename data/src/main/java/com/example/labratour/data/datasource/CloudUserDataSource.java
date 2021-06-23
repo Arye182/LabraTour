@@ -9,6 +9,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.rpc.context.AttributeContext;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,22 +36,29 @@ public class CloudUserDataSource {
   //        usersDBref.child("users").child(userId).setValue(user);
   //
   //    }
-  public Observable<AuthResult> login(final UserEntity userEntity) {
+  public Observable<Void> login(final UserEntity userEntity) {
     return Observable.create(
         new ObservableOnSubscribe<AuthResult>() {
-          @Override
+
+
+            @Override
           public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
             firebaseAuth
                 .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
                 .addOnSuccessListener(
-                    new OnSuccessListener<AuthResult>() {
-                      @Override
-                      public void onSuccess(AuthResult authResult) {
-                        if (!(emitter.isDisposed())) {
-                          emitter.onNext(authResult);
+                    new OnSuccessListener<Void>() {
+
+
+
+
+                        public void onSuccess(Void unused) {
+                            if (!(emitter.isDisposed())) {
+                                emitter.onNext();
+                            }
                         }
+
                       }
-                    })
+                    )
                 .addOnFailureListener(
                     new OnFailureListener() {
                       @Override
@@ -62,8 +70,7 @@ public class CloudUserDataSource {
                     });
           }
         });
-  }
-    }
+  }}
 
 
 

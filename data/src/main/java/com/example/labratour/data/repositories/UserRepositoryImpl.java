@@ -1,16 +1,13 @@
 package com.example.labratour.data.repositories;
 
 import com.example.labratour.data.Entity.UserEntity;
-import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.data.datasource.CloudUserDataSource;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
 import com.example.labratour.domain.Entity.User;
 import com.example.labratour.domain.repositories.UserRepository;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 
 public class UserRepositoryImpl implements UserRepository
 {
@@ -38,21 +35,21 @@ public class UserRepositoryImpl implements UserRepository
     }
 
     @Override
-    public Observable<User> login(final String email,
+    public Observable<Void> login(final String email,
                                        final String password) {
-        return this.cloudUserDataSource.login(new UserEntity(email, password))
-                .map(new Function<AuthResult, UserEntity>() {
-                    @Override
-                    public UserEntity apply(AuthResult authResult) throws Exception {
-                        return new UserDataMapper().transform(authResult);
-                    }
-                })
-                .map(new Function<UserEntity, User>() {
-                    @Override
-                    public User apply(UserEntity userEntity) throws Exception {
-                        return new UserDataMapper().transform(userEntity);
-                    }
-                });
+        return this.cloudUserDataSource.login(new UserEntity(email, password));
+//                .map(new Function<AuthResult, UserEntity>() {
+//                    @Override
+//                    public UserEntity apply(AuthResult authResult) throws Exception {
+//                        return new UserDataMapper().transform(authResult);
+//                    }
+//                })
+//                .map(new Function<UserEntity, User>() {
+//                    @Override
+//                    public User apply(UserEntity userEntity) throws Exception {
+//                        return new UserDataMapper().transform(userEntity);
+//                    }
+//                });
     }
 
 
