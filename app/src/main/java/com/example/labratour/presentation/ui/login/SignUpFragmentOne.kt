@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
 import com.example.labratour.presentation.LabratourApplication
-import com.example.labratour.presentation.models.UserView
+import com.example.labratour.presentation.models.UserModel
 import com.example.labratour.presentation.utils.ProgressBar
 import com.example.labratour.presentation.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -153,11 +153,11 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
             .setBackgroundTint(resources.getColor(R.color.error)).show()
     }
 
-    private fun registerUserToFireStore(userView: UserView) {
+    private fun registerUserToFireStore(userModel: UserModel) {
         Log.i("Firebase", "Sign Up - Fragment One - sign up successful - trying to register user to cloud....")
 
         val firesStore = (((activity as LoginActivity).application) as LabratourApplication).appContainer.firebaseContainer.firebaseFirestore
-        firesStore.collection("users").document(userView.id).set(userView, SetOptions.merge()).addOnSuccessListener {
+        firesStore.collection("users").document(userModel.id).set(userModel, SetOptions.merge()).addOnSuccessListener {
             view?.let { it1 ->
                 Snackbar.make(it1, "user saved", Snackbar.LENGTH_SHORT)
                     .setBackgroundTint(resources.getColor(R.color.success)).show()
