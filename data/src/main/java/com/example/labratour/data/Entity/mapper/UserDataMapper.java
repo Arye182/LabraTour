@@ -39,7 +39,7 @@ public class UserDataMapper {
   public static UserView transform(User user) {
     UserView userView = new UserView() ;
     if (user != null) {
-      userView.
+      userView
 
     }
 
