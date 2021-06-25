@@ -33,7 +33,7 @@ public abstract class UseCase<T, Param> {
         this.buildUseCaseObservable(requestInput)
             .subscribeOn(Schedulers.from(executionThread))
             .observeOn(postExecutionThread.getScheduler());
-        addDisposable((Disposable)observable.subscribeWith(observer));
+        addDisposable(observable.subscribeWith(observer));
     }
 
 
