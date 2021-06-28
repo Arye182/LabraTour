@@ -12,63 +12,66 @@ import com.google.firebase.auth.FirebaseAuth;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
-public class UserRepositoryImpl implements UserRepository
-{
-    private final CloudUserDataSource cloudUserDataSource;
+public class UserRepositoryImpl implements UserRepository {
+  private final CloudUserDataSource cloudUserDataSource;
 
-    private final UserEntityFirebaseStore userEntityFirebaseStore;
- //   private UserDataMapper userDataMapper;
-    //private final CloudUserDataSource cloudUserDataSource;
-    public UserRepositoryImpl(FirebaseAuth firebaseAuth) {
-        this.cloudUserDataSource = new CloudUserDataSource(firebaseAuth.getInstance());
-        this.userEntityFirebaseStore = new UserEntityFirebaseStore();
+  private final UserEntityFirebaseStore userEntityFirebaseStore;
+  //   private UserDataMapper userDataMapper;
+  // private final CloudUserDataSource cloudUserDataSource;
+  public UserRepositoryImpl(FirebaseAuth firebaseAuth) {
+    this.cloudUserDataSource = new CloudUserDataSource(firebaseAuth.getInstance());
+    this.userEntityFirebaseStore = new UserEntityFirebaseStore();
   }
-//    public String addUser(User user) throws Exception {
-//        return cloudUserDataSource.insert(UserDataMapper.transform(user));
-//    }
-//    @Override
-//    public Observable<User> getUser(String userId, boolean fromServer) {
-//        return null;
-//    }
+  //    public String addUser(User user) throws Exception {
+  //        return cloudUserDataSource.insert(UserDataMapper.transform(user));
+  //    }
+  //    @Override
+  //    public Observable<User> getUser(String userId, boolean fromServer) {
+  //        return null;
+  //    }
+
+  @Override
+  public Observable<User> getUser(String userId, boolean fromServer) {
+    return null;
+  }
+
+  @Override
+  public Observable<User> login(final String email, final String password) {
+    return this.cloudUserDataSource
+        .login(new UserEntity(email, password))
+        .map(
+            new Function<AuthResult, UserEntity>() {
+              @Override
+              public UserEntity apply(AuthResult authResult) throws Exception {
+                return new UserDataMapper().transform(authResult);
+              }
+            })
+        .map(
+            new Function<UserEntity, User>() {
+              @Override
+              public User apply(UserEntity userEntity) throws Exception {
+                return new UserDataMapper().transform(userEntity);
+              }
+            });
+  }
 
 
-    @Override
-    public Observable<User> getUser(String userId, boolean fromServer) {
-        return null;
-    }
-
-    @Override
-    public Observable<User> login(final String email,
-                                      final String password) {
-        return this.cloudUserDataSource.login(new UserEntity(email, password))
-        .map(new Function<AuthResult, UserEntity>() {
-                    @Override
-                    public UserEntity apply(AuthResult authResult) throws Exception {
-                        return new UserDataMapper().transform(authResult);
-                    }
-                })
-                .map(new Function<UserEntity, User>() {
-                    @Override
-                    public User apply(UserEntity userEntity) throws Exception {
-                        return new UserDataMapper().transform(userEntity);
-                    }
-
-                });
-        }
-
-
-
+  public Observable updateUser(User user, String response) {
+      return this.userEntityFirebaseStore.updateUser(UserDataMapper.transform(user), response);
+  }
 
     @Override
     public void saveUser(User user) {
 
     }
+
+
+    @Override
+    public Observable signUp(String email, String password, String first_name, String last_name) {
+        return this.userEntityFirebaseStore
+                .createUserIfNotExists(new UserEntity(email, password, first_name, last_name));
+
     }
+}
 
-
-
-//    @Override
-//    public void saveUser(User user) {
-//
-//    }
 

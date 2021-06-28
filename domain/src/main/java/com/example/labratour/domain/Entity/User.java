@@ -14,12 +14,23 @@ public class User {
 
     }
 
+
     private String fullName;
     private String email;
     private String UserName;
     private String Phone;
     private String address;
     private Atributes atributes;
+
+    public int getCountRates() {
+        return countRates;
+    }
+
+    private int countRates;
+
+    public void setAtributes(Atributes atributes) {
+        this.atributes = atributes;
+    }
 //    private Object clusters;
 
     public String getUserId() {

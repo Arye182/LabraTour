@@ -25,9 +25,9 @@ public abstract class UseCase<T, Param> {
     /**
      * Builds an Observable which will be used when executing the current UseCase.
      */
-    abstract Observable<T> buildUseCaseObservable(Param requestInput);
+    public abstract Observable<T> buildUseCaseObservable(Param requestInput);
 
-    public void execute(DisposableObserver<T> observer, Param requestInput) {
+    public void execute(DisposableObserver observer, Param requestInput) {
         Preconditions.checkNotNull(observer);
         final Observable<T> observable =
         this.buildUseCaseObservable(requestInput)

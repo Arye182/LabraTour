@@ -1,6 +1,6 @@
 package com.example.labratour.domain;
 
-public class RatedPoi {
+public class AtributedPoi {
 
   private final String poiId;
   private String authorId;
@@ -34,7 +34,7 @@ public class RatedPoi {
     return rate;
   }
 
-  public RatedPoi(String poiId, int rate, String authorId) {
+  public AtributedPoi(String poiId, int rate, String authorId) {
     this.authorId = authorId;
     this.poiId = poiId;
     this.rate = rate;

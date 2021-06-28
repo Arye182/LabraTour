@@ -44,7 +44,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:19.0.0'
 
     implementation 'com.google.firebase:firebase-database:20.0.0'
-    testImplementation 'junit:junit:4.+'
+   // testImplementation 'junit:junit:4.+'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //noinspection GradleCompatible
@@ -55,8 +57,8 @@ dependencies {
     //noinspection GradleCompatible,GradleCompatible
     //implementation 'com.android.support:recyclerview-v5:latest.version'
    implementation "junit:junit:${jUnitVersion}"
-   // implementation "org.mockito:mockito-core:${mockitoVersion}"
-   // implementation "org.assertj:assertj-core:${assertJVersion}"
+   implementation "org.mockito:mockito-core:${mockitoVersion}"
+    implementation "org.assertj:assertj-core:${assertJVersion}"
 
 
 

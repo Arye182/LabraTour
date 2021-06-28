@@ -43,9 +43,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     //implementation project(path: ':app')
-    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-    testImplementation "org.assertj:assertj-core:${assertJVersion}"
-    testImplementation 'junit:junit:4.+'
+   // testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    //testImplementation "org.assertj:assertj-core:${assertJVersion}"
+    //testImplementation 'junit:junit:4.+'
 
     def dataDependencies = rootProject.dependencies
    def testDependencies = rootProject.dependencies

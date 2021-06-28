@@ -18,6 +18,20 @@ public class UserDataMapper {
     }
     return userEntity;
   }
+  public static UserEntity transform(User user) {
+    UserEntity userEntity = null;
+    if (user != null) {
+      userEntity = new UserEntity();
+      userEntity.setUserId(user.getUserId());
+      userEntity.setUserName(user.getUserName());
+      userEntity.setAtributes(user.getAtributes());
+      userEntity.setEmail(user.getEmail());
+      userEntity.setCountRate(user.getCountRates());
+      userEntity.setAddress(user.getAddress());
+      userEntity.setPhone(user.getPhone());
+    }
+    return userEntity;
+  }
 
   public static User transform(UserEntity userEntity) {
     User user = null;

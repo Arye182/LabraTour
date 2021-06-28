@@ -32,36 +32,36 @@ public class UserEntityFirebaseStore {
    //     this.database.setPersistenceEnabled(true);
   }
 
-        public Observable<String> createUserIfNotExists(UserEntity userEntity) {
-        DatabaseReference databaseReference = database.getReference().child("users").child(userEntity.getUserId());
-        return Observable.create(new ObservableOnSubscribe<String>() {
-                @Override
-                public void subscribe(ObservableEmitter<String> e) throws Exception {
-                        DatabaseReference reference = databaseReference;
+public Observable createUserIfNotExists(UserEntity userEntity) {
+DatabaseReference databaseReference = database.getReference().child("users").child(userEntity.getUserId());
+return Observable.create(new ObservableOnSubscribe<String>() {
+        @Override
+        public void subscribe(ObservableEmitter<String> e) throws Exception {
+                DatabaseReference reference = databaseReference;
 
-                        if (userEntity.getUserId() == null) {
-                                reference = reference.push();
-                                userEntity.setUserId(reference.getKey());
-                        } else {
-                                reference = databaseReference.child(userEntity.getUserId());
-                        }
-
-                        reference.setValue(userEntity, (databaseError, databaseReference1) -> {
-                                if (databaseError == null) {
-                                        e.onNext(userEntity.getUserId());
-                                } else {
-                                        e.onError(new FirebaseException(databaseError.getMessage()));
-                                }
-                        });
+                if (userEntity.getUserId() == null) {
+                        reference = reference.push();
+                        userEntity.setUserId(reference.getKey());
+                } else {
+                        reference = databaseReference.child(userEntity.getUserId());
                 }
-        });
+
+                reference.setValue(userEntity, (databaseError, databaseReference1) -> {
+                        if (databaseError == null) {
+                                e.onNext(userEntity.getUserId());
+                        } else {
+                                e.onError(new FirebaseException(databaseError.getMessage()));
+                        }
+                });
+        }
+});
 }
 
 
 
-public Observable<String> editUser(UserEntity userEntity) {
+public Observable updateUser(UserEntity userEntity,String  successResponse) {
         DatabaseReference userReference  = database.getReference().child("users").child(userEntity.getUserId());
-        return updateNotNewUser(userReference, userEntity, userEntity.getUserId());
+        return updateNotNewUser(userReference, userEntity, successResponse);
         }
 
 
@@ -139,6 +139,7 @@ private <R> Observable<R> updateNotNewUser(DatabaseReference databaseReference, 
                         }
                 });
         }
+
 
 
         }
