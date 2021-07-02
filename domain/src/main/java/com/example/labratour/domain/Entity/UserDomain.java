@@ -20,8 +20,30 @@ public class UserDomain {
     private String UserName;
     private String Phone;
     private String address;
-    private Atributes atributes;
 
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setCountRates(int countRates) {
+        this.countRates = countRates;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    private Atributes atributes;
+private String first_name;
+private String last_name;
     public int getCountRates() {
         return countRates;
     }
