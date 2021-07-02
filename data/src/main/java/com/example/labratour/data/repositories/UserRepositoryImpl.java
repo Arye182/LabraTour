@@ -65,6 +65,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     }
 
+    @Override
+    public Observable registerNewUser(String email, String password) {
+        return this.cloudUserDataSource
+                .register(new UserEntity(email, password))
+                .map(
+                        new Function<AuthResult, String>() {
+                            @Override
+                            public String apply(AuthResult authResult) throws Exception {
+                                return authResult.getUser().getUid();
+                            }
+                        });
+                 }
+
 
     @Override
     public Observable signUp(String email, String password, String first_name, String last_name) {

@@ -11,7 +11,7 @@ public interface UserRepository {
     public Observable login(String email, String  password);
     public Observable updateUser(UserDomain userDomain, String response);
     public void saveUser(UserDomain userDomain);
-
+    Observable registerNewUser(String email , String password);
     Observable signUp(String email, String password, String first_name, String last_name);
 
     Observable signUp();
