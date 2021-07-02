@@ -18,11 +18,15 @@ public class UserDataMapper {
     }
     return userEntity;
   }
+
   public static UserEntity transform(UserDomain userDomain) {
     UserEntity userEntity = null;
     if (userDomain != null) {
-      userEntity = new UserEntity();
-      userEntity.setUserId(userDomain.getUserId());
+      if (userDomain.getUserId() == null) {
+        userEntity = new UserEntity();
+      } else {
+        userEntity = new UserEntity(userDomain.getUserId());
+      }
       userEntity.setUserName(userDomain.getUserName());
       userEntity.setAtributes(userDomain.getAtributes());
       userEntity.setEmail(userDomain.getEmail());
@@ -31,16 +35,17 @@ public class UserDataMapper {
       userEntity.setPhone(userDomain.getPhone());
     }
     return userEntity;
+
   }
 
   public static UserDomain transform(UserEntity userEntity) {
     UserDomain userDomain = null;
-    if (userEntity != null) {
+    if ((userEntity != null)&&(userEntity.getUserId()!=null)) {
+
       userDomain = new UserDomain(userEntity.getUserId());
       userDomain.setEmail(userEntity.getEmail());
       userDomain.setUserName(userEntity.getUserName());
     }
-
     return userDomain;
   }
 

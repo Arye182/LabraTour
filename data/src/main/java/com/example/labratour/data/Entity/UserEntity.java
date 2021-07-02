@@ -75,6 +75,8 @@ private String last_name;
         this.password = password;
 
     }
+    public UserEntity(String userId) {this.userId = userId;
+    }
 
         public String getUserId() {
             return userId;
