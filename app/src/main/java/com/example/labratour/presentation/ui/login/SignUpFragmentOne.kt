@@ -35,6 +35,7 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         // observing view model
         // this.authViewModel.signUpFirestoreTaskStatus.observe(viewLifecycleOwner, { onSignUpTaskStatusChanged(view) })
         this.authViewModel.registerNewUserTaskStatus.observe(viewLifecycleOwner, { onRegisterNewUserTaskStatusChanged(view) })
+        this.authViewModel.saveNewUserToFirebaseTaskStatus.observe(viewLifecycleOwner, {onsaveNewUserToFirebaseTaskStatusChanged(view)})
         // observe the view model state - is it loading? act accordingly
         this.authViewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
         // observe errors
@@ -111,12 +112,6 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
     private fun onClickSignUp(view: View) {
         when {
             validateRegisterDetails(view) -> {
-                val first_name: String =
-                    sign_up_edit_text_first_name.text.toString().trim { it <= ' ' }
-                val last_name: String =
-                    sign_up_edit_text_Last_name.text.toString().trim { it <= ' ' }
-                val user_name: String =
-                    sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
                 val email: String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
                 val password: String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
                 Log.i("Firebase", "Sign Up - Details Validated")
@@ -129,7 +124,22 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
 
     private fun onRegisterNewUserTaskStatusChanged(view: View) {
         if (authViewModel.registerNewUserTaskStatus.value!!) {
-            Log.i("Firebase", "Sign Up - Fragment One - registering successful - moving to fragment two")
+            Log.i("Firebase", "Sign Up - Fragment One - registering successful - now trying to save")
+            val first_name: String =
+                sign_up_edit_text_first_name.text.toString().trim { it <= ' ' }
+            val last_name: String =
+                sign_up_edit_text_Last_name.text.toString().trim { it <= ' ' }
+            val user_name: String =
+                sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
+            val email: String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
+            val password: String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
+            authViewModel.saveToDataBaseNewUser(email, password, first_name, last_name, user_name)
+        }
+    }
+
+    private fun onsaveNewUserToFirebaseTaskStatusChanged(view: View) {
+        if (authViewModel.registerNewUserTaskStatus.value!!) {
+            Log.i("Firebase", "Sign Up - Fragment One - user saved successfully on firebase database - moving to fragment two")
             // move on to next step!
             val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
             findNavController().navigate(action)

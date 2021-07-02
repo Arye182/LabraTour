@@ -63,6 +63,8 @@ dependencies {
     // Add the dependencies for any other desired Firebase products
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-database:19.4.0'
+
     // https://firebase.google.com/docs/android/setup#available-libraries
 
     // project modules
