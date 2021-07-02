@@ -13,7 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class FirebaseContainer {
     // instantiate firebase firestore - this is the database and the auth
     val firebaseAuth = FirebaseAuth.getInstance()
-    val firebaseFirestore = FirebaseFirestore.getInstance()
+    // val firebaseFirestore = FirebaseFirestore.getInstance()
     // create user repo
     val userRepo = UserRepositoryImpl(firebaseAuth)
     // create user usecases
