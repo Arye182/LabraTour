@@ -33,7 +33,7 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         button_signup_second.setOnClickListener { onClickSignUp(view) }
         log_in_clickable_text.setOnClickListener { moveTologIn(view) }
         // observing view model
-        this.authViewModel.signUpFirestoreTaskStatus.observe(viewLifecycleOwner, { onSignUpTaskStatusChanged(view) })
+        // this.authViewModel.signUpFirestoreTaskStatus.observe(viewLifecycleOwner, { onSignUpTaskStatusChanged(view) })
         this.authViewModel.registerNewUserTaskStatus.observe(viewLifecycleOwner, { onRegisterNewUserTaskStatusChanged(view) })
         // observe the view model state - is it loading? act accordingly
         this.authViewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
@@ -128,7 +128,7 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
     }
 
     private fun onRegisterNewUserTaskStatusChanged(view: View) {
-        if (authViewModel.signUpFirestoreTaskStatus.value!!) {
+        if (authViewModel.registerNewUserTaskStatus.value!!) {
             Log.i("Firebase", "Sign Up - Fragment One - registering successful - moving to fragment two")
             // move on to next step!
             val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
@@ -136,16 +136,16 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         }
     }
 
-    private fun onSignUpTaskStatusChanged(view: View) {
-        if (authViewModel.signUpFirestoreTaskStatus.value!!) {
-            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - registrating the user to cloud firestore")
-            registerUserToFireStore(authViewModel.userModel)
-            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - moving to fragment two")
-            // move on to next step!
-            val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
-            findNavController().navigate(action)
-        }
-    }
+//    private fun onSignUpTaskStatusChanged(view: View) {
+//        if (authViewModel.signUpFirestoreTaskStatus.value!!) {
+//            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - registrating the user to cloud firestore")
+//            registerUserToFireStore(authViewModel.userModel)
+//            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - moving to fragment two")
+//            // move on to next step!
+//            val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
+//            findNavController().navigate(action)
+//        }
+//    }
 
     private fun onIsLoadingChanged(view: View) {
         if (authViewModel.isLoading.value!!) {
@@ -167,19 +167,19 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
     }
 
     // TODO: this function is supposed to be in the data with usecase
-    private fun registerUserToFireStore(userModel: UserModel) {
-        Log.i("Firebase", "Sign Up - Fragment One - sign up successful - trying to register user to cloud....")
-        val firesStore = (((activity as LoginActivity).application) as LabratourApplication).appContainer.firebaseContainer.firebaseFirestore
-        firesStore.collection(Constants.USERS).document(userModel.id).set(userModel, SetOptions.merge()).addOnSuccessListener {
-            view?.let { it1 ->
-                Snackbar.make(it1, "user saved", Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(resources.getColor(R.color.success)).show()
-            }
-        }.addOnFailureListener {
-            view?.let { it1 ->
-                Snackbar.make(it1, "failed to save user", Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(resources.getColor(R.color.error)).show()
-            }
-        }
-    }
+//    private fun registerUserToFireStore(userModel: UserModel) {
+//        Log.i("Firebase", "Sign Up - Fragment One - sign up successful - trying to register user to cloud....")
+//        val firesStore = (((activity as LoginActivity).application) as LabratourApplication).appContainer.firebaseContainer.firebaseFirestore
+//        firesStore.collection(Constants.USERS).document(userModel.id).set(userModel, SetOptions.merge()).addOnSuccessListener {
+//            view?.let { it1 ->
+//                Snackbar.make(it1, "user saved", Snackbar.LENGTH_SHORT)
+//                    .setBackgroundTint(resources.getColor(R.color.success)).show()
+//            }
+//        }.addOnFailureListener {
+//            view?.let { it1 ->
+//                Snackbar.make(it1, "failed to save user", Snackbar.LENGTH_SHORT)
+//                    .setBackgroundTint(resources.getColor(R.color.error)).show()
+//            }
+//        }
+//    }
 }
