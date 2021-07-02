@@ -4,7 +4,7 @@ import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.data.datasource.CloudUserDataSource;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
-import com.example.labratour.domain.Entity.User;
+import com.example.labratour.domain.Entity.UserDomain;
 import com.example.labratour.domain.repositories.UserRepository;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,12 +31,12 @@ public class UserRepositoryImpl implements UserRepository {
   //    }
 
   @Override
-  public Observable<User> getUser(String userId, boolean fromServer) {
+  public Observable<UserDomain> getUser(String userId, boolean fromServer) {
     return null;
   }
 
   @Override
-  public Observable<User> login(final String email, final String password) {
+  public Observable<UserDomain> login(final String email, final String password) {
     return this.cloudUserDataSource
         .login(new UserEntity(email, password))
         .map(
@@ -47,21 +47,21 @@ public class UserRepositoryImpl implements UserRepository {
               }
             })
         .map(
-            new Function<UserEntity, User>() {
+            new Function<UserEntity, UserDomain>() {
               @Override
-              public User apply(UserEntity userEntity) throws Exception {
+              public UserDomain apply(UserEntity userEntity) throws Exception {
                 return new UserDataMapper().transform(userEntity);
               }
             });
   }
 
 
-  public Observable updateUser(User user, String response) {
-      return this.userEntityFirebaseStore.updateUser(UserDataMapper.transform(user), response);
+  public Observable updateUser(UserDomain userDomain, String response) {
+      return this.userEntityFirebaseStore.updateUser(UserDataMapper.transform(userDomain), response);
   }
 
     @Override
-    public void saveUser(User user) {
+    public void saveUser(UserDomain userDomain) {
 
     }
 
@@ -71,6 +71,11 @@ public class UserRepositoryImpl implements UserRepository {
         return this.userEntityFirebaseStore
                 .createUserIfNotExists(new UserEntity(email, password, first_name, last_name));
 
+    }
+
+    @Override
+    public Observable signUp() {
+        return null;
     }
 }
 

@@ -3,7 +3,7 @@ package com.example.labratour.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.labratour.domain.Entity.User
+import com.example.labratour.domain.Entity.UserDomain
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.LogInUseCase
 import com.example.labratour.presentation.models.UserModel
@@ -44,7 +44,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
      *
      * @constructor Create empty Log in observer
      */
-    private inner class LogInObserver : DefaultObserver<User>() {
+    private inner class LogInObserver : DefaultObserver<UserDomain>() {
         /**
          * On complete
          *
@@ -70,7 +70,7 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
          * On next
          *
          */
-        override fun onNext(value: User) {
+        override fun onNext(value: UserDomain) {
             Log.i("Firebase", "Log In Observer - On Next...")
             logInTaskStatus.postValue(true)
         }

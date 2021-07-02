@@ -10,7 +10,7 @@ import io.reactivex.observers.DisposableObserver;
 public class SignUpUseCase extends UseCase<Void, SignUpUseCase.Param> {
     public UserRepository userRepository;
 
-    protected SignUpUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, UserRepository userRepository) {
+    public SignUpUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, UserRepository userRepository) {
         super(executionThread, postExecutionThread);
         this.userRepository = userRepository;
     }

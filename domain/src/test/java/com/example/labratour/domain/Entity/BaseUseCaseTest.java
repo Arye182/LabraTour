@@ -10,15 +10,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import io.reactivex.functions.Action;
-
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseUseCaseTest<USE_CASE extends UseCase, REPOSITORY extends UserRepository> {
 
-    public UseCase useCase;
+    public USE_CASE useCase;
 
     protected REPOSITORY mockRepository;
 //
@@ -40,12 +39,12 @@ public abstract class BaseUseCaseTest<USE_CASE extends UseCase, REPOSITORY exten
     protected abstract USE_CASE createUseCase();
 
     protected abstract REPOSITORY createRepository();
+   // public abstract void testBuildUseCaseObservable();
 
-    public abstract void testBuildUseCaseObservable() throws Exception;
 
-    protected void testBuildUseCaseObservable(Object requestData, Action action) throws Exception {
+    public void testBuildUseCaseObservable(Object requestData)  {
         useCase.buildUseCaseObservable(requestData);
-        action.run();
+        verify(mockRepository).signUp();
         verifyNoMoreInteractions(mockRepository);
         verifyZeroInteractions(mockExecutionThread);
         verifyZeroInteractions(mockPostExecutionThread);

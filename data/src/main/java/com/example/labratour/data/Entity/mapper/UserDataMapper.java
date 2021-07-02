@@ -1,7 +1,7 @@
 package com.example.labratour.data.Entity.mapper;
 
 import com.example.labratour.data.Entity.UserEntity;
-import com.example.labratour.domain.Entity.User;
+import com.example.labratour.domain.Entity.UserDomain;
 import com.google.firebase.auth.AuthResult;
 
 public class UserDataMapper {
@@ -18,30 +18,30 @@ public class UserDataMapper {
     }
     return userEntity;
   }
-  public static UserEntity transform(User user) {
+  public static UserEntity transform(UserDomain userDomain) {
     UserEntity userEntity = null;
-    if (user != null) {
+    if (userDomain != null) {
       userEntity = new UserEntity();
-      userEntity.setUserId(user.getUserId());
-      userEntity.setUserName(user.getUserName());
-      userEntity.setAtributes(user.getAtributes());
-      userEntity.setEmail(user.getEmail());
-      userEntity.setCountRate(user.getCountRates());
-      userEntity.setAddress(user.getAddress());
-      userEntity.setPhone(user.getPhone());
+      userEntity.setUserId(userDomain.getUserId());
+      userEntity.setUserName(userDomain.getUserName());
+      userEntity.setAtributes(userDomain.getAtributes());
+      userEntity.setEmail(userDomain.getEmail());
+      userEntity.setCountRate(userDomain.getCountRates());
+      userEntity.setAddress(userDomain.getAddress());
+      userEntity.setPhone(userDomain.getPhone());
     }
     return userEntity;
   }
 
-  public static User transform(UserEntity userEntity) {
-    User user = null;
+  public static UserDomain transform(UserEntity userEntity) {
+    UserDomain userDomain = null;
     if (userEntity != null) {
-      user = new User(userEntity.getUserId());
-      user.setEmail(userEntity.getEmail());
-      user.setUserName(userEntity.getUserName());
+      userDomain = new UserDomain(userEntity.getUserId());
+      userDomain.setEmail(userEntity.getEmail());
+      userDomain.setUserName(userEntity.getUserName());
     }
 
-    return user;
+    return userDomain;
   }
 
 //  public static UserView transform(User user) {

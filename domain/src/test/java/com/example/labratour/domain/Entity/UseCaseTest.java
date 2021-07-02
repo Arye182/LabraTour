@@ -11,94 +11,77 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.functions.Action;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.TestScheduler;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 @RunWith(MockitoJUnitRunner.class)
 public class UseCaseTest extends BaseUseCaseTest<UseCaseTest.TestUseCase, UseCaseTest.TestRepository> {
 
-    private DisposableObserver disposableObserver;
+    private DisposableObserver<? extends UserDomain> disposableObserver;
 
     @Override
     public void setUp() {
         super.setUp();
 
-        this.disposableObserver =  new DefaultObserver<User>();
+        this.disposableObserver =  new DefaultObserver<UserDomain>();
+        given(mockPostExecutionThread.getScheduler()).willReturn(new TestScheduler());
     }
 
     @Override
     protected TestUseCase createUseCase() {
-        return new TestUseCase(mockRepository, mockExecutionThread, new PostExecutionThread() {
-            @Override
-            public Scheduler getScheduler() {
-                return new TestScheduler();
-            }
-        });
+        return new TestUseCase(mockExecutionThread, mockPostExecutionThread, mockRepository
+
+                  );
     }
 
     @Override
     protected TestRepository createRepository() {
         TestRepository testRepository = mock(TestRepository.class);
-        when(testRepository.signUp()).thenReturn(Observable.just( new User("NULL")));
+        when(testRepository.signUp()).thenReturn(Observable.just( new UserDomain("NULL")));
         return testRepository;
     }
 
     @Test
-    @Override
-    public void testBuildUseCaseObservable() throws Exception {
-        testBuildUseCaseObservable(null, new Action() {
-            @Override
-            public void run() throws Exception {
-                verify(mockRepository).signUp();
-
-            }
-        });
+     public void testBuildUseCaseObservable()  {
+        testBuildUseCaseObservable(new SignUpUseCase.Param("", "", "", ""));
     }
 
     @Test
     public void buildUseCaseObservable_AsCorrectResult() {
-        useCase.execute(disposableObserver, new Param());
-        assert (disposableObserver.isDisposed());
+    useCase.execute(disposableObserver, new SignUpUseCase.Param("null", "null", "null", "null"));
+     assertThat(disposableObserver.isDisposed());
     }
 
 
-    interface TestRepository extends UserRepository {
-        Observable<User> signUp();
+    public interface TestRepository extends UserRepository {
+
+      @Override  Observable signUp();
     }
 
-    public static class TestUseCase extends SignUpUseCase {
-
-
-        public TestUseCase(TestRepository repository,
-
-                            ExecutionThread executionThread,
-                          PostExecutionThread postExecutionThread) {
-
-            super(executionThread, postExecutionThread, repository);
-        }
-@Override
-        public Observable<User> buildUseCaseObservable(Param param) {
-            return userRepository.signUp("null", "null", "null", "null");
-        }
+    protected class TestUseCase extends SignUpUseCase{
+        public TestUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, UserRepository userRepository) {
+            super(executionThread, postExecutionThread, userRepository);
         }
 
+        //
+    //        public TestUseCase(TestRepository repository,
+    //
+    //                            ExecutionThread executionThread,
+    //                          PostExecutionThread postExecutionThread) {
+    //
+    //            super(executionThread, postExecutionThread, repository);
 
-
-
-    public static class Param{
-        String email;
-        String password;
-        String first_name;
-        String last_name;
-
-        public Param() {
-        }
+    @Override
+    public Observable<Void> buildUseCaseObservable(Param param) {
+      return userRepository.signUp();
     }
+}
+
+
+
 }
 

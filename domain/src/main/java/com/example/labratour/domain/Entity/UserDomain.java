@@ -2,14 +2,14 @@ package com.example.labratour.domain.Entity;
 
 import com.example.labratour.domain.Atributes;
 
-public class User {
+public class UserDomain {
     private final String userId;
 
 
 
 
 
-    public User(String  userId) {
+    public UserDomain(String  userId) {
         this.userId = userId;
 
     }

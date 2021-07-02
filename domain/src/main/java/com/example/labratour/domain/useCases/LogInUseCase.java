@@ -1,7 +1,7 @@
 package com.example.labratour.domain.useCases;
 
 
-import com.example.labratour.domain.Entity.User;
+import com.example.labratour.domain.Entity.UserDomain;
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
 import com.example.labratour.domain.repositories.UserRepository;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 
-public class LogInUseCase extends UseCase<User, LogInUseCase.RequestInput> {
+public class LogInUseCase extends UseCase<UserDomain, LogInUseCase.RequestInput> {
      private final UserRepository userRepository;
 
     public LogInUseCase(UserRepository userRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
@@ -19,7 +19,7 @@ public class LogInUseCase extends UseCase<User, LogInUseCase.RequestInput> {
         this.userRepository = userRepository;
     }
 
-    public void execute(DisposableObserver<User> observer, String password, String email) {
+    public void execute(DisposableObserver<UserDomain> observer, String password, String email) {
         execute(observer, new RequestInput(password, email));
      //   Preconditions.checkNotNull(observer);
 //        final Observable<User> observable =
@@ -28,7 +28,7 @@ public class LogInUseCase extends UseCase<User, LogInUseCase.RequestInput> {
 //                        .observeOn(postExecutionThread.getScheduler());
 //        addDisposable( observable.subscribeWith(observer));
     }
-    public Observable<User> buildUseCaseObservable(@NotNull RequestInput requestInput) {
+    public Observable<UserDomain> buildUseCaseObservable(@NotNull RequestInput requestInput) {
         return userRepository.login(requestInput.email, requestInput.password);
     }
 
