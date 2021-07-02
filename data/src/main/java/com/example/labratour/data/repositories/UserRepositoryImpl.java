@@ -90,6 +90,11 @@ public class UserRepositoryImpl implements UserRepository {
     public Observable signUp() {
         return null;
     }
+
+    @Override
+    public Observable<String> saveNewUser(UserDomain userDomain) {
+        return null;
+    }
 }
 
 
