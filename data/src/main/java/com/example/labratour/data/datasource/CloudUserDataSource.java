@@ -74,7 +74,7 @@ public class CloudUserDataSource {
         });
   }
 
-    public Observable<AuthResult> register(final UserEntity userEntity) {
+    public Observable<AuthResult> register(final String email , final String password) {
         return Observable.create(
                 new ObservableOnSubscribe<AuthResult>() {
 
@@ -82,7 +82,7 @@ public class CloudUserDataSource {
                     @Override
                     public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
                         firebaseAuth
-                                .createUserWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
+                                .createUserWithEmailAndPassword(email, password)
                                 .addOnSuccessListener(
                                         new OnSuccessListener<AuthResult>() {
 
