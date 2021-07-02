@@ -9,8 +9,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
 import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.models.UserModel
+import com.example.labratour.presentation.utils.Constants
 import com.example.labratour.presentation.utils.ProgressBar
-import com.example.labratour.presentation.viewmodel.UserViewModel
+import com.example.labratour.presentation.viewmodel.UserAuthViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.fragment_signup_one.*
@@ -18,12 +19,12 @@ import kotlinx.android.synthetic.main.fragment_signup_one.*
 class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
 
     private val mypb: ProgressBar = ProgressBar()
-    private lateinit var viewModel: UserViewModel
+    private lateinit var authViewModel: UserAuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // retrieve view model
-        viewModel = (activity as LoginActivity?)?.userViewModel!!
+        authViewModel = (activity as LoginActivity?)?.userAuthViewModel!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,11 +33,12 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         button_signup_second.setOnClickListener { onClickSignUp(view) }
         log_in_clickable_text.setOnClickListener { moveTologIn(view) }
         // observing view model
-        this.viewModel.signUpTaskStatus.observe(viewLifecycleOwner, { onSignUpTaskStatusChanged(view) })
+        this.authViewModel.signUpFirestoreTaskStatus.observe(viewLifecycleOwner, { onSignUpTaskStatusChanged(view) })
+        this.authViewModel.registerNewUserTaskStatus.observe(viewLifecycleOwner, { onRegisterNewUserTaskStatusChanged(view) })
         // observe the view model state - is it loading? act accordingly
-        this.viewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
+        this.authViewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
         // observe errors
-        this.viewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
+        this.authViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
     }
 
     private fun validateRegisterDetails(view: View): Boolean {
@@ -118,15 +120,26 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
                 val email: String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
                 val password: String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
                 Log.i("Firebase", "Sign Up - Details Validated")
-                viewModel.signUp(email, password, first_name, last_name, user_name)
+                // authViewModel.signUpToFireStore(email, password, first_name, last_name, user_name)
+                Log.i("Firebase", "Sign Up - Fragment One - registering successful - registering new user to firebase Auth")
+                authViewModel.registerNewUser(email, password)
             }
         }
     }
 
+    private fun onRegisterNewUserTaskStatusChanged(view: View) {
+        if (authViewModel.signUpFirestoreTaskStatus.value!!) {
+            Log.i("Firebase", "Sign Up - Fragment One - registering successful - moving to fragment two")
+            // move on to next step!
+            val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
+            findNavController().navigate(action)
+        }
+    }
+
     private fun onSignUpTaskStatusChanged(view: View) {
-        if (viewModel.signUpTaskStatus.value!!) {
+        if (authViewModel.signUpFirestoreTaskStatus.value!!) {
             Log.i("Firebase", "Sign Up - Fragment One - sign up successful - registrating the user to cloud firestore")
-            registerUserToFireStore(viewModel.user)
+            registerUserToFireStore(authViewModel.userModel)
             Log.i("Firebase", "Sign Up - Fragment One - sign up successful - moving to fragment two")
             // move on to next step!
             val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
@@ -135,7 +148,7 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
     }
 
     private fun onIsLoadingChanged(view: View) {
-        if (viewModel.isLoading.value!!) {
+        if (authViewModel.isLoading.value!!) {
             activity?.let { it1 ->
                 this.mypb.showProgressBar(
                     resources.getString(R.string.please_wait),
@@ -143,21 +156,21 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
                     view
                 )
             }
-        } else if (!viewModel.isLoading.value!!) {
+        } else if (!authViewModel.isLoading.value!!) {
             this.mypb.hideProgressBar()
         }
     }
 
     private fun onErrorChanged(view: View) {
-        Snackbar.make(view, this.viewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+        Snackbar.make(view, this.authViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
             .setBackgroundTint(resources.getColor(R.color.error)).show()
     }
 
+    // TODO: this function is supposed to be in the data with usecase
     private fun registerUserToFireStore(userModel: UserModel) {
         Log.i("Firebase", "Sign Up - Fragment One - sign up successful - trying to register user to cloud....")
-
         val firesStore = (((activity as LoginActivity).application) as LabratourApplication).appContainer.firebaseContainer.firebaseFirestore
-        firesStore.collection("users").document(userModel.id).set(userModel, SetOptions.merge()).addOnSuccessListener {
+        firesStore.collection(Constants.USERS).document(userModel.id).set(userModel, SetOptions.merge()).addOnSuccessListener {
             view?.let { it1 ->
                 Snackbar.make(it1, "user saved", Snackbar.LENGTH_SHORT)
                     .setBackgroundTint(resources.getColor(R.color.success)).show()

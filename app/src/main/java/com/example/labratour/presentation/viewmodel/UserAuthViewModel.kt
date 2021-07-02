@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.labratour.domain.Entity.UserDomain
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.LogInUseCase
+import com.example.labratour.domain.useCases.RegisterNewUserUseCase
 import com.example.labratour.presentation.models.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -16,7 +17,7 @@ import com.google.firebase.auth.FirebaseUser
  * @property loginUseCase
  * @constructor Create empty Login fragment view model
  */
-class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
+class UserAuthViewModel(private val loginUseCase: LogInUseCase, private val registerNewUserUseCase: RegisterNewUserUseCase) : ViewModel() {
 
     // live data
     val isLoading: MutableLiveData<Boolean> by lazy {
@@ -33,46 +34,53 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
         MutableLiveData<Boolean>()
     }
 
-    val signUpTaskStatus: MutableLiveData<Boolean> by lazy {
+    val signUpFirestoreTaskStatus: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
 
-    lateinit var user: UserModel
+    val registerNewUserTaskStatus: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
 
-    /**
-     * Log in observer
-     *
-     * @constructor Create empty Log in observer
-     */
+    val saveNewUserToFirebaseTaskStatus: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>()
+    }
+
+    lateinit var userModel: UserModel
+    lateinit var userDomain: UserDomain
+
     private inner class LogInObserver : DefaultObserver<UserDomain>() {
-        /**
-         * On complete
-         *
-         */
         override fun onComplete() {
             Log.i("Firebase", "Log In Observer - On Complete...")
             isLoading.postValue(false)
         }
-
-        /**
-         * On error
-         *
-         * @param exception
-         */
         override fun onError(exception: Throwable) {
             Log.i("Firebase", "Log In Observer - On Error: " + exception.message)
             isLoading.postValue(false)
             logInTaskStatus.postValue(false)
             error.postValue(exception.message)
         }
-
-        /**
-         * On next
-         *
-         */
         override fun onNext(value: UserDomain) {
             Log.i("Firebase", "Log In Observer - On Next...")
+            userDomain = value
             logInTaskStatus.postValue(true)
+        }
+    }
+
+    private inner class RegisterNewUserObserver : DefaultObserver<String>() {
+        override fun onComplete() {
+            Log.i("Firebase", "RegisterNewUserObserver - On Complete...")
+            isLoading.postValue(false)
+        }
+        override fun onError(exception: Throwable) {
+            Log.i("Firebase", "RegisterNewUserObserver - On Error: " + exception.message)
+            isLoading.postValue(false)
+            registerNewUserTaskStatus.postValue(false)
+            error.postValue(exception.message)
+        }
+        override fun onNext(id: String) {
+            Log.i("Firebase", "RegisterNewUserObserver - On Next...$id")
+            registerNewUserTaskStatus.postValue(true)
         }
     }
 
@@ -88,7 +96,13 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
         this.loginUseCase.execute(LogInObserver(), email, password)
     }
 
-    fun signUp(email: String, password: String, firstName: String, lastName: String, userName: String) {
+    fun registerNewUser(email: String, password: String) {
+        Log.i("Firebase", "User View Model - RegisterNewUser - activating registerNewUser usecase")
+        this.isLoading.postValue(true)
+        this.registerNewUserUseCase.execute(RegisterNewUserObserver(), email, password)
+    }
+
+    fun signUpToFireStore(email: String, password: String, firstName: String, lastName: String, userName: String) {
         Log.i("Firebase", "Sign Up - User View Model - trying to sign up")
         this.isLoading.postValue(true)
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -96,15 +110,15 @@ class UserViewModel(private val loginUseCase: LogInUseCase) : ViewModel() {
                 // if registration succeeded
                 if (task.isSuccessful) {
                     isLoading.postValue(false)
-                    signUpTaskStatus.postValue(true)
+                    signUpFirestoreTaskStatus.postValue(true)
                     val firebaseUser: FirebaseUser = task.result!!.user!!
-                    user = UserModel(firebaseUser.uid, firstName, lastName, userName, email)
+                    userModel = UserModel(firebaseUser.uid, firstName, lastName, userName, email)
                     Log.i("Firebase", "Sign Up - User View Model - sign up successful, user: $firebaseUser")
                 } else {
                     // registration failed
                     Log.i("Firebase", "Sign Up - User View Model - sign up failed: " + task.exception!!.message.toString())
                     isLoading.postValue(false)
-                    signUpTaskStatus.postValue(false)
+                    signUpFirestoreTaskStatus.postValue(false)
                     error.postValue(task.exception!!.message.toString())
                 }
             }

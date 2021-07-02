@@ -1,8 +1,6 @@
 package com.example.labratour.presentation
 
 import android.app.Application
-import android.util.Log
-
 import com.example.labratour.presentation.di.AppContainer
 import com.google.firebase.FirebaseApp
 
@@ -22,10 +20,5 @@ class LabratourApplication : Application() {
         instance = this
         FirebaseApp.initializeApp(this)
         appContainer = AppContainer()
-
-    }
-
-    fun bla() {
-        Log.i("i", "dddd")
     }
 }
