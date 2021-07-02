@@ -9,23 +9,27 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
 import com.example.labratour.presentation.LabratourApplication
+import com.example.labratour.presentation.di.AppContainer
+import com.example.labratour.presentation.di.FirebaseContainer
 import com.example.labratour.presentation.ui.home.HomeActivity
-import com.example.labratour.presentation.viewmodel.UserViewModel
+import com.example.labratour.presentation.viewmodel.UserAuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
     // data members 
     private lateinit var navController: NavController
-    lateinit var userViewModel: UserViewModel
+    lateinit var userAuthViewModel: UserAuthViewModel
+    private lateinit var appContainer: AppContainer
+    private lateinit var firebaseContainer: FirebaseContainer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // arrange the activity instances like view model - using the dependency injection containers
-        val appContainer = (application as LabratourApplication).appContainer
-        val firebaseContainer = appContainer.firebaseContainer
-        val userViewModelFactory = firebaseContainer.userViewModelFactory
-        userViewModel = ViewModelProvider(this, userViewModelFactory).get(UserViewModel::class.java)
+        appContainer = (application as LabratourApplication).appContainer
+        firebaseContainer = appContainer.firebaseContainer
+        val userAuthViewModelFactory = firebaseContainer.userAuthViewModelFactory
+        userAuthViewModel = ViewModelProvider(this, userAuthViewModelFactory).get(UserAuthViewModel::class.java)
 
         // check if user is logged in already
         val auth = FirebaseAuth.getInstance()

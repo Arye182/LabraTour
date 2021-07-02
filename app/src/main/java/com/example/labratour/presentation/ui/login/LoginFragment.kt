@@ -9,7 +9,7 @@ import com.example.labratour.R
 import com.example.labratour.presentation.ui.base.BaseFragment
 import com.example.labratour.presentation.ui.home.HomeActivity
 import com.example.labratour.presentation.utils.ProgressBar
-import com.example.labratour.presentation.viewmodel.UserViewModel
+import com.example.labratour.presentation.viewmodel.UserAuthViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -21,11 +21,11 @@ import kotlinx.android.synthetic.main.fragment_login.*
  */
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private val mypb: ProgressBar = ProgressBar()
-    private lateinit var viewModel: UserViewModel
+    private lateinit var authViewModel: UserAuthViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // create the view model for login fragment manually with factory - we do that in OnCreate Method
-        viewModel = (activity as LoginActivity?)?.userViewModel!!
+        authViewModel = (activity as LoginActivity?)?.userAuthViewModel!!
     }
 
     /**
@@ -41,11 +41,11 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
         register_clickable_text.setOnClickListener { onClickRegister() }
         forgot_password.setOnClickListener { onClickForgotPassword() }
         // observe the view model state - is it loading? act accordingly
-        this.viewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
+        this.authViewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
         // observe if success is true - logging in was successful - move to next activity
-        this.viewModel.logInTaskStatus.observe(viewLifecycleOwner, { onIsLoginSuccessChanged(view) })
+        this.authViewModel.logInTaskStatus.observe(viewLifecycleOwner, { onIsLoginSuccessChanged(view) })
         // observe errors
-        this.viewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
+        this.authViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
     }
     // ----------------------------------- On CLicks ----------------------------------------------
     /**
@@ -86,7 +86,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             }
             else -> {
                 // try to log in to the site
-                viewModel.login(email, password)
+                authViewModel.login(email, password)
             }
         }
     }
@@ -98,7 +98,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
      * @param view
      */
     private fun onIsLoadingChanged(view: View) {
-        if (viewModel.isLoading.value!!) {
+        if (authViewModel.isLoading.value!!) {
             activity?.let { it1 ->
                 this.mypb.showProgressBar(
                     resources.getString(R.string.please_wait),
@@ -106,7 +106,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                     view
                 )
             }
-        } else if (!viewModel.isLoading.value!!) {
+        } else if (!authViewModel.isLoading.value!!) {
             this.mypb.hideProgressBar()
         }
     }
@@ -117,7 +117,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
      * @param view
      */
     private fun onIsLoginSuccessChanged(view: View) {
-        if (viewModel.logInTaskStatus.value!!) {
+        if (authViewModel.logInTaskStatus.value!!) {
             // intent to the home user activity and fragments! this is a crucial part! a lot of needs to be done
             val email = login_edit_text_email.text.toString()
             val password = login_edit_text_password.text.toString()
@@ -131,7 +131,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private fun onErrorChanged(view: View) {
-        Snackbar.make(view, this.viewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+        Snackbar.make(view, this.authViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
             .setBackgroundTint(resources.getColor(R.color.error)).show()
     }
 }
