@@ -56,9 +56,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.7'
     //noinspection GradleCompatible,GradleCompatible
     //implementation 'com.android.support:recyclerview-v5:latest.version'
-   testImplementation "junit:junit:${jUnitVersion}"
-   implementation "org.mockito:mockito-core:${mockitoVersion}"
-    implementation "org.assertj:assertj-core:${assertJVersion}"
+//   testImplementation "junit:junit:${jUnitVersion}"
+//   implementation "org.mockito:mockito-core:${mockitoVersion}"
+//    implementation "org.assertj:assertj-core:${assertJVersion}"
 
 
 

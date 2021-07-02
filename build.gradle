@@ -37,9 +37,9 @@ allprojects {
     }
 }
 
-//task clean(type: Delete) {
-//    delete rootProject.buildDir
-//}
-//task runDomainUnitTests(dependsOn: [':domain:test']) {
-//    description 'Run unit tests for the domain layer.'
-//}
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+task runDomainUnitTests(dependsOn: [':domain:test']) {
+    description 'Run unit tests for the domain layer.'
+}
