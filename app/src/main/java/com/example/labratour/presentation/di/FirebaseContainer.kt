@@ -8,7 +8,7 @@ import com.example.labratour.presentation.utils.UIThread
 import com.example.labratour.presentation.viewmodel.UserAuthViewModelFactory
 import com.example.labratour.presentation.viewmodel.UserHomeViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+// import com.google.firebase.firestore.FirebaseFirestore
 
 class FirebaseContainer {
     // instantiate firebase firestore - this is the database and the auth
