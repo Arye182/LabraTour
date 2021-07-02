@@ -8,6 +8,7 @@ import com.example.labratour.domain.Entity.UserDomain;
 import com.example.labratour.domain.repositories.UserRepository;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
@@ -18,7 +19,7 @@ public class UserRepositoryImpl implements UserRepository {
   private final UserEntityFirebaseStore userEntityFirebaseStore;
   //   private UserDataMapper userDataMapper;
   // private final CloudUserDataSource cloudUserDataSource;
-  public UserRepositoryImpl(FirebaseAuth firebaseAuth) {
+  public UserRepositoryImpl(FirebaseAuth firebaseAuth, FirebaseDatabase database) {
     this.cloudUserDataSource = new CloudUserDataSource(firebaseAuth.getInstance());
     this.userEntityFirebaseStore = new UserEntityFirebaseStore();
   }
@@ -93,8 +94,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Observable<String> saveNewUser(UserDomain userDomain) {
-        return null;
-    }
-}
+        return this.userEntityFirebaseStore
+                .createUserIfNotExists(UserDataMapper.transform(userDomain));
+
+    }    }
+
 
 

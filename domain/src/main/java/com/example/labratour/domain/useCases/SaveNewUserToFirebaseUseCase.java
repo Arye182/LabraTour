@@ -29,8 +29,8 @@ public class SaveNewUserToFirebaseUseCase extends UseCase<String, UserDomain> {
 
 
     @Override
-    public Observable<String> buildUseCaseObservable(UserDomain requestInput) {
-      return null;
+    public Observable<String> buildUseCaseObservable(UserDomain userDomain) {
+      return userRepository.saveNewUser(userDomain);
     }
 
 
