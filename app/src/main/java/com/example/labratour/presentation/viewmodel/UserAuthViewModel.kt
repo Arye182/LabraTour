@@ -125,7 +125,7 @@ class UserAuthViewModel(
 
     fun saveToDataBaseNewUser(email: String, password: String, firstName: String, lastName: String, userName: String) {
         Log.i("Firebase", "User View Model - saveToDataBaseNewUser - activating saveToDataBaseNewUser usecase")
-        userModel = UserModel()
+        userModel = UserModel(userID, firstName, lastName, userName, email)
         userDomain = userModelTouserDomain().toDomain(userModel, UserDomain(userID))
         this.isLoading.postValue(true)
         this.saveNewUserToFirebaseUseCase.execute(SaveNewUserToFirebaseUseCaseObserver(), userDomain)
