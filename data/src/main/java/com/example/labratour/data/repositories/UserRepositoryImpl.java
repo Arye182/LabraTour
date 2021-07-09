@@ -21,7 +21,9 @@ public class UserRepositoryImpl implements UserRepository {
   // private final CloudUserDataSource cloudUserDataSource;
   public UserRepositoryImpl(FirebaseAuth firebaseAuth, FirebaseDatabase database) {
     this.cloudUserDataSource = new CloudUserDataSource(firebaseAuth.getInstance());
-    this.userEntityFirebaseStore = new UserEntityFirebaseStore();
+          //database.setPersistenceEnabled(true);
+
+      this.userEntityFirebaseStore = new UserEntityFirebaseStore(database);
   }
   //    public String addUser(User user) throws Exception {
   //        return cloudUserDataSource.insert(UserDataMapper.transform(user));
@@ -93,7 +95,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Observable<String> saveNewUser(UserDomain userDomain) {
+    public Observable<Void> saveNewUser(UserDomain userDomain) {
         return this.userEntityFirebaseStore
                 .createUserIfNotExists(UserDataMapper.transform(userDomain));
 

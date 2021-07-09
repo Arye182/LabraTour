@@ -16,5 +16,5 @@ public interface UserRepository {
 
     Observable signUp();
 
-    Observable<String> saveNewUser(UserDomain userDomain);
+    Observable<Void> saveNewUser(UserDomain userDomain);
 }

@@ -19,5 +19,6 @@ public abstract class EntityJsonMapper<T> {
         return null;
     }
 
+    public abstract String transformToJson(T  entity);
 
 }
