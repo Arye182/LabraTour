@@ -35,7 +35,7 @@ private final EntityJsonMapper<UserEntity> JsonMapper;
 
   public UserEntityFirebaseStore(FirebaseDatabase firebaseDatabase) {
 // this.database.setPersistenceEnabled(true);
-          firebaseDatabase.setPersistenceEnabled(true);
+       //   firebaseDatabase.setPersistenceEnabled(true);
 
     this.database = firebaseDatabase.getReference("users");
     this.JsonMapper = new UserHashMapper();
@@ -51,7 +51,7 @@ return Observable.create(new ObservableOnSubscribe<Void>() {
                        @Override
                        public void onComplete(@NonNull Task<Void> task) {
                                FirebaseAuth.getInstance().signOut();
-                                emitter.onComplete();
+                                emitter.onNext(task.getResult());
                                //redirect the user to the login screen
 
                        }
