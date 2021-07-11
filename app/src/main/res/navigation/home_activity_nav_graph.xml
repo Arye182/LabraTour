@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.labratour.presentation.ui.home.HomeFragment"
-        android:label="User Home"
+        android:label="Welcome Back"
         tools:layout="@layout/fragment_home" >
         <argument
             android:name="username"
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.labratour.presentation.ui.home.SearchFragment"
-        android:label="SearchFragment"
+        android:label="Search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/settingsFragment"
@@ -29,15 +29,14 @@
     <fragment
         android:id="@+id/termsFragment"
         android:name="com.example.labratour.presentation.ui.home.TermsFragment"
-        android:label="TermsFragment"
+        android:label="Terms"
         tools:layout="@layout/fragment_terms" />
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.labratour.presentation.ui.home.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_profile" />
-mm
     <action
         android:id="@+id/action_global_termsFragment"
         app:destination="@id/termsFragment"

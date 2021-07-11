@@ -2,7 +2,6 @@ package com.example.labratour.presentation.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -11,13 +10,13 @@ import com.example.labratour.R
 import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.di.AppContainer
 import com.example.labratour.presentation.di.FirebaseContainer
+import com.example.labratour.presentation.ui.base.BaseActivity
 import com.example.labratour.presentation.ui.home.HomeActivity
 import com.example.labratour.presentation.viewmodel.UserAuthViewModel
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginActivity : AppCompatActivity() {
-
-    // data members 
+class LoginActivity : BaseActivity() {
+    // data members
     private lateinit var navController: NavController
     lateinit var userAuthViewModel: UserAuthViewModel
     private lateinit var appContainer: AppContainer

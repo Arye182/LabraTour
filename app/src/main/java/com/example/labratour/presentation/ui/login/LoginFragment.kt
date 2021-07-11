@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
 import com.example.labratour.presentation.ui.base.BaseFragment
 import com.example.labratour.presentation.ui.home.HomeActivity
-import com.example.labratour.presentation.utils.ProgressBar
 import com.example.labratour.presentation.viewmodel.UserAuthViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_login.*
  * @constructor Create empty Login fragment
  */
 class LoginFragment : BaseFragment(R.layout.fragment_login) {
-    private val mypb: ProgressBar = ProgressBar()
     private lateinit var authViewModel: UserAuthViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,15 +97,9 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
      */
     private fun onIsLoadingChanged(view: View) {
         if (authViewModel.isLoading.value!!) {
-            activity?.let { it1 ->
-                this.mypb.showProgressBar(
-                    resources.getString(R.string.please_wait),
-                    it1,
-                    view
-                )
-            }
+            (activity as LoginActivity).showProgressBar("Logging In...")
         } else if (!authViewModel.isLoading.value!!) {
-            this.mypb.hideProgressBar()
+            (activity as LoginActivity).hideProgressBar()
         }
     }
 
@@ -126,6 +118,7 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
             intent.putExtra("user_id", FirebaseAuth.getInstance().currentUser!!.uid)
             intent.putExtra("email_id", email)
             startActivity(intent)
+            (activity as LoginActivity).hideProgressBar()
             activity?.finish()
         }
     }

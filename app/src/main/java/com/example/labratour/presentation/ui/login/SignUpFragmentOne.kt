@@ -7,18 +7,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
-import com.example.labratour.presentation.LabratourApplication
-import com.example.labratour.presentation.models.UserModel
-import com.example.labratour.presentation.utils.Constants
-import com.example.labratour.presentation.utils.ProgressBar
 import com.example.labratour.presentation.viewmodel.UserAuthViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.fragment_signup_one.*
 
 class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
-
-    private val mypb: ProgressBar = ProgressBar()
     private lateinit var authViewModel: UserAuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +28,7 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         // observing view model
         // this.authViewModel.signUpFirestoreTaskStatus.observe(viewLifecycleOwner, { onSignUpTaskStatusChanged(view) })
         this.authViewModel.registerNewUserTaskStatus.observe(viewLifecycleOwner, { onRegisterNewUserTaskStatusChanged(view) })
-        this.authViewModel.saveNewUserToFirebaseTaskStatus.observe(viewLifecycleOwner, {onsaveNewUserToFirebaseTaskStatusChanged(view)})
+        this.authViewModel.saveNewUserToFirebaseTaskStatus.observe(viewLifecycleOwner, { onsaveNewUserToFirebaseTaskStatusChanged(view) })
         // observe the view model state - is it loading? act accordingly
         this.authViewModel.isLoading.observe(viewLifecycleOwner, { onIsLoadingChanged(view) })
         // observe errors
@@ -146,28 +139,11 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         }
     }
 
-//    private fun onSignUpTaskStatusChanged(view: View) {
-//        if (authViewModel.signUpFirestoreTaskStatus.value!!) {
-//            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - registrating the user to cloud firestore")
-//            registerUserToFireStore(authViewModel.userModel)
-//            Log.i("Firebase", "Sign Up - Fragment One - sign up successful - moving to fragment two")
-//            // move on to next step!
-//            val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
-//            findNavController().navigate(action)
-//        }
-//    }
-
     private fun onIsLoadingChanged(view: View) {
         if (authViewModel.isLoading.value!!) {
-            activity?.let { it1 ->
-                this.mypb.showProgressBar(
-                    resources.getString(R.string.please_wait),
-                    it1,
-                    view
-                )
-            }
+            (activity as LoginActivity).showProgressBar(resources.getString(R.string.please_wait))
         } else if (!authViewModel.isLoading.value!!) {
-            this.mypb.hideProgressBar()
+            (activity as LoginActivity).hideProgressBar()
         }
     }
 
@@ -175,21 +151,4 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         Snackbar.make(view, this.authViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
             .setBackgroundTint(resources.getColor(R.color.error)).show()
     }
-
-    // TODO: this function is supposed to be in the data with usecase
-//    private fun registerUserToFireStore(userModel: UserModel) {
-//        Log.i("Firebase", "Sign Up - Fragment One - sign up successful - trying to register user to cloud....")
-//        val firesStore = (((activity as LoginActivity).application) as LabratourApplication).appContainer.firebaseContainer.firebaseFirestore
-//        firesStore.collection(Constants.USERS).document(userModel.id).set(userModel, SetOptions.merge()).addOnSuccessListener {
-//            view?.let { it1 ->
-//                Snackbar.make(it1, "user saved", Snackbar.LENGTH_SHORT)
-//                    .setBackgroundTint(resources.getColor(R.color.success)).show()
-//            }
-//        }.addOnFailureListener {
-//            view?.let { it1 ->
-//                Snackbar.make(it1, "failed to save user", Snackbar.LENGTH_SHORT)
-//                    .setBackgroundTint(resources.getColor(R.color.error)).show()
-//            }
-//        }
-//    }
 }

@@ -21,10 +21,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         home_user_text.text = "User ID :: $userId"
         home_password_text.text = "Email ID :: $emailId"
 
+        // logout button on click
         button_logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             startActivity(Intent(activity, LoginActivity::class.java))
             activity?.finish()
         }
+        // weather card
     }
 }

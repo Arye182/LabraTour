@@ -6,8 +6,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
 import kotlinx.android.synthetic.main.fragment_login_signup.*
 
-
-
 class LoginSignupFragment : Fragment(R.layout.fragment_login_signup) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -18,7 +16,7 @@ class LoginSignupFragment : Fragment(R.layout.fragment_login_signup) {
             findNavController().navigate(action)
         }
 
-        button_signup.setOnClickListener{
+        button_signup.setOnClickListener {
             val action = LoginSignupFragmentDirections.actionLoginSignupFragmentToSignUpFragmentOne()
             findNavController().navigate(action)
         }

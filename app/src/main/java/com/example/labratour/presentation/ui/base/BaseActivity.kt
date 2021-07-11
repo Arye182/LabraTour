@@ -1,20 +1,20 @@
-package com.example.labratour.presentation.utils
+package com.example.labratour.presentation.ui.base
 
-
-import android.app.Activity
 import android.app.Dialog
-import android.view.View
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.labratour.R
 import kotlinx.android.synthetic.main.dialog_progress.*
 
-class ProgressBar {
+abstract class BaseActivity : AppCompatActivity() {
+    private lateinit var mProgressDialog: Dialog
 
-    private lateinit var mProgressDialog : Dialog
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mProgressDialog = Dialog(this)
+    }
 
-
-
-    fun showProgressBar(text: String, context: Activity, view: View){
-        mProgressDialog = Dialog(context)
+    fun showProgressBar(text: String) {
         mProgressDialog.setContentView((R.layout.dialog_progress))
         mProgressDialog.progress_text.text = text
         mProgressDialog.setCancelable(false)
@@ -25,7 +25,4 @@ class ProgressBar {
     fun hideProgressBar() {
         mProgressDialog.dismiss()
     }
-
-
-
 }

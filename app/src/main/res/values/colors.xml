@@ -17,6 +17,8 @@
     <color name="reply_orange_500">#F9AA33</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="card">#FFFFFFFF</color>
+    <color name="backgroundColor">#EDF0F2</color>
 
     <color name="error">#D30606</color>
     <color name="success">#077318</color>
