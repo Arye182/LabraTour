@@ -2,6 +2,8 @@ package com.example.labratour.domain.Entity;
 
 import com.example.labratour.domain.Atributes;
 
+import java.util.Map;
+
 public class UserDomain {
     private final String userId;
 
@@ -17,10 +19,19 @@ public class UserDomain {
 
     private String fullName;
     private String email;
+
+    public void setUnUpdatedRates(Map<String, Integer> unUpdatedRates) {
+        this.unUpdatedRates = unUpdatedRates;
+    }
+
+    public Map<String, Integer> getUnUpdatedRates() {
+        return unUpdatedRates;
+    }
+
     private String UserName;
     private String Phone;
     private String address;
-
+private Map<String, Integer> unUpdatedRates;
     public String getFirst_name() {
         return first_name;
     }
