@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+//import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -162,6 +163,12 @@ private <R> Observable<R> updateNotNewUser(DatabaseReference databaseReference, 
                 });
         }
 
+//
+//        public Observable<Void> savenewUnupdatedRatesToCurrentUser(Map<String, Integer> newRates) {
+//          DatabaseReference currentUserReference  = database.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//
+//        }
+}
 //        private void writeNewPost(String userId, String username, String title, String body) {
 //                // Create new post at /user-posts/$userid/$postid and at
 //                // /posts/$postid simultaneously
@@ -175,6 +182,6 @@ private <R> Observable<R> updateNotNewUser(DatabaseReference databaseReference, 
 //                mDatabase.updateChildren(childUpdates);
 //        }
 
-        }
+
 
 

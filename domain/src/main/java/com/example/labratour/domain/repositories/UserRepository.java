@@ -2,6 +2,8 @@ package com.example.labratour.domain.repositories;
 
 import com.example.labratour.domain.Entity.UserDomain;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 
 
@@ -15,6 +17,6 @@ public interface UserRepository {
     Observable signUp(String email, String password, String first_name, String last_name);
 
     Observable signUp();
-
+    public Observable<Void> saveNewUnupdatedRatesToUser(Map<String, Integer> newRates);
     Observable<Void> saveNewUser(UserDomain userDomain);
 }

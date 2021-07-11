@@ -10,6 +10,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
@@ -95,11 +97,25 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Observable<Void> saveNewUnupdatedRatesToUser(Map<String, Integer> newRates) {
+        return null;
+    }
+
+    @Override
     public Observable<Void> saveNewUser(UserDomain userDomain) {
         return this.userEntityFirebaseStore
                 .createUserIfNotExists(UserDataMapper.transform(userDomain));
 
-    }    }
+    }
+//    @Override
+//    public Observable<Void> saveNewUnupdatedRatesToUser(Map<String, Integer> newRates){
+//      return userEntityFirebaseStore.savenewUnupdatedRatesToCurrentUser();
+//    }
+
+
+
+
+}
 
 
 
