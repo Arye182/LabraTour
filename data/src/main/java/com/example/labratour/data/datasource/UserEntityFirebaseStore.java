@@ -44,32 +44,34 @@ private final EntityJsonMapper<UserEntity> JsonMapper;
 
 public Observable<Void> createUserIfNotExists(UserEntity userEntity) {
 DatabaseReference databaseReference = database.child((FirebaseAuth.getInstance().getCurrentUser().getUid()));
-return Observable.create(new ObservableOnSubscribe<Void>() {
-        @Override
-        public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
-                DatabaseReference reference = databaseReference;
-               reference.setValue(userEntity).addOnCompleteListener(new OnCompleteListener<Void>(){
-                       @Override
-                       public void onComplete(@NonNull Task<Void> task) {
-                               FirebaseAuth.getInstance().signOut();
-                                emitter.onNext(task.getResult());
-                               //redirect the user to the login screen
+    return Observable.create(
+        new ObservableOnSubscribe<Void>() {
+          @Override
+          public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
+            DatabaseReference reference = databaseReference;
+            reference
+                .setValue(userEntity)
+                .addOnCompleteListener(
+                    new OnCompleteListener<Void>() {
 
-                       }
-               }).addOnFailureListener(
-                               new OnFailureListener() {
-                                       @Override
-                                       public void onFailure(@NonNull @NotNull Exception e) {
+                      @Override
+                      public void onComplete(@NotNull Task<Void> task) {
+                        FirebaseAuth.getInstance().signOut();
+                        emitter.onNext(task.getResult());
+                        // redirect the user to the login screen
+
+                      }
+                    })
+                .addOnFailureListener(
+                    new OnFailureListener() {
+                      @Override
+                      public void onFailure(@NonNull @NotNull Exception e) {
 
                         FirebaseAuth.getInstance().signOut();
                         emitter.onError(e);
-                }
-                                       });
-
-
-               }
-
-
+                      }
+                    });
+          }
         });
         }
 
