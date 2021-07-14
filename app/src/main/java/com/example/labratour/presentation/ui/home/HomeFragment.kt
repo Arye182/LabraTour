@@ -18,6 +18,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val userId = activity?.intent?.getStringExtra("user_id")
         val emailId = activity?.intent?.getStringExtra("email_id")
 
+        // this is how you update things in view! xml... by context
         home_user_text.text = "User ID :: $userId"
         home_password_text.text = "Email ID :: $emailId"
 

@@ -10,5 +10,6 @@
     <string name="registration_validated">Your Details Are Valid</string>
     <string name="registration_success">You Were Registered Successfully.</string>
     <string name="please_wait">Please Wait&#8230;</string>
+    <string name="enter_adress">Enter Adress...</string>
 
 </resources>

@@ -17,64 +17,62 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
 public class CloudUserDataSource {
-  //
-  // private final FirebaseConteiner conteiner = new ;
-  private final FirebaseAuth firebaseAuth;
-  // private final FirebaseDatabase database;
-  DatabaseReference usersDBref;
+    //
+    // private final FirebaseConteiner conteiner = new ;
+    private final FirebaseAuth firebaseAuth;
+    // private final FirebaseDatabase database;
+    DatabaseReference usersDBref;
 
-  // myRef.setValue("Hello, World!");
-  public CloudUserDataSource(FirebaseAuth firebaseAuth) {
-    this.firebaseAuth = firebaseAuth;
-    // this.database = FirebaseDatabase.getInstance();
-    this.usersDBref = FirebaseDatabase.getInstance().getReference("users");
-  }
-  //    public void writeNewUser(String userId, String password, String email) {
-  //        UserEntity user = new UserEntity(email, password);
-  //
-  //        usersDBref.child("users").child(userId).setValue(user);
-  //
-  //    }
-  public Observable<AuthResult> login(final UserEntity userEntity) {
-    return Observable.create(
-        new ObservableOnSubscribe<AuthResult>() {
+    // myRef.setValue("Hello, World!");
+    public CloudUserDataSource(FirebaseAuth firebaseAuth) {
+        this.firebaseAuth = firebaseAuth;
+        // this.database = FirebaseDatabase.getInstance();
+        this.usersDBref = FirebaseDatabase.getInstance().getReference("users");
+    }
 
-
-            @Override
-          public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
-            firebaseAuth
-                .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
-                .addOnSuccessListener(
-                    new OnSuccessListener<AuthResult>() {
+    //    public void writeNewUser(String userId, String password, String email) {
+    //        UserEntity user = new UserEntity(email, password);
+    //
+    //        usersDBref.child("users").child(userId).setValue(user);
+    //
+    //    }
+    public Observable<AuthResult> login(final UserEntity userEntity) {
+        return Observable.create(
+                new ObservableOnSubscribe<AuthResult>() {
 
 
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-                            if (!(emitter.isDisposed())) {
-                                emitter.onNext(authResult);
-                            }
-                        }
+                    @Override
+                    public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
+                        firebaseAuth
+                                .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())
+                                .addOnSuccessListener(
+                                        new OnSuccessListener<AuthResult>() {
 
 
+                                            @Override
+                                            public void onSuccess(AuthResult authResult) {
+                                                if (!(emitter.isDisposed())) {
+                                                    emitter.onNext(authResult);
+                                                }
+                                            }
 
 
+                                        }
+                                )
+                                .addOnFailureListener(
+                                        new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull @NotNull Exception e) {
+                                                if (!emitter.isDisposed()) {
+                                                    emitter.onError(e);
+                                                }
+                                            }
+                                        });
+                    }
+                });
+    }
 
-                      }
-                    )
-                .addOnFailureListener(
-                    new OnFailureListener() {
-                      @Override
-                      public void onFailure(@NonNull @NotNull Exception e) {
-                        if (!emitter.isDisposed()) {
-                          emitter.onError(e);
-                        }
-                      }
-                    });
-          }
-        });
-  }
-
-    public Observable<AuthResult> register(final String email , final String password) {
+    public Observable<AuthResult> register(final String email, final String password) {
         return Observable.create(
                 new ObservableOnSubscribe<AuthResult>() {
 
@@ -110,9 +108,6 @@ public class CloudUserDataSource {
     }
 
 
-
-
-
 }
 //        if (!(user==null)){
 //            user.updateProfile().
@@ -134,7 +129,6 @@ public class CloudUserDataSource {
 //    };
 //mPostReference.addValueEventListener(postListener);
 //}}
-
 
 
 //public class CloudUserDataSource {

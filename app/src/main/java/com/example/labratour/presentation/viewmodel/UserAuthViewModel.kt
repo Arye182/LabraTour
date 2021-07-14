@@ -104,7 +104,7 @@ class UserAuthViewModel(
             saveNewUserToFirebaseTaskStatus.postValue(false)
             error.postValue(exception.message)
         }
-        override fun onNext(v:Void) {
+        override fun onNext(v: Void) {
             Log.i("Firebase", "SaveNewUserToFirebaseUseCase - On Next...")
             isLoading.postValue(false)
             saveNewUserToFirebaseTaskStatus.postValue(true)
