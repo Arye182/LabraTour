@@ -5,10 +5,13 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
+import com.example.labratour.presentation.ui.login.SignUpFragmentOneDirections
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -20,11 +23,12 @@ import java.util.*
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
+    private lateinit var id : String
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         edit_text_place_to_search.setOnClickListener {
-            var fieldlist: List<Place.Field> = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME)
-
+            var fieldlist: List<Place.Field> = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ID)
             var intent: Intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fieldlist).build(activity as HomeActivity)
             startActivityForResult(intent, 100)
         }
@@ -44,6 +48,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 edit_text_place_to_search.setText(place.address)
                 location_name_tv.text = (place.name).toString()
                 coordinates_tv.text = (place.latLng).toString()
+                this.id = (place.id).toString()
+                Log.i("Places", "search fragment id: ${this.id}")
+                // move to result place page
+                // move on to next step!
+                val action = SearchFragmentDirections.actionSearchFragmentToPlaceResultFragment(this.id)
+                findNavController().navigate(action)
             }
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             var status: Status? = data?.let { Autocomplete.getStatusFromIntent(it) }

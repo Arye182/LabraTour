@@ -20,7 +20,15 @@
         android:id="@+id/searchFragment"
         android:name="com.example.labratour.presentation.ui.home.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_placeResultFragment"
+            app:destination="@id/placeResultFragment"
+            app:enterAnim="@anim/slide_in_top"
+            app:exitAnim="@anim/slide_out_bottom"
+            app:popEnterAnim="@anim/slide_in_bottom"
+            app:popExitAnim="@anim/slide_out_top"/>
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.labratour.presentation.ui.home.SettingsFragment"
@@ -43,5 +51,13 @@
         app:enterAnim="@anim/slide_in_top"
         app:exitAnim="@anim/slide_out_bottom"
         app:popEnterAnim="@anim/slide_in_bottom"
-        app:popExitAnim="@anim/slide_out_top" />mm
+        app:popExitAnim="@anim/slide_out_top" />
+    <fragment
+        android:id="@+id/placeResultFragment"
+        android:name="com.example.labratour.presentation.ui.home.PlaceResultFragment"
+        android:label="PlaceResultFragment" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
 </navigation>
