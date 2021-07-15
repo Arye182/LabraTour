@@ -1,6 +1,8 @@
 package com.example.labratour.presentation.ui.home
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -32,7 +34,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         Place.Field.PRICE_LEVEL,
         Place.Field.RATING,
         Place.Field.TYPES,
-        Place.Field.USER_RATINGS_TOTAL
+        Place.Field.USER_RATINGS_TOTAL,
     )
 
     // Construct a request object, passing the place ID and fields array.
@@ -51,6 +53,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         fetchPlaceData()
     }
 
+    // TODO - this code might be transfered to a usecase!
     private fun fetchPlaceData() {
         (activity as HomeActivity).placesClient.fetchPlace(request)
             .addOnSuccessListener { response: FetchPlaceResponse ->
@@ -61,6 +64,14 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                 place_phone_tv.text = (place.phoneNumber).toString()
                 place_name_tv.text = (place.name).toString()
                 place_address_tv.text = (place.address).toString()
+                // place_opening_hours_tv.text = (place.openingHours).toString()
+                if (place.isOpen == true) {
+                    place_is_open_tv.text = "Opened!"
+                    place_is_open_tv.setTextColor(Color.GREEN)
+                } else {
+                    place_is_open_tv.text = "Closed!"
+                    place_is_open_tv.setTextColor(Color.RED)
+                }
             }.addOnFailureListener { exception: Exception ->
                 if (exception is ApiException) {
                     Log.e(TAG, "Place not found: ${exception.message}")

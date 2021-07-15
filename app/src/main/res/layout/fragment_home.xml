@@ -24,7 +24,9 @@
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:text="Your Location:"
                 tools:layout_editor_absoluteX="8dp"
-                android:layout_margin="8dp">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp">
             </com.google.android.material.textview.MaterialTextView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,34 +81,36 @@
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:text="What To Wear?"
                 tools:layout_editor_absoluteX="8dp"
-                android:layout_margin="8dp">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
             </com.google.android.material.textview.MaterialTextView>
 
             <include
                 android:id="@+id/weather_card"
                 layout="@layout/weather_card"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="8dp" />
+                 />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:text="Random - Pois:"
-                tools:layout_editor_absoluteX="8dp"
-                android:layout_margin="8dp">
+                tools:layout_editor_absoluteX="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
             </com.google.android.material.textview.MaterialTextView>
 
             <include
                 android:id="@+id/weather_card"
                 layout="@layout/weather_card"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="8dp" />
+                tools:layout_editor_absoluteX="16dp" />
             <include
                 android:id="@+id/weather_card"
                 layout="@layout/weather_card"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="8dp" />
+                tools:layout_editor_absoluteX="16dp" />
 
 
 
@@ -115,8 +119,9 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:text="Customed - Pois:"
-                tools:layout_editor_absoluteX="8dp"
-                android:layout_margin="8dp">
+                tools:layout_editor_absoluteX="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
             </com.google.android.material.textview.MaterialTextView>
             <include
                 android:id="@+id/weather_card"
