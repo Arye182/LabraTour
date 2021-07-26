@@ -14,13 +14,13 @@
         android:orientation="vertical">
 
         <!-- Media -->
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="194dp"-->
-<!--            app:srcCompat="@drawable/ic_baseline_wb_sunny_24"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:contentDescription="This is Image Description"-->
-<!--            />-->
+        <!--        <ImageView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="194dp"-->
+        <!--            app:srcCompat="@drawable/ic_baseline_wb_sunny_24"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            android:contentDescription="This is Image Description"-->
+        <!--            />-->
 
         <LinearLayout
             android:layout_width="match_parent"

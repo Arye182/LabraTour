@@ -3,7 +3,6 @@ package com.example.labratour.presentation.ui.home
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -19,8 +18,6 @@ import com.example.labratour.presentation.di.AppContainer
 import com.example.labratour.presentation.di.FirebaseContainer
 import com.example.labratour.presentation.ui.base.BaseActivity
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BaseActivity() {
@@ -30,7 +27,6 @@ class HomeActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var appContainer: AppContainer
     private lateinit var firebaseContainer: FirebaseContainer
-    lateinit var placesClient: PlacesClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +48,6 @@ class HomeActivity : BaseActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         // bottom nav bar
         bottom_nav.setupWithNavController(navController)
-        // create a places sdk client for this activity
-        placesClient = Places.createClient(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

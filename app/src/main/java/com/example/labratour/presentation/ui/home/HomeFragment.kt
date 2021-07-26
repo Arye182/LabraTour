@@ -19,8 +19,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val emailId = activity?.intent?.getStringExtra("email_id")
 
         // this is how you update things in view! xml... by context
-        home_user_text.text = "User ID :: $userId"
-        home_password_text.text = "Email ID :: $emailId"
+//        home_user_text.text = "User ID :: $userId"
+//        home_password_text.text = "Email ID :: $emailId"
 
         // logout button on click
         button_logout.setOnClickListener {

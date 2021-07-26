@@ -1,5 +1,7 @@
 package com.example.labratour.presentation.di
 
-class AppContainer {
-    val firebaseContainer = FirebaseContainer()
+import com.example.labratour.presentation.LabratourApplication
+
+class AppContainer(labratourApplication: LabratourApplication) {
+    val firebaseContainer = FirebaseContainer(labratourApplication)
 }

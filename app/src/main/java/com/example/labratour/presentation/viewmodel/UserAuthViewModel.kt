@@ -40,10 +40,6 @@ class UserAuthViewModel(
         MutableLiveData<Boolean>()
     }
 
-//    val signUpFirestoreTaskStatus: MutableLiveData<Boolean> by lazy {
-//        MutableLiveData<Boolean>()
-//    }
-
     val registerNewUserTaskStatus: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
@@ -130,28 +126,6 @@ class UserAuthViewModel(
         this.isLoading.postValue(true)
         this.saveNewUserToFirebaseUseCase.execute(SaveNewUserToFirebaseUseCaseObserver(), userDomain)
     }
-
-//    fun signUpToFireStore(email: String, password: String, firstName: String, lastName: String, userName: String) {
-//        Log.i("Firebase", "Sign Up - User View Model - trying to sign up")
-//        this.isLoading.postValue(true)
-//        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-//            .addOnCompleteListener { task ->
-//                // if registration succeeded
-//                if (task.isSuccessful) {
-//                    isLoading.postValue(false)
-//                    signUpFirestoreTaskStatus.postValue(true)
-//                    val firebaseUser: FirebaseUser = task.result!!.user!!
-//                    userModel = UserModel(firebaseUser.uid, firstName, lastName, userName, email)
-//                    Log.i("Firebase", "Sign Up - User View Model - sign up successful, user: $firebaseUser")
-//                } else {
-//                    // registration failed
-//                    Log.i("Firebase", "Sign Up - User View Model - sign up failed: " + task.exception!!.message.toString())
-//                    isLoading.postValue(false)
-//                    signUpFirestoreTaskStatus.postValue(false)
-//                    error.postValue(task.exception!!.message.toString())
-//                }
-//            }
-//    }
 
     fun forgotPassword() {
     }

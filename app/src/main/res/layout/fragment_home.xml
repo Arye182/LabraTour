@@ -19,6 +19,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/location_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
@@ -33,37 +34,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/home_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="User Home Screen logged in successfully!"
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/home_user_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="UserName"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_title" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/home_password_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Password"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_user_text" />
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_logout"
                     android:layout_width="wrap_content"
@@ -72,71 +42,87 @@
                     android:text="Logout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/home_password_text" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- weather -->
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:text="What To Wear?"
-                tools:layout_editor_absoluteX="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_margin="16dp">
             </com.google.android.material.textview.MaterialTextView>
-
             <include
                 android:id="@+id/weather_card"
                 layout="@layout/weather_card"
-                app:layout_constraintBottom_toBottomOf="parent"
-                 />
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
+            <!-- random pois -->
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:text="Random - Pois:"
-                tools:layout_editor_absoluteX="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_margin="16dp">
             </com.google.android.material.textview.MaterialTextView>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <include
+                        android:id="@+id/card"
+                        layout="@layout/place_card_small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="8dp" />
+                    <include
+                        android:id="@+id/card"
+                        layout="@layout/place_card_small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="8dp" />
+                    <include
+                        android:id="@+id/card"
+                        layout="@layout/place_card_small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="8dp" />
+                </LinearLayout>
+            </HorizontalScrollView>
 
-            <include
-                android:id="@+id/weather_card"
-                layout="@layout/weather_card"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="16dp" />
-            <include
-                android:id="@+id/weather_card"
-                layout="@layout/weather_card"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="16dp" />
-
-
-
+            <!-- custom pois -->
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 android:text="Customed - Pois:"
-                tools:layout_editor_absoluteX="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_margin="16dp">
             </com.google.android.material.textview.MaterialTextView>
-            <include
-                android:id="@+id/weather_card"
-                layout="@layout/weather_card"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="8dp" />
-            <include
-                android:id="@+id/weather_card"
-                layout="@layout/weather_card"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="8dp" />
-
-
-
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <include
+                        android:id="@+id/card"
+                        layout="@layout/place_card_small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="8dp" />
+                    <include
+                        android:id="@+id/card"
+                        layout="@layout/place_card_small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="8dp" />
+                    <include
+                        android:id="@+id/card"
+                        layout="@layout/place_card_small"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="8dp" />
+                </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

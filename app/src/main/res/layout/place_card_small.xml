@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     android:id="@+id/weather_card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="200sp"
+    android:layout_height="260dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="35dp"
-    app:cardBackgroundColor="@color/card">
+    app:cardBackgroundColor="@color/card"
+    android:layout_marginRight="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,32 +15,32 @@
         android:orientation="vertical">
 
         <!-- Media -->
-<!--        <ImageView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="194dp"-->
-<!--            app:srcCompat="@drawable/ic_baseline_wb_sunny_24"-->
-<!--            android:scaleType="centerCrop"-->
-<!--            android:contentDescription="This is Image Description"-->
-<!--            />-->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:srcCompat="@drawable/ic_baseline_wb_sunny_24"
+            android:scaleType="centerCrop"
+            android:contentDescription="This is Image Description"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
             <!-- Title, secondary and supporting text -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weather Recommendations"
+                android:text="Place"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Something To Wear # 1"
+                android:text="type"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
                 />
@@ -47,33 +48,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Something To Wear # 2"
+                android:text="address"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
                 />
 
         </LinearLayout>
 
-        <!-- Buttons -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Share"
-                style="?attr/borderlessButtonStyle"
-                />i
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Expand"
-                style="?attr/borderlessButtonStyle"
-                />
-        </LinearLayout>
+
 
     </LinearLayout>
 
