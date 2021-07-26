@@ -53,16 +53,24 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     private fun onPlaceChanged(view: View) {
         // update place in fragment
         place_id_tv.text = (homewViewModel.place.value?.id).toString()
-        place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
+        Log.i("Places", "phone of place: " + (homewViewModel.place.value?.phoneNumber).toString())
+        if (homewViewModel.place.value?.phoneNumber == null) {
+            place_phone_tv.text = "phone not available"
+        } else {
+            place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
+        }
+        //place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
         place_name_tv.text = (homewViewModel.place.value?.name).toString()
         place_address_tv.text = (homewViewModel.place.value?.address).toString()
         // place_opening_hours_tv.text = (place.openingHours).toString()
         if (homewViewModel.place.value?.isOpen == true) {
             place_is_open_tv.text = "Opened!"
             place_is_open_tv.setTextColor(Color.GREEN)
-        } else {
+        } else if (homewViewModel.place.value?.isOpen == false) {
             place_is_open_tv.text = "Closed!"
             place_is_open_tv.setTextColor(Color.RED)
+        } else {
+            place_is_open_tv.text = "Not Available"
         }
     }
 

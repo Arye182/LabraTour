@@ -18,6 +18,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="card">#FFFFFFFF</color>
+    <color name="card_small">#A1FFFFFF</color>
     <color name="backgroundColor">#EDF0F2</color>
 
     <color name="error">#D30606</color>
