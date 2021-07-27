@@ -1,25 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/homeFragment"
+            android:title="Home"
+            android:icon="@drawable/ic_baseline_home_24"
+            android:checked="true"/>
 
-    <item
-        android:id="@+id/homeFragment"
-        android:title="Home"
-        android:icon="@drawable/ic_baseline_home_24"/>
+        <item
+            android:id="@+id/searchFragment"
+            android:title="Search"
+            android:icon="@drawable/ic_baseline_search_24"/>
 
-    <item
-        android:id="@+id/searchFragment"
-        android:title="Search"
-        android:icon="@drawable/ic_baseline_search_24"/>
+        <item
+            android:id="@+id/profileFragment"
+            android:title="Profile"
+            android:icon="@drawable/ic_baseline_person_24"/>
 
-    <item
-        android:id="@+id/profileFragment"
-        android:title="Profile"
-        android:icon="@drawable/ic_baseline_person_24"/>
+        <item
+            android:id="@+id/settingsFragment"
+            android:title="Settings"
+            android:icon="@drawable/ic_baseline_settings_24"/>
+    </group>
 
-    <item
-        android:id="@+id/settingsFragment"
-        android:title="Settings"
-        android:icon="@drawable/ic_baseline_settings_24"/>
+    <group
+        android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/currencyFragment"
+            android:title="Currency"
+            android:icon="@drawable/ic_baseline_home_24" />
 
+        <item
+            android:id="@+id/mapFragment"
+            android:title="Map"
+            android:icon="@drawable/ic_baseline_search_24"/>
+
+        <item
+            android:id="@+id/aboutFragment"
+            android:title="About"
+            android:icon="@drawable/ic_baseline_person_24"/>
+    </group>
 </menu>

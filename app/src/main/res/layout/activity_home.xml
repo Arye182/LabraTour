@@ -31,7 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                app:menu="@menu/home_activity_bottom_nav_menu" />
+                app:menu="@menu/home_activity_bottom_nav_menu"
+                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"/>
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -39,7 +40,8 @@
         android:layout_height="match_parent"
         android:id="@+id/drawer_home"
         android:layout_gravity="start"
-        app:menu="@menu/home_activity_drawer_menu">
+        app:menu="@menu/home_activity_drawer_menu"
+        app:headerLayout="@layout/header_navigation_drawer">
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>
