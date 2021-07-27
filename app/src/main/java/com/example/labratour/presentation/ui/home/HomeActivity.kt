@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.example.labratour.HomeActivityNavGraphDirections
 import com.example.labratour.R
 import com.example.labratour.presentation.LabratourApplication
@@ -41,13 +38,14 @@ class HomeActivity : BaseActivity() {
             supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.searchFragment, R.id.profileFragment, R.id.settingsFragment)
+            setOf(R.id.homeFragment, R.id.searchFragment, R.id.profileFragment, R.id.settingsFragment),home_draw_layout
         )
         // toolbar
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
         // bottom nav bar
         bottom_nav.setupWithNavController(navController)
+        drawer_home.setupWithNavController(navController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -66,6 +64,6 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

@@ -46,8 +46,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             var place: Place? = data?.let { Autocomplete.getPlaceFromIntent(it) }
             if (place != null) {
                 edit_text_place_to_search.setText(place.address)
-                location_name_tv.text = (place.name).toString()
-                coordinates_tv.text = (place.latLng).toString()
                 this.id = (place.id).toString()
                 Log.i("Places", "search fragment id: ${this.id}")
                 // move to result place page
