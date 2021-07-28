@@ -25,27 +25,36 @@ class HomeActivity : BaseActivity() {
     private lateinit var appContainer: AppContainer
     private lateinit var firebaseContainer: FirebaseContainer
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // arrange the activity instances like view model - using the dependency injection containers
         appContainer = (application as LabratourApplication).appContainer
         firebaseContainer = appContainer.firebaseContainer
         val userDataViewModelFactory = firebaseContainer.userDataViewModelFactory
         userHomeViewModel = ViewModelProvider(this, userDataViewModelFactory).get(UserHomeViewModel::class.java)
+
         setContentView(R.layout.activity_home)
+
+
         // navigation container
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.searchFragment, R.id.profileFragment, R.id.settingsFragment),home_draw_layout
+            setOf(R.id.homeFragment, R.id.searchFragment, R.id.profileFragment, R.id.settingsFragment), home_draw_layout
         )
         // toolbar
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
         // bottom nav bar
         bottom_nav.setupWithNavController(navController)
         drawer_home.setupWithNavController(navController)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -1,7 +1,7 @@
 package com.example.labratour.presentation.mappers
 
 import com.example.labratour.domain.Entity.UserDomain
-import com.example.labratour.presentation.models.UserModel
+import com.example.labratour.presentation.model.data.UserModel
 
 class userModelTouserDomain {
 

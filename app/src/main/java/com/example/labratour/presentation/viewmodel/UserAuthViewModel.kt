@@ -9,7 +9,7 @@ import com.example.labratour.domain.useCases.LogInUseCase
 import com.example.labratour.domain.useCases.RegisterNewUserUseCase
 import com.example.labratour.domain.useCases.SaveNewUserToFirebaseUseCase
 import com.example.labratour.presentation.mappers.userModelTouserDomain
-import com.example.labratour.presentation.models.UserModel
+import com.example.labratour.presentation.model.data.UserModel
 // import com.google.firebase.auth.FirebaseAuth
 // import com.google.firebase.auth.FirebaseUser
 

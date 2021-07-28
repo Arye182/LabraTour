@@ -11,7 +11,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.labratour.R
-import com.example.labratour.presentation.ui.login.SignUpFragmentOneDirections
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -23,7 +22,7 @@ import java.util.*
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    private lateinit var id : String
+    private lateinit var id: String
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

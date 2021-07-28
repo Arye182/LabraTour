@@ -1,4 +1,4 @@
-package com.example.labratour.presentation.models
+package com.example.labratour.presentation.model.data
 
 data class UserModel(
     val id: String = "",
