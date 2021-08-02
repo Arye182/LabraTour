@@ -7,8 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="35dp"
     app:cardBackgroundColor="@color/card"
-    android:padding="8dp"
-    android:layout_marginRight="8dp">
+    android:layout_marginLeft="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,6 +22,9 @@
             app:srcCompat="@drawable/ic_baseline_wb_sunny_24"
             android:scaleType="centerCrop"
             android:contentDescription="This is Image Description"/>
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,6 +51,10 @@
                 android:text="address"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"/>
+
+
+            <!-- buttons? -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,6 +74,8 @@
                     android:textSize="8sp">
                 </com.google.android.material.button.MaterialButton>
             </LinearLayout>
+
+
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
