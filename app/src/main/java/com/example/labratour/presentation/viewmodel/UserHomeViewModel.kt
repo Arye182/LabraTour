@@ -142,9 +142,7 @@ class UserHomeViewModel(private val placesClient: PlacesClient) : ViewModel() {
         viewModelScope.launch {
             // Coroutine that will be canceled when the ViewModel is cleared.
             placesListCoRoutine()
-
         }
-
     }
 
     suspend fun placesListCoRoutine() {

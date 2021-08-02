@@ -22,6 +22,7 @@
 
             <!-- location -->
             <include
+                android:layout_marginTop="8dp"
                 android:id="@+id/location_card"
                 layout="@layout/location_card"
                 android:layout_height="match_parent"
@@ -42,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/card">
-
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +64,6 @@
                         android:layout_height="wrap_content"
                         tools:listitem="@layout/place_card_small"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-
                     </androidx.recyclerview.widget.RecyclerView>
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/nearby_places_list_progress_bar"
@@ -77,7 +76,6 @@
                         app:trackColor="@color/reply_orange_500"
                         android:indeterminate="true">
                     </com.google.android.material.progressindicator.CircularProgressIndicator>
-
                 </RelativeLayout>
             </LinearLayout>
 
@@ -85,47 +83,45 @@
             <!-- custom pois -->
             <LinearLayout
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/card">
-
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/TextAppearance.MaterialComponents.Headline5"
-                    android:text="Places For You!"
+                    android:text="Places For You - in progress..."
                     android:layout_marginTop="16dp"
                     android:paddingLeft="16dp"
                     android:paddingBottom="16dp">
                 </com.google.android.material.textview.MaterialTextView>
-                <HorizontalScrollView
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp">
-                    <LinearLayout
+                    android:layout_height="wrap_content">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginBottom="16dp"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        android:id="@+id/customed_places_recycler_view"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-                        <include
-                            android:id="@+id/card"
-                            layout="@layout/place_card_small"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            tools:layout_editor_absoluteX="8dp" />
-
-                        <include
-                            android:id="@+id/card"
-                            layout="@layout/place_card_small"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            tools:layout_editor_absoluteX="8dp" />
-
-                        <include
-                            android:id="@+id/card"
-                            layout="@layout/place_card_small"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            tools:layout_editor_absoluteX="8dp" />
-                    </LinearLayout>
-                </HorizontalScrollView>
+                        android:layout_height="wrap_content"
+                        tools:listitem="@layout/place_card_small"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+                    </androidx.recyclerview.widget.RecyclerView>
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/customed_places_list_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="16dp"
+                        android:visibility="visible"
+                        app:trackColor="@color/reply_orange_500"
+                        android:indeterminate="true">
+                    </com.google.android.material.progressindicator.CircularProgressIndicator>
+                </RelativeLayout>
             </LinearLayout>
 
 
