@@ -65,6 +65,17 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
 
                     </androidx.recyclerview.widget.RecyclerView>
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/nearby_places_list_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="16dp"
+                        android:visibility="visible"
+                        app:trackColor="@color/reply_orange_500"
+                        android:indeterminate="true">
+                    </com.google.android.material.progressindicator.CircularProgressIndicator>
 
                 </RelativeLayout>
             </LinearLayout>

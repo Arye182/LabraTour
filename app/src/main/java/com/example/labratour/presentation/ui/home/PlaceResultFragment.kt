@@ -36,7 +36,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
         this.homewViewModel.photoLoading.observe(viewLifecycleOwner, { onPhotoLoadingChanged(view) })
         this.homewViewModel.place.observe(viewLifecycleOwner, { onPlaceChanged(view) })
-        this.homewViewModel.photoBitmapp.observe(viewLifecycleOwner, { onBitampChanged(view) })
+        this.homewViewModel.photoBitmap.observe(viewLifecycleOwner, { onBitampChanged(view) })
         this.homewViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
     }
 
@@ -46,7 +46,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onBitampChanged(view: View) {
-        place_img.setImageBitmap(this.homewViewModel.photoBitmapp.value)
+        place_img.setImageBitmap(this.homewViewModel.photoBitmap.value)
         place_progress_bar.visibility = View.GONE
     }
 
@@ -59,7 +59,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         } else {
             place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
         }
-        //place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
+        // place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
         place_name_tv.text = (homewViewModel.place.value?.name).toString()
         place_address_tv.text = (homewViewModel.place.value?.address).toString()
         // place_opening_hours_tv.text = (place.openingHours).toString()
