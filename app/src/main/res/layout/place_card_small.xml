@@ -63,34 +63,6 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:id="@+id/like_place_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/ic_baseline_favorite_40"
-                        tools:ignore="RtlHardcoded" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:layout_weight="1">
-                    <ImageView
-                        android:id="@+id/share_place_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_share_40"
-                        tools:ignore="RtlHardcoded" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
@@ -98,8 +70,56 @@
                     <ImageView
                         android:id="@+id/call_place_button"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:src="@drawable/ic_baseline_phone_40" />
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_twotone_star" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_twotone_star" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_twotone_star" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_twotone_star" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_twotone_star" />
                 </LinearLayout>
             </LinearLayout>
 
