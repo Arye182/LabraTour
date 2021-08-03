@@ -40,7 +40,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Headline5"
+                        style="@style/TextAppearance.Reply.Headline4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -79,12 +79,13 @@
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
+                            style="@style/TextAppearance.Reply.Headline6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Status: " />
 
                         <com.google.android.material.textview.MaterialTextView
+                            style="@style/TextAppearance.Reply.Body2"
                             android:id="@+id/place_is_open_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -98,13 +99,13 @@
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ID: " />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/place_id_tv"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="place's id" />
@@ -117,13 +118,13 @@
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Name: " />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/place_name_tv"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="place's name" />
@@ -135,13 +136,13 @@
                         android:layout_marginTop="16dp">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Address: " />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/place_address_tv"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="place's address"
@@ -155,12 +156,12 @@
                         android:layout_marginBottom="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Phone: " />
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/place_phone_tv"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="place's phone" />
@@ -172,12 +173,12 @@
                         android:layout_marginBottom="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Openig Hours: " />
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/place_opening_hours_tv"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="place's opening hours" />
@@ -218,6 +219,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Caption"
                             android:text="Like"/>
                     </LinearLayout>
 
@@ -237,6 +239,8 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Caption"
+
                             android:text="Share" />
                     </LinearLayout>
 
@@ -255,6 +259,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Caption"
                             android:text="Call"/>
                     </LinearLayout>
 
@@ -272,6 +277,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Caption"
                             android:text="Url"/>
                     </LinearLayout>
 

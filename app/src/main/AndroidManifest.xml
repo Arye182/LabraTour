@@ -13,7 +13,7 @@
         android:name=".presentation.LabratourApplication">
         <activity android:name=".presentation.ui.welcome.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.LabraTour.NoActionBar">
+            android:theme="@style/Theme.LabraTour.Light.NoActionBar.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -37,7 +37,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.textview.MaterialTextView
-                        style="@style/TextAppearance.MaterialComponents.Headline5"
+                        style="@style/TextAppearance.Reply.Headline4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -50,8 +50,7 @@
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="First Name: " />
 
@@ -59,6 +58,7 @@
                             android:id="@+id/profile_first_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:text="first name" />
                     </LinearLayout>
 
@@ -69,8 +69,7 @@
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Last Name: " />
 
@@ -78,6 +77,7 @@
                             android:id="@+id/profile_last_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:text="last name" />
                     </LinearLayout>
 
@@ -88,8 +88,7 @@
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Use Name: " />
 
@@ -97,6 +96,7 @@
                             android:id="@+id/profile_username_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:text="user name" />
                     </LinearLayout>
 
@@ -107,8 +107,7 @@
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Email: " />
 
@@ -116,6 +115,7 @@
                             android:id="@+id/profile_email_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:text="email" />
                     </LinearLayout>
 
@@ -126,14 +126,14 @@
                         android:layout_marginBottom="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.MaterialComponents.Headline6"
-                            android:layout_width="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Phone: " />
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/profile_phone_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Body2"
                             android:text="phone" />
                     </LinearLayout>
                 </LinearLayout>
