@@ -1,8 +1,11 @@
 package com.example.labratour.data.Entity.mapper;
 
+import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.domain.Entity.UserDomain;
 import com.google.firebase.auth.AuthResult;
+
+import java.util.List;
 
 public class UserDataMapper {
 
@@ -48,6 +51,14 @@ public class UserDataMapper {
     }
     return userDomain;
   }
+
+    public List<String> transform(List<NearbyPlaceResult> result) {
+      List<String> placesIds = null;
+      for (NearbyPlaceResult n :result) {
+        placesIds.add(new String(n.getId()));
+      }
+      return placesIds;
+    }
 
 //  public static UserView transform(User user) {
 //    UserView userView = null;

@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 
 
-class Connection implements Callable<String> {
+public class Connection implements Callable<String> {
 
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_VALUE_JSON = "application/json; charset=utf-8";
@@ -25,7 +25,7 @@ class Connection implements Callable<String> {
         this.url = new URL(url);
     }
 
-    static Connection createGET(String url) throws MalformedURLException {
+    public static Connection createGET(String url) throws MalformedURLException {
         return new Connection(url);
     }
 
@@ -36,7 +36,7 @@ class Connection implements Callable<String> {
      * @return A string response
      */
     @Nullable
-    String requestSyncCall() {
+    public String requestSyncCall() {
         connectToApi();
         return response;
     }

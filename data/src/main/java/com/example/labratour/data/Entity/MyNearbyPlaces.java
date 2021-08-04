@@ -1,45 +1,47 @@
 package com.example.labratour.data.Entity;
 
 
-public class MyNearbyPlaces {
-    private String next_page_token;
+import java.io.Serializable;
 
-   // private Results[] results;
+public class MyNearbyPlaces implements Serializable {
+    //private String next_page_token;
 
-    private String[] html_attributions;
+   private NearbyPlaceResult[] results;
+
+    //private String[] html_attributions;
 
     private String status;
 
-    public String getNext_page_token ()
-    {
-        return next_page_token;
-    }
-
-    public void setNext_page_token (String next_page_token)
-    {
-        this.next_page_token = next_page_token;
-    }
-
-//    public Results[] getResults ()
+//    public String getNext_page_token ()
 //    {
-//        return results;
+//        return next_page_token;
 //    }
 
-//    public void setResults (Results[] results)
+//    public void setNext_page_token (String next_page_token)
 //    {
-//        this.results = results;
+//        this.next_page_token = next_page_token;
 //    }
 
-    public String[] getHtml_attributions ()
+    public NearbyPlaceResult[] getResults ()
     {
-        return html_attributions;
+        return results;
     }
 
-    public void setHtml_attributions (String[] html_attributions)
+    public void setResults (NearbyPlaceResult[] results)
     {
-        this.html_attributions = html_attributions;
+        this.results = results;
     }
-
+//
+//    public String[] getHtml_attributions ()
+//    {
+//        return html_attributions;
+//    }
+//
+//    public void setHtml_attributions (String[] html_attributions)
+//    {
+//        this.html_attributions = html_attributions;
+//    }
+//
     public String getStatus ()
     {
         return status;
@@ -49,10 +51,10 @@ public class MyNearbyPlaces {
     {
         this.status = status;
     }
-
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [next_page_token = "+next_page_token+", results = "+"results"+", html_attributions = "+html_attributions+", status = "+status+"]";
-    }
+//
+//    @Override
+//    public String toString()
+//    {
+//        return "ClassPojo [next_page_token = "+next_page_token+", results = "+"results"+", html_attributions = "+html_attributions+", status = "+status+"]";
+//    }
 }

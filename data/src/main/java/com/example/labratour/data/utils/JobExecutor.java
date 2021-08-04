@@ -1,5 +1,7 @@
 package com.example.labratour.data.utils;
 
+import android.util.Log;
+
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.google.firebase.database.annotations.NotNull;
 
@@ -19,6 +21,8 @@ public class JobExecutor implements ExecutionThread {
     }
 
     @Override public void execute(@NotNull Runnable runnable) {
+        Log.i("thrad",
+                "new thread num " );
         this.threadPoolExecutor.execute(runnable);
     }
 
@@ -26,6 +30,8 @@ public class JobExecutor implements ExecutionThread {
         private int counter = 0;
 
         @Override public Thread newThread(@NotNull Runnable runnable) {
+            Log.i("thrad",
+                    "new thread num " + counter);
             return new Thread(runnable, "android_" + counter++);
         }
     }
