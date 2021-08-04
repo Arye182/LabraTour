@@ -11,5 +11,8 @@
     <string name="registration_success">You Were Registered Successfully.</string>
     <string name="please_wait">Please Wait&#8230;</string>
     <string name="enter_adress">Enter Adress...</string>
+    <string name="latLong">Longitude: %.3f, Latitude: %.3f</string>
+    <string name="enable_gps">Please enable your gps</string>
+    <string name="permission_request">App requires location permission</string>
 
 </resources>
