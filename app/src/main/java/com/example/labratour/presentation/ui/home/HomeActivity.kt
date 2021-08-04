@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,8 @@ import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.di.AppContainer
 import com.example.labratour.presentation.di.FirebaseContainer
 import com.example.labratour.presentation.ui.base.BaseActivity
+import com.example.labratour.presentation.utils.GpsUtils
+import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -24,8 +27,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var appContainer: AppContainer
     private lateinit var firebaseContainer: FirebaseContainer
-
-
+    lateinit var locationViewModel: LocationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,11 +35,14 @@ class HomeActivity : BaseActivity() {
         // arrange the activity instances like view model - using the dependency injection containers
         appContainer = (application as LabratourApplication).appContainer
         firebaseContainer = appContainer.firebaseContainer
+
+        // view models
         val userDataViewModelFactory = firebaseContainer.userDataViewModelFactory
         userHomeViewModel = ViewModelProvider(this, userDataViewModelFactory).get(UserHomeViewModel::class.java)
+        locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
 
+        // set view
         setContentView(R.layout.activity_home)
-
 
         // navigation container
         val navHostFragment =
@@ -50,10 +55,10 @@ class HomeActivity : BaseActivity() {
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-
         // bottom nav bar
         bottom_nav.setupWithNavController(navController)
         drawer_home.setupWithNavController(navController)
+
 
     }
 

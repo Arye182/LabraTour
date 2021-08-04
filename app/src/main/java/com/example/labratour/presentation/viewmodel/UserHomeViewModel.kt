@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.UserModel
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
 import com.google.firebase.auth.FirebaseAuth
@@ -19,7 +20,6 @@ import kotlin.coroutines.suspendCoroutine
 class UserHomeViewModel(private val placesClient: PlacesClient) : ViewModel() {
 
     lateinit var user: UserModel
-
     // Construct a request object, passing the place ID and fields array.
     private lateinit var request: FetchPlaceRequest
     private var list = ArrayList<PlaceModel>()
@@ -204,5 +204,8 @@ class UserHomeViewModel(private val placesClient: PlacesClient) : ViewModel() {
         }
         Log.i("Places", "size of list:" + list.size)
         this.nearByPlacesList.setValue(list)
+    }
+
+    fun getLocation(){
     }
 }

@@ -4,4 +4,5 @@ import com.example.labratour.presentation.LabratourApplication
 
 class AppContainer(labratourApplication: LabratourApplication) {
     val firebaseContainer = FirebaseContainer(labratourApplication)
+    val locationContainer = LocationContainer(labratourApplication)
 }
