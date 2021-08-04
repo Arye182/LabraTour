@@ -32,9 +32,9 @@
                 android:layout_alignParentBottom="true"
                 app:menu="@menu/home_activity_bottom_nav_menu"
                 app:labelVisibilityMode="selected"
-                app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
                 android:layout_gravity="bottom"
-                app:layout_insetEdge="bottom" />
+                app:layout_insetEdge="bottom"
+                style="@style/Widget.Reply.NavigationBarBottom"/>
         </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -42,6 +42,7 @@
         android:layout_height="match_parent"
         android:id="@+id/drawer_home"
         android:layout_gravity="start"
+        style="@style/Widget.Reply.NavigationView"
         app:menu="@menu/home_activity_drawer_menu"
         app:headerLayout="@layout/header_navigation_drawer">
     </com.google.android.material.navigation.NavigationView>

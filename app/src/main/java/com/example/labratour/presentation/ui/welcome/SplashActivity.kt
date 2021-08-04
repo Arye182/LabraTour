@@ -1,12 +1,12 @@
 package com.example.labratour.presentation.ui.welcome
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
-import com.example.labratour.presentation.ui.login.LoginActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.example.labratour.R
+import com.example.labratour.presentation.ui.login.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +24,5 @@ class SplashActivity : AppCompatActivity() {
             },
             1500
         )
-
     }
 }

@@ -3,4 +3,34 @@
     <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
         <item name="cornerSize">10%</item>
     </style>
+
+
+    <!--Components-->
+
+    <style name="Widget.Reply.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <!--Remove any scrim insets applied by NavigationView for system bars-->
+        <item name="insetForeground">@android:color/transparent</item>
+        <!--Set the background color of NavigationView-->
+        <item name="android:background">@color/reply_blue_700</item>
+        <item name="elevation">0dp</item>
+        <item name="itemTextAppearance">?attr/textAppearanceBody2</item>
+        <item name="itemTextColor">@color/color_navigation_drawer_menu_item</item>
+        <item name="itemIconTint">@color/color_navigation_drawer_menu_item</item>
+    </style>
+
+    <style name="Widget.Reply.NavigationBarBottom" parent="Widget.Design.BottomNavigationView">
+        <item name="android:background">@color/reply_blue_700</item>
+        <item name="itemIconTint">@color/color_navigation_drawer_menu_item</item>
+        <item name="itemIconSize">26dp</item>
+        <item name="itemTextColor">@color/color_navigation_drawer_menu_item</item>
+    </style>
+
+    <style name="Widget.Reply.Chip.Entry" parent="Widget.MaterialComponents.Chip.Entry">
+        <item name="closeIconSize">0dp</item>
+        <item name="closeIconEnabled">false</item>
+<!--        <item name="chipIcon">@drawable/avatar_none</item>-->
+        <item name="chipIconSize">@dimen/chip_icon_diameter</item>
+        <item name="chipStartPadding">0dp</item>
+        <item name="android:checkable">false</item>
+    </style>
 </resources>

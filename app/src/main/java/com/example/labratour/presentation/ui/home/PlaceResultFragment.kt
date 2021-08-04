@@ -29,14 +29,14 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homewViewModel.getPlaceById(placeId)
-        url_place_button.setOnClickListener { onClickUrl() }
+        url_place_button.setOnClickListener { onClickUrl(view) }
         call_place_button.setOnClickListener { onClickCall() }
         like_place_button.setOnClickListener { onClickLike() }
         share_place_button.setOnClickListener { onClickShare() }
 
         this.homewViewModel.photoLoading.observe(viewLifecycleOwner, { onPhotoLoadingChanged(view) })
         this.homewViewModel.place.observe(viewLifecycleOwner, { onPlaceChanged(view) })
-        this.homewViewModel.photoBitmapp.observe(viewLifecycleOwner, { onBitampChanged(view) })
+        this.homewViewModel.photoBitmap.observe(viewLifecycleOwner, { onBitampChanged(view) })
         this.homewViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
     }
 
@@ -46,7 +46,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onBitampChanged(view: View) {
-        place_img.setImageBitmap(this.homewViewModel.photoBitmapp.value)
+        place_img.setImageBitmap(this.homewViewModel.photoBitmap.value)
         place_progress_bar.visibility = View.GONE
     }
 
@@ -59,7 +59,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         } else {
             place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
         }
-        //place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
+        // place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
         place_name_tv.text = (homewViewModel.place.value?.name).toString()
         place_address_tv.text = (homewViewModel.place.value?.address).toString()
         // place_opening_hours_tv.text = (place.openingHours).toString()
@@ -86,17 +86,26 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onClickLike() {
-        TODO("Not yet implemented")
+        // open dialog that allows user to rank the place from 1-5
     }
 
+    // user click call and forward to phone on android
     private fun onClickCall() {
-        val intent =
-            Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homewViewModel.getPhoneNumber(), null))
+        val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homewViewModel.getPhoneNumber(), null))
         startActivity(intent)
     }
 
-    private fun onClickUrl() {
-        TODO("Not yet implemented")
+    // what happens when user click on url button
+    private fun onClickUrl(view: View) {
+        val url: String = homewViewModel.place.value?.websiteUri.toString()
+        if (url != null) {
+            // TODO fix uri bug http://
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+            startActivity(browserIntent)
+        } else {
+            Snackbar.make(view, "Url Not Available, Sorry!", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.error)).show()
+        }
     }
 
     // -- fragment functions --
