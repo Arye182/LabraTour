@@ -37,9 +37,9 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/labra_asset_beer" />
+                        android:src="@drawable/labra_asset_3" />
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/TextAppearance.Reply.Headline4"
