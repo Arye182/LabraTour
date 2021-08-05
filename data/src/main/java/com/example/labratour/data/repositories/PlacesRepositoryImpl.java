@@ -1,7 +1,7 @@
 package com.example.labratour.data.repositories;
 
 import com.example.labratour.data.Entity.NearbyPlaceResult;
-import com.example.labratour.data.Entity.mapper.UserDataMapper;
+import com.example.labratour.data.Entity.mapper.NearbyPlacesDataMapper;
 import com.example.labratour.data.net.RestApi;
 import com.example.labratour.domain.repositories.PlacesRepository;
 
@@ -32,7 +32,7 @@ public class PlacesRepositoryImpl implements PlacesRepository {
 
                             @Override
                             public List<String> apply(List<NearbyPlaceResult> result) throws Exception {
-                                return new UserDataMapper().transform(result);
+                                return new NearbyPlacesDataMapper().transform(result);
                             }
                         });
 
