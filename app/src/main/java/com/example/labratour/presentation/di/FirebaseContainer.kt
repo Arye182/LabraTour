@@ -20,7 +20,7 @@ class FirebaseContainer(labratourApplication: LabratourApplication) {
     val firebaseAuth = FirebaseAuth.getInstance()
     val firebaseDatabase = FirebaseDatabase.getInstance()
     // val firebaseFirestore = FirebaseFirestore.getInstance()
-    val placesClient = Places.createClient(labratourApplication)
+
     // create user repo
     val userRepo = UserRepositoryImpl(firebaseAuth, firebaseDatabase)
     // create user usecases
@@ -29,5 +29,5 @@ class FirebaseContainer(labratourApplication: LabratourApplication) {
     val saveNewUserToFirebaseUseCase = SaveNewUserToFirebaseUseCase(userRepo, JobExecutor(), UIThread())
     // ViewModel Factories
     val userAuthViewModelFactory = UserAuthViewModelFactory(loginUseCase, registerNewUserUseCase, saveNewUserToFirebaseUseCase)
-    val userDataViewModelFactory = UserHomeViewModelFactory(placesClient)
+
 }

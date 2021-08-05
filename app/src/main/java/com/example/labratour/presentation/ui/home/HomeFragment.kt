@@ -29,6 +29,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var locationViewModel: LocationViewModel
     private var isGPSEnabled = false
     private var dataLoaded = false
+    private lateinit var pullToRefresh: SwipeRefreshLayout
 
     override fun onStart() {
         super.onStart()
@@ -39,7 +40,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onCreate(savedInstanceState)
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
-        this.homeViewModel.generatePlacesListForTest()
+        this.homeViewModel.getAllPlacesLists()
+        // this.homeViewModel.generatePlacesListForTest()
         checkGps()
     }
 
@@ -54,16 +56,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // view models
-        this.homeViewModel.nearByPlacesList.observe(viewLifecycleOwner, { onNearByPlacesListChanged(view) })
+        // view models observation
+        // this.homeViewModel.nearByPlacesListTest.observe(viewLifecycleOwner, { onNearByPlacesListChanged(view) })
         this.locationViewModel.getLocationData().observe(viewLifecycleOwner, { startLocationUpdate(view) })
-
+        this.homeViewModel.nearByPlacesList.observe(viewLifecycleOwner, { onNearByPlacesListChanged(view) })
         // pull to refresh
-        val pullToRefresh: SwipeRefreshLayout = home_refresh_layout
+        pullToRefresh = home_refresh_layout
+        setPullToRefreshListener()
+    }
+
+    private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
-            this.homeViewModel.nearByPlacesList.value?.clear()
+            this.homeViewModel.nearByPlacesListTest.value?.clear()
             this.homeViewModel.generatePlacesListForTest()
             checkGps()
             invokeLocationAction()

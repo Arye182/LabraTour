@@ -14,6 +14,7 @@ import com.example.labratour.R
 import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.di.AppContainer
 import com.example.labratour.presentation.di.FirebaseContainer
+import com.example.labratour.presentation.di.GooglePlacesContainer
 import com.example.labratour.presentation.ui.base.BaseActivity
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
@@ -25,7 +26,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var appContainer: AppContainer
-    private lateinit var firebaseContainer: FirebaseContainer
+    private lateinit var googlePlacesContainer: GooglePlacesContainer
     lateinit var locationViewModel: LocationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +34,10 @@ class HomeActivity : BaseActivity() {
 
         // arrange the activity instances like view model - using the dependency injection containers
         appContainer = (application as LabratourApplication).appContainer
-        firebaseContainer = appContainer.firebaseContainer
+        googlePlacesContainer = appContainer.googlePlacesContainer
 
         // view models
-        val userDataViewModelFactory = firebaseContainer.userDataViewModelFactory
+        val userDataViewModelFactory = googlePlacesContainer.userHomeViewModelFactory
         userHomeViewModel = ViewModelProvider(this, userDataViewModelFactory).get(UserHomeViewModel::class.java)
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
 
