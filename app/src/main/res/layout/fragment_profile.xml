@@ -36,10 +36,10 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_marginTop="8dp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/labra_asset_beer"/>
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/labra_asset_beer" />
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/TextAppearance.Reply.Headline4"
