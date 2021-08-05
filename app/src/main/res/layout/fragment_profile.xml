@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/backgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -39,8 +38,8 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_marginTop="8dp"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:src="@drawable/icon"/>
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/labra_asset_beer"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         style="@style/TextAppearance.Reply.Headline4"

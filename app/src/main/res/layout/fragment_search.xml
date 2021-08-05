@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/backgroundColor"
     android:orientation="vertical"
     tools:context=".presentation.ui.home.SearchFragment">
 
@@ -25,14 +24,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:background="@android:drawable/editbox_background"
                 android:drawableStart="@drawable/ic_baseline_location_on_24"
-                android:drawablePadding="16dp"
                 android:focusable="false"
+                android:padding="20dp"
                 android:hint="@string/enter_adress"
-                android:padding="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,81 +38,314 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <!-- 2-buttons row-->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp">
-                    <ImageButton
-                        android:id="@+id/first_category"
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentLeft="true"/>
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentRight="true"/>
-                </RelativeLayout>
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp">
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentLeft="true"/>
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentRight="true"/>
-                </RelativeLayout>
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp">
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentLeft="true"/>
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentRight="true"/>
-                </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp">
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentLeft="true"/>
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentRight="true"/>
-                </RelativeLayout>
 
-                <RelativeLayout
+
+
+
+
+                <!-- 2-buttons row-->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp">
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentLeft="true"/>
-                    <ImageButton
-                        android:layout_width="195dp"
-                        android:layout_height="200dp"
-                        android:layout_alignParentRight="true"/>
-                </RelativeLayout>
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <!-- 2-buttons row-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
+
+                <!-- 2-buttons row-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
+                <!-- 2-buttons row-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Malls"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
+
+
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
