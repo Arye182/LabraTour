@@ -16,9 +16,11 @@ public class RestApi {
 
  private static final String API_KEY ="AIzaSyBXOteaabBVfmHXUYYyOgRv-DcE05g6-1E" ;
  private Context context;
- private NearbyPlaceJsonMapper nearbyPlaceJsonMapper;
- public RestApi() {
-
+ private NearbyPlaceJsonMapper nearbyPlaceJsonMapper ;
+ public RestApi(Context context) {
+  if (context == null ) {
+   throw new IllegalArgumentException("The constructor parameters cannot be null");
+  }
   this.context = context.getApplicationContext();
   this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
  }
