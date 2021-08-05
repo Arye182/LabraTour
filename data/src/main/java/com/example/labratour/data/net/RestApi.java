@@ -18,9 +18,7 @@ public class RestApi {
  private Context context;
  private NearbyPlaceJsonMapper nearbyPlaceJsonMapper;
  public RestApi() {
-  if (context == null || nearbyPlaceJsonMapper == null) {
-   throw new IllegalArgumentException("The constructor parameters cannot be null");
-  }
+
   this.context = context.getApplicationContext();
   this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
  }
