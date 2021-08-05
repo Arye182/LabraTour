@@ -7,19 +7,22 @@ import com.example.labratour.domain.repositories.PlacesRepository;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.observers.DisposableObserver;
 
 public class GetNearbyPlacesUseCase extends UseCase<List<String>, GetNearbyPlacesUseCase.RequestInput> {
 
 
     private final PlacesRepository placesRepository;
 
-    protected GetNearbyPlacesUseCase(PlacesRepository placesRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
+    public GetNearbyPlacesUseCase(PlacesRepository placesRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
         super(executionThread, postExecutionThread);
         this.placesRepository = placesRepository;
     }
 
 
 
+    public void execute(DisposableObserver observer, String lat, String lon) {
+        execute(observer, new RequestInput(lat, lon));}
     @Override
     public Observable<List<String>> buildUseCaseObservable(RequestInput requestInput) {
         return placesRepository.nearbyPlaces(requestInput.lat, requestInput.lon);

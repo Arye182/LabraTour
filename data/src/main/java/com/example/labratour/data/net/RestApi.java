@@ -17,12 +17,12 @@ public class RestApi {
  private static final String API_KEY ="AIzaSyBXOteaabBVfmHXUYYyOgRv-DcE05g6-1E" ;
  private Context context;
  private NearbyPlaceJsonMapper nearbyPlaceJsonMapper;
- public RestApi(Context context, NearbyPlaceJsonMapper nearbyPlaceJsonMapper) {
+ public RestApi() {
   if (context == null || nearbyPlaceJsonMapper == null) {
    throw new IllegalArgumentException("The constructor parameters cannot be null");
   }
   this.context = context.getApplicationContext();
-  this.nearbyPlaceJsonMapper = nearbyPlaceJsonMapper;
+  this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
  }
  public Observable<List<NearbyPlaceResult>> nearbyPlaces(String lat, String lon) {
   return Observable.create(emitter -> {
