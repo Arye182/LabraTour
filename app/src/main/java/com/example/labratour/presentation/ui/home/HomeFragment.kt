@@ -28,6 +28,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var homeViewModel: UserHomeViewModel
     private lateinit var locationViewModel: LocationViewModel
     private var isGPSEnabled = false
+    private var dataLoaded = false
 
     override fun onStart() {
         super.onStart()
@@ -39,7 +40,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         this.homeViewModel.generatePlacesListForTest()
+        checkGps()
+    }
 
+    fun checkGps() {
         // gps
         GpsUtils(activity as HomeActivity).turnGPSOn(object : GpsUtils.OnGpsListener {
             override fun gpsStatus(isGPSEnable: Boolean) {
@@ -59,6 +63,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val pullToRefresh: SwipeRefreshLayout = home_refresh_layout
         pullToRefresh.setOnRefreshListener {
             // update lists!
+            this.homeViewModel.nearByPlacesList.value?.clear()
+            this.homeViewModel.generatePlacesListForTest()
+            checkGps()
+            invokeLocationAction()
+            places_close_to_you_recycler_view.visibility = View.GONE
+            nearby_places_list_progress_bar.visibility = View.VISIBLE
+            dataLoaded = false
             pullToRefresh.isRefreshing = false
         }
     }
@@ -76,6 +87,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         places_close_to_you_recycler_view.layoutManager = LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
         places_close_to_you_recycler_view.setHasFixedSize(true)
         nearby_places_list_progress_bar.visibility = View.GONE
+        places_close_to_you_recycler_view.visibility = View.VISIBLE
+        this.dataLoaded = true
     }
 
     // -- fragment functions --
@@ -87,7 +100,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         Log.i("Places", "HomeFragment onResume")
-        nearby_places_list_progress_bar.visibility = View.VISIBLE
+        if (dataLoaded) {
+            return
+        } else {
+            nearby_places_list_progress_bar.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {
@@ -101,8 +118,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         this.homeViewModel.nearByPlacesList.value?.clear()
         Log.i("Places", "HomeFragment onDestroy")
     }
-
-    // gps
 
     // gps
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

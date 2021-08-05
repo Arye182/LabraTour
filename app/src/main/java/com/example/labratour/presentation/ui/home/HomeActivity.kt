@@ -15,7 +15,6 @@ import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.di.AppContainer
 import com.example.labratour.presentation.di.FirebaseContainer
 import com.example.labratour.presentation.ui.base.BaseActivity
-import com.example.labratour.presentation.utils.GpsUtils
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import kotlinx.android.synthetic.main.activity_home.*
@@ -58,8 +57,6 @@ class HomeActivity : BaseActivity() {
         // bottom nav bar
         bottom_nav.setupWithNavController(navController)
         drawer_home.setupWithNavController(navController)
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

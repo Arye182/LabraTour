@@ -33,8 +33,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Weather Recommendations"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                />
+                android:textAppearance="?attr/textAppearanceHeadline5" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/labra_asset_52"
+                android:layout_gravity="center_horizontal"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,25 +62,25 @@
         </LinearLayout>
 
         <!-- Buttons -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Share"
-                style="?attr/borderlessButtonStyle"
-                />i
-            <com.google.android.material.button.MaterialButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Expand"
-                style="?attr/borderlessButtonStyle"
-                />
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="8dp"-->
+<!--            android:orientation="horizontal">-->
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginEnd="8dp"-->
+<!--                android:text="Share"-->
+<!--                style="?attr/borderlessButtonStyle"-->
+<!--                />i-->
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Expand"-->
+<!--                style="?attr/borderlessButtonStyle"-->
+<!--                />-->
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 
