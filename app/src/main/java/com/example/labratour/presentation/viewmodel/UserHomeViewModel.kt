@@ -8,13 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
-import com.example.labratour.domain.useCases.LogInUseCase
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.UserModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -90,6 +91,8 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
         override fun onNext(value: ArrayList<String>) {
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next...")
             nearbyPlacesStringList = value
+            Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... Value Size = ${value.size}")
+
             // fetchingStringListNearByComplete.postValue(true)
             generateNearByPlacesList()
             // logInTaskStatus.postValue(true)
@@ -172,7 +175,7 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
 
     // this is a testing part on preowned place id
     fun generatePlacesListForTest() {
-        viewModelScope.launch {
+        viewModelScope.launch() {
             // Coroutine that will be canceled when the ViewModel is cleared.
             placesListCoRoutine()
         }
@@ -240,10 +243,9 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
 
     // this is getting the places list with the string list that came from domain
     fun generateNearByPlacesList() {
-        viewModelScope.launch {
+        viewModelScope.launch() {
             // execute the use case
-            getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), "32", "34")
-            // Coroutine that will be canceled when the ViewModel is cleared.
+
             nearByPlacesListCoRoutine()
         }
     }
@@ -253,18 +255,18 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
             var bitmap: Bitmap
             var googlePlace: Place
             request = place_id.let { FetchPlaceRequest.newInstance(it, placeFields) }
-            Log.i("Places", "trying to fetch place by id.... with id:{$place_id}")
+            Log.i("Places", "nearByPlaces : trying to fetch place by id.... with id:{$place_id}")
             suspendCoroutine<Unit> { continuation ->
                 placesClient.fetchPlace(request)
                     .addOnSuccessListener { response: FetchPlaceResponse ->
-                        Log.i("Places", "fetch place data success!")
+                        Log.i("Places", "nearByPlaces : fetch place data success!")
                         val place = response.place
                         googlePlace = place
-                        Log.i("Places", "trying to fetch photo!")
+                        Log.i("Places", "nearByPlaces : trying to fetch photo!")
                         // Get the photo metadata.
                         val metada = googlePlace.photoMetadatas
                         if (metada == null || metada.isEmpty()) {
-                            Log.i("Places", "No photo metadata.")
+                            Log.i("Places", "nearByPlaces : No photo metadata.")
                         }
                         val photoMetadata = metada?.first()
                         // Create a FetchPhotoRequest.
@@ -278,7 +280,7 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
                             placesClient.fetchPhoto(photoRequest)
                                 .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
                                     var bitmapw = fetchPhotoResponse.bitmap
-                                    Log.i("Places", "fetching photo success!")
+                                    Log.i("Places", "nearByPlaces : fetching photo success!")
                                     // TODO test!
                                     bitmap = bitmapw
                                     this.nearbyPlacesList.add(PlaceModel(googlePlace, true, 5, bitmap))
@@ -290,26 +292,28 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
                                             ContentValues.TAG,
                                             "Place not found: ${exception.message}"
                                         )
-                                        Log.i("Places", "fetching photo failed")
+                                        Log.i("Places", "nearByPlaces : fetching photo failed")
                                         error.postValue(exception.message)
                                     }
                                 }
                         }
                     }.addOnFailureListener { exception: Exception ->
                         if (exception is ApiException) {
-                            Log.e(ContentValues.TAG, "Place not found: ${exception.message}")
+                            Log.e(ContentValues.TAG, "nearByPlaces : Place not found: ${exception.message}")
                             // val statusCode = exception.statusCode
                             error.postValue(exception.message)
                         }
                     }
             }
         }
-        Log.i("Places", "size of list:" + testPlacesList.size)
+        Log.i("Places", "nearByPlaces : size of list:" + testPlacesList.size)
         this.nearByPlacesList.setValue(nearbyPlacesList)
     }
 
+    // get all places list started
     fun getAllPlacesLists() {
-        generateNearByPlacesList()
-        // generatePlacesListForTest()
+        Log.i("Places", "Starting To Update Places Lists (vm)")
+        getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), "32", "34")
+        generatePlacesListForTest()
     }
 }
