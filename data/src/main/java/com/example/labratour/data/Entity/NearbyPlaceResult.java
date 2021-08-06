@@ -15,7 +15,7 @@ public class NearbyPlaceResult implements Serializable {
         @SerializedName("icon")
         private String icon;
 
-        @SerializedName("id")
+        @SerializedName("place_id")
         private String id;
 
         @SerializedName("name")
