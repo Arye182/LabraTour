@@ -21,7 +21,7 @@ public class NearbyPlaceJsonMapper {
     }
     public  List<NearbyPlaceResult> transformCollection(String response)
          throws JsonSyntaxException {
-            final Type nearbyPlaceType = new TypeToken<List<NearbyPlaceJsonMapper>>() {}.getType();
+            final Type nearbyPlaceType = new TypeToken<List<NearbyPlaceResult>>() {}.getType();
             return this.gson.fromJson(response, nearbyPlaceType);
     }
 }
