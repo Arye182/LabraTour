@@ -14,7 +14,7 @@ import io.reactivex.Observable;
 
 public class RestApi {
 
- private static final String API_KEY ="AIzaSyBXOteaabBVfmHXUYYyOgRv-DcE05g6-1E" ;
+ private static final String API_KEY ="AIzaSyDjOvu7E3j3ddZAUG0PBFE6tmfHEaR3kZc" ;
  private Context context;
  private NearbyPlaceJsonMapper nearbyPlaceJsonMapper ;
  public RestApi(Context context) {
@@ -28,6 +28,7 @@ public class RestApi {
   return Observable.create(emitter -> {
    if (isThereInternetConnection()) {
     try {
+
      String response = getNearbyPlacesIds(lat, lon);
      if (response != null) {
       emitter.onNext(this.nearbyPlaceJsonMapper.transformCollection(
@@ -45,7 +46,8 @@ public class RestApi {
   });
  }
  private String getNearbyPlacesIds(String lat, String lon) throws MalformedURLException {
-  return Connection.createGET("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&key="+API_KEY).requestSyncCall();
+  Connection connection = Connection.createGET("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&key="+API_KEY);
+  return connection.requestSyncCall();
  }
  private boolean isThereInternetConnection() {
   boolean isConnected;
