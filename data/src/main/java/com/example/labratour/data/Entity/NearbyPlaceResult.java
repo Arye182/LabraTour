@@ -8,9 +8,9 @@ import java.util.List;
 
 public class NearbyPlaceResult implements Serializable {
 
-//
-//        @SerializedName("geometry")
-//        private Geometry geometry;
+
+        @SerializedName("geometry")
+        private Geometry geometry;
 
         @SerializedName("icon")
         private String icon;
@@ -21,11 +21,11 @@ public class NearbyPlaceResult implements Serializable {
         @SerializedName("name")
         private String name;
 
-//        @SerializedName("opening_hours")
-//        private OpeningHours openingHours;
+        @SerializedName("opening_hours")
+        private OpeningHours openingHours;
 
-//        @SerializedName("photos")
-//        private List<Photo> photos = new ArrayList<Photo>();
+        @SerializedName("photos")
+        private List<Object> photos = null;
 
         @SerializedName("place_id")
         private String placeId;
@@ -51,16 +51,16 @@ public class NearbyPlaceResult implements Serializable {
         /**
          * @return The geometry
          */
-//        public Geometry getGeometry() {
-//            return geometry;
-//        }
+        public Geometry getGeometry() {
+            return geometry;
+        }
 //
 //        /**
 //         * @param geometry The geometry
 //         */
-//        public void setGeometry(Geometry geometry) {
-//            this.geometry = geometry;
-//        }
+        public void setGeometry(Geometry geometry) {
+            this.geometry = geometry;
+        }
 
         /**
          * @return The icon
@@ -106,21 +106,21 @@ public class NearbyPlaceResult implements Serializable {
 
         /**
          * @return The openingHours
-//         */
-//        public OpeningHours getOpeningHours() {
-//            return openingHours;
-//        }
-//
-//        /**
-//         * @param openingHours The opening_hours
-//         */
-//        public void setOpeningHours(OpeningHours openingHours) {
-//            this.openingHours = openingHours;
-//        }
+         */
+        public OpeningHours getOpeningHours() {
+            return openingHours;
+        }
 
         /**
-         * @return The photos
+         * @param openingHours The opening_hours
          */
+        public void setOpeningHours(OpeningHours openingHours) {
+            this.openingHours = openingHours;
+        }
+//
+//        /**
+//         * @return The photos
+//         */
 //        public List<Photo> getPhotos() {
 //            return photos;
 //        }

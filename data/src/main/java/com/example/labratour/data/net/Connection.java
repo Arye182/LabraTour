@@ -51,6 +51,7 @@ public class Connection implements Callable<String> {
 
         try {
             this.response = okHttpClient.newCall(request).execute().body().string();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
