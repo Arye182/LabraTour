@@ -14,13 +14,15 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class UserHomeViewModel(private val placesClient: PlacesClient, private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase,) : ViewModel() {
+
+class UserHomeViewModel(
+    private val placesClient: PlacesClient,
+    private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase
+) : ViewModel() {
 
     lateinit var user: UserModel
     // Construct a request object, passing the place ID and fields array.
@@ -92,6 +94,7 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next...")
             nearbyPlacesStringList = value
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... Value Size = ${value.size}")
+            Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... list = $value")
 
             // fetchingStringListNearByComplete.postValue(true)
             generateNearByPlacesList()
@@ -251,7 +254,6 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
     }
     suspend fun nearByPlacesListCoRoutine() {
         for (place_id in this.nearbyPlacesStringList) {
-            var id = "ChIJcURkgp492jERS4A65dNZuts"
             var bitmap: Bitmap
             var googlePlace: Place
             request = place_id.let { FetchPlaceRequest.newInstance(it, placeFields) }
@@ -296,6 +298,16 @@ class UserHomeViewModel(private val placesClient: PlacesClient, private val getN
                                         error.postValue(exception.message)
                                     }
                                 }
+                        } else {
+                            Log.i("Places", "nearByPlaces : fetching photo failed")
+                            val w: Int = 150
+                            val h: Int = 150
+                            val conf = Bitmap.Config.ARGB_8888 // see other conf types
+                            val bmp =
+                                Bitmap.createBitmap(w, h, conf) // this creates a MUTABLE bitmap
+                            bitmap = bmp
+                            this.nearbyPlacesList.add(PlaceModel(googlePlace, true, 5, bitmap))
+                            continuation.resume(Unit)
                         }
                     }.addOnFailureListener { exception: Exception ->
                         if (exception is ApiException) {
