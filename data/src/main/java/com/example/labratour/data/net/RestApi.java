@@ -4,11 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
 
 import java.net.MalformedURLException;
-import java.util.List;
+import java.util.ArrayList;
 
 import io.reactivex.Observable;
 
@@ -24,14 +23,14 @@ public class RestApi {
   this.context = context.getApplicationContext();
   this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
  }
- public Observable<List<NearbyPlaceResult>> nearbyPlaces(String lat, String lon) {
+ public Observable<ArrayList<String>> nearbyPlaces(String lat, String lon) {
   return Observable.create(emitter -> {
    if (isThereInternetConnection()) {
     try {
 
      String response = getNearbyPlacesIds(lat, lon);
      if (response != null) {
-      emitter.onNext(this.nearbyPlaceJsonMapper.transformCollection(
+      emitter.onNext(this.nearbyPlaceJsonMapper.transformCollectionToIds(
               response));
       emitter.onComplete();
      } else {

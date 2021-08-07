@@ -25,7 +25,7 @@ public class GetNearbyPlacesUseCase extends UseCase<ArrayList<String>, GetNearby
         execute(observer, new RequestInput("31.887347","34.796566"));}
     @Override
     public Observable<ArrayList<String>> buildUseCaseObservable(RequestInput requestInput) {
-        return placesRepository.nearbyPlaces(requestInput.lat, requestInput.lon);
+        return placesRepository.nearbyPlacesIds(requestInput.lat, requestInput.lon);
     }
 
     public static final class RequestInput {
