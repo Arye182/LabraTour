@@ -20,25 +20,248 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_place_to_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@android:drawable/editbox_background"
-                android:drawableStart="@drawable/ic_baseline_location_on_24"
-                android:focusable="false"
-                android:padding="20dp"
-                android:hint="@string/enter_adress"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <!-- 2-buttons row transportaion , parks-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/transportation"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Transport"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/parks"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Parks"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 2-buttons row Art , Money-->
+                <LinearLayout
+                    android:id="@+id/transportation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_24"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Art &amp; Culture"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:src="@drawable/labra_asset_25"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Finance"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 2-buttons row food and drinks, shopping-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_27"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Food &amp; Drinks"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_29"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Shopping"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <!-- 2-buttons row  Religion, Medical-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Religion"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Medical"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
                 <!-- 2-buttons row-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -68,7 +291,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Malls"
+                            android:text="Fun"
                             android:layout_gravity="center_horizontal" />
                     </LinearLayout>
                     <!-- button-->
@@ -92,14 +315,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Category"
+                            android:text="Sports"
                             android:layout_gravity="center_horizontal"/>
                     </LinearLayout>
                 </LinearLayout>
-
-
-
-
 
 
                 <!-- 2-buttons row-->
@@ -114,6 +333,7 @@
                         android:padding="8dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
@@ -131,104 +351,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Malls"
+                            android:text="General"
                             android:layout_gravity="center_horizontal" />
                     </LinearLayout>
-                    <!-- button-->
-                    <LinearLayout
-                        android:padding="8dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/category_bg"
-                        android:orientation="vertical">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_26"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="4dp">
-                        </com.google.android.material.imageview.ShapeableImageView>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Category"
-                            android:layout_gravity="center_horizontal"/>
-                    </LinearLayout>
                 </LinearLayout>
-
-
-
-
-
-                <!-- 2-buttons row-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="16dp">
-                    <!-- button-->
-                    <LinearLayout
-                        android:padding="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/category_bg"
-                        android:orientation="vertical"
-                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="4dp">
-                        </com.google.android.material.imageview.ShapeableImageView>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Malls"
-                            android:layout_gravity="center_horizontal" />
-                    </LinearLayout>
-                    <!-- button-->
-                    <LinearLayout
-                        android:padding="8dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/category_bg"
-                        android:orientation="vertical">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_26"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="4dp">
-                        </com.google.android.material.imageview.ShapeableImageView>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Category"
-                            android:layout_gravity="center_horizontal"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-
-
-
-
-
-
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

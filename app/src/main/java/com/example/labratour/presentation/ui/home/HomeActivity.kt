@@ -3,6 +3,7 @@ package com.example.labratour.presentation.ui.home
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -13,7 +14,6 @@ import com.example.labratour.HomeActivityNavGraphDirections
 import com.example.labratour.R
 import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.di.AppContainer
-import com.example.labratour.presentation.di.FirebaseContainer
 import com.example.labratour.presentation.di.GooglePlacesContainer
 import com.example.labratour.presentation.ui.base.BaseActivity
 import com.example.labratour.presentation.viewmodel.LocationViewModel
@@ -27,6 +27,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var appContainer: AppContainer
     private lateinit var googlePlacesContainer: GooglePlacesContainer
+    lateinit var searchText: EditText
     lateinit var locationViewModel: LocationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +37,8 @@ class HomeActivity : BaseActivity() {
         appContainer = (application as LabratourApplication).appContainer
         googlePlacesContainer = appContainer.googlePlacesContainer
 
+
+
         // view models
         val userDataViewModelFactory = googlePlacesContainer.userHomeViewModelFactory
         userHomeViewModel = ViewModelProvider(this, userDataViewModelFactory).get(UserHomeViewModel::class.java)
@@ -43,6 +46,9 @@ class HomeActivity : BaseActivity() {
 
         // set view
         setContentView(R.layout.activity_home)
+
+        //
+        searchText = edit_text_place_to_search
 
         // navigation container
         val navHostFragment =

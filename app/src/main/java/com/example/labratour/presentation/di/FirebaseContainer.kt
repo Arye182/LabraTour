@@ -8,8 +8,6 @@ import com.example.labratour.domain.useCases.SaveNewUserToFirebaseUseCase
 import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.utils.UIThread
 import com.example.labratour.presentation.viewmodel.UserAuthViewModelFactory
-import com.example.labratour.presentation.viewmodel.UserHomeViewModelFactory
-import com.google.android.libraries.places.api.Places
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
@@ -29,5 +27,4 @@ class FirebaseContainer(labratourApplication: LabratourApplication) {
     val saveNewUserToFirebaseUseCase = SaveNewUserToFirebaseUseCase(userRepo, JobExecutor(), UIThread())
     // ViewModel Factories
     val userAuthViewModelFactory = UserAuthViewModelFactory(loginUseCase, registerNewUserUseCase, saveNewUserToFirebaseUseCase)
-
 }

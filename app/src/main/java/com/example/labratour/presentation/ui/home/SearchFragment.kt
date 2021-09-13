@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import java.util.*
 
@@ -26,11 +28,44 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        edit_text_place_to_search.setOnClickListener {
-            var fieldlist: List<Place.Field> = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ID)
-            var intent: Intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fieldlist).build(activity as HomeActivity)
+        (activity as HomeActivity).searchText.visibility = 1
+        (activity as HomeActivity).toolbar.title = ""
+
+        (activity as HomeActivity).searchText.setOnClickListener {
+            var fieldlist: List<Place.Field> = Arrays.asList(
+                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG,
+                Place.Field.NAME,
+                Place.Field.ID
+            )
+            var intent: Intent =
+                Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fieldlist)
+                    .build(activity as HomeActivity)
             startActivityForResult(intent, 100)
         }
+        // set all categories click listeners
+        transportation.setOnClickListener(View.OnClickListener { categoryIntent("Transportation") })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as HomeActivity).searchText.visibility = GONE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as HomeActivity).searchText.visibility = GONE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as HomeActivity).searchText.visibility = GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as HomeActivity).searchText.visibility = 1
+        (activity as HomeActivity).toolbar.title = ""
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -44,12 +79,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         if (requestCode == 100 && resultCode == RESULT_OK) {
             var place: Place? = data?.let { Autocomplete.getPlaceFromIntent(it) }
             if (place != null) {
-                edit_text_place_to_search.setText(place.address)
+                (activity as HomeActivity).searchText.setText(place.address)
                 this.id = (place.id).toString()
                 Log.i("Places", "search fragment id: ${this.id}")
                 // move to result place page
                 // move on to next step!
-                val action = SearchFragmentDirections.actionSearchFragmentToPlaceResultFragment(this.id)
+                val action =
+                    SearchFragmentDirections.actionSearchFragmentToPlaceResultFragment(this.id)
                 findNavController().navigate(action)
             }
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
@@ -63,5 +99,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
             }
         }
+    }
+
+    fun categoryIntent(category_name: String) {
+        view?.let {
+            Snackbar.make(it, "Button $category_name Clicked", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.success)).show()
+        }
+        // TODO open a dialog of sub categories?
+        // or navigate to another screen of sub categories?
     }
 }

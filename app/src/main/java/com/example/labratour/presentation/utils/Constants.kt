@@ -25,7 +25,7 @@ object Constants {
         "library" to "Library",
         "museum" to "Museum",
 
-        // Money
+        // Finance
         "atm" to "ATM",
         "bank" to "Bank",
 
