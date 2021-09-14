@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.labratour.R
@@ -36,7 +37,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private var isGPSEnabled = false
     private var nearByPlacesLoaded = false
     private lateinit var pullToRefresh: SwipeRefreshLayout
-
 
     // --------------------------------- fragment functions ---------------------------------------
     override fun onStart() {
@@ -94,16 +94,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
     override fun onDestroyView() {
         super.onDestroyView()
-        this.homeViewModel.nearByPlacesList.value?.clear()
-        this.homeViewModel.nearByPlacesListTest.value?.clear()
+//        this.homeViewModel.nearByPlacesList.value?.clear()
+//        this.homeViewModel.nearByPlacesListTest.value?.clear()
         Log.i("Places", "HomeFragment onDestroyView")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         // in case we destroy the frasgent we want to clear the list
-        this.homeViewModel.nearByPlacesList.value?.clear()
-        this.homeViewModel.nearByPlacesListTest.value?.clear()
+//        this.homeViewModel.nearByPlacesList.value?.clear()
+//        this.homeViewModel.nearByPlacesListTest.value?.clear()
         Log.i("Places", "HomeFragment onDestroy")
     }
 
@@ -252,5 +252,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             Snackbar.make(it, "item $id Clicked", Snackbar.LENGTH_SHORT)
                 .setBackgroundTint(resources.getColor(R.color.success)).show()
         }
+
+        // move to fragment of result of place!
+        val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
+        findNavController().navigate(action)
     }
 }
