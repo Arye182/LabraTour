@@ -13,10 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.labratour.R
+import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
 import com.example.labratour.presentation.utils.GpsUtils
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
@@ -26,7 +28,7 @@ import kotlinx.android.synthetic.main.location_card.view.*
 const val LOCATION_REQUEST = 100
 const val GPS_REQUEST = 101
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
 
     private var customPlacesLoaded: Boolean = false
     private lateinit var homeViewModel: UserHomeViewModel
@@ -124,7 +126,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun onNearByPlacesListChanged(view: View) {
         places_close_to_you_recycler_view.adapter = this.homeViewModel.nearByPlacesList.value?.let {
             SmallPlaceCardRecyclerAdapter(
-                it
+                it, this
             )
         }
         places_close_to_you_recycler_view.layoutManager =
@@ -139,7 +141,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun onCustomPlacesListChanged(view: View) {
         customed_places_recycler_view.adapter = this.homeViewModel.nearByPlacesListTest.value?.let {
             SmallPlaceCardRecyclerAdapter(
-                it
+                it, this
             )
         }
         customed_places_recycler_view.layoutManager =
@@ -229,6 +231,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             LOCATION_REQUEST -> {
                 invokeLocationAction()
             }
+        }
+    }
+
+    override fun onItemClick(position: Int) {
+
+        val clickedNearbyPlacesItem: PlaceModel =
+            homeViewModel.nearByPlacesList.value?.get(position)!!
+
+        val id: String = clickedNearbyPlacesItem.googlePlace.id!!
+        view?.let {
+            Snackbar.make(it, "item $id Clicked", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.success)).show()
         }
     }
 }

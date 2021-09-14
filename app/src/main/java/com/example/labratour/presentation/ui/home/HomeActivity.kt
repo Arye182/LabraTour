@@ -37,8 +37,6 @@ class HomeActivity : BaseActivity() {
         appContainer = (application as LabratourApplication).appContainer
         googlePlacesContainer = appContainer.googlePlacesContainer
 
-
-
         // view models
         val userDataViewModelFactory = googlePlacesContainer.userHomeViewModelFactory
         userHomeViewModel = ViewModelProvider(this, userDataViewModelFactory).get(UserHomeViewModel::class.java)

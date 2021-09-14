@@ -10,7 +10,10 @@ import com.example.labratour.R
 import com.example.labratour.presentation.model.data.PlaceModel
 import kotlinx.android.synthetic.main.place_card_small.view.*
 
-class SmallPlaceCardRecyclerAdapter(private val placesList: List<PlaceModel>) : RecyclerView.Adapter<SmallPlaceCardRecyclerAdapter.SmallPlaceViewHolder>() {
+class SmallPlaceCardRecyclerAdapter(
+    private val placesList: List<PlaceModel>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<SmallPlaceCardRecyclerAdapter.SmallPlaceViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallPlaceViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.place_card_small, parent, false)
@@ -27,10 +30,28 @@ class SmallPlaceCardRecyclerAdapter(private val placesList: List<PlaceModel>) : 
 
     override fun getItemCount() = placesList.size
 
-    class SmallPlaceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class SmallPlaceViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
+
         val imageView: ImageView = itemView.place_small_card_image
         val adreesTextView: TextView = itemView.place_small_card_address
         val typeTextView: TextView = itemView.place_small_card_type
         val nameTextView: TextView = itemView.place_small_card_name
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position: Int = adapterPosition
+            if (position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(position)
+            }
+        }
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(position: Int)
     }
 }

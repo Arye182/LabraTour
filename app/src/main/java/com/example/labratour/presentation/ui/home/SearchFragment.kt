@@ -43,7 +43,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     .build(activity as HomeActivity)
             startActivityForResult(intent, 100)
         }
-        // set all categories click listeners
+        // TODO set all categories click listeners to new fragments on the same container and listener
         transportation.setOnClickListener(View.OnClickListener { categoryIntent("Transportation") })
     }
 
