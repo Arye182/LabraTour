@@ -37,6 +37,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private var nearByPlacesLoaded = false
     private lateinit var pullToRefresh: SwipeRefreshLayout
 
+
     // --------------------------------- fragment functions ---------------------------------------
     override fun onStart() {
         super.onStart()
@@ -49,7 +50,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         checkGps()
         invokeLocationAction()
-        this.homeViewModel.getAllPlacesLists()
+        // get current lat long
+        val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
+        val long = this.locationViewModel.getLocationData().value?.longitude.toString()
+        this.homeViewModel.getAllPlacesLists(lat, long)
     }
 
     override fun onPause() {
@@ -108,7 +112,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             // update lists!
             this.homeViewModel.nearByPlacesListTest.value?.clear()
             this.homeViewModel.nearByPlacesList.value?.clear()
-            this.homeViewModel.getAllPlacesLists()
+            //
+            // get current lat long
+            val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
+            val long = this.locationViewModel.getLocationData().value?.longitude.toString()
+            this.homeViewModel.getAllPlacesLists(lat, long)
             checkGps()
             invokeLocationAction()
             places_close_to_you_recycler_view.visibility = View.GONE

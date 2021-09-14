@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-
 class UserHomeViewModel(
     private val placesClient: PlacesClient,
     private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase
@@ -323,9 +322,10 @@ class UserHomeViewModel(
     }
 
     // get all places list started
-    fun getAllPlacesLists() {
+    fun getAllPlacesLists(lat: String, long: String) {
+        // TODO YPDATE LAT LONG
         Log.i("Places", "Starting To Update Places Lists (vm)")
-        getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), "32", "34")
+        getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
         generatePlacesListForTest()
     }
 }
