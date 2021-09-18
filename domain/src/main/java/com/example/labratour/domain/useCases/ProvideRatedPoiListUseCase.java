@@ -4,7 +4,7 @@ import com.example.labratour.domain.NewRateDomain;
 import com.example.labratour.domain.UserProfileManager;
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
-import com.example.labratour.domain.repositories.AtributedPoiRepository;
+import com.example.labratour.domain.repositories.RatingsRepository;
 import com.example.labratour.domain.useCases.LowLevelUsecases.SaveNewAtributesToUserUseCase;
 
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public class ProvideRatedPoiListUseCase extends UseCase<String, List<NewRateDomain>> {
-    private final AtributedPoiRepository atributedPoiRepository;
+    private final RatingsRepository ratingsRepository;
     private final UserProfileManager userProfileManager;
     private  final SaveNewAtributesToUserUseCase saveNewAtributesToUserUseCase;
-    public ProvideRatedPoiListUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, AtributedPoiRepository atributedPoiRepository, UserProfileManager userProfileManager, SaveNewAtributesToUserUseCase saveNewAtributesToUserUseCase) {
+    public ProvideRatedPoiListUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, RatingsRepository ratingsRepository, UserProfileManager userProfileManager, SaveNewAtributesToUserUseCase saveNewAtributesToUserUseCase) {
         super(executionThread, postExecutionThread);
-        this.atributedPoiRepository = atributedPoiRepository;
+        this.ratingsRepository = ratingsRepository;
         this.userProfileManager = userProfileManager;
 
         this.saveNewAtributesToUserUseCase = saveNewAtributesToUserUseCase;

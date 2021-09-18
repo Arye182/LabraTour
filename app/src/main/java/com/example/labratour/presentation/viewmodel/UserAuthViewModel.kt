@@ -19,7 +19,8 @@ import com.example.labratour.presentation.model.data.UserModel
  * @property loginUseCase
  * @constructor Create empty Login fragment view model
  */
-class UserAuthViewModel(
+class
+UserAuthViewModel(
     private val loginUseCase: LogInUseCase,
     private val registerNewUserUseCase: RegisterNewUserUseCase,
     private val saveNewUserToFirebaseUseCase: SaveNewUserToFirebaseUseCase
@@ -52,7 +53,8 @@ class UserAuthViewModel(
     lateinit var userDomain: UserDomain
     var userID: String = ""
 
-    private inner class LogInObserver : DefaultObserver<UserDomain>() {
+    private inner class LogInObserver
+        : DefaultObserver<UserDomain>() {
         override fun onComplete() {
             Log.i("Firebase", "Log In Observer - On Complete...")
             isLoading.postValue(false)

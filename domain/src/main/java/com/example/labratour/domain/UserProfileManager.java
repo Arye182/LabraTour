@@ -1,22 +1,16 @@
 package com.example.labratour.domain;
 
-import com.example.labratour.domain.Entity.UserDomain;
+import java.util.Vector;
 
-import java.util.List;
+public class UserProfileManager  {
+  private Calculator calculator;
 
-public class UserProfileManager {
-  // TODO: 26/06/2021 calculate new atributes(old, ratesCounter, List<AtributedPoi>
-    private UserDomain userDomain;
+  public UserProfileManager(Calculator calculator) {
+    this.calculator = calculator;
+  }
+  public Vector<Integer> userNewWheightsOfAtributes(Vector<Integer> poiAtributes, int rate){
+    return new Vector<Integer>(8,1);
+  }
+// TODO: 26/06/2021 calculate new atributes(old, ratesCounter, List<AtributedPoi>
 
-
-
-    public UserProfileManager(UserDomain userDomain) {
-        this.userDomain = userDomain;
-    }
-
-    public void updateByOneRate(AtributedPoi atributedPoi){
-
-    }
-
-  public UserDomain updateByListOfPois(List<AtributedPoi> pois) {return null;}
 }

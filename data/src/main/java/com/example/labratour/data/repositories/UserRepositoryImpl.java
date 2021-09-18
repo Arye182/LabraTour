@@ -11,8 +11,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Map;
+import java.util.Vector;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
 public class UserRepositoryImpl implements UserRepository {
@@ -40,7 +42,17 @@ public class UserRepositoryImpl implements UserRepository {
     return null;
   }
 
-  @Override
+    @Override
+    public Single<Vector<Integer>> getUserAtributes(String userId) {
+        return null;
+    }
+
+    @Override
+    public Single<UserDomain> getUser(String userId) {
+        return null;
+    }
+
+    @Override
   public Observable<UserDomain> login(final String email, final String password) {
     return this.cloudUserDataSource
         .login(new UserEntity(email, password))

@@ -38,7 +38,9 @@ public class UserDataMapper {
 
   }
 
-  public static UserDomain transform(UserEntity userEntity) {
+
+
+    public static UserDomain transform(UserEntity userEntity) {
     UserDomain userDomain = null;
     if ((userEntity != null)&&(userEntity.getUserId()!=null)) {
 

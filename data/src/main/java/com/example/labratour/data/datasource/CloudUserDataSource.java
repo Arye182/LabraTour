@@ -42,6 +42,7 @@ public class CloudUserDataSource {
 
 
                     @Override
+                    //happens when an observer subscribe(for example the observer in execute)
                     public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
                         firebaseAuth
                                 .signInWithEmailAndPassword(userEntity.getEmail(), userEntity.getPassword())

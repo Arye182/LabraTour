@@ -1,6 +1,7 @@
 package com.example.labratour.data.Entity;
 
 import com.example.labratour.domain.Atributes;
+import com.google.gson.annotations.SerializedName;
 
 public class UserEntity  {
 
@@ -11,7 +12,7 @@ public class UserEntity  {
 
 
 private String userId = null;
-
+    @SerializedName("countrate")
  private int    countRate;
 
     public int getCountRate() {
@@ -23,9 +24,11 @@ private String userId = null;
     }
 
     private String password;
-private String fullName;
-private String email;
-private String userName;
+    @SerializedName("fullname")
+private String fullName = null;
+private String email = null;
+    @SerializedName("username")
+private String userName = null;
 
     public String getLast_name() {
         return last_name;
@@ -42,17 +45,19 @@ private String userName;
     public String getFirst_name() {
         return first_name;
     }
-
-    private String Phone;
-private String last_name;
+    @SerializedName("phone")
+    private String Phone = null;
+    @SerializedName("lastname")
+private String last_name = null;
 
     public UserEntity(String email, String password, String first_name, String last_name) {
         this.password = password;
         this.email = email;
         this.last_name = last_name;
         this.first_name = first_name;
+        this.atributes = new Atributes();
     }
-
+    @SerializedName("firstname")
     private String first_name;
 
         public void setAtributes(Atributes atributes) {
@@ -64,8 +69,9 @@ private String last_name;
 //     //   public SpscArrayQueue<RateEntity> getRates() {
 //            return rates;
 //        }
-
+@SerializedName("address")
         private String address;
+    @SerializedName("atributes")
         private Atributes atributes;
        // private SpscArrayQueue<RateEntity> rates;
 //    private Object clusters;
@@ -127,7 +133,7 @@ private String last_name;
             this.email = email;
         }
 
-        public  Atributes getAtributes() {
+        public Atributes getAtributes() {
             return atributes;
         }
 

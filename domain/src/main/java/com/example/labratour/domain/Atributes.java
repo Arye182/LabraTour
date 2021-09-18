@@ -1,33 +1,42 @@
 package com.example.labratour.domain;
 
 
+import com.google.gson.annotations.SerializedName;
 
 public class Atributes {
-    private int price_level;
+    @SerializedName("pricelevel")
+
+    private int price_level = -1 ;
     //
    // @JsonProperty("rating")
-    private float usersAggragateRating;
-    private boolean after_midnight;
-    private boolean amusement_park;
-    private boolean aquarium;
-    private boolean art_gallery;
-    private boolean bar;
-    private boolean campground;
-    private boolean night_club;
-    private boolean painter;
-    private boolean movie_theater;
-    private boolean museum;
-    private boolean casino;
-    private boolean cafe;
-    private boolean restaurant;
-    private boolean rv_park;
-    private boolean shopping_mall;
-    private boolean spa;
-    private boolean stadium;
-    private boolean tourist_attraction;
-    private boolean zoo;
-    private boolean gym;
+    @SerializedName("useraggragaterating")
+    private float usersAggragateRating = 0;
+    @SerializedName("aftermidnight")
 
+    private boolean after_midnight = false;
+    private boolean amusement_park = false;
+    private boolean aquarium = false;
+    private boolean art_gallery = false;
+    private boolean bar = false;
+    private boolean campground = false;
+    private boolean night_club = false;
+    private boolean painter = false;
+    private boolean movie_theater  = false;
+    private boolean museum = false;
+    private boolean casino = false;
+    private boolean cafe = false;
+    private boolean restaurant = false;
+    private boolean rv_park = false;
+    private boolean shopping_mall;
+    private boolean spa = false;
+    private boolean stadium = false;
+    private boolean tourist_attraction = false;
+    private boolean zoo = false;
+    private boolean gym = false;
+
+    public Atributes() {
+
+    }
 
     public void setPrice_level(int price_level) {
         this.price_level = price_level;

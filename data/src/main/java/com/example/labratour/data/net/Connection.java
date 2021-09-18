@@ -68,7 +68,8 @@ public class Connection implements Callable<String> {
     @Override public String call() throws Exception {
         return requestSyncCall();
     }
-}
+
+    }
 //package com.fernandocejas.android10.sample.data.net;
 //
 //        import android.support.annotation.Nullable;
