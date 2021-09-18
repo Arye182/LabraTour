@@ -108,5 +108,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
         // TODO open a dialog of sub categories?
         // or navigate to another screen of sub categories?
+        // move to fragment of result of place!
+        val action = SearchFragmentDirections.actionSearchFragmentToSubCategoryFragment(category_name)
+        findNavController().navigate(action)
     }
 }
