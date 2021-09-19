@@ -31,7 +31,7 @@ class SubCategoryFragment : Fragment() {
             "Finance" -> inflater.inflate(R.layout.fragment_sub_category_finance, container, false)
             "Food & Drinks" -> inflater.inflate(R.layout.fragment_sub_category_foodanddrinks, container, false)
             "Shopping" -> inflater.inflate(R.layout.fragment_sub_category_shopping, container, false)
-            "Religon" -> inflater.inflate(R.layout.fragment_sub_category_religion, container, false)
+            "Religion" -> inflater.inflate(R.layout.fragment_sub_category_religion, container, false)
             "Medical" -> inflater.inflate(R.layout.fragment_sub_category_medical, container, false)
             "Fun" -> inflater.inflate(R.layout.fragment_sub_category_fun, container, false)
             "Sports" -> inflater.inflate(R.layout.fragment_sub_category_sports, container, false)
