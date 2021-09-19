@@ -47,14 +47,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         transportation.setOnClickListener(View.OnClickListener { categoryIntent("Transportation") })
         parks.setOnClickListener(View.OnClickListener { categoryIntent("Parks") })
         artandculture.setOnClickListener(View.OnClickListener { categoryIntent("Art & Culture") })
-        // finance
-        // foodanddrinks
-        // shopping
-        // religion
-        // medical
-        // fun
-        // sports
-        // general
+        finance.setOnClickListener(View.OnClickListener { categoryIntent("Finance") })
+        foodanddrinks.setOnClickListener(View.OnClickListener { categoryIntent("Food & Drinks") })
+        shopping.setOnClickListener(View.OnClickListener { categoryIntent("Shopping") })
+        religion.setOnClickListener(View.OnClickListener { categoryIntent("Religion") })
+        medical.setOnClickListener(View.OnClickListener { categoryIntent("Medical") })
+        fun_sub.setOnClickListener(View.OnClickListener { categoryIntent("Fun") })
+        sports.setOnClickListener(View.OnClickListener { categoryIntent("Sports") })
+        general.setOnClickListener(View.OnClickListener { categoryIntent("General") })
     }
 
     override fun onPause() {

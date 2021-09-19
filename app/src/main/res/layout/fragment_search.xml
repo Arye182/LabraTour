@@ -279,7 +279,7 @@
                     android:layout_marginTop="16dp">
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/fun"
+                        android:id="@+id/fun_sub"
 
                         android:padding="8dp"
                         android:layout_marginLeft="16dp"
