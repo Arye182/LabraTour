@@ -45,6 +45,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
         // TODO set all categories click listeners to new fragments on the same container and listener
         transportation.setOnClickListener(View.OnClickListener { categoryIntent("Transportation") })
+        parks.setOnClickListener(View.OnClickListener { categoryIntent("Parks") })
+        artandculture.setOnClickListener(View.OnClickListener { categoryIntent("Art & Culture") })
+        // finance
+        // foodanddrinks
+        // shopping
+        // religion
+        // medical
+        // fun
+        // sports
+        // general
     }
 
     override fun onPause() {

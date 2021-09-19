@@ -7,25 +7,23 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".presentation.ui.home.SearchFragment"
-    android:background="@color/card">
+    tools:context=".presentation.ui.home.SubCategoryFragment">
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- ******************************* Food Category ********************************* -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <!-- 2-buttons row transportaion , parks-->
+                <!-- 2-buttons row bakery , bar-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -34,7 +32,7 @@
                     android:layout_marginTop="16dp">
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/transportation"
+                        android:id="@+id/bakery"
                         android:padding="8dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="8dp"
@@ -55,12 +53,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Transport"
+                            android:text="Bakery"
                             android:layout_gravity="center_horizontal" />
                     </LinearLayout>
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/parks"
+                        android:id="@+id/bar"
                         android:padding="8dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginLeft="8dp"
@@ -80,12 +78,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Parks"
+                            android:text="Bar"
                             android:layout_gravity="center_horizontal"/>
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- 2-buttons row Art , Money-->
+                <!-- 2-buttons row cafe , liqueur-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -94,130 +93,7 @@
                     android:layout_marginTop="16dp">
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/artandculture"
-                        android:padding="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/category_bg"
-                        android:orientation="vertical"
-                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_24"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="4dp">
-                        </com.google.android.material.imageview.ShapeableImageView>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Art &amp; Culture"
-                            android:layout_gravity="center_horizontal" />
-                    </LinearLayout>
-                    <!-- button-->
-                    <LinearLayout
-                        android:id="@+id/finance"
-                        android:padding="8dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/category_bg"
-                        android:orientation="vertical">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:src="@drawable/labra_asset_25"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="4dp">
-                        </com.google.android.material.imageview.ShapeableImageView>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Finance"
-                            android:layout_gravity="center_horizontal"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- 2-buttons row food and drinks, shopping-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="16dp">
-                    <!-- button-->
-                    <LinearLayout
-                        android:id="@+id/foodanddrinks"
-                        android:padding="8dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/category_bg"
-                        android:orientation="vertical"
-                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_27"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="4dp">
-                        </com.google.android.material.imageview.ShapeableImageView>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Food &amp; Drinks"
-                            android:layout_gravity="center_horizontal" />
-                    </LinearLayout>
-                    <!-- button-->
-                    <LinearLayout
-                        android:id="@+id/shopping"
-
-                        android:padding="8dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/category_bg"
-                        android:orientation="vertical">
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_29"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="4dp">
-                        </com.google.android.material.imageview.ShapeableImageView>
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Shopping"
-                            android:layout_gravity="center_horizontal"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-
-                <!-- 2-buttons row  Religion, Medical-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="16dp">
-                    <!-- button-->
-                    <LinearLayout
-                        android:id="@+id/religion"
-
+                        android:id="@+id/cafe"
                         android:padding="8dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="8dp"
@@ -238,13 +114,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Religion"
+                            android:text="Cafe"
                             android:layout_gravity="center_horizontal" />
                     </LinearLayout>
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/medical"
-
+                        android:id="@+id/liquor_store"
                         android:padding="8dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginLeft="8dp"
@@ -264,13 +139,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Medical"
+                            android:text="Liquor Store"
                             android:layout_gravity="center_horizontal"/>
                     </LinearLayout>
                 </LinearLayout>
 
 
-                <!-- 2-buttons row-->
+
+                <!-- 2-buttons row restaurant , food-->
+
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -279,8 +158,7 @@
                     android:layout_marginTop="16dp">
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/fun"
-
+                        android:id="@+id/restaurant"
                         android:padding="8dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="8dp"
@@ -301,13 +179,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Fun"
+                            android:text="Restaurant"
                             android:layout_gravity="center_horizontal" />
                     </LinearLayout>
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/sports"
-
+                        android:id="@+id/food"
                         android:padding="8dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginLeft="8dp"
@@ -327,13 +204,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="Sports"
+                            android:text="Food"
                             android:layout_gravity="center_horizontal"/>
                     </LinearLayout>
                 </LinearLayout>
 
 
-                <!-- 2-buttons row-->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -342,12 +219,10 @@
                     android:layout_marginTop="16dp">
                     <!-- button-->
                     <LinearLayout
-                        android:id="@+id/general"
-
+                        android:id="@+id/supermarket"
                         android:padding="8dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="8dp"
-                        android:layout_marginBottom="8dp"
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="100dp"
@@ -365,11 +240,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Headline5"
-                            android:text="General"
+                            android:text="SuperMarket"
                             android:layout_gravity="center_horizontal" />
                     </LinearLayout>
                 </LinearLayout>
+
+
+
+
+
+
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+
+

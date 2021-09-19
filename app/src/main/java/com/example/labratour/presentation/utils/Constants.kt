@@ -29,7 +29,7 @@ object Constants {
         "atm" to "ATM",
         "bank" to "Bank",
 
-        // Food and Drinks
+        // Food & Drinks
         "bakery" to "Bakery",
         "bar" to "Bar",
         "cafe" to "Cafe",
@@ -57,13 +57,13 @@ object Constants {
         "synagogue" to "Synagouge",
         "mosque" to "Mosque",
 
-        // medical
+        // Medical
         "doctor" to "Doctor",
         "drugstore dentist" to "Drugstore Dentist",
         "hospital" to "Hospital",
         "pharmacy" to "Pharmacy",
 
-        // fun
+        // Fun
         "casino" to "Casino",
         "movie_theater" to "Movie Theatre",
         "night_club" to "Night Club",
