@@ -8,7 +8,7 @@ import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 
 public class SignUpUseCase extends UseCase<Void, SignUpUseCase.Param> {
-    public UserRepository userRepository;
+    private final  UserRepository userRepository;
 
     public SignUpUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, UserRepository userRepository) {
         super(executionThread, postExecutionThread);

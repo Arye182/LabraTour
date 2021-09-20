@@ -1,4 +1,4 @@
-package com.example.labratour.domain.repositories;
+package com.example.labratour.data.repositories;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
@@ -8,9 +8,14 @@ import com.example.labratour.domain.BuisnesPostExecutionThread;
 import com.example.labratour.domain.UserProfileManager;
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
+import com.example.labratour.domain.repositories.PlacesRepository;
+import com.example.labratour.domain.repositories.PoiDetailesDomain;
+import com.example.labratour.domain.repositories.RatingsRepository;
+import com.example.labratour.domain.repositories.UserRepository;
 
 import java.util.Vector;
 
+import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
@@ -39,7 +44,7 @@ public class RatingsRepositoryImpl implements RatingsRepository {
         this.postExecutionThread = new BuisnesPostExecutionThread();
     }
 
-    @Override
+
     public  io.reactivex.Observable updateRating(String userId, int rate, String placeId) {
 
         return io.reactivex.Observable.create(
@@ -98,7 +103,18 @@ public class RatingsRepositoryImpl implements RatingsRepository {
 
     }
         }
-        });}}
+        });}
+
+
+    public Observable<Void> updateUserProfileByRate(String userId, int rate, String placeId) {
+        return null;
+    }
+
+    @Override
+    public Observable<Void> updateUserProfileByRate(String userId, String placeId, int rate) {
+        return null;
+    }
+}
 
 
 

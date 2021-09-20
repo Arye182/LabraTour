@@ -10,6 +10,6 @@ import io.reactivex.Single;
 public interface PlacesRepository {
     public Observable<ArrayList<String>> nearbyPlaces(String lat, String lon);
     public Observable<ArrayList<String>> nearbyPlacesIds(String lat, String lon);
-    public Single<Vector<Integer>> getPoiById(String Id) throws MalformedURLException;}
+    public Single<Vector<Double>> getPoiById(String Id) throws MalformedURLException;}
 
 
