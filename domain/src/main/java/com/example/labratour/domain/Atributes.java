@@ -13,7 +13,7 @@ public class Atributes {
     private float usersAggragateRating = 0;
     @SerializedName("aftermidnight")
 
-    private boolean after_midnight = false;
+    private boolean alwaysOpen = false;
     private boolean amusement_park = false;
     private boolean aquarium = false;
     private boolean art_gallery = false;
@@ -23,6 +23,11 @@ public class Atributes {
     private boolean painter = false;
     private boolean movie_theater  = false;
     private boolean museum = false;
+
+    public void setAlwaysOpen(boolean alwaysOpen) {
+        this.alwaysOpen = alwaysOpen;
+    }
+
     private boolean casino = false;
     private boolean cafe = false;
     private boolean restaurant = false;
@@ -46,9 +51,6 @@ public class Atributes {
         this.usersAggragateRating = usersAggragateRating;
     }
 
-    public void setAfter_midnight(boolean after_midnight) {
-        this.after_midnight = after_midnight;
-    }
 
     public void setAmusement_park(boolean amusement_park) {
         this.amusement_park = amusement_park;
@@ -134,8 +136,8 @@ public class Atributes {
         return usersAggragateRating;
     }
 
-    public boolean isAfter_midnight() {
-        return after_midnight;
+    public boolean isAlwaysOpen() {
+        return alwaysOpen;
     }
 
     public boolean isAmusement_park() {

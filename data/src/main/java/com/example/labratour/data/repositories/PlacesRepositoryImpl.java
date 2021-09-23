@@ -3,11 +3,11 @@ package com.example.labratour.data.repositories;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 import com.example.labratour.data.net.RestApi;
+import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.repositories.PlacesRepository;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -52,10 +52,10 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
     }
 
 
-    public Single<Vector<Double>> getPoiById(String Id) throws MalformedURLException {
-        return this.restApi.getPlaceById(Id).map(new Function<PoiDetailsEntity, Vector<Double>>() {
+    public Single<Atributes> getPoiById(String Id) throws MalformedURLException {
+        return this.restApi.getPlaceById(Id).map(new Function<PoiDetailsEntity, Atributes>() {
             @Override
-            public Vector apply(PoiDetailsEntity poiDetailsEntity) throws Exception {
+            public Atributes apply(PoiDetailsEntity poiDetailsEntity) throws Exception {
                 return placeDetailesDataMapper.transform(poiDetailsEntity);
             }
         });

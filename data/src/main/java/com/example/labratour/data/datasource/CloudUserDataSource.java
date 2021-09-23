@@ -16,7 +16,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
-public class CloudUserDataSource {
+public class
+CloudUserDataSource {
     //
     // private final FirebaseConteiner conteiner = new ;
     private final FirebaseAuth firebaseAuth;

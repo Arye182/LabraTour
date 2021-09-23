@@ -8,6 +8,6 @@ import retrofit2.http.Path;
 
 public interface MapsGoogleApiService {
   @GET(
-      "details/json?place_id=\"+Id+\"&fields=name%2Crating%2Cformatted_phone_number&key=\"+API_KEY")
+      "details/json?place_id=\"+Id+\"&fields=name%2Crating%2Ctypes&key=\"+API_KEY")
   Call<PoiDetailsEntity> poiDetailes(@Path("Id") String user);
 }

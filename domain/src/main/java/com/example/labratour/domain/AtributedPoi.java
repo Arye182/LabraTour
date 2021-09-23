@@ -4,15 +4,12 @@ public class AtributedPoi {
 
   private final String poiId;
   private String authorId;
-
-
   private int rate;
+  private Atributes poiAtributes;
 
   public void setPoiAtributes(Atributes poiAtributes) {
     this.poiAtributes = poiAtributes;
   }
-
-  private Atributes poiAtributes;
 
   public Atributes getPoiAtributes() {
     return poiAtributes;
