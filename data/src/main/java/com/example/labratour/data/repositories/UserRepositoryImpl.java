@@ -6,6 +6,7 @@ import com.example.labratour.data.datasource.CloudUserDataSource;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
 import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.Entity.UserDomain;
+import com.example.labratour.domain.UserAtributes;
 import com.example.labratour.domain.repositories.UserRepository;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +46,15 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public Single<Vector<Integer>> getUserAtributes(String userId) {
+  public Single<Vector<Integer>> getUserAtributesVector(String userId) {
+    return null;
+  }
+  public Single<UserAtributes> getUserAtributes(String userId) {
+    return null;
+  }
+
+  @Override
+  public Single<Void> updateNewAtributes(UserAtributes userAtributes, String userId) {
     return null;
   }
 

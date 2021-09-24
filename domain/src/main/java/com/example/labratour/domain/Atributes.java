@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName;
 public class Atributes {
     @SerializedName("pricelevel")
 
-    private int price_level = -1 ;
+    private int price_level = -5 ;
     //
    // @JsonProperty("rating")
     @SerializedName("useraggragaterating")
-    private float usersAggragateRating = 0;
+    private double usersAggragateRating = 0;
     @SerializedName("aftermidnight")
 
     private boolean alwaysOpen = false;
@@ -132,7 +132,7 @@ public class Atributes {
         return price_level;
     }
 
-    public float getUsersAggragateRating() {
+    public double getUsersAggragateRating() {
         return usersAggragateRating;
     }
 
