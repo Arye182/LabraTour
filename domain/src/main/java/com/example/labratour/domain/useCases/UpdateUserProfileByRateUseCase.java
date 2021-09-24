@@ -16,12 +16,6 @@ public class UpdateUserProfileByRateUseCase extends UseCase<Void, UpdateUserProf
     }
     public void execute(DisposableObserver observer, String userId, String poiId, int rate) {
         execute(observer, new RequestInput(userId, poiId, rate));
-        //   Preconditions.checkNotNull(observer);
-//        final Observable<User> observable =
-//                this.buildUseCaseObservable(new RequestInput(password, email))
-//                        .subscribeOn(Schedulers.from(executionThread))
-//                        .observeOn(postExecutionThread.getScheduler());
-//        addDisposable( observable.subscribeWith(observer));
     }
     @Override
     public Observable<Void> buildUseCaseObservable(RequestInput requestInput) {
@@ -30,16 +24,11 @@ public class UpdateUserProfileByRateUseCase extends UseCase<Void, UpdateUserProf
 
 
     public final static class RequestInput{
-
-
-
             String userId;
             String poiId;
             int rate;
-
             public RequestInput(String userId, String poiId, int rate) {
             }
         }
-
     }
 
