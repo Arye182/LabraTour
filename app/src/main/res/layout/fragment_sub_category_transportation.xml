@@ -214,6 +214,7 @@
                     android:layout_marginTop="16dp">
                     <!-- button-->
                     <LinearLayout
+                        android:clickable="true"
                         android:id="@+id/taxi"
                         android:padding="8dp"
                         android:layout_marginLeft="16dp"
@@ -240,6 +241,7 @@
                     </LinearLayout>
                     <!-- button-->
                     <LinearLayout
+                        android:clickable="true"
                         android:id="@+id/train_station"
                         android:padding="8dp"
                         android:layout_marginRight="16dp"

@@ -59,7 +59,7 @@ object Constants {
 
         // Medical
         "doctor" to "Doctor",
-        "drugstore dentist" to "Drugstore Dentist",
+        "drugstore" to "Dentist",
         "hospital" to "Hospital",
         "pharmacy" to "Pharmacy",
 

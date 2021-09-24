@@ -54,16 +54,16 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <androidx.recyclerview.widget.RecyclerView
-                        android:layout_marginBottom="16dp"
-                        android:clipToPadding="false"
-                        android:orientation="horizontal"
                         android:id="@+id/places_close_to_you_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        tools:listitem="@layout/place_card_small"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
-                    </androidx.recyclerview.widget.RecyclerView>
+                        android:layout_marginBottom="16dp"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/place_card_small" />
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/nearby_places_list_progress_bar"
                         android:layout_width="match_parent"

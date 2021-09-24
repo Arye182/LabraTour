@@ -43,6 +43,38 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     .build(activity as HomeActivity)
             startActivityForResult(intent, 100)
         }
+
+        Log.i("Places", "SearchFragment onViewCreated")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as HomeActivity).searchText.visibility = GONE
+        Log.i("Places", "SearchFragment onPause")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as HomeActivity).searchText.visibility = GONE
+        Log.i("Places", "SearchFragment onDestroy")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as HomeActivity).searchText.visibility = GONE
+        Log.i("Places", "SearchFragment onDestroyView")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as HomeActivity).searchText.visibility = 1
+        (activity as HomeActivity).toolbar.title = ""
+        Log.i("Places", "SearchFragment onResume")
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         // TODO set all categories click listeners to new fragments on the same container and listener
         transportation.setOnClickListener(View.OnClickListener { categoryIntent("Transportation") })
         parks.setOnClickListener(View.OnClickListener { categoryIntent("Parks") })
@@ -55,27 +87,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         fun_sub.setOnClickListener(View.OnClickListener { categoryIntent("Fun") })
         sports.setOnClickListener(View.OnClickListener { categoryIntent("Sports") })
         general.setOnClickListener(View.OnClickListener { categoryIntent("General") })
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (activity as HomeActivity).searchText.visibility = GONE
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        (activity as HomeActivity).searchText.visibility = GONE
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        (activity as HomeActivity).searchText.visibility = GONE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as HomeActivity).searchText.visibility = 1
-        (activity as HomeActivity).toolbar.title = ""
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

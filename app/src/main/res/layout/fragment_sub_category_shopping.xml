@@ -1,8 +1,354 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context=".presentation.ui.home.SubCategoryFragment"
+    >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- ******************************* Shopping Category ***************************** -->
+        <!-- ******************************* Shopping Category ***************************** -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!-- 2-buttons row-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/clothing_store"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Clothing"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/convenience_store"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Convenience"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 2-buttons row zoo  , park-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/book_store"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Books"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/electronics_store"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Electronics"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+                <!-- 2-buttons row zoo  , park-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/jewelry_store"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Jewelry"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/department_store"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Department"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+                <!-- 2-buttons row zoo  , park-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/home_goods_store"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Home Goods"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/shopping_mall"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Mall"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
+
+
+
+                <!-- 2-buttons row zoo  , park-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/shoe_store"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Shoes"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/store"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Store"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+
+
+
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+

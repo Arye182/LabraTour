@@ -3,6 +3,7 @@ package com.example.labratour.presentation.ui.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -37,11 +38,30 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private var isGPSEnabled = false
     private var nearByPlacesLoaded = false
     private lateinit var pullToRefresh: SwipeRefreshLayout
+    private lateinit var frag_view: View
 
     // --------------------------------- fragment functions ---------------------------------------
-    override fun onStart() {
-        super.onStart()
-        invokeLocationAction()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.i("Places", "HomeFragment onAttach")
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        this.frag_view = view
+
+        // view models observation
+        if (!nearByPlacesLoaded) {
+            places_close_to_you_recycler_view.visibility = View.GONE
+            nearby_places_list_progress_bar.visibility = View.VISIBLE
+        }
+        if (!customPlacesLoaded) {
+            customed_places_recycler_view.visibility = View.GONE
+            customed_places_list_progress_bar.visibility = View.VISIBLE
+        }
+
+        Log.i("Places", "HomeFragment onViewCreated")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,81 +70,79 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         checkGps()
         invokeLocationAction()
-        // get current lat long
-        val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
-        val long = this.locationViewModel.getLocationData().value?.longitude.toString()
-        this.homeViewModel.getAllPlacesLists(lat, long)
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.i("Places", "HomeFragment onPause")
+    override fun onStart() {
+        super.onStart()
+        this.locationViewModel.getLocationData()
+            .observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
+        this.homeViewModel.nearByPlacesList.observe(
+            viewLifecycleOwner,
+            { onNearByPlacesListChanged(frag_view) }
+        )
+        this.homeViewModel.nearByPlacesListTest.observe(
+            viewLifecycleOwner,
+            { onCustomPlacesListChanged(frag_view) }
+        )
+        // pull to refresh
+        pullToRefresh = home_refresh_layout
+        setPullToRefreshListener()
+        Log.i("Places", "HomeFragment onStart")
+        // invokeLocationAction()
     }
 
     override fun onResume() {
         super.onResume()
         Log.i("Places", "HomeFragment onResume")
-        if (!nearByPlacesLoaded) {
-            nearby_places_list_progress_bar.visibility = View.VISIBLE
+        places_close_to_you_recycler_view.visibility = View.GONE
+        nearby_places_list_progress_bar.visibility = View.VISIBLE
+        customed_places_recycler_view.visibility = View.GONE
+        customed_places_list_progress_bar.visibility = View.VISIBLE
+        if (this.homeViewModel.firstLoaded) {
+            updatePlacesRoutine()
         }
-        if (!customPlacesLoaded) {
-            customed_places_list_progress_bar.visibility = View.VISIBLE
-        }
+        this.homeViewModel.firstLoaded = true
         return
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // view models observation
-        // this.homeViewModel.nearByPlacesListTest.observe(viewLifecycleOwner, { onNearByPlacesListChanged(view) })
-        this.locationViewModel.getLocationData()
-            .observe(viewLifecycleOwner, { startLocationUpdate(view) })
-        this.homeViewModel.nearByPlacesList.observe(
-            viewLifecycleOwner,
-            { onNearByPlacesListChanged(view) }
-        )
-        this.homeViewModel.nearByPlacesListTest.observe(
-            viewLifecycleOwner,
-            { onCustomPlacesListChanged(view) }
-        )
-        // pull to refresh
-        pullToRefresh = home_refresh_layout
-        setPullToRefreshListener()
+    // --------------------        stoping and pausing destroying ---------------------------------
+    override fun onPause() {
+        super.onPause()
+        clearLists()
+        Log.i("Places", "HomeFragment onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        clearLists()
+        Log.i("Places", "HomeFragment onStop")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-//        this.homeViewModel.nearByPlacesList.value?.clear()
-//        this.homeViewModel.nearByPlacesListTest.value?.clear()
+        clearLists()
         Log.i("Places", "HomeFragment onDestroyView")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         // in case we destroy the frasgent we want to clear the list
-//        this.homeViewModel.nearByPlacesList.value?.clear()
-//        this.homeViewModel.nearByPlacesListTest.value?.clear()
+        this.homeViewModel.firstLoaded = false
+        clearLists()
         Log.i("Places", "HomeFragment onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        clearLists()
+        Log.i("Places", "HomeFragment onDetach")
     }
 
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
+            // pullToRefresh.isRefreshing = true
             // update lists!
-            this.homeViewModel.nearByPlacesListTest.value?.clear()
-            this.homeViewModel.nearByPlacesList.value?.clear()
-            //
-            // get current lat long
-            val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
-            val long = this.locationViewModel.getLocationData().value?.longitude.toString()
-            this.homeViewModel.getAllPlacesLists(lat, long)
-            checkGps()
-            invokeLocationAction()
-            places_close_to_you_recycler_view.visibility = View.GONE
-            customed_places_recycler_view.visibility = View.GONE
-            nearby_places_list_progress_bar.visibility = View.VISIBLE
-            customed_places_list_progress_bar.visibility = View.VISIBLE
-            nearByPlacesLoaded = false
-            customPlacesLoaded = false
+            updatePlacesRoutine()
             pullToRefresh.isRefreshing = false
         }
     }
@@ -160,6 +178,35 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.customPlacesLoaded = true
     }
 
+    fun updatePlacesRoutine() {
+        // update lists!
+        this.homeViewModel.nearByPlacesListTest.value?.clear()
+        this.homeViewModel.nearByPlacesList.value?.clear()
+        nearByPlacesLoaded = false
+        customPlacesLoaded = false
+        //
+        // get current lat long
+        val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
+        val long = this.locationViewModel.getLocationData().value?.longitude.toString()
+        this.homeViewModel.getAllPlacesLists(lat, long)
+        // checkGps()
+        // invokeLocationAction()
+        places_close_to_you_recycler_view.visibility = View.GONE
+        customed_places_recycler_view.visibility = View.GONE
+        nearby_places_list_progress_bar.visibility = View.VISIBLE
+        customed_places_list_progress_bar.visibility = View.VISIBLE
+        nearByPlacesLoaded = false
+        customPlacesLoaded = false
+    }
+
+    fun clearLists() {
+        this.homeViewModel.nearByPlacesListTest.value?.clear()
+        this.homeViewModel.nearByPlacesList.value?.clear()
+        nearByPlacesLoaded = false
+        customPlacesLoaded = false
+        this.homeViewModel.firstLoaded = false
+    }
+
     // ---------------------------------------- gps -----------------------------------------------
     fun checkGps() {
         // gps
@@ -176,6 +223,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             locationViewModel.getLocationData().value?.latitude,
             locationViewModel.getLocationData().value?.longitude
         )
+        if (!this.nearByPlacesLoaded && !this.customPlacesLoaded) {
+            updatePlacesRoutine()
+            nearByPlacesLoaded = true
+            customPlacesLoaded = true
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -242,6 +294,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         }
     }
 
+    // whenever you click on an item from the recylcler - but need to know which one
     override fun onItemClick(position: Int) {
 
         val clickedNearbyPlacesItem: PlaceModel =
