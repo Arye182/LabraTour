@@ -3,17 +3,15 @@ package com.example.labratour.data.repositories;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 import com.example.labratour.data.net.RestApi;
+import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.repositories.PlacesRepository;
-import com.example.labratour.domain.repositories.PoiDetailesDomain;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
-import retrofit2.Callback;
 
 public class PlacesRepositoryImpl implements PlacesRepository {
 
@@ -54,10 +52,10 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
     }
 
 
-    public Single<Vector<Integer>> getPoiById(String Id) throws MalformedURLException {
-        return this.restApi.getPlaceById(Id).map(new Function<PoiDetailsEntity, Vector<Integer>>() {
+    public Single<Atributes> getPoiById(String Id) throws MalformedURLException {
+        return this.restApi.getPlaceById(Id).map(new Function<PoiDetailsEntity, Atributes>() {
             @Override
-            public Vector<Integer> apply(PoiDetailsEntity poiDetailsEntity) throws Exception {
+            public Atributes apply(PoiDetailsEntity poiDetailsEntity) throws Exception {
                 return placeDetailesDataMapper.transform(poiDetailsEntity);
             }
         });

@@ -1,12 +1,16 @@
 package com.example.labratour.data.Entity.mapper;
 
 import com.example.labratour.data.Entity.UserEntity;
+import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.Entity.UserDomain;
 import com.google.firebase.auth.AuthResult;
 
 public class UserDataMapper {
 
-
+  public static Atributes transformToAtributes(UserDomain userDomain) {
+    return userDomain.getAtributes();
+    // TODO: 21/09/2021
+  }
 
   public static UserEntity transform(AuthResult authResult) {
     UserEntity userEntity = null;

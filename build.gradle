@@ -11,7 +11,7 @@ buildscript {
     ext.testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     ext.jUnitVersion = "4.12"
     ext.assertJVersion = "1.7.1"
-    ext.mockitoVersion = "1.9.5"
+    ext.mockitoVersion = "1.10.19"
     ext.rxAndroidVersion ="2.0.1"
     ext.retrofitVersion = "2.3.0"
     ext.gsonConverterVersion = "2.9"
@@ -19,6 +19,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
     }
     // dependencies
     dependencies {
@@ -37,6 +38,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+
     }
 }
 
