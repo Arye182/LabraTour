@@ -11,7 +11,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,6 +62,7 @@ public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) 
                             //  FirebaseAuth.getInstance().signOut();
                               emitter.onNext(task.getResult());
                           }
+                          emitter.onError(new Exception("save new user task wasnot succesful"));
                           // redirect the user to the login screen
 
                         }
@@ -72,12 +72,12 @@ public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) 
                         @Override
                         public void onFailure(@NonNull @NotNull Exception e) {
 
-                          FirebaseAuth.getInstance().signOut();
-                          emitter.onError(e);
+                        //  FirebaseAuth.getInstance().signOut();
+                          emitter.onError(e.getCause());
                         }
                       });
             } catch (Exception exception) {
-              emitter.onError(exception);
+              emitter.onError(exception.getCause());
             }
           }
         });
