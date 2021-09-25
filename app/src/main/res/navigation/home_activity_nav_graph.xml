@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homeFragment_to_placeResultFragment"
             app:destination="@id/placeResultFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_placesListFragment"
+            app:destination="@id/placesListFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -75,7 +78,30 @@
         android:name="com.example.labratour.presentation.ui.home.SubCategoryFragment"
         android:label="SubCategoryFragment">
         <argument
-            android:name="sub_category"
+            android:name="category"
             app:argType="string" />
+        <action
+            android:id="@+id/action_subCategoryFragment_to_placesListFragment"
+            app:destination="@id/placesListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/placesListFragment"
+        android:name="com.example.labratour.presentation.ui.home.PlacesListFragment"
+        android:label="PlacesListFragment">
+        <argument
+            android:name="sub_category"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.labratour.presentation.ui.general.AboutFragment"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.labratour.presentation.ui.general.MapFragment"
+        android:label="MapFragment" />
+    <fragment
+        android:id="@+id/currencyFragment"
+        android:name="com.example.labratour.presentation.ui.general.CurrencyFragment"
+        android:label="CurrencyFragment" />
 </navigation>

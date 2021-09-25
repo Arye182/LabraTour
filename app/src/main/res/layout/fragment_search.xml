@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:context=".presentation.ui.home.SearchFragment"
-    android:background="@color/card">
+    tools:context=".presentation.ui.home.SearchFragment">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -43,11 +42,12 @@
                         android:layout_height="100dp"
                         android:background="@drawable/category_bg"
                         android:orientation="vertical"
-                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent"
+                        android:clickable="true">
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
+                            android:src="@drawable/labra_asset_10"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -72,7 +72,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_26"
+                            android:src="@drawable/labra_asset_30"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -132,7 +132,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="45dp"
-                            android:src="@drawable/labra_asset_25"
+                            android:src="@drawable/labra_asset_11"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -167,7 +167,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_27"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -193,7 +193,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_29"
+                            android:src="@drawable/labra_asset_39"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -230,7 +230,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
+                            android:src="@drawable/labra_asset_4"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -319,7 +319,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_26"
+                            android:src="@drawable/labra_asset_33"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -357,7 +357,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
+                            android:src="@drawable/labra_asset_6"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>

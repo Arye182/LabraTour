@@ -29,6 +29,7 @@ class UserHomeViewModel(
     private var testPlacesList = ArrayList<PlaceModel>()
     private var nearbyPlacesStringList = ArrayList<String>()
     private var nearbyPlacesList = ArrayList<PlaceModel>()
+    var firstLoaded: Boolean = false
 
     // Specify the fields to return.
     private val placeFields = listOf(
@@ -75,6 +76,10 @@ class UserHomeViewModel(
     }
 
     val nearByPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+        MutableLiveData<ArrayList<PlaceModel>>()
+    }
+
+    val categoryPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
 
@@ -241,6 +246,7 @@ class UserHomeViewModel(
         }
         Log.i("Places", "size of list:" + testPlacesList.size)
         this.nearByPlacesListTest.setValue(testPlacesList)
+        this.categoryPlacesList.setValue(testPlacesList)
     }
 
     // this is getting the places list with the string list that came from domain
@@ -251,6 +257,7 @@ class UserHomeViewModel(
             nearByPlacesListCoRoutine()
         }
     }
+
     suspend fun nearByPlacesListCoRoutine() {
         for (place_id in this.nearbyPlacesStringList) {
             var bitmap: Bitmap
@@ -327,5 +334,11 @@ class UserHomeViewModel(
         Log.i("Places", "Starting To Update Places Lists (vm)")
         getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
         generatePlacesListForTest()
+    }
+
+    fun updateCategoryList(category: String, lat: String, long: String) {
+
+        generatePlacesListForTest()
+
     }
 }

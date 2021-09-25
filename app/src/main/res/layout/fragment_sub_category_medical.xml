@@ -1,6 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context=".presentation.ui.home.SubCategoryFragment"
+    >
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- ******************************* Medical Category ***************************** -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <!-- 2-buttons row amusement_park , aquarium-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/doctor"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Doctor"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/drugstore"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Drugstore"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- 2-buttons row zoo  , park-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="16dp">
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/hospital"
+                        android:padding="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical"
+                        style="@style/ShapeAppearance.MaterialComponents.LargeComponent">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_beer"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Hospital"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+                    <!-- button-->
+                    <LinearLayout
+                        android:id="@+id/pharmacy"
+                        android:padding="8dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/category_bg"
+                        android:orientation="vertical">
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/labra_asset_26"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="4dp">
+                        </com.google.android.material.imageview.ShapeableImageView>
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Pharmacy"
+                            android:layout_gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
