@@ -11,7 +11,10 @@ import java.util.Map;
 
 public class UserDataMapper {
 
- 
+    public static String transformToId(AuthResult register){
+            return register.getUser().getProviderId();
+
+    }
 
   public static UserEntity transform(AuthResult authResult) {
     UserEntity userEntity = null;
@@ -29,7 +32,7 @@ public class UserDataMapper {
     if (userDomain != null) {
       try {
         userEntity = new UserEntity(userDomain.getUserId());
-        userEntity.setUserName(userDomain.getUserName());
+        //userEntity.setUserName(userDomain.getUserName());
         // userEntity.setAtributes(transform(userDomain.getAtributes()));
         userEntity.setEmail(userDomain.getEmail());
         // userEntity.setCountRate(userDomain.getCountRates());

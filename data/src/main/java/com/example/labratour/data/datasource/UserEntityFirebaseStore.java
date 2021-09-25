@@ -39,45 +39,49 @@ private final EntityJsonMapper<UserEntity> JsonMapper;
 // this.database.setPersistenceEnabled(true);
        //   firebaseDatabase.setPersistenceEnabled(true);
 
-    this.database = firebaseDatabase.getReference("users");
+    this.database = firebaseDatabase.getReference();
     this.JsonMapper = new UserHashMapper();
   }
 
 public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) {
 
-DatabaseReference databaseReference = database.child(id);
     return Observable.create(
         new ObservableOnSubscribe<Void>() {
           @Override
           public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
-              try{
-            DatabaseReference reference = databaseReference;
-            reference
-                .setValue(UserDataMapper.transform(userDomain))
-                .addOnCompleteListener(
-                    new OnCompleteListener<Void>() {
+            try {
+              database
+                  .child("users")
+                  .push()
+                  .setValue(UserDataMapper.transform(userDomain))
+                  .addOnCompleteListener(
+                      new OnCompleteListener<Void>() {
 
-                      @Override
-                      public void onComplete(@NotNull Task<Void> task) {
-                        FirebaseAuth.getInstance().signOut();
-                        emitter.onNext(task.getResult());
-                        // redirect the user to the login screen
+                        @Override
+                        public void onComplete(@NotNull Task<Void> task) {
+                          if (task.isSuccessful()) {
+                            //  FirebaseAuth.getInstance().signOut();
+                              emitter.onNext(task.getResult());
+                          }
+                          // redirect the user to the login screen
 
-                      }
-                    })
-                .addOnFailureListener(
-                    new OnFailureListener() {
-                      @Override
-                      public void onFailure(@NonNull @NotNull Exception e) {
+                        }
+                      })
+                  .addOnFailureListener(
+                      new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull @NotNull Exception e) {
 
-                        FirebaseAuth.getInstance().signOut();
-                        emitter.onError(e);
-                      }
-                    });
-          }catch (Exception exception){
-                  emitter.onError(exception);
-              }
-        }});}
+                          FirebaseAuth.getInstance().signOut();
+                          emitter.onError(e);
+                        }
+                      });
+            } catch (Exception exception) {
+              emitter.onError(exception);
+            }
+          }
+        });
+  }
 
 
 

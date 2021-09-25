@@ -79,24 +79,33 @@ public class CloudUserDataSource {
         });
   }
 
-  public Observable<AuthResult> register(final String email, final String password) {
+  public Observable<AuthResult> register(final String email,  final String password) {
     return Observable.create(
         new ObservableOnSubscribe<AuthResult>() {
 
           @Override
           public void subscribe(ObservableEmitter<AuthResult> emitter) throws Exception {
+              try{
             firebaseAuth
-                .createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener(
-                    new OnSuccessListener<AuthResult>() {
+                .createUserWithEmailAndPassword(email, password).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
 
-                      @Override
-                      public void onSuccess(AuthResult authResult) {
-                        if (!(emitter.isDisposed())) {
-                          emitter.onNext(authResult);
+                @Override
+                public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            if(task.getResult()!=null){
+                            if (!(emitter.isDisposed())) {
+                                emitter.onNext(task.getResult());
+                            }
                         }
-                      }
-                    })
+                        else{
+                            if (!(emitter.isDisposed())) {
+                                emitter.onError(new Exception("register task result is null"));
+                            }
+                        }
+                    }else{
+                        emitter.onError(new Exception("Task of register not succesful"));
+                    }
+                }})
                 .addOnFailureListener(
                     new OnFailureListener() {
                       @Override
@@ -107,7 +116,13 @@ public class CloudUserDataSource {
                       }
                     });
           }
-        });
+              catch (Exception e){
+                  if (!(emitter.isDisposed()))
+                  {
+                      emitter.onError(e.getCause());
+                  }
+              }
+        }});
   }
 
   public Single<UserEntity> getUser(String userId) {

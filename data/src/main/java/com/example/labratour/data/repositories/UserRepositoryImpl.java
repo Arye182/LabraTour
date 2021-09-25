@@ -9,6 +9,7 @@ import com.example.labratour.domain.repositories.UserRepository;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.annotations.NotNull;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -100,16 +101,23 @@ public class UserRepositoryImpl implements UserRepository {
 //  public void saveUser(UserDomain userDomain) {}
 
   @Override
-  public Observable registerNewUser(String email, String password) {
+  public Observable<String> registerNewUser(String email, String password) {
     return this.cloudUserDataSource
-        .register(email, password)
-        .map(
-            new Function<AuthResult, String>() {
+        .register(email, password).map(new Function<AuthResult, String>() {
               @Override
-              public String apply(AuthResult authResult) throws Exception {
-                return authResult.getUser().getUid();
+              public String apply(@NotNull AuthResult authResult) throws Exception {
+                return UserDataMapper.transformToId(authResult);
               }
             });
+    //map(
+//            new Function<AuthResult, String>() {
+//              @Override
+//              public String apply(AuthResult authResult) throws Exception {
+//                return authResult.getUser().getUid();
+//              }
+//
+//            });
+//
   }
 
   @Override

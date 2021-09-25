@@ -27,7 +27,9 @@ public class UserEntity  {
     private String address;
     @SerializedName("atributes")
     private HashMap<String, Object> atributes;
+public UserEntity(){
 
+}
     public UserEntity(String userId) {
         this.userId = userId;
         this.atributes = initAtributesMap();

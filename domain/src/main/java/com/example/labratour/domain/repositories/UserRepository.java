@@ -13,7 +13,7 @@ public interface UserRepository {
     public Observable login(String email, String  password);
     public Observable updateUser(UserDomain userDomain, String response) throws InstantiationException, IllegalAccessException;
     public void saveUser(UserDomain userDomain);
-    Observable registerNewUser(String email , String password);
+    Observable<String> registerNewUser(String email , String password);
 
     Observable<Void> saveNewUser(UserDomain userDomain, String userId) ;
 

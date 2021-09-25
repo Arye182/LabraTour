@@ -35,7 +35,7 @@ public class RegisterNewUserUseCase extends UseCase<String, RegisterNewUserUseCa
   }
 
 
-  public static final class Param {
+  public static class Param {
 
     protected final String password;
     protected final String email;
@@ -46,7 +46,7 @@ public class RegisterNewUserUseCase extends UseCase<String, RegisterNewUserUseCa
     }
 
     public static Param forUser(String email, String password) {
-      return new Param(password, email);
+      return new Param(email, password);
     }
   }
   }
