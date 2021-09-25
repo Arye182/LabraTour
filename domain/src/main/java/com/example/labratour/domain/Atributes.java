@@ -6,12 +6,12 @@ import com.google.gson.annotations.SerializedName;
 public class Atributes {
     @SerializedName("pricelevel")
 
-    private int price_level = -5 ;
+    private int price_level = 0;
     //
    // @JsonProperty("rating")
     @SerializedName("useraggragaterating")
     private double usersAggragateRating = 0;
-    @SerializedName("aftermidnight")
+    @SerializedName("alwaysOpen")
 
     private boolean alwaysOpen = false;
     private boolean amusement_park = false;
@@ -47,7 +47,7 @@ public class Atributes {
         this.price_level = price_level;
     }
 
-    public void setUsersAggragateRating(float usersAggragateRating) {
+    public void setUsersAggragateRating(double uersAggragateRating) {
         this.usersAggragateRating = usersAggragateRating;
     }
 

@@ -1,13 +1,8 @@
 package com.example.labratour.data.repositories;
 
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.labratour.domain.Atributes;
-import com.example.labratour.domain.AtributesCalculator;
 import com.example.labratour.domain.BuisnesPostExecutionThread;
 import com.example.labratour.domain.UserAtributes;
-import com.example.labratour.domain.UserProfileManager;
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
 import com.example.labratour.domain.repositories.PlacesRepository;
@@ -17,7 +12,6 @@ import com.example.labratour.domain.repositories.UserRepository;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
-import java.util.Vector;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -31,20 +25,15 @@ import io.reactivex.schedulers.Schedulers;
 public class RatingsRepositoryImpl implements RatingsRepository {
     private UserRepository userRepository;
     private PlacesRepository placesRepository;
-    private UserProfileManager userProfileManager;
+    private AtributesRepository atributesRepository;
     private PoiDetailesDomain poiDetailesDomain = null;
     private ExecutionThread executionThread;
-    MutableLiveData<Boolean> getUserAtributesVectorTaskStatus = new MutableLiveData<Boolean>();
-    MutableLiveData<Boolean>  getPoiAtributesVectorTaskStatus = new MutableLiveData<Boolean>();
-    private LifecycleOwner UserProfileLifecycleOwner;
     private PostExecutionThread postExecutionThread;
-     Vector<Integer> userNewWheightsOfPoiAtributes;
-     Vector<Integer> userProfileCurrentAtributes;
 
-    public RatingsRepositoryImpl(UserRepository userRepository, PlacesRepository placesRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
+    public RatingsRepositoryImpl(UserRepository userRepository, PlacesRepository placesRepository,AtributesRepository atributesRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
         this.userRepository = userRepository;
         this.placesRepository = placesRepository;
-        this.userProfileManager = new UserProfileManager(new AtributesCalculator());
+        this.atributesRepository = atributesRepository;
         this.executionThread = executionThread;
         //new scheduler that queuse work on current thread
         this.postExecutionThread = new BuisnesPostExecutionThread();
@@ -56,7 +45,7 @@ public class RatingsRepositoryImpl implements RatingsRepository {
         return placesRepository.getPoiById(poiId);
     }
     public Single<UserAtributes> buildUserAtributesSingle(String userId) {
-        return userRepository.getUserAtributes(userId);
+        return atributesRepository.getUserAtributes(userId);
    }
    @Override
    public Observable<Void> updateUserProfileByRate(String userId, String placeId, int rate){
@@ -85,7 +74,7 @@ public class RatingsRepositoryImpl implements RatingsRepository {
                     @Override
                     public void onSuccess(UserAtributes value) {
                         //this subscribe the Single from user repository with the observer argument
-                        userRepository.updateNewAtributes(value, userId).subscribe(new SingleObserver<Void>() {
+                        atributesRepository.updateNewAtributes(value, userId).subscribe(new SingleObserver<Void>() {
                             @Override
                             public void onSubscribe(Disposable d) {
 
@@ -139,20 +128,17 @@ public class RatingsRepositoryImpl implements RatingsRepository {
                 String poiFieldName = (atr[i].getName());
 
                 Double poiA = poiAtributes.getClass().getField(poiFieldName).getDouble(poiAtributes);
-                Double userA = userAtributes.getClass().getField(poiFieldName).getDouble(userAtributes);
+                Double userA = userAtributesClass.getField(poiFieldName).getDouble(userAtributes);
 
                 Double newAtribute = ((poiA*rate/5)+(userA*userRatesCount))/(newUserAtributes.getRatesCounter());
                 Field field = userAtributesClass.getField(poiFieldName);
 
-               // Field field = aClass.getField("someField");
+            //    Object value = field.get(newUserAtributes);
 
-
-                Object value = field.get(newUserAtributes);
-
-                field.set(newUserAtributes, newAtribute);
+                field.setDouble(newUserAtributes, newAtribute);
 
             }catch (NoSuchFieldException e){
-
+                e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

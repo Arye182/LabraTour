@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.EntityJsonMapper;
+import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.data.Entity.mapper.UserHashMapper;
+import com.example.labratour.domain.Entity.UserDomain;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -21,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -42,15 +43,17 @@ private final EntityJsonMapper<UserEntity> JsonMapper;
     this.JsonMapper = new UserHashMapper();
   }
 
-public Observable<Void> createUserIfNotExists(UserEntity userEntity) {
-DatabaseReference databaseReference = database.child((FirebaseAuth.getInstance().getCurrentUser().getUid()));
+public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) {
+
+DatabaseReference databaseReference = database.child(id);
     return Observable.create(
         new ObservableOnSubscribe<Void>() {
           @Override
           public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
+              try{
             DatabaseReference reference = databaseReference;
             reference
-                .setValue(userEntity)
+                .setValue(UserDataMapper.transform(userDomain))
                 .addOnCompleteListener(
                     new OnCompleteListener<Void>() {
 
@@ -71,9 +74,10 @@ DatabaseReference databaseReference = database.child((FirebaseAuth.getInstance()
                         emitter.onError(e);
                       }
                     });
-          }
-        });
-        }
+          }catch (Exception exception){
+                  emitter.onError(exception);
+              }
+        }});}
 
 
 
@@ -124,7 +128,7 @@ public Single<List<UserEntity>> getUsers() {
 
 
 
-public Observable<UserEntity> getUser(String userId) {
+public Observable<UserEntity> getUserRealtime(String userId) {
         Query query = database.child(userId);
         return Observable.create(emitter -> {
                 ValueEventListener valueEventListener = new ValueEventListener() {
@@ -163,26 +167,10 @@ private <R> Observable<R> updateNotNewUser(DatabaseReference databaseReference, 
                                 });
                         }
                 });
-        }
+        }}
 
-//
-//        public Observable<Void> savenewUnupdatedRatesToCurrentUser(Map<String, Integer> newRates) {
-//          DatabaseReference currentUserReference  = database.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//
-//        }
-}
-//        private void writeNewPost(String userId, String username, String title, String body) {
-//                // Create new post at /user-posts/$userid/$postid and at
-//                // /posts/$postid simultaneously
-//                String key = mDatabase.child("users").push().getKey();
-//           //     Post user = new Post(userId, username, title, body);
-//           //     Map<String, Object> userValues =
-//
-//                childUpdates.put("/posts/" + key, postValues);
-//                childUpdates.put("/user-posts/" + userId + "/" + key, postValues);
-//
-//                mDatabase.updateChildren(childUpdates);
-//        }
+
+//myRef.child("someChild").child("name").setValue(name)
 
 
 

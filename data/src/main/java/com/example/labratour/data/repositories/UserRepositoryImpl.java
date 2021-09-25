@@ -4,17 +4,11 @@ import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.data.datasource.CloudUserDataSource;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
-import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.Entity.UserDomain;
-import com.example.labratour.domain.UserAtributes;
 import com.example.labratour.domain.repositories.UserRepository;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.net.MalformedURLException;
-import java.util.Map;
-import java.util.Vector;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -40,33 +34,34 @@ public class UserRepositoryImpl implements UserRepository {
   //        return null;
   //    }
 
-  @Override
-  public Observable<UserDomain> getUser(String userId, boolean fromServer) {
-    return null;
-  }
 
-  @Override
-  public Single<Vector<Integer>> getUserAtributesVector(String userId) {
-    return null;
-  }
-  public Single<UserAtributes> getUserAtributes(String userId) {
-    return null;
-  }
 
-  @Override
-  public Single<Void> updateNewAtributes(UserAtributes userAtributes, String userId) {
-    return null;
-  }
+ // @Override
+  //public Single<Vector<Integer>> getUserAtributesVector(String userId) {
+//    return null;
+//  }
 
-  @Override
+
+    @Override
+    public Observable<UserDomain> getUser(String userId, boolean fromServer) {
+        return null;
+    }
+
+    @Override
   public Single<UserDomain> getUser(String userId) {
-    return null;
+    return this.cloudUserDataSource.getUser(userId).map(new Function<UserEntity, UserDomain>() {
+      @Override
+      public UserDomain apply(UserEntity userEntity) throws Exception {
+        return UserDataMapper.transform(userEntity);
+      }
+    });
+
   }
 
   @Override
   public Observable<UserDomain> login(final String email, final String password) {
     return this.cloudUserDataSource
-        .login(new UserEntity(email, password))
+        .login(email, password)
         .map(
             new Function<AuthResult, UserEntity>() {
               @Override
@@ -83,12 +78,26 @@ public class UserRepositoryImpl implements UserRepository {
             });
   }
 
-  public Observable updateUser(UserDomain userDomain, String response) {
-    return this.userEntityFirebaseStore.updateUser(UserDataMapper.transform(userDomain), response);
-  }
+    @Override
+    public Observable updateUser(UserDomain userDomain, String response) throws InstantiationException, IllegalAccessException {
+        return null;
+    }
 
-  @Override
-  public void saveUser(UserDomain userDomain) {}
+    @Override
+    public void saveUser(UserDomain userDomain) {
+
+    }
+
+    //  public Observable updateUser(UserDomain userDomain, String response) throws InstantiationException, IllegalAccessException {
+//
+//    return this.userEntityFirebaseStore.updateUser(UserDataMapper.transform(userDomain), response);
+//  }
+  public Observable updateUser(UserEntity userEntity, String response) {
+    return this.userEntityFirebaseStore.updateUser(userEntity, response);
+  }
+//
+//  @Override
+//  public void saveUser(UserDomain userDomain) {}
 
   @Override
   public Observable registerNewUser(String email, String password) {
@@ -104,39 +113,20 @@ public class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public Observable signUp(String email, String password, String first_name, String last_name) {
-    return this.userEntityFirebaseStore.createUserIfNotExists(
-        new UserEntity(email, password, first_name, last_name));
+  public Observable<Void> saveNewUser(UserDomain userDomain, String id) {
+    return this.userEntityFirebaseStore.createUserIfNotExists(userDomain, id);
   }
-
-  @Override
-  public Observable signUp() {
-    return null;
-  }
-
-  @Override
-  public Observable<Void> saveNewUnupdatedRatesToUser(Map<String, Integer> newRates) {
-    return null;
-  }
-
-  @Override
-  public Observable<Void> saveNewUser(UserDomain userDomain) {
-    return this.userEntityFirebaseStore.createUserIfNotExists(UserDataMapper.transform(userDomain));
-  }
-  //    @Override
-  //    public Observable<Void> saveNewUnupdatedRatesToUser(Map<String, Integer> newRates){
-  //      return userEntityFirebaseStore.savenewUnupdatedRatesToCurrentUser();
-  //    }
-  public Single<Atributes> getuserAtributesById(String Id) throws MalformedURLException {
-    return this.getUser(Id)
-        .map(
-            new Function<UserDomain, Atributes>() {
-              @Override
-              public Atributes apply(UserDomain userDomain) throws Exception {
-                return UserDataMapper.transformToAtributes(userDomain);
-              }
-            });
-  }
+//
+//  public Single<UserAtributes> getuserAtributesById(String Id) throws MalformedURLException {
+//    return this.getUser(Id)
+//        .map(
+//            new Function<UserDomain, UserAtributes>() {
+//              @Override
+//              public UserAtributes apply(UserDomain userDomain) throws Exception {
+//                return userDomain.getAtributes();
+//              }
+//            });
+//  }
 
 }
 

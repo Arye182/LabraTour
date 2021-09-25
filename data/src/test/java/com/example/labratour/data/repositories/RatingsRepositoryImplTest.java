@@ -24,11 +24,16 @@ public class RatingsRepositoryImplTest {
      RatingsRepositoryImpl repository;
      Atributes atributes;
      UserAtributes userOldAtributes;
+     UserAtributes userExpectedNewAtributes;
+     int userCount;
+     int rate;
     @Mock
      PlacesRepositoryImpl mMockPlacesRepositoryImpl;
 
     @Mock
      UserRepository userRepository;
+    @Mock
+    AtributesRepository atributesRepository;
 
     @Mock
     private ExecutionThread executionThread;
@@ -37,18 +42,21 @@ public class RatingsRepositoryImplTest {
     private PostExecutionThread postExecutionThread;
 
 @Before
-public void setUp() throws MalformedURLException {
-    repository = new RatingsRepositoryImpl(userRepository, mMockPlacesRepositoryImpl, executionThread, postExecutionThread);
+public void setUp() throws MalformedURLException, NoSuchFieldException {
+    repository = new RatingsRepositoryImpl(userRepository, mMockPlacesRepositoryImpl,atributesRepository, executionThread, postExecutionThread);
 
     // repository = new RatingsRepositoryImpl(userRepository, placesRepository, executionThread, postExecutionThread);
 //        ioScheduler =  Schedulers.from(executionThread);
         atributes =  generateAtributes();
          userOldAtributes  = generateUserAtributes(0,0,0,1,1,3/5, 4/5);
-//
-//        items.add("y");
-//        items2.add("u");
+         userExpectedNewAtributes = generateUserAtributes(0,0, 0, 12/15, 12/15, 12/25, 48/75);
+         userCount = 2;
+         rate = 4;
         given(mMockPlacesRepositoryImpl.getPoiById("3")).willReturn(Single.just(atributes));
-        given(userRepository.getUserAtributes("3")).willReturn(Single.just(userOldAtributes));
+        given(atributesRepository.getUserAtributes("3")).willReturn(Single.just(userOldAtributes));
+        given(repository.calculateNewAtributesForUser(atributes, userOldAtributes, userCount, rate)).willReturn(userExpectedNewAtributes);
+      //  given(userRepository.updateNewAtributes(userExpectedNewAtributes, "3")).willReturn(new Single<Void>() {
+
 
         // useCase.execute( subscriber, new GetNearbyPlacesUseCase.RequestInput("3", "4"));
     }
@@ -73,6 +81,8 @@ public void setUp() throws MalformedURLException {
 
 
     public void testUpdateUserProfileByRate() {
+
+
     }
 
     public void testFromAtributesToVector() {

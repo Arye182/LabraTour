@@ -4,6 +4,7 @@ import com.example.labratour.data.Entity.PlaceOpeningHoursPeriod;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.domain.Atributes;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -18,8 +19,8 @@ public class PlaceDetailesDataMapper {
     Atributes atributes = null;
     if (poiDetailsEntity != null) {
       atributes = new Atributes();
-      atributes.setPrice_level(poiDetailsEntity.getPriceLevel() / 5);
-      atributes.setUsersAggragateRating((float) (poiDetailsEntity.getRating() / 5));
+      atributes.setPrice_level((poiDetailsEntity.getPriceLevel()+1) / 5);
+      atributes.setUsersAggragateRating(poiDetailsEntity.getRating() / 5);
       atributes.setAlwaysOpen(isAlwaysOpen(poiDetailsEntity.getOpeningHours().getPeriods()));
       updateAtributesFields(poiDetailsEntity.getTypes(), atributes);
     }
@@ -27,19 +28,26 @@ public class PlaceDetailesDataMapper {
   }
 
   private void updateAtributesFields(ArrayList<String> types, Atributes atributes) {
-    for (String type : types) {
-      if (atributes.getClass().getFields().toString().contains(type)) {
-        try {
-          atributes.getClass().getDeclaredField(type).setBoolean(this, true);
-
-        } catch (IllegalAccessException e) {
-          e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-          e.printStackTrace();
-        }
-      }
+    Atributes atributes1 = new Atributes();
+    atributes1.setPrice_level(atributes.getPrice_level());
+    atributes1.setUsersAggragateRating(atributes.getUsersAggragateRating());
+    atributes1.setAlwaysOpen(atributes.isAlwaysOpen());
+    try {
+      //   Map<String, Object> myObjectAsDict = new HashMap<>();
+      Field[] allFields = Atributes.class.getDeclaredFields();
+      for (Field field : allFields) {
+        String fieldName = field.getName();
+        if (types.contains(fieldName)) {
+          try {
+            field.setBoolean(atributes1, true);
+          } catch (IllegalAccessException e) {
+            e.printStackTrace();
+          }
+        }}
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-  }
+    }
 
   private boolean isAlwaysOpen(ArrayList<PlaceOpeningHoursPeriod> periods) {
     int sum = 0;

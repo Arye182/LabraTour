@@ -1,37 +1,36 @@
 package com.example.labratour.domain.Entity;
 
-import com.example.labratour.domain.Atributes;
+import com.example.labratour.domain.UserAtributes;
 
 import java.util.Map;
 
 public class UserDomain {
-    private final String userId;
+    private  String userId;
 
-
-
-
+//    public UserDomain(String email, String password, String first_name, String last_name) {
+//        this.email = email;
+//        this.first_name = first_name;
+//        this.last_name = last_name;
+//    }
 
     public UserDomain(String  userId) {
         this.userId = userId;
+        this.atributes = new UserAtributes();
 
     }
 
 
-    private String fullName;
-    private String email;
-
+    private String fullName = null;
+    private String email = null;
+    //private String password;
     public void setUnUpdatedRates(Map<String, Integer> unUpdatedRates) {
         this.unUpdatedRates = unUpdatedRates;
     }
 
-    public Map<String, Integer> getUnUpdatedRates() {
-        return unUpdatedRates;
-    }
-
-    private String UserName;
-    private String Phone;
-    private String address;
-private Map<String, Integer> unUpdatedRates;
+    private String UserName = null;
+    private String Phone = null;
+    private String address = null;
+private Map<String, Integer> unUpdatedRates = null;
     public String getFirst_name() {
         return first_name;
     }
@@ -44,24 +43,19 @@ private Map<String, Integer> unUpdatedRates;
         this.last_name = last_name;
     }
 
-    public void setCountRates(int countRates) {
-        this.countRates = countRates;
-    }
+
 
     public String getLast_name() {
         return last_name;
     }
 
-    private Atributes atributes;
-private String first_name;
-private String last_name;
-    public int getCountRates() {
-        return countRates;
-    }
+    private UserAtributes atributes;
+private String first_name = null;
+private String last_name = null;
 
-    private int countRates;
+   // private int countRates;
 
-    public void setAtributes(Atributes atributes) {
+    public void setAtributes(UserAtributes atributes) {
         this.atributes = atributes;
     }
 //    private Object clusters;
@@ -110,7 +104,7 @@ private String last_name;
         this.email = email;
     }
 
-    public  Atributes getAtributes() {
+    public  UserAtributes getAtributes() {
         return atributes;
     }
 

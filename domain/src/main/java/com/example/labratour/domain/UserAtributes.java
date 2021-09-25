@@ -12,6 +12,7 @@ public class UserAtributes {
         return RatesCounter;
     }
 
+    @SerializedName("RatesCounter")
     private int RatesCounter = 0;
 
     @SerializedName("pricelevel")
@@ -20,26 +21,39 @@ public class UserAtributes {
     // @JsonProperty("rating")
     @SerializedName("useraggragaterating")
     private double usersAggragateRating = 0;
-    @SerializedName("aftermidnight")
+    @SerializedName("always_open")
 
     private double alwaysOpen = 0;
+    @SerializedName("amusement_park")
     private double amusement_park = 0;
+    @SerializedName("aquarium")
     private double aquarium = 0;
+    @SerializedName("art_gallery")
     private double art_gallery = 0;
+    @SerializedName("campground")
     private double campground = 0;
+    @SerializedName("night_club")
     private double night_club = 0;
+    @SerializedName("painter")
     private double painter = 0;
+    @SerializedName("movie_theater")
     private double movie_theater  = 0;
+    @SerializedName("museum")
     private double museum = 0;
 
     public void setAlwaysOpen(double alwaysOpen) {
         this.alwaysOpen = alwaysOpen;
     }
 
+    @SerializedName("casino")
     private double casino = 0;
+    @SerializedName("cafe")
     private double cafe = 0;
+    @SerializedName("restaurant")
     private double restaurant = 0;
+    @SerializedName("rv_park")
     private double rv_park = 0;
+    @SerializedName("shopping_mall")
     private double shopping_mall = 0;
 
     public double getAlwaysOpen() {
@@ -114,10 +128,15 @@ public class UserAtributes {
         return gym;
     }
 
+    @SerializedName("spa")
     private double spa = 0;
+    @SerializedName("stadium")
     private double stadium = 0;
+    @SerializedName("tourist_attraction")
     private double tourist_attraction = 0;
+    @SerializedName("zoo")
     private double zoo = 0;
+    @SerializedName("gym")
     private double gym = 0;
 
     public UserAtributes() {

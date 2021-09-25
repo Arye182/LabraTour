@@ -1,20 +1,37 @@
 package com.example.labratour.data.Entity;
 
-import com.example.labratour.domain.Atributes;
+import android.util.Pair;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserEntity  {
-
-
-
-
-
-
-
-private String userId = null;
+    private String userId = null;
     @SerializedName("countrate")
- private int    countRate;
+    private int countRate = 0;
+    @SerializedName("fullname")
+    private String fullName = null;
+    @SerializedName("email")
+    private String email = null;
+    @SerializedName("username")
+    private String userName = null;
+    @SerializedName("phone")
+    private String Phone = null;
+    @SerializedName("firstname")
+    private String first_name = null;
+    @SerializedName("lastname")
+    private String last_name = null;
+    @SerializedName("address")
+    private String address;
+    @SerializedName("atributes")
+    private HashMap<String, Object> atributes;
 
+    public UserEntity(String userId) {
+        this.userId = userId;
+        this.atributes = initAtributesMap();
+    }
     public int getCountRate() {
         return countRate;
     }
@@ -22,13 +39,6 @@ private String userId = null;
     public void setCountRate(int countRate) {
         this.countRate = countRate;
     }
-
-    private String password;
-    @SerializedName("fullname")
-private String fullName = null;
-private String email = null;
-    @SerializedName("username")
-private String userName = null;
 
     public String getLast_name() {
         return last_name;
@@ -45,44 +55,25 @@ private String userName = null;
     public String getFirst_name() {
         return first_name;
     }
-    @SerializedName("phone")
-    private String Phone = null;
-    @SerializedName("lastname")
-private String last_name = null;
 
-    public UserEntity(String email, String password, String first_name, String last_name) {
-        this.password = password;
+
+    public UserEntity(String userId, int countRate, String password, String fullName, String email, String userName, String phone, String last_name, String first_name, String address, HashMap<String, Object> atributes) {
+        this.userId = userId;
+        this.countRate = countRate;
+      //  this.password = password;
+        this.fullName = fullName;
         this.email = email;
+        this.userName = userName;
+        Phone = phone;
         this.last_name = last_name;
         this.first_name = first_name;
-        this.atributes = new Atributes();
+        this.address = address;
+        setAtributes(atributes);
     }
-    @SerializedName("firstname")
-    private String first_name;
 
-        public void setAtributes(Atributes atributes) {
-            this.atributes = atributes;
-        }
-
-
-//
-//     //   public SpscArrayQueue<RateEntity> getRates() {
-//            return rates;
-//        }
-@SerializedName("address")
-        private String address;
-    @SerializedName("atributes")
-        private Atributes atributes;
-       // private SpscArrayQueue<RateEntity> rates;
-//    private Object clusters;
-    public UserEntity() {}
-    public UserEntity(String email, String password) {
-        this.email = email;
-        this.password = password;
-
-    }
-    public UserEntity(String userId) {this.userId = userId;
-    }
+        public void setAtributes(Map<String, Object> atributes) {
+                  this.atributes.putAll(atributes);
+            };
 
         public String getUserId() {
             return userId;
@@ -133,24 +124,39 @@ private String last_name = null;
             this.email = email;
         }
 
-        public Atributes getAtributes() {
+        public HashMap<String, Object> getAtributes() {
             return atributes;
         }
-
-
-
-
-
-
-
-
-    public String getPassword() {
-        return password;
+    private HashMap<String, Object> initAtributesMap() {
+        HashMap<String, Object> atributesDict = new HashMap<>();
+        atributesDict.put("ratesCounter",0);
+        atributesDict.put("pricelevel", 0);
+        atributesDict.put("useraggragaterating", 0);
+        atributesDict.put("always_open", 0);
+        atributesDict.put("casino", 0);
+        atributesDict.put("cafe", 0);
+        atributesDict.put("restaurant", 0);
+        atributesDict.put("rv_park", 0);
+        atributesDict.put("shopping_mall", 0);
+        atributesDict.put("amusement_park", 0);
+        atributesDict.put("aquarium",0);
+        atributesDict.put("art_gallery",0);
+        atributesDict.put("campground",0 );
+        atributesDict.put("night_club",0 );
+        atributesDict.put("painter", 0);
+        atributesDict.put("movie_theater", 0);
+        atributesDict.put("museum",0 );
+        atributesDict.put("spa", 0);
+        atributesDict.put("stadium",0 );
+        atributesDict.put("tourist_attraction", 0);
+        atributesDict.put("zoo",0 );
+        atributesDict.put("gym",0 );
+        return atributesDict;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
+
+
 
 
 
