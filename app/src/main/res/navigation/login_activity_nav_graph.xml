@@ -49,32 +49,15 @@
         android:label="fragment_signup_one"
         tools:layout="@layout/fragment_signup_one" >
         <action
-            android:id="@+id/action_signUpFragmentOne_to_signUpFragmentTwo"
-            app:destination="@id/signUpFragmentTwo"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
             android:id="@+id/action_signUpFragmentOne_to_loginFragment"
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
-    </fragment>
-    <fragment
-        android:id="@+id/signUpFragmentTwo"
-        android:name="com.example.labratour.presentation.ui.login.SignUpFragmentTwo"
-        android:label="fragment_signup_two"
-        tools:layout="@layout/fragment_signup_two" >
         <action
-            android:id="@+id/action_signUpFragmentTwo_to_loginSignupFragment"
-            app:destination="@id/loginSignupFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            android:id="@+id/action_signUpFragmentOne_to_loginSignupFragment"
+            app:destination="@id/loginSignupFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"

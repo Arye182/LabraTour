@@ -2,6 +2,8 @@ package com.example.labratour.presentation.model.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 
 @Entity(tableName = "users")
 data class UserModel(

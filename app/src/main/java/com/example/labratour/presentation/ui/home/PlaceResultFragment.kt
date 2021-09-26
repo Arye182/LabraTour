@@ -200,6 +200,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     private fun onClickLike() {
         // open dialog that allows user to rank the place from 1-5
+        like_place_button.setImageResource(R.drawable.ic_baseline_favorite_44)
     }
 
     // user click call and forward to phone on android

@@ -10,6 +10,8 @@ import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.UserModel
+import com.example.labratour.presentation.model.repositories.PlacesRepository
+import com.example.labratour.presentation.model.repositories.SavedRankedPlacesRepository
 import com.example.labratour.presentation.model.repositories.UserRepository
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.model.Place
@@ -24,11 +26,10 @@ import kotlin.coroutines.suspendCoroutine
 class UserHomeViewModel(
     private val placesClient: PlacesClient,
     private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val placeCacheRepository: PlacesRepository,
+    private val savedRankedPlacesRepository: SavedRankedPlacesRepository
 ) : ViewModel() {
-
-
-
     lateinit var user: UserModel
     // Construct a request object, passing the place ID and fields array.
     private lateinit var request: FetchPlaceRequest

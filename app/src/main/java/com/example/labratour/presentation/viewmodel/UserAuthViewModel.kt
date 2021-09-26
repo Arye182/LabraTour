@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.PrimaryKey
 import com.example.labratour.domain.Entity.UserDomain
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.LogInUseCase
@@ -127,7 +126,7 @@ UserAuthViewModel(
         this.registerNewUserUseCase.execute(RegisterNewUserObserver(), email, password)
     }
 
-    fun saveToDataBaseNewUser(email: String, password: String, firstName: String, lastName: String, userName: String) {
+    fun saveToDataBaseNewUser(email: String, firstName: String, lastName: String, userName: String) {
         Log.i("Firebase", "User View Model - saveToDataBaseNewUser - activating saveToDataBaseNewUser usecase")
         userModel = UserModel(userID, firstName, lastName, userName, email)
         userDomain = userModelTouserDomain().toDomain(userModel, UserDomain(userID))
@@ -135,9 +134,9 @@ UserAuthViewModel(
         this.saveNewUserToFirebaseUseCase.execute(SaveNewUserToFirebaseUseCaseObserver(), userDomain)
     }
 
-    fun saveToCahceDataBaseNewUser(email: String, password: String, firstName: String, lastName: String, userName: String) {
+    fun saveToCahceDataBaseNewUser(email: String, firstName: String, lastName: String, userName: String) {
         viewModelScope.launch {
-            userRepository.insertUser(UserModel(userID, firstName, lastName,userName, email,"",0, "", ))
+            userRepository.insertUser(UserModel(userID, firstName, lastName, userName, email, "", 0, "", 0))
         }
     }
 

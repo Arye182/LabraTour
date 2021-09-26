@@ -128,9 +128,9 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
             val password: String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
 
             // saving user to cloud
-            authViewModel.saveToDataBaseNewUser(email, password, first_name, last_name, user_name)
-            // saving user to cach
-            authViewModel.saveToCahceDataBaseNewUser(email, password, first_name, last_name, user_name)
+            authViewModel.saveToDataBaseNewUser(email, first_name, last_name, user_name)
+            // saving user to cache
+            authViewModel.saveToCahceDataBaseNewUser(email, first_name, last_name, user_name)
         }
     }
 
@@ -138,7 +138,8 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
         if (authViewModel.registerNewUserTaskStatus.value!!) {
             Log.i("Firebase", "Sign Up - Fragment One - user saved successfully on firebase database - moving to fragment two")
             // move on to next step!
-            val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToSignUpFragmentTwo()
+            onIsLoadingChanged(view)
+            val action = SignUpFragmentOneDirections.actionSignUpFragmentOneToLoginSignupFragment()
             findNavController().navigate(action)
         }
     }
