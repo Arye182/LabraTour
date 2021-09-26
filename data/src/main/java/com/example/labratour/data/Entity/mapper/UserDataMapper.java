@@ -27,24 +27,18 @@ public class UserDataMapper {
     return userEntity;
   }
 
-  public static UserEntity transform(UserDomain userDomain) {
-    UserEntity userEntity = null;
-    if (userDomain != null) {
+  public static UserEntity transform(UserDomain userDomain)  {
+      UserEntity userEntity = new UserEntity(userDomain.getUserId());
       try {
-        userEntity = new UserEntity(userDomain.getUserId());
-        //userEntity.setUserName(userDomain.getUserName());
-        // userEntity.setAtributes(transform(userDomain.getAtributes()));
         userEntity.setEmail(userDomain.getEmail());
-        // userEntity.setCountRate(userDomain.getCountRates());
-        // userEntity.setAddress(userDomain.getAddress());
-        // userEntity.setPhone(userDomain.getPhone());}
-      } catch (Exception e) {
-        throw e;
-        }
-    }
-    return userEntity;
-
-  }
+        userEntity.setUserName(userDomain.getUserName());
+        userEntity.setFirst_name(userDomain.getFirst_name());
+        userEntity.setLast_name(userDomain.getLast_name());
+        userEntity.setAtributes(transform(
+                userDomain.getAtributes()));
+      } catch (Exception exception){
+exception.printStackTrace();}
+      return  userEntity;}
 
 
 
@@ -53,14 +47,13 @@ public class UserDataMapper {
         if ((userEntity != null)){
             userDomain = new UserDomain(userEntity.getUserId());
             try{
-                userDomain = new UserDomain(userEntity.getUserId());
+               // userDomain = new UserDomain(userEntity.getUserId());
                 userDomain.setEmail(userEntity.getEmail());
                 userDomain.setUserName(userEntity.getUserName());
-                userDomain.setAtributes(transform(userEntity.getAtributes()));
                 userDomain.setFirst_name(userEntity.getFirst_name());
                 userDomain.setLast_name(userEntity.getLast_name());
-                userDomain.setAddress(userEntity.getAddress());
-                userDomain.setPhone(userEntity.getPhone());
+
+                userDomain.setAtributes(transform(userEntity.getAtributes()));
             } catch (Exception e){
                 e.printStackTrace();
                 return userDomain;}
@@ -70,10 +63,10 @@ public class UserDataMapper {
 
 
 
-public static HashMap<String, Object> transform(UserAtributes userAtributes) throws Throwable {
+public static HashMap<String, Object> transform(UserAtributes userAtributes) {
 
           HashMap<String, Object> atributesDict = new HashMap<>();
-
+try{
           atributesDict.put("ratesCounter",userAtributes.getRatesCounter());
           atributesDict.put("pricelevel", userAtributes.getPrice_level());
           atributesDict.put("useraggragate_rating", userAtributes.getUsersAggragateRating());
@@ -97,7 +90,10 @@ public static HashMap<String, Object> transform(UserAtributes userAtributes) thr
           atributesDict.put("zoo",userAtributes.getZoo() );
           atributesDict.put("gym",userAtributes.getGym() );
           return atributesDict;
-}
+} catch (Throwable throwable){
+    throwable.printStackTrace();
+    return atributesDict;
+}}
 
 
 
@@ -115,10 +111,13 @@ public static HashMap<String, Object> transform(UserAtributes userAtributes) thr
           field.set(userAtributes, entry.getValue());
     } catch (NoSuchFieldException e) {
           e.printStackTrace();
+          return userAtributes;
         } catch (IllegalAccessException e) {
           e.printStackTrace();
+          return userAtributes;
         } catch (InstantiationException e) {
           e.printStackTrace();
+          return userAtributes;
         }
     }
     return userAtributes;

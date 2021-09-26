@@ -1,5 +1,7 @@
 package com.example.labratour.data.repositories;
 
+import android.util.Log;
+
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.data.datasource.CloudUserDataSource;
@@ -27,20 +29,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     this.userEntityFirebaseStore = new UserEntityFirebaseStore(database);
   }
-  //    public String addUser(User user) throws Exception {
-  //        return cloudUserDataSource.insert(UserDataMapper.transform(user));
-  //    }
-  //    @Override
-  //    public Observable<User> getUser(String userId, boolean fromServer) {
-  //        return null;
-  //    }
 
-
-
- // @Override
-  //public Single<Vector<Integer>> getUserAtributesVector(String userId) {
-//    return null;
-//  }
 
 
     @Override
@@ -88,11 +77,6 @@ public class UserRepositoryImpl implements UserRepository {
     public void saveUser(UserDomain userDomain) {
 
     }
-
-    //  public Observable updateUser(UserDomain userDomain, String response) throws InstantiationException, IllegalAccessException {
-//
-//    return this.userEntityFirebaseStore.updateUser(UserDataMapper.transform(userDomain), response);
-//  }
   public Observable updateUser(UserEntity userEntity, String response) {
     return this.userEntityFirebaseStore.updateUser(userEntity, response);
   }
@@ -109,32 +93,13 @@ public class UserRepositoryImpl implements UserRepository {
                 return UserDataMapper.transformToId(authResult);
               }
             });
-    //map(
-//            new Function<AuthResult, String>() {
-//              @Override
-//              public String apply(AuthResult authResult) throws Exception {
-//                return authResult.getUser().getUid();
-//              }
-//
-//            });
-//
   }
 
   @Override
   public Observable<Void> saveNewUser(UserDomain userDomain, String id) {
+    Log.i( "signup", "before calling userEntityFirebaseStore.createUserIfNotExists");
     return this.userEntityFirebaseStore.createUserIfNotExists(userDomain, id);
   }
-//
-//  public Single<UserAtributes> getuserAtributesById(String Id) throws MalformedURLException {
-//    return this.getUser(Id)
-//        .map(
-//            new Function<UserDomain, UserAtributes>() {
-//              @Override
-//              public UserAtributes apply(UserDomain userDomain) throws Exception {
-//                return userDomain.getAtributes();
-//              }
-//            });
-//  }
 
 }
 

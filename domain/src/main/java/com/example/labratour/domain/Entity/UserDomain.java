@@ -18,9 +18,23 @@ public class UserDomain {
         this.atributes = new UserAtributes();
 
     }
+    public UserDomain() {
+        this.atributes = new UserAtributes();
+
+    }
 
 
-    private String fullName = null;
+    public UserDomain(String userId, String email, String userName, Map<String, Integer> unUpdatedRates, UserAtributes atributes, String first_name, String last_name) {
+        this.userId = userId;
+        this.email = email;
+        UserName = userName;
+        this.unUpdatedRates = unUpdatedRates;
+        this.atributes = atributes;
+        this.first_name = first_name;
+        this.last_name = last_name;
+    }
+
+    //private String fullName = null;
     private String email = null;
     //private String password;
     public void setUnUpdatedRates(Map<String, Integer> unUpdatedRates) {
@@ -28,8 +42,8 @@ public class UserDomain {
     }
 
     private String UserName = null;
-    private String Phone = null;
-    private String address = null;
+  //  private String Phone = null;
+   // private String address = null;
 private Map<String, Integer> unUpdatedRates = null;
     public String getFirst_name() {
         return first_name;
@@ -68,33 +82,12 @@ private String last_name = null;
         UserName = userName;
     }
 
-    public void setPhone(String phone) {
-        Phone = phone;
-    }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public String getUserName() {
         return UserName;
     }
 
-    public String getPhone() {
-      return Phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public String getEmail() {
         return email;
@@ -108,13 +101,6 @@ private String last_name = null;
         return atributes;
     }
 
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    public void setDescription(String description) {
-//        this.description = description;
-//    }
 
 
 }
