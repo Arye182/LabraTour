@@ -130,7 +130,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
@@ -142,6 +141,23 @@
                             android:layout_height="wrap_content"
                             style="@style/TextAppearance.Reply.Body2"
                             android:text="phone" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="fill_horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gender: " />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/profile_gender_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Body2"
+                            android:text="gender" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

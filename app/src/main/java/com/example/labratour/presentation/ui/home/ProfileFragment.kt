@@ -38,12 +38,26 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     }
 
     private fun onUserModelChanged() {
+        // first name
         profile_first_name_tv.text = homeViewModel.userModel.value?.firstName
         profile_email_tv.text = homeViewModel.userModel.value?.email
+        // last name
         profile_last_name_tv.text = homeViewModel.userModel.value?.lastName
+        // user name -> details
         profile_username_tv.text = homeViewModel.userModel.value?.userName
+        // user name -> title
         user_profile_title.text = homeViewModel.userModel.value?.userName
-//        profile_phone_tv.text = homeViewModel.userModel.value?.mobile.toString()
+        // phone
+        if (homeViewModel.userModel.value?.mobile.toString() == "0") {
+            profile_phone_tv.text = "Phone Not Updated Yet"
+        } else {
+            profile_phone_tv.text = homeViewModel.userModel.value?.mobile.toString()
+        }
+        if (homeViewModel.userModel.value?.gender.toString() == "") {
+            profile_gender_tv.text = "Gender Not Updated Yet"
+        } else {
+            profile_gender_tv.text = homeViewModel.userModel.value?.gender.toString()
+        }
 //        username_drawer_header.text = homeViewModel.userModel.value?.userName
     }
 }
