@@ -3,12 +3,11 @@ package com.example.labratour.data.datasource;
 import androidx.annotation.NonNull;
 
 import com.example.labratour.data.Entity.UserEntity;
-import com.example.labratour.data.Entity.mapper.EntityJsonMapper;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
-import com.example.labratour.data.Entity.mapper.UserHashMapper;
 import com.example.labratour.domain.Entity.UserDomain;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,57 +25,79 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
+
 //public static final String CHILD_USERS = "users";
 public class UserEntityFirebaseStore {
 
 
         private FirebaseDatabase database;
-private final EntityJsonMapper<UserEntity> JsonMapper;
 
   public UserEntityFirebaseStore(FirebaseDatabase firebaseDatabase) {
 // this.database.setPersistenceEnabled(true);
        //   firebaseDatabase.setPersistenceEnabled(true);
 
     this.database = FirebaseDatabase.getInstance();
-    this.JsonMapper = new UserHashMapper();
   }
 
 public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) {
-UserEntity userEntity = new UserEntity(userDomain.getUserId());
-userEntity.setEmail(userDomain.getEmail());
 
-    UserDataMapper.transform(userDomain);
+    UserEntity userEntity = UserDataMapper.transform(userDomain);
     return Observable.create(
         new ObservableOnSubscribe<Void>() {
           @Override
           public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
-            try {
-              database.getReference().child("users")
-                  .child(id)
-                 // .push()
-                  .setValue(userEntity)
-                  .addOnSuccessListener(
-                      new OnSuccessListener<Void>() {
 
+              Task<Void> task= database
+                  .getReference()
+                  .child("users")
+                  .
+                   push()
+                  .setValue(userEntity).addOnSuccessListener(new OnSuccessListener<Void>() {
                           @Override
                           public void onSuccess(Void unused) {
-                              if(unused!=null)
-                              emitter.onNext(unused);
+
+                          emitter.onNext(Void.TYPE.cast(unused));}}).addOnFailureListener(new OnFailureListener() {
+                          @Override
+                          public void onFailure(@NonNull @NotNull Exception e) {
+                              emitter.onError(e.getCause());
                           }
-                      })
-                  .addOnFailureListener(
-                      new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull @NotNull Exception e) {
-                            emitter.onError(e.getCause());
-                        }
-                      });
-            } catch (Exception exception) {
-              emitter.onError(exception.getCause());
-            }
-          }
-        });
-  }
+                      });}});}
+//                  .addOnSuccessListener(
+//                      new OnSuccessListener<Void>() {
+//
+//                          @Override
+//                          public void onSuccess(Optional<Void> unused) {
+//
+//                                       emitter.onNext(new (unused));
+//                          }
+//
+//                          @Override
+//                          public void onSuccess(Object o) {
+//                              emitter.onNext(Res);
+//                          }
+//                        })
+//
+//                  .addOnFailureListener(
+//                      new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull @NotNull Exception e) {
+//                                emitter.onError(e);
+//                        }
+//                            });} catch (Exception exception) {
+//                if(userEntity==null){
+//                Log.i(
+//                        "signup",
+//                        "transform user domain to entity failed userEntityFirebaseStore.createUserIfNotExists");}else {
+//                    Log.i(
+//                            "signup",
+//                            "exception when trying to save new user userEntityFirebaseStore.createUserIfNotExists"+userEntity.toString());
+//                }
+//                    emitter.onError(exception);
+//
+//
+//                      }}});}
+
+
 
 
 

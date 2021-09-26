@@ -8,25 +8,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserEntity  {
+    @SerializedName("userId")
+
     public String userId = null;
     @SerializedName("countrate")
     public int countRate = 0;
-    @SerializedName("fullname")
-    public String fullName = null;
     @SerializedName("email")
     public String email = null;
     @SerializedName("username")
     public String userName = null;
-    @SerializedName("phone")
-    public String Phone = null;
     @SerializedName("firstname")
     public String first_name = null;
     @SerializedName("lastname")
     public String last_name = null;
-    @SerializedName("address")
-    public String address;
     @SerializedName("atributes")
-    public HashMap<String, Object> atributes;
+    public HashMap<String, Object> atributes = null;
 
     public UserEntity(){
 this.atributes = initAtributesMap();
@@ -34,6 +30,9 @@ this.atributes = initAtributesMap();
     public UserEntity(String userId) {
         this.userId = userId;
         this.atributes = initAtributesMap();
+    }
+    public String getUserId() {
+        return userId;
     }
     public int getCountRate() {
         return countRate;
@@ -58,66 +57,25 @@ this.atributes = initAtributesMap();
     public String getFirst_name() {
         return first_name;
     }
-
-
-    public UserEntity(String userId, int countRate, String password, String fullName, String email, String userName, String phone, String last_name, String first_name, String address, HashMap<String, Object> atributes) {
+    public void setUserId(String userId) {
         this.userId = userId;
-        this.countRate = countRate;
-      //  this.password = password;
-        this.fullName = fullName;
-        this.email = email;
-        this.userName = userName;
-        Phone = phone;
-        this.last_name = last_name;
-        this.first_name = first_name;
-        this.address = address;
-        setAtributes(atributes);
     }
+
+
 
         public void setAtributes(HashMap<String, Object> atributes) {
                   this.atributes.putAll(atributes);
             };
 
-        public String getUserId() {
-            return userId;
-        }
-
         public void setUserName(String userName) {
-            userName = userName;
+            this.userName = userName;
         }
 
-        public void setPhone(String phone) {
-            Phone = phone;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
             return userName;
         }
 
-
-    public String getPhone() {
-            return Phone;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public String getFullName() {
-            return fullName;
-        }
-
-        public void setFullName(String fullName) {
-            this.fullName = fullName;
-        }
 
         public String getEmail() {
             return email;
