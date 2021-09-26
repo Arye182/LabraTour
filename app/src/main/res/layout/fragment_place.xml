@@ -8,7 +8,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="8dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -16,17 +16,16 @@
             app:layout_constraintTop_toBottomOf="parent">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView"
+                android:id="@+id/details_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
                 android:background="@color/card"
                 android:elevation="35dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -37,14 +36,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
-
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/place_title_name"
                         style="@style/TextAppearance.Reply.Headline4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="Place Details:" />
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -55,7 +53,8 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
                             android:layout_marginTop="16dp"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent">
+                            >
+                            <!-- app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent" -->
                         </com.google.android.material.imageview.ShapeableImageView>
                         <com.google.android.material.progressindicator.CircularProgressIndicator
                             android:id="@+id/place_progress_bar"
@@ -69,27 +68,6 @@
                             android:indeterminate="true">
                         </com.google.android.material.progressindicator.CircularProgressIndicator>
                     </RelativeLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:gravity="fill_horizontal">
-
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.Reply.Headline6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Status: " />
-
-                        <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.Reply.Body2"
-                            android:id="@+id/place_is_open_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="open or closed" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -109,7 +87,6 @@
                             android:layout_height="wrap_content"
                             android:text="place's id" />
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -128,7 +105,25 @@
                             android:layout_height="wrap_content"
                             android:text="place's name" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="fill_horizontal">
 
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/TextAppearance.Reply.Headline6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Status: " />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/TextAppearance.Reply.Body2"
+                            android:id="@+id/place_is_open_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="open or closed" />
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -147,7 +142,6 @@
                             android:text="place's address"
                             app:autoSizeTextType="uniform"/>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -165,7 +159,6 @@
                             android:layout_height="wrap_content"
                             android:text="place's phone" />
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -182,6 +175,71 @@
                             android:layout_height="wrap_content"
                             android:text="place's opening hours" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="fill_horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/TextAppearance.Reply.Headline6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Website: " />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/place_website_tv"
+                            style="@style/TextAppearance.Reply.Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="website" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="fill_horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            style="@style/TextAppearance.Reply.Headline6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Type: " />
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/place_type_tv"
+                            style="@style/TextAppearance.Reply.Body2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="type" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+
+            <!-- ranking card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/rank_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rank Place"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        style="@style/TextAppearance.Reply.Headline4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Rank" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -189,28 +247,20 @@
                         android:layout_marginBottom="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
-                            style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="LabraTour Rank: " />
-                        <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/rank_explain_tv"
                             style="@style/TextAppearance.Reply.Body2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="16dp"
                             android:text="this is the rank of the place in our data base,
                              you can rank as you want and it will jhelp us" />
                     </LinearLayout>
 
-
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp"
                         android:orientation="horizontal">
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -221,9 +271,8 @@
                                 android:id="@+id/rank_place_one_star"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_twotone_star" />
+                                android:src="@drawable/ic_baseline_star_outline_24" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -231,11 +280,11 @@
                             android:gravity="center"
                             android:layout_weight="1">
                             <ImageView
+                                android:id="@+id/rank_place_two_star"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_twotone_star" />
+                                android:src="@drawable/ic_baseline_star_outline_24" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -243,11 +292,11 @@
                             android:gravity="center"
                             android:layout_weight="1">
                             <ImageView
+                                android:id="@+id/rank_place_three_star"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_twotone_star" />
+                                android:src="@drawable/ic_baseline_star_outline_24" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -255,11 +304,11 @@
                             android:gravity="center"
                             android:layout_weight="1">
                             <ImageView
+                                android:id="@+id/rank_place_four_star"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_twotone_star" />
+                                android:src="@drawable/ic_baseline_star_outline_24" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -267,31 +316,43 @@
                             android:gravity="center"
                             android:layout_weight="1">
                             <ImageView
+                                android:id="@+id/rank_place_five_star"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_twotone_star" />
+                                android:src="@drawable/ic_baseline_star_outline_24" />
                         </LinearLayout>
                     </LinearLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_clear_rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Clear Rank"
+                        android:layout_gravity="center"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_rank"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="Save Rank"
+                        android:layout_gravity="center"/>
+
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/rank_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Rank Place"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialCardView">
 
-            </com.google.android.material.button.MaterialButton>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/card"
                 android:elevation="35dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -304,7 +365,6 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:orientation="horizontal">
-
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -323,8 +383,6 @@
                             style="@style/TextAppearance.Reply.Caption"
                             android:text="Like"/>
                     </LinearLayout>
-
-
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -344,8 +402,6 @@
 
                             android:text="Share" />
                     </LinearLayout>
-
-
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -363,7 +419,6 @@
                             style="@style/TextAppearance.Reply.Caption"
                             android:text="Call"/>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -381,12 +436,13 @@
                             style="@style/TextAppearance.Reply.Caption"
                             android:text="Url"/>
                     </LinearLayout>
-
-
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

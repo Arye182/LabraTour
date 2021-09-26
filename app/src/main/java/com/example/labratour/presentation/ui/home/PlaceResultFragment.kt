@@ -17,6 +17,13 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     private lateinit var homewViewModel: UserHomeViewModel
     // Define a Place ID.
     private lateinit var placeId: String
+    private var rank: Int = 0
+    private var star_pressed_one: Boolean = false
+    private var star_pressed_two: Boolean = false
+    private var star_pressed_three: Boolean = false
+    private var star_pressed_four: Boolean = false
+    private var star_pressed_five: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val args: PlaceResultFragmentArgs by navArgs()
@@ -34,10 +41,112 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         like_place_button.setOnClickListener { onClickLike() }
         share_place_button.setOnClickListener { onClickShare() }
 
+        // stars
+        rank_place_one_star.setOnClickListener { onClickStar(1) }
+        rank_place_two_star.setOnClickListener { onClickStar(2) }
+        rank_place_three_star.setOnClickListener { onClickStar(3) }
+        rank_place_four_star.setOnClickListener { onClickStar(4) }
+        rank_place_five_star.setOnClickListener { onClickStar(5) }
+
+        // rank buttons
+        button_clear_rank.setOnClickListener{clearStars()}
+        button_rank.setOnClickListener{rankPlace()}
+
+        // vm
         this.homewViewModel.photoLoading.observe(viewLifecycleOwner, { onPhotoLoadingChanged(view) })
         this.homewViewModel.place.observe(viewLifecycleOwner, { onPlaceChanged(view) })
         this.homewViewModel.photoBitmap.observe(viewLifecycleOwner, { onBitampChanged(view) })
         this.homewViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
+    }
+
+    private fun rankPlace() {
+        val place_id = (homewViewModel.place.value?.id).toString()
+        //val user_id =
+        //homewViewModel.rankPlace()
+    }
+
+    private fun onClickStar(i: Int) {
+        when (i) {
+            1 -> {
+                if (star_pressed_one) {
+                    clearStars()
+                } else {
+                    rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    star_pressed_one = true
+                }
+            }
+
+            2 -> {
+                if (star_pressed_two) {
+                    clearStars()
+                } else {
+                    rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    star_pressed_one = true
+                    star_pressed_two = true
+                }
+            }
+
+            3 -> {
+                if (star_pressed_three) {
+                    clearStars()
+                } else {
+                    rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_three_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    star_pressed_one = true
+                    star_pressed_two = true
+                    star_pressed_three = true
+                }
+            }
+
+            4 -> {
+                if (star_pressed_four) {
+                    clearStars()
+                } else {
+                    rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_three_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_four_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    star_pressed_one = true
+                    star_pressed_two = true
+                    star_pressed_three = true
+                    star_pressed_four = true
+                }
+            }
+
+            5 -> {
+                if (star_pressed_five) {
+                    clearStars()
+                } else {
+                    rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_three_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_four_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    rank_place_five_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    star_pressed_one = true
+                    star_pressed_two = true
+                    star_pressed_three = true
+                    star_pressed_four = true
+                    star_pressed_five = true
+                }
+
+            }
+        }
+    }
+
+    private fun clearStars(){
+        rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        rank_place_three_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        rank_place_four_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        rank_place_five_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        star_pressed_one = false
+        star_pressed_two = false
+        star_pressed_three = false
+        star_pressed_four = false
+        star_pressed_five = false
     }
 
     private fun onErrorChanged(view: View) {
@@ -61,7 +170,11 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         }
         // place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
         place_name_tv.text = (homewViewModel.place.value?.name).toString()
+        place_title_name.text = (homewViewModel.place.value?.name).toString()
         place_address_tv.text = (homewViewModel.place.value?.address).toString()
+        place_website_tv.text = (homewViewModel.place.value?.websiteUri).toString()
+        place_type_tv.text = (homewViewModel.place.value?.types).toString()
+
         // place_opening_hours_tv.text = (place.openingHours).toString()
         if (homewViewModel.place.value?.isOpen == true) {
             place_is_open_tv.text = "Opened!"
@@ -97,14 +210,17 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     // what happens when user click on url button
     private fun onClickUrl(view: View) {
-        val url: String = homewViewModel.place.value?.websiteUri.toString()
+        val url: Uri? = homewViewModel.place.value?.websiteUri
         if (url != null) {
             // TODO fix uri bug http://
-            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"))
+            Log.i("Places", url.toString())
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()))
             startActivity(browserIntent)
         } else {
             Snackbar.make(view, "Url Not Available, Sorry!", Snackbar.LENGTH_SHORT)
                 .setBackgroundTint(resources.getColor(R.color.error)).show()
+            Log.i("Places", url.toString())
+
         }
     }
 
