@@ -187,6 +187,7 @@ class UserHomeViewModel(
             placesListCoRoutine()
         }
     }
+
     suspend fun placesListCoRoutine() {
         for (i in 0 until 10) {
             var id = "ChIJcURkgp492jERS4A65dNZuts"
@@ -253,7 +254,6 @@ class UserHomeViewModel(
     fun generateNearByPlacesList() {
         viewModelScope.launch() {
             // execute the use case
-
             nearByPlacesListCoRoutine()
         }
     }
@@ -330,15 +330,18 @@ class UserHomeViewModel(
 
     // get all places list started
     fun getAllPlacesLists(lat: String, long: String) {
-        // TODO YPDATE LAT LONG
         Log.i("Places", "Starting To Update Places Lists (vm)")
-        getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
-        generatePlacesListForTest()
+        viewModelScope.launch() {
+            // execute the use case
+            getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
+            generatePlacesListForTest()
+        }
     }
 
     fun updateCategoryList(category: String, lat: String, long: String) {
-
         generatePlacesListForTest()
+    }
 
+    fun rankPlace(user_id: String, place_id: String, rank: Int) {
     }
 }
