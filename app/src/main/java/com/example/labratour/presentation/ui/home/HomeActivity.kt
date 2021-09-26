@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 class HomeActivity : BaseActivity() {
     // data members
     lateinit var userHomeViewModel: UserHomeViewModel
+
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var appContainer: AppContainer

@@ -10,18 +10,24 @@ import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.UserModel
+import com.example.labratour.presentation.model.repositories.UserRepository
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class UserHomeViewModel(
     private val placesClient: PlacesClient,
-    private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase
+    private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase,
+    private val userRepository: UserRepository
 ) : ViewModel() {
+
+
 
     lateinit var user: UserModel
     // Construct a request object, passing the place ID and fields array.
@@ -49,6 +55,10 @@ class UserHomeViewModel(
 
     val currentUserId: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
+    }
+
+    val userModel: MutableLiveData<UserModel> by lazy {
+        MutableLiveData<UserModel>()
     }
 
     val place: MutableLiveData<Place> by lazy {
@@ -104,17 +114,6 @@ class UserHomeViewModel(
             generateNearByPlacesList()
             // logInTaskStatus.postValue(true)
         }
-    }
-
-    // TODO - this function should be in the data area
-    private fun getCurrentUserID(): String {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        var currentUserID = ""
-        if (currentUser != null) {
-            currentUserID = currentUser.uid
-        }
-        this.currentUserId.setValue(currentUserID)
-        return currentUserID
     }
 
     // fetch place by id
@@ -344,4 +343,30 @@ class UserHomeViewModel(
 
     fun rankPlace(user_id: String, place_id: String, rank: Int) {
     }
+
+    // user related functions
+    fun getCurrentUserID(): String {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        var currentUserID = ""
+        if (currentUser != null) {
+            currentUserID = currentUser.uid
+            this.currentUserId.postValue(currentUserID)
+            viewModelScope.launch {
+                getUserRoutine()
+            }
+        }
+        return currentUserID
+    }
+
+    suspend fun getUserRoutine() = withContext(Dispatchers.IO) {
+        val user = userRepository.getUser(getCurrentUserID())
+        userModel.postValue(user)
+    }
+
+//    init {
+//        viewModelScope.launch {
+//            getCurrentUserID()
+//            getUserRoutine()
+//        }
+//    }
 }

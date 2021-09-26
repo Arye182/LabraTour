@@ -6,6 +6,7 @@ import com.example.labratour.domain.useCases.LogInUseCase
 import com.example.labratour.domain.useCases.RegisterNewUserUseCase
 import com.example.labratour.domain.useCases.SaveNewUserToFirebaseUseCase
 import com.example.labratour.presentation.LabratourApplication
+import com.example.labratour.presentation.model.repositories.UserRepository
 import com.example.labratour.presentation.utils.UIThread
 import com.example.labratour.presentation.viewmodel.UserAuthViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 // import com.google.firebase.firestore.FirebaseFirestore
 
-class FirebaseContainer(labratourApplication: LabratourApplication) {
+class FirebaseContainer(labratourApplication: LabratourApplication, userCacheRepository: UserRepository) {
     // instantiate firebase firestore - this is the database and the auth
     val firebaseAuth = FirebaseAuth.getInstance()
     val firebaseDatabase = FirebaseDatabase.getInstance()
@@ -26,5 +27,5 @@ class FirebaseContainer(labratourApplication: LabratourApplication) {
     val registerNewUserUseCase = RegisterNewUserUseCase(userRepo, JobExecutor(), UIThread())
     val saveNewUserToFirebaseUseCase = SaveNewUserToFirebaseUseCase(userRepo, JobExecutor(), UIThread())
     // ViewModel Factories
-    val userAuthViewModelFactory = UserAuthViewModelFactory(loginUseCase, registerNewUserUseCase, saveNewUserToFirebaseUseCase)
+    val userAuthViewModelFactory = UserAuthViewModelFactory(loginUseCase, registerNewUserUseCase, saveNewUserToFirebaseUseCase, userCacheRepository)
 }

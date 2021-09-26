@@ -126,7 +126,11 @@ class SignUpFragmentOne : Fragment(R.layout.fragment_signup_one) {
                 sign_up_edit_text_user_name.text.toString().trim { it <= ' ' }
             val email: String = sign_up_edit_text_email.text.toString().trim { it <= ' ' }
             val password: String = sign_up_edit_text_password.text.toString().trim { it <= ' ' }
+
+            // saving user to cloud
             authViewModel.saveToDataBaseNewUser(email, password, first_name, last_name, user_name)
+            // saving user to cach
+            authViewModel.saveToCahceDataBaseNewUser(email, password, first_name, last_name, user_name)
         }
     }
 

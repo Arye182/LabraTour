@@ -42,6 +42,7 @@
                         android:src="@drawable/labra_asset_3" />
 
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/user_profile_title"
                         style="@style/TextAppearance.Reply.Headline4"
                         android:layout_marginTop="16dp"
                         android:layout_width="wrap_content"
@@ -96,7 +97,7 @@
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Use Name: " />
+                            android:text="User Name: " />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/profile_username_tv"

@@ -3,6 +3,8 @@ package com.example.labratour.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.room.PrimaryKey
 import com.example.labratour.domain.Entity.UserDomain
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.LogInUseCase
@@ -10,6 +12,9 @@ import com.example.labratour.domain.useCases.RegisterNewUserUseCase
 import com.example.labratour.domain.useCases.SaveNewUserToFirebaseUseCase
 import com.example.labratour.presentation.mappers.userModelTouserDomain
 import com.example.labratour.presentation.model.data.UserModel
+import com.example.labratour.presentation.model.repositories.UserRepository
+import kotlinx.coroutines.launch
+
 // import com.google.firebase.auth.FirebaseAuth
 // import com.google.firebase.auth.FirebaseUser
 
@@ -23,7 +28,8 @@ class
 UserAuthViewModel(
     private val loginUseCase: LogInUseCase,
     private val registerNewUserUseCase: RegisterNewUserUseCase,
-    private val saveNewUserToFirebaseUseCase: SaveNewUserToFirebaseUseCase
+    private val saveNewUserToFirebaseUseCase: SaveNewUserToFirebaseUseCase,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     // live data
@@ -53,8 +59,8 @@ UserAuthViewModel(
     lateinit var userDomain: UserDomain
     var userID: String = ""
 
-    private inner class LogInObserver
-        : DefaultObserver<UserDomain>() {
+    private inner class LogInObserver :
+        DefaultObserver<UserDomain>() {
         override fun onComplete() {
             Log.i("Firebase", "Log In Observer - On Complete...")
             isLoading.postValue(false)
@@ -127,6 +133,12 @@ UserAuthViewModel(
         userDomain = userModelTouserDomain().toDomain(userModel, UserDomain(userID))
         this.isLoading.postValue(true)
         this.saveNewUserToFirebaseUseCase.execute(SaveNewUserToFirebaseUseCaseObserver(), userDomain)
+    }
+
+    fun saveToCahceDataBaseNewUser(email: String, password: String, firstName: String, lastName: String, userName: String) {
+        viewModelScope.launch {
+            userRepository.insertUser(UserModel(userID, firstName, lastName,userName, email,"",0, "", ))
+        }
     }
 
     fun forgotPassword() {
