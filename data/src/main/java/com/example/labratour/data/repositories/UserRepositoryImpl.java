@@ -16,13 +16,13 @@ import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
 public class UserRepositoryImpl implements UserRepository {
-  private final CloudUserDataSource cloudUserDataSource;
+  private  CloudUserDataSource cloudUserDataSource;
 
-  private final UserEntityFirebaseStore userEntityFirebaseStore;
+  private  UserEntityFirebaseStore userEntityFirebaseStore;
   //   private UserDataMapper userDataMapper;
   // private final CloudUserDataSource cloudUserDataSource;
   public UserRepositoryImpl(FirebaseAuth firebaseAuth, FirebaseDatabase database) {
-    this.cloudUserDataSource = new CloudUserDataSource(firebaseAuth.getInstance());
+    this.cloudUserDataSource = new CloudUserDataSource(firebaseAuth);
     // database.setPersistenceEnabled(true);
 
     this.userEntityFirebaseStore = new UserEntityFirebaseStore(database);

@@ -7,9 +7,8 @@ import com.example.labratour.data.Entity.mapper.EntityJsonMapper;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.data.Entity.mapper.UserHashMapper;
 import com.example.labratour.domain.Entity.UserDomain;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,49 +30,45 @@ import io.reactivex.Single;
 public class UserEntityFirebaseStore {
 
 
-        private final DatabaseReference database;
+        private FirebaseDatabase database;
 private final EntityJsonMapper<UserEntity> JsonMapper;
 
   public UserEntityFirebaseStore(FirebaseDatabase firebaseDatabase) {
 // this.database.setPersistenceEnabled(true);
        //   firebaseDatabase.setPersistenceEnabled(true);
 
-    this.database = firebaseDatabase.getReference();
+    this.database = FirebaseDatabase.getInstance();
     this.JsonMapper = new UserHashMapper();
   }
 
 public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) {
+UserEntity userEntity = new UserEntity(userDomain.getUserId());
+userEntity.setEmail(userDomain.getEmail());
 
+    UserDataMapper.transform(userDomain);
     return Observable.create(
         new ObservableOnSubscribe<Void>() {
           @Override
           public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
             try {
-              database
-                  .child("users")
-                  .push()
-                  .setValue(UserDataMapper.transform(userDomain))
-                  .addOnCompleteListener(
-                      new OnCompleteListener<Void>() {
+              database.getReference().child("users")
+                  .child(id)
+                 // .push()
+                  .setValue(userEntity)
+                  .addOnSuccessListener(
+                      new OnSuccessListener<Void>() {
 
-                        @Override
-                        public void onComplete(@NotNull Task<Void> task) {
-                          if (task.isSuccessful()) {
-                            //  FirebaseAuth.getInstance().signOut();
-                              emitter.onNext(task.getResult());
+                          @Override
+                          public void onSuccess(Void unused) {
+                              if(unused!=null)
+                              emitter.onNext(unused);
                           }
-                          emitter.onError(new Exception("save new user task wasnot succesful"));
-                          // redirect the user to the login screen
-
-                        }
                       })
                   .addOnFailureListener(
                       new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull @NotNull Exception e) {
-
-                        //  FirebaseAuth.getInstance().signOut();
-                          emitter.onError(e.getCause());
+                            emitter.onError(e.getCause());
                         }
                       });
             } catch (Exception exception) {
@@ -93,7 +88,7 @@ public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) 
 
 
 public Observable updateUser(UserEntity userEntity,String  successResponse) {
-        DatabaseReference userReference  = database.child(userEntity.getUserId());
+        DatabaseReference userReference  = database.getReference().child("users").child(userEntity.getUserId());
         return updateNotNewUser(userReference, userEntity, successResponse);
         }
 
@@ -122,7 +117,7 @@ public Single<List<UserEntity>> getUsers() {
                                 emitter.onError(databaseError.toException());
                         }
                 };
-                Query query = database.orderByKey();
+                Query query = database.getReference().child("users").orderByKey();
                 query.addValueEventListener(eventListener);
                 emitter.setCancellable(()-> query.removeEventListener(eventListener));
         });
@@ -133,7 +128,7 @@ public Single<List<UserEntity>> getUsers() {
 
 
 public Observable<UserEntity> getUserRealtime(String userId) {
-        Query query = database.child(userId);
+        Query query = database.getReference().child("users").child(userId);
         return Observable.create(emitter -> {
                 ValueEventListener valueEventListener = new ValueEventListener() {
                         @Override

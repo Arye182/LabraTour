@@ -12,7 +12,7 @@ import java.util.Map;
 public class UserDataMapper {
 
     public static String transformToId(AuthResult register){
-            return register.getUser().getProviderId();
+            return register.getUser().getUid();
 
     }
 
@@ -76,7 +76,7 @@ public static HashMap<String, Object> transform(UserAtributes userAtributes) thr
 
           atributesDict.put("ratesCounter",userAtributes.getRatesCounter());
           atributesDict.put("pricelevel", userAtributes.getPrice_level());
-          atributesDict.put("useraggragaterating", userAtributes.getUsersAggragateRating());
+          atributesDict.put("useraggragate_rating", userAtributes.getUsersAggragateRating());
           atributesDict.put("always_open", userAtributes.getAlwaysOpen());
           atributesDict.put("casino", userAtributes.getCasino());
           atributesDict.put("cafe", userAtributes.getCafe());
@@ -93,7 +93,7 @@ public static HashMap<String, Object> transform(UserAtributes userAtributes) thr
           atributesDict.put("museum",userAtributes.getMuseum() );
           atributesDict.put("spa", userAtributes.getSpa());
           atributesDict.put("stadium",userAtributes.getStadium() );
-          atributesDict.put("tourist_attraction", userAtributes.getTourist_attraction());
+          atributesDict.put("touristAttraction", userAtributes.getTourist_attraction());
           atributesDict.put("zoo",userAtributes.getZoo() );
           atributesDict.put("gym",userAtributes.getGym() );
           return atributesDict;

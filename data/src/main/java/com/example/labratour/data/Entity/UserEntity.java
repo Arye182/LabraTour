@@ -8,28 +8,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserEntity  {
-    private String userId = null;
+    public String userId = null;
     @SerializedName("countrate")
-    private int countRate = 0;
+    public int countRate = 0;
     @SerializedName("fullname")
-    private String fullName = null;
+    public String fullName = null;
     @SerializedName("email")
-    private String email = null;
+    public String email = null;
     @SerializedName("username")
-    private String userName = null;
+    public String userName = null;
     @SerializedName("phone")
-    private String Phone = null;
+    public String Phone = null;
     @SerializedName("firstname")
-    private String first_name = null;
+    public String first_name = null;
     @SerializedName("lastname")
-    private String last_name = null;
+    public String last_name = null;
     @SerializedName("address")
-    private String address;
+    public String address;
     @SerializedName("atributes")
-    private HashMap<String, Object> atributes;
-public UserEntity(){
+    public HashMap<String, Object> atributes;
 
-}
+    public UserEntity(){
+this.atributes = initAtributesMap();
+    }
     public UserEntity(String userId) {
         this.userId = userId;
         this.atributes = initAtributesMap();
@@ -73,7 +74,7 @@ public UserEntity(){
         setAtributes(atributes);
     }
 
-        public void setAtributes(Map<String, Object> atributes) {
+        public void setAtributes(HashMap<String, Object> atributes) {
                   this.atributes.putAll(atributes);
             };
 
@@ -129,7 +130,7 @@ public UserEntity(){
         public HashMap<String, Object> getAtributes() {
             return atributes;
         }
-    private HashMap<String, Object> initAtributesMap() {
+    public HashMap<String, Object> initAtributesMap() {
         HashMap<String, Object> atributesDict = new HashMap<>();
         atributesDict.put("ratesCounter",0);
         atributesDict.put("pricelevel", 0);
@@ -150,7 +151,7 @@ public UserEntity(){
         atributesDict.put("museum",0 );
         atributesDict.put("spa", 0);
         atributesDict.put("stadium",0 );
-        atributesDict.put("tourist_attraction", 0);
+        atributesDict.put("touristAttraction", 0);
         atributesDict.put("zoo",0 );
         atributesDict.put("gym",0 );
         return atributesDict;

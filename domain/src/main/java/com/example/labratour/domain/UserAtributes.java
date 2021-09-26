@@ -15,7 +15,7 @@ public class UserAtributes {
     @SerializedName("RatesCounter")
     private int RatesCounter = 0;
 
-    @SerializedName("pricelevel")
+    @SerializedName("price_level")
     private double price_level = 0 ;
     //
     // @JsonProperty("rating")
@@ -117,7 +117,7 @@ public class UserAtributes {
     }
 
     public double getTourist_attraction() {
-        return tourist_attraction;
+        return touristAttraction;
     }
 
     public double getZoo() {
@@ -133,7 +133,7 @@ public class UserAtributes {
     @SerializedName("stadium")
     private double stadium = 0;
     @SerializedName("tourist_attraction")
-    private double tourist_attraction = 0;
+    private double touristAttraction = 0;
     @SerializedName("zoo")
     private double zoo = 0;
     @SerializedName("gym")
@@ -214,7 +214,7 @@ public class UserAtributes {
     }
 
     public void setTourist_attraction(double tourist_attraction) {
-        this.tourist_attraction = tourist_attraction;
+        this.touristAttraction = tourist_attraction;
     }
 
     public void setZoo(double zoo) {
