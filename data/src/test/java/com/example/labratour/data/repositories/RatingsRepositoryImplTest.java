@@ -104,7 +104,7 @@ public void setUp() throws MalformedURLException, NoSuchFieldException {
     public void testUpdateUserProfileByRate() throws MalformedURLException {
         given(mMockPlacesRepositoryImpl.getPoiById("3")).willReturn(Single.just(atributes));
         given(atributesRepository.getUserAtributes("3")).willReturn(Single.just(userOldAtributes));
-        Observable<String> observable = this.repository.updateUserProfileByRate("3", "3",4, );
+        Observable<String> observable = this.repository.updateUserProfileByRate("3", "3",4, new JobExecutor());
         observable.subscribeOn(Schedulers.from(executionThread)).observeOn(this.postExecutionThread.getScheduler());
         UpdateUserProfileByRateObserverTest observer = observable.subscribeWith(testObserver);
 
