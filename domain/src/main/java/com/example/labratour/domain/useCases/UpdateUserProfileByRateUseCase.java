@@ -10,7 +10,7 @@ import io.reactivex.observers.DisposableObserver;
 public class UpdateUserProfileByRateUseCase extends UseCase<String, UpdateUserProfileByRateUseCase.RequestInput> {
     private final RatingsRepository repository;
 
-    protected UpdateUserProfileByRateUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, RatingsRepository ratingRepository) {
+    public UpdateUserProfileByRateUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, RatingsRepository ratingRepository) {
         super(executionThread, postExecutionThread);
         this.repository = ratingRepository;
     }
