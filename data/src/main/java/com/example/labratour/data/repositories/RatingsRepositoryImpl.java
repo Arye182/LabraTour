@@ -24,14 +24,13 @@ public class RatingsRepositoryImpl implements RatingsRepository {
     private PlacesRepository placesRepository;
     private AtributesRepositoryImpl atributesRepository;
     private PoiDetailesDomain poiDetailesDomain = null;
-    private ExecutionThread executionThread;
+    //private ExecutionThread executionThread;
 
     public RatingsRepositoryImpl( PlacesRepository placesRepository, AtributesRepositoryImpl atributesRepository
-            , ExecutionThread executionThread) {
+            ) {
         this.placesRepository = placesRepository;
         this.atributesRepository = atributesRepository;
 
-        this.executionThread = executionThread;
         //new scheduler that queuse work on current thread
 
     }
@@ -45,7 +44,7 @@ public class RatingsRepositoryImpl implements RatingsRepository {
         return atributesRepository.getUserAtributes(userId);
    }
    @Override
-   public Observable<String> updateUserProfileByRate(String userId, String placeId, int rate){
+   public Observable<String> updateUserProfileByRate(String userId, String placeId, int rate, ExecutionThread executionThread){
         //to the usecase
         return Observable.create(new ObservableOnSubscribe<String>() {
             //emitter is the observer from the usecase

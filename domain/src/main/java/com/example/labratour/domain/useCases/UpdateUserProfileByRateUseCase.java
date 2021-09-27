@@ -19,7 +19,7 @@ public class UpdateUserProfileByRateUseCase extends UseCase<String, UpdateUserPr
     }
     @Override
     public Observable<String> buildUseCaseObservable(RequestInput requestInput) {
-        return this.repository.updateUserProfileByRate(requestInput.userId, requestInput.poiId, requestInput.rate);
+        return this.repository.updateUserProfileByRate(requestInput.userId, requestInput.poiId, requestInput.rate,executionThread );
     }
 
 
