@@ -59,7 +59,7 @@ public class RatingsRepositoryImplTest {
 
     @Before
 public void setUp() throws MalformedURLException, NoSuchFieldException {
-    repository = new RatingsRepositoryImpl( mMockPlacesRepositoryImpl, atributesRepository, new JobExecutor());
+    repository = new RatingsRepositoryImpl( mMockPlacesRepositoryImpl, atributesRepository);
     // repository = new RatingsRepositoryImpl(userRepository, placesRepository, executionThread, postExecutionThread);
 //        ioScheduler =  Schedulers.from(executionThread);
     this.postExecutionThread = new IoThreadTest();
@@ -104,7 +104,7 @@ public void setUp() throws MalformedURLException, NoSuchFieldException {
     public void testUpdateUserProfileByRate() throws MalformedURLException {
         given(mMockPlacesRepositoryImpl.getPoiById("3")).willReturn(Single.just(atributes));
         given(atributesRepository.getUserAtributes("3")).willReturn(Single.just(userOldAtributes));
-        Observable<String> observable = this.repository.updateUserProfileByRate("3", "3",4 );
+        Observable<String> observable = this.repository.updateUserProfileByRate("3", "3",4, );
         observable.subscribeOn(Schedulers.from(executionThread)).observeOn(this.postExecutionThread.getScheduler());
         UpdateUserProfileByRateObserverTest observer = observable.subscribeWith(testObserver);
 
