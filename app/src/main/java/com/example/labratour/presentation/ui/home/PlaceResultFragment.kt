@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.labratour.R
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_place.*
 
 class PlaceResultFragment : Fragment(R.layout.fragment_place) {
@@ -68,8 +69,13 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     private fun rankPlace() {
         val place_id = (homeViewModel.place.value?.id).toString()
+        val user_id = FirebaseAuth.getInstance().currentUser?.uid
         // val user_id =
-        homeViewModel.rankPlace(user_id, place_id, rank)
+        Log.i("Places", "RANKPLACE:  $place_id, $user_id, $rank ")
+
+        if (user_id != null) {
+            homeViewModel.rankPlace(user_id, place_id, rank)
+        }
     }
 
     private fun onClickStar(i: Int) {
@@ -80,6 +86,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                 } else {
                     rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
                     star_pressed_one = true
+                    rank = 1
                 }
             }
 
@@ -91,6 +98,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                     rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_rate_24)
                     star_pressed_one = true
                     star_pressed_two = true
+                    rank = 2
                 }
             }
 
@@ -105,6 +113,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                     star_pressed_one = true
                     star_pressed_two = true
                     star_pressed_three = true
+                    rank = 3
                 }
             }
 
@@ -120,6 +129,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                     star_pressed_two = true
                     star_pressed_three = true
                     star_pressed_four = true
+                    rank = 4
                 }
             }
 
@@ -137,6 +147,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                     star_pressed_three = true
                     star_pressed_four = true
                     star_pressed_five = true
+                    rank = 5
                 }
             }
         }
