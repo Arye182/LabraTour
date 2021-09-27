@@ -7,7 +7,7 @@ import com.example.labratour.domain.repositories.RatingsRepository;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 
-public class UpdateUserProfileByRateUseCase extends UseCase<Void, UpdateUserProfileByRateUseCase.RequestInput> {
+public class UpdateUserProfileByRateUseCase extends UseCase<String, UpdateUserProfileByRateUseCase.RequestInput> {
     private final RatingsRepository repository;
 
     protected UpdateUserProfileByRateUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, RatingsRepository ratingRepository) {
@@ -18,7 +18,7 @@ public class UpdateUserProfileByRateUseCase extends UseCase<Void, UpdateUserProf
         execute(observer, new RequestInput(userId, poiId, rate));
     }
     @Override
-    public Observable<Void> buildUseCaseObservable(RequestInput requestInput) {
+    public Observable<String> buildUseCaseObservable(RequestInput requestInput) {
         return this.repository.updateUserProfileByRate(requestInput.userId, requestInput.poiId, requestInput.rate);
     }
 

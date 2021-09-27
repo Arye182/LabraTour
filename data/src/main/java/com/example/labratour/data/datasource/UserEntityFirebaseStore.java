@@ -1,14 +1,17 @@
 package com.example.labratour.data.datasource;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.domain.Entity.UserDomain;
+import com.example.labratour.domain.UserAtributes;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,23 +22,26 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
+import io.reactivex.SingleOnSubscribe;
 
 //public static final String CHILD_USERS = "users";
 public class UserEntityFirebaseStore {
 
-
-        private FirebaseDatabase database;
+    private DatabaseReference usersDBref;
+    private FirebaseDatabase database;
 
   public UserEntityFirebaseStore(FirebaseDatabase firebaseDatabase) {
 // this.database.setPersistenceEnabled(true);
        //   firebaseDatabase.setPersistenceEnabled(true);
-
+      this.usersDBref = FirebaseDatabase.getInstance().getReference("users");
     this.database = FirebaseDatabase.getInstance();
   }
 
@@ -62,56 +68,7 @@ public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) 
                               emitter.onError(e.getCause());
                           }
                       });}});}
-//                  .addOnSuccessListener(
-//                      new OnSuccessListener<Void>() {
-//
-//                          @Override
-//                          public void onSuccess(Optional<Void> unused) {
-//
-//                                       emitter.onNext(new (unused));
-//                          }
-//
-//                          @Override
-//                          public void onSuccess(Object o) {
-//                              emitter.onNext(Res);
-//                          }
-//                        })
-//
-//                  .addOnFailureListener(
-//                      new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull @NotNull Exception e) {
-//                                emitter.onError(e);
-//                        }
-//                            });} catch (Exception exception) {
-//                if(userEntity==null){
-//                Log.i(
-//                        "signup",
-//                        "transform user domain to entity failed userEntityFirebaseStore.createUserIfNotExists");}else {
-//                    Log.i(
-//                            "signup",
-//                            "exception when trying to save new user userEntityFirebaseStore.createUserIfNotExists"+userEntity.toString());
-//                }
-//                    emitter.onError(exception);
-//
-//
-//                      }}});}
 
-
-
-
-
-
-
-
-
-
-
-
-public Observable updateUser(UserEntity userEntity,String  successResponse) {
-        DatabaseReference userReference  = database.getReference().child("users").child(userEntity.getUserId());
-        return updateNotNewUser(userReference, userEntity, successResponse);
-        }
 
 
 public Single<List<UserEntity>> getUsers() {
@@ -146,6 +103,41 @@ public Single<List<UserEntity>> getUsers() {
 
 
 
+    public Single<UserEntity> getUser(String userId) {
+        return Single.create(
+                new SingleOnSubscribe<UserEntity>() {
+                    @Override
+                    public void subscribe(SingleEmitter<UserEntity> emitter) {
+                        try {
+                            usersDBref
+                                    .child(userId)
+                                    .get()
+                                    .addOnCompleteListener(
+                                            new OnCompleteListener() {
+                                                @Override
+                                                public void onComplete(@NonNull @NotNull Task task) {
+                                                    if (!task.isSuccessful()) {
+                                                        Log.e("firebase", "Error getting data", task.getException());
+                                                        emitter.onError(task.getException());
+                                                    } else {
+                                                        emitter.onSuccess((UserEntity) task.getResult());
+                                                        Log.d("firebase", String.valueOf(task.getResult()));
+                                                    }
+                                                }
+                                            })
+                                    .addOnFailureListener(
+                                            new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull @NotNull Exception e) {
+                                                    emitter.onError(e.getCause());
+                                                }
+                                            });
+                        } catch (Exception e) {
+                            emitter.onError(e.getCause());
+                        }
+                    }
+                });
+    }
 
 
 public Observable<UserEntity> getUserRealtime(String userId) {
@@ -172,25 +164,66 @@ public Observable<UserEntity> getUserRealtime(String userId) {
 }
 
 
-private <R> Observable<R> updateNotNewUser(DatabaseReference databaseReference, UserEntity userEntity, R successResponse) {
-                //return postQuery(databaseReference, value, false, successResponse);
-                return Observable.create(new ObservableOnSubscribe() {
-                        @Override
-                        public void subscribe(ObservableEmitter e) throws Exception {
-                                DatabaseReference reference = databaseReference;
-                                reference.setValue(userEntity, (databaseError, databaseReference1) -> {
-                                        if (databaseError == null) {
-                                                e.onNext(successResponse);
-                                        } else {
-                                                e.onError(new FirebaseException(databaseError.getMessage()));
-                                        }
-                                });
-                        }
+    public Single<String> updateUserAtributes(UserAtributes userAtributes, String id) {
+        return Single.create(
+                new SingleOnSubscribe<String>() {
+                    @Override
+                    public void subscribe(SingleEmitter<String> emitter) throws Exception {
+                        HashMap<String, Object> atributes = UserDataMapper.transform(userAtributes);
+                        usersDBref
+                                .child(id)
+                                .child("atributes")
+                                .setValue(atributes).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                emitter.onSuccess("atributes: " + atributes.toString()+ "saved for user: "+id);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull @NotNull Exception e) {
+                                emitter.onError(e.getCause());
+                            }
+                        });
+
+                    }
                 });
-        }}
-
-
-//myRef.child("someChild").child("name").setValue(name)
+    }
+    public Single<HashMap<String, Object>> getUserAtributes(String userId) {
+        return Single.create(
+                new SingleOnSubscribe<HashMap<String, Object>>() {
+                    @Override
+                    public void subscribe(SingleEmitter<HashMap<String, Object>> emitter) {
+                        try {
+                            usersDBref
+                                    .child(userId)
+                                    .child("atributes")
+                                    .get()
+                                    .addOnCompleteListener(
+                                            new OnCompleteListener() {
+                                                @Override
+                                                public void onComplete(@NonNull @NotNull Task task) {
+                                                    if (!task.isSuccessful()) {
+                                                        Log.e("firebase", "Error getting data", task.getException());
+                                                        emitter.onError(task.getException());
+                                                    } else {
+                                                        emitter.onSuccess((HashMap<String, Object>) task.getResult());
+                                                        Log.d("firebase", String.valueOf(task.getResult()));
+                                                    }
+                                                }
+                                            })
+                                    .addOnFailureListener(
+                                            new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull @NotNull Exception e) {
+                                                    emitter.onError(e.getCause());
+                                                }
+                                            });
+                        } catch (Exception e) {
+                            emitter.onError(e.getCause());
+                        }
+                    }
+                });
+    }}
 
 
 

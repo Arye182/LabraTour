@@ -45,7 +45,6 @@ dependencies {
   // implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'com.google.firebase:firebase-auth:19.3.2'
     testImplementation 'org.testng:testng:6.9.6'
-    testImplementation 'org.testng:testng:6.9.6'
     testImplementation 'org.mockito:mockito-core:' + rootProject.mockitoVersion
     // When using the BoM, don't specify versions in Firebase dependencies
  //   implementation 'com.google.firebase:firebase-analytics-ktx'

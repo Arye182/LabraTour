@@ -18,8 +18,7 @@ public class PoiDetailsEntity  implements Serializable{
         @SerializedName("icon")
         private String icon;
 
-        @SerializedName("place_id")
-        private String id;
+
 
         @SerializedName("name")
         private String name;
@@ -79,21 +78,17 @@ public class PoiDetailsEntity  implements Serializable{
             this.icon = icon;
         }
 
-        /**
-         * @return The id
-         */
-        public String getId() {
-            return id;
-        }
 
-        /**
-         * @param id The id
-         */
-        public void setId(String id) {
-            this.id = id;
-        }
 
-        /**
+    public PoiDetailsEntity( OpeningHours openingHours,  String placeId, Double rating, ArrayList<String> types, Integer priceLevel) {
+        this.openingHours = openingHours;
+        this.placeId = placeId;
+        this.rating = rating;
+        this.types = types;
+        this.priceLevel = priceLevel;
+    }
+
+    /**
          * @return The name
          */
         public String getName() {

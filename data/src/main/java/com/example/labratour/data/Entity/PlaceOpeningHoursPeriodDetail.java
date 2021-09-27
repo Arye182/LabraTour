@@ -3,8 +3,13 @@ package com.example.labratour.data.Entity;
 import com.google.gson.annotations.SerializedName;
 
 public class PlaceOpeningHoursPeriodDetail {
+    public PlaceOpeningHoursPeriodDetail(int day, String time) {
+        this.day = day;
+        this.time = time;
+    }
+
     @SerializedName("day")
-    private int day;
+    private int day ;
 
     public void setDay(int day) {
         this.day = day;

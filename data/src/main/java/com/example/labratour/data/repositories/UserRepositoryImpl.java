@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
-import com.example.labratour.data.datasource.CloudUserDataSource;
+import com.example.labratour.data.datasource.UserAuth;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
 import com.example.labratour.domain.Entity.UserDomain;
 import com.example.labratour.domain.repositories.UserRepository;
@@ -18,13 +18,13 @@ import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
 public class UserRepositoryImpl implements UserRepository {
-  private  CloudUserDataSource cloudUserDataSource;
+  private UserAuth userAuth;
 
   private  UserEntityFirebaseStore userEntityFirebaseStore;
   //   private UserDataMapper userDataMapper;
   // private final CloudUserDataSource cloudUserDataSource;
   public UserRepositoryImpl(FirebaseAuth firebaseAuth, FirebaseDatabase database) {
-    this.cloudUserDataSource = new CloudUserDataSource(firebaseAuth);
+    this.userAuth = new UserAuth(firebaseAuth);
     // database.setPersistenceEnabled(true);
 
     this.userEntityFirebaseStore = new UserEntityFirebaseStore(database);
@@ -32,14 +32,10 @@ public class UserRepositoryImpl implements UserRepository {
 
 
 
-    @Override
-    public Observable<UserDomain> getUser(String userId, boolean fromServer) {
-        return null;
-    }
 
     @Override
   public Single<UserDomain> getUser(String userId) {
-    return this.cloudUserDataSource.getUser(userId).map(new Function<UserEntity, UserDomain>() {
+    return this.userEntityFirebaseStore.getUser(userId).map(new Function<UserEntity, UserDomain>() {
       @Override
       public UserDomain apply(UserEntity userEntity) throws Exception {
         return UserDataMapper.transform(userEntity);
@@ -50,7 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public Observable<UserDomain> login(final String email, final String password) {
-    return this.cloudUserDataSource
+    return this.userAuth
         .login(email, password)
         .map(
             new Function<AuthResult, UserEntity>() {
@@ -68,25 +64,10 @@ public class UserRepositoryImpl implements UserRepository {
             });
   }
 
-    @Override
-    public Observable updateUser(UserDomain userDomain, String response) throws InstantiationException, IllegalAccessException {
-        return null;
-    }
-
-    @Override
-    public void saveUser(UserDomain userDomain) {
-
-    }
-  public Observable updateUser(UserEntity userEntity, String response) {
-    return this.userEntityFirebaseStore.updateUser(userEntity, response);
-  }
-//
-//  @Override
-//  public void saveUser(UserDomain userDomain) {}
 
   @Override
   public Observable<String> registerNewUser(String email, String password) {
-    return this.cloudUserDataSource
+    return this.userAuth
         .register(email, password).map(new Function<AuthResult, String>() {
               @Override
               public String apply(@NotNull AuthResult authResult) throws Exception {
@@ -95,7 +76,12 @@ public class UserRepositoryImpl implements UserRepository {
             });
   }
 
-  @Override
+    @Override
+    public Observable<UserDomain> getUser(String userId, boolean fromServer) {
+        return null;
+    }
+
+    @Override
   public Observable<Void> saveNewUser(UserDomain userDomain, String id) {
     Log.i( "signup", "before calling userEntityFirebaseStore.createUserIfNotExists");
     return this.userEntityFirebaseStore.createUserIfNotExists(userDomain, id);

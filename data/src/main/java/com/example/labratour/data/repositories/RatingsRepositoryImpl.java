@@ -1,14 +1,11 @@
 package com.example.labratour.data.repositories;
 
 import com.example.labratour.domain.Atributes;
-import com.example.labratour.domain.BuisnesPostExecutionThread;
 import com.example.labratour.domain.UserAtributes;
 import com.example.labratour.domain.executors.ExecutionThread;
-import com.example.labratour.domain.executors.PostExecutionThread;
 import com.example.labratour.domain.repositories.PlacesRepository;
 import com.example.labratour.domain.repositories.PoiDetailesDomain;
 import com.example.labratour.domain.repositories.RatingsRepository;
-import com.example.labratour.domain.repositories.UserRepository;
 
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
@@ -23,20 +20,20 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.schedulers.Schedulers;
 
 public class RatingsRepositoryImpl implements RatingsRepository {
-    private UserRepository userRepository;
+   // private UserRepository userRepository;
     private PlacesRepository placesRepository;
-    private AtributesRepository atributesRepository;
+    private AtributesRepositoryImpl atributesRepository;
     private PoiDetailesDomain poiDetailesDomain = null;
     private ExecutionThread executionThread;
-    private PostExecutionThread postExecutionThread;
 
-    public RatingsRepositoryImpl(UserRepository userRepository, PlacesRepository placesRepository,AtributesRepository atributesRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
-        this.userRepository = userRepository;
+    public RatingsRepositoryImpl( PlacesRepository placesRepository, AtributesRepositoryImpl atributesRepository
+            , ExecutionThread executionThread) {
         this.placesRepository = placesRepository;
         this.atributesRepository = atributesRepository;
+
         this.executionThread = executionThread;
         //new scheduler that queuse work on current thread
-        this.postExecutionThread = new BuisnesPostExecutionThread();
+
     }
 
 
@@ -48,13 +45,13 @@ public class RatingsRepositoryImpl implements RatingsRepository {
         return atributesRepository.getUserAtributes(userId);
    }
    @Override
-   public Observable<Void> updateUserProfileByRate(String userId, String placeId, int rate){
+   public Observable<String> updateUserProfileByRate(String userId, String placeId, int rate){
         //to the usecase
-        return Observable.create(new ObservableOnSubscribe<Void>() {
+        return Observable.create(new ObservableOnSubscribe<String>() {
             //emitter is the observer from the usecase
             //this method will be called in the line "subscribeWith" in usecase
             @Override
-            public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 try{
                 Single<Atributes> o1 = buildPoiAtributesSingle(placeId);
                 Single<UserAtributes> o2 = buildUserAtributesSingle(userId);
@@ -74,14 +71,14 @@ public class RatingsRepositoryImpl implements RatingsRepository {
                     @Override
                     public void onSuccess(UserAtributes value) {
                         //this subscribe the Single from user repository with the observer argument
-                        atributesRepository.updateNewAtributes(value, userId).subscribe(new SingleObserver<Void>() {
+                        atributesRepository.updateNewAtributes(value, userId).subscribe(new SingleObserver<String>() {
                             @Override
                             public void onSubscribe(Disposable d) {
 
                             }
 
                             @Override
-                            public void onSuccess(Void value) {
+                            public void onSuccess(String value) {
                                 if (!emitter.isDisposed()){
                                     emitter.onNext(value);
 

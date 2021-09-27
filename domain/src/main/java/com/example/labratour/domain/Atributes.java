@@ -6,38 +6,38 @@ import com.google.gson.annotations.SerializedName;
 public class Atributes {
     @SerializedName("pricelevel")
 
-    private int price_level = 0;
+    public int price_level = 0;
     //
    // @JsonProperty("rating")
     @SerializedName("useraggragaterating")
-    private double usersAggragateRating = 0;
+    public double usersAggragateRating = 0;
     @SerializedName("alwaysOpen")
 
-    private boolean alwaysOpen = false;
-    private boolean amusement_park = false;
-    private boolean aquarium = false;
-    private boolean art_gallery = false;
-    private boolean bar = false;
-    private boolean campground = false;
-    private boolean night_club = false;
-    private boolean painter = false;
-    private boolean movie_theater  = false;
-    private boolean museum = false;
+    public boolean alwaysOpen = false;
+ public boolean amusement_park = false;
+ public boolean aquarium = false;
+ public boolean art_gallery = false;
+ public boolean bar = false;
+ public boolean campground = false;
+ public boolean night_club = false;
+ public boolean painter = false;
+ public boolean movie_theater  = false;
+ public boolean museum = false;
 
     public void setAlwaysOpen(boolean alwaysOpen) {
         this.alwaysOpen = alwaysOpen;
     }
 
-    private boolean casino = false;
-    private boolean cafe = false;
-    private boolean restaurant = false;
-    private boolean rv_park = false;
-    private boolean shopping_mall;
-    private boolean spa = false;
-    private boolean stadium = false;
-    private boolean tourist_attraction = false;
-    private boolean zoo = false;
-    private boolean gym = false;
+   public boolean casino = false;
+   public boolean cafe = false;
+   public boolean restaurant = false;
+   public boolean rv_park = false;
+   public boolean shopping_mall;
+   public boolean spa = false;
+   public boolean stadium = false;
+   public boolean tourist_attraction = false;
+   public boolean zoo = false;
+   public boolean gym = false;
 
     public Atributes() {
 

@@ -13,6 +13,10 @@ public class OpeningHours {
         return periods;
     }
 
+    public OpeningHours(ArrayList<PlaceOpeningHoursPeriod> periods) {
+        this.periods = periods;
+    }
+
     @SerializedName("periods")
 
     private ArrayList<PlaceOpeningHoursPeriod> periods;
