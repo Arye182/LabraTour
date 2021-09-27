@@ -24,7 +24,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
-import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.location_card.view.*
 
 const val LOCATION_REQUEST = 100
@@ -98,10 +97,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         nearby_places_list_progress_bar.visibility = View.VISIBLE
         customed_places_recycler_view.visibility = View.GONE
         customed_places_list_progress_bar.visibility = View.VISIBLE
-        if (this.homeViewModel.firstLoaded) {
+        if (this.homeViewModel.nearByListFirstLoaded) {
             updatePlacesRoutine()
         }
-        this.homeViewModel.firstLoaded = true
+        this.homeViewModel.nearByListFirstLoaded = true
         return
     }
 
@@ -127,7 +126,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     override fun onDestroy() {
         super.onDestroy()
         // in case we destroy the frasgent we want to clear the list
-        this.homeViewModel.firstLoaded = false
+        this.homeViewModel.nearByListFirstLoaded = false
         clearLists()
         Log.i("Places", "HomeFragment onDestroy")
     }
@@ -204,7 +203,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.nearByPlacesList.value?.clear()
         nearByPlacesLoaded = false
         customPlacesLoaded = false
-        this.homeViewModel.firstLoaded = false
+        this.homeViewModel.nearByListFirstLoaded = false
     }
 
     // ---------------------------------------- gps -----------------------------------------------

@@ -11,7 +11,6 @@ import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdap
 import com.example.labratour.presentation.ui.login.LoginActivity
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
@@ -125,7 +124,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
     override fun onDestroy() {
         super.onDestroy()
         // in case we destroy the frasgent we want to clear the list
-        this.homeViewModel.firstLoaded = false
+        this.homeViewModel.nearByListFirstLoaded = false
         clearLists()
         Log.i("Places", "HomeFragment onDestroy")
     }

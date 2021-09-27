@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
+import com.example.labratour.domain.useCases.UpdateUserProfileByRateUseCase
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.SavedRankedPlaceModel
 import com.example.labratour.presentation.model.data.UserModel
@@ -26,39 +27,24 @@ import kotlin.coroutines.suspendCoroutine
 
 class UserHomeViewModel(
     private val placesClient: PlacesClient,
+    private val updateUseProfileByRateUseCase: UpdateUserProfileByRateUseCase,
     private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase,
     private val userRepository: UserRepository,
     private val placeCacheRepository: PlacesRepository,
     private val savedRankedPlacesRepository: SavedRankedPlacesRepository
 ) : ViewModel() {
+    // ------------------------------------- members ----------------------------------------------
+    // user
     lateinit var user: UserModel
-    // Construct a request object, passing the place ID and fields array.
+    val userModel: MutableLiveData<UserModel> by lazy {
+        MutableLiveData<UserModel>()
+    }
 
+    // generic list utils
     private lateinit var request: FetchPlaceRequest
-    // lists
-    private var testPlacesList = ArrayList<PlaceModel>()
-
-    // nearby list
-    private var nearbyPlacesStringList = ArrayList<String>()
-    private var nearbyPlacesList = ArrayList<PlaceModel>()
-    val nearByPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
-        MutableLiveData<ArrayList<PlaceModel>>()
+    val place: MutableLiveData<Place> by lazy {
+        MutableLiveData<Place>()
     }
-
-    // user liked list
-    private var likedPlacesStringList = ArrayList<String>()
-    val likedPlacesStringListLive: MutableLiveData<ArrayList<String>> by lazy {
-        MutableLiveData<ArrayList<String>>()
-    }
-    private var likedPlacesList = ArrayList<PlaceModel>()
-    val likedPlacesFinalList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
-        MutableLiveData<ArrayList<PlaceModel>>()
-    }
-
-    //
-    var firstLoaded: Boolean = false
-
-    // Specify the fields to return.
     private val placeFields = listOf(
         Place.Field.ID,
         Place.Field.NAME,
@@ -73,39 +59,52 @@ class UserHomeViewModel(
         Place.Field.TYPES,
         Place.Field.USER_RATINGS_TOTAL,
     )
-
-    val userModel: MutableLiveData<UserModel> by lazy {
-        MutableLiveData<UserModel>()
+    val photoBitmap: MutableLiveData<Bitmap> by lazy {
+        MutableLiveData<Bitmap>()
     }
-
-    val place: MutableLiveData<Place> by lazy {
-        MutableLiveData<Place>()
-    }
-
-    val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-
     val photoLoading: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
 
-    val fetchingStringListNearByComplete: MutableLiveData<Boolean> by lazy {
-        MutableLiveData<Boolean>()
-    }
-
-    val photoBitmap: MutableLiveData<Bitmap> by lazy {
-        MutableLiveData<Bitmap>()
-    }
-
+    // test list
+    private var testPlacesList = ArrayList<PlaceModel>()
     val nearByPlacesListTest: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
 
+    // nearby list
+    private var nearbyPlacesStringList = ArrayList<String>()
+    private var nearbyPlacesList = ArrayList<PlaceModel>()
+    val nearByPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+        MutableLiveData<ArrayList<PlaceModel>>()
+    }
+    var nearByListFirstLoaded: Boolean = false
+
+    // user liked list
+    private var likedPlacesStringList = ArrayList<String>()
+    val likedPlacesStringListLive: MutableLiveData<ArrayList<String>> by lazy {
+        MutableLiveData<ArrayList<String>>()
+    }
+    private var likedPlacesList = ArrayList<PlaceModel>()
+    val likedPlacesFinalList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+        MutableLiveData<ArrayList<PlaceModel>>()
+    }
+    var likedListFirstLoaded: Boolean = false
+
+    // category list
     val categoryPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
 
+    // messages
+    val error: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val place_ranked: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
+    // ------------------------------------ PLACES LISTS ------------------------------------------
     private inner class NearbyPlacesStringListFetcherObserver : DefaultObserver<ArrayList<String>>() {
         override fun onComplete() {
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Complete...")
@@ -126,6 +125,20 @@ class UserHomeViewModel(
             // fetchingStringListNearByComplete.postValue(true)
             generateNearByPlacesList()
             // logInTaskStatus.postValue(true)
+        }
+    }
+
+    private inner class RankPlaceObserver : DefaultObserver<String>() {
+        override fun onComplete() {
+            Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Complete...")
+        }
+        override fun onError(exception: Throwable) {
+            Log.i("Places", "RankPlace Observer - On Error: " + exception.message)
+            error.postValue(exception.message)
+        }
+        override fun onNext(value: String) {
+            Log.i("Places", "RankPlace Observer - On Next message: $value")
+            place_ranked.postValue(value)
         }
     }
 
@@ -261,8 +274,6 @@ class UserHomeViewModel(
         this.nearByPlacesListTest.setValue(testPlacesList)
         this.categoryPlacesList.setValue(testPlacesList)
     }
-
-    // ------------------------------------ PLACES LISTS ------------------------------------------
 
     // this is getting the places list with the string list that came from domain
     fun generateNearByPlacesList() {
@@ -429,6 +440,7 @@ class UserHomeViewModel(
     }
 
     fun rankPlace(user_id: String, place_id: String, rank: Int) {
+        this.updateUseProfileByRateUseCase.execute(RankPlaceObserver(), user_id, place_id, rank)
     }
 
     // ------------------------------------ USER ----------------------------------------------
@@ -474,6 +486,5 @@ class UserHomeViewModel(
         Log.i("Places", "likedPlacesStringList : list: $list")
 
         likedPlacesStringListLive.postValue(list)
-
     }
 }

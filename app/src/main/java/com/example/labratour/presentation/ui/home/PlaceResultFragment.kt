@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_place.*
 
 class PlaceResultFragment : Fragment(R.layout.fragment_place) {
-    private lateinit var homewViewModel: UserHomeViewModel
+    private lateinit var homeViewModel: UserHomeViewModel
     // Define a Place ID.
     private lateinit var placeId: String
     private var rank: Int = 0
@@ -31,12 +31,12 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         super.onCreate(savedInstanceState)
         placeId = args.id
         Log.i("Places", "onCreate with id: $placeId")
-        homewViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
+        homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homewViewModel.getPlaceById(placeId)
+        homeViewModel.getPlaceById(placeId)
         url_place_button.setOnClickListener { onClickUrl(view) }
         call_place_button.setOnClickListener { onClickCall() }
         like_place_button.setOnClickListener { onClickLike() }
@@ -54,19 +54,22 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         button_rank.setOnClickListener { rankPlace() }
 
         // vm
-        this.homewViewModel.photoLoading.observe(viewLifecycleOwner, { onPhotoLoadingChanged(view) })
-        this.homewViewModel.place.observe(viewLifecycleOwner, { onPlaceChanged(view) })
-        this.homewViewModel.photoBitmap.observe(viewLifecycleOwner, { onBitampChanged(view) })
-        this.homewViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
+        this.homeViewModel.photoLoading.observe(viewLifecycleOwner, { onPhotoLoadingChanged(view) })
+        this.homeViewModel.place.observe(viewLifecycleOwner, { onPlaceChanged(view) })
+        this.homeViewModel.photoBitmap.observe(viewLifecycleOwner, { onBitampChanged(view) })
+        this.homeViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
+        this.homeViewModel.place_ranked.observe(viewLifecycleOwner, { onPlaceRankedChanged(view) })
+    }
 
-        // TODO - get place from db to update like and rank
-        // ...
+    private fun onPlaceRankedChanged(view: View) {
+        Snackbar.make(view, this.homeViewModel.place_ranked.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.success)).show()
     }
 
     private fun rankPlace() {
-        val place_id = (homewViewModel.place.value?.id).toString()
+        val place_id = (homeViewModel.place.value?.id).toString()
         // val user_id =
-        // homewViewModel.rankPlace()
+        homeViewModel.rankPlace(user_id, place_id, rank)
     }
 
     private fun onClickStar(i: Int) {
@@ -153,36 +156,36 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onErrorChanged(view: View) {
-        Snackbar.make(view, this.homewViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
             .setBackgroundTint(resources.getColor(R.color.error)).show()
     }
 
     private fun onBitampChanged(view: View) {
-        place_img.setImageBitmap(this.homewViewModel.photoBitmap.value)
+        place_img.setImageBitmap(this.homeViewModel.photoBitmap.value)
         place_progress_bar.visibility = View.GONE
     }
 
     private fun onPlaceChanged(view: View) {
         // update place in fragment
-        place_id_tv.text = (homewViewModel.place.value?.id).toString()
-        Log.i("Places", "phone of place: " + (homewViewModel.place.value?.phoneNumber).toString())
-        if (homewViewModel.place.value?.phoneNumber == null) {
+        place_id_tv.text = (homeViewModel.place.value?.id).toString()
+        Log.i("Places", "phone of place: " + (homeViewModel.place.value?.phoneNumber).toString())
+        if (homeViewModel.place.value?.phoneNumber == null) {
             place_phone_tv.text = "phone not available"
         } else {
-            place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
+            place_phone_tv.text = (homeViewModel.place.value?.phoneNumber).toString()
         }
         // place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
-        place_name_tv.text = (homewViewModel.place.value?.name).toString()
-        place_title_name.text = (homewViewModel.place.value?.name).toString()
-        place_address_tv.text = (homewViewModel.place.value?.address).toString()
-        place_website_tv.text = (homewViewModel.place.value?.websiteUri).toString()
-        place_type_tv.text = (homewViewModel.place.value?.types).toString()
+        place_name_tv.text = (homeViewModel.place.value?.name).toString()
+        place_title_name.text = (homeViewModel.place.value?.name).toString()
+        place_address_tv.text = (homeViewModel.place.value?.address).toString()
+        place_website_tv.text = (homeViewModel.place.value?.websiteUri).toString()
+        place_type_tv.text = (homeViewModel.place.value?.types).toString()
 
         // place_opening_hours_tv.text = (place.openingHours).toString()
-        if (homewViewModel.place.value?.isOpen == true) {
+        if (homeViewModel.place.value?.isOpen == true) {
             place_is_open_tv.text = "Opened!"
             place_is_open_tv.setTextColor(Color.GREEN)
-        } else if (homewViewModel.place.value?.isOpen == false) {
+        } else if (homeViewModel.place.value?.isOpen == false) {
             place_is_open_tv.text = "Closed!"
             place_is_open_tv.setTextColor(Color.RED)
         } else {
@@ -191,7 +194,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onPhotoLoadingChanged(view: View) {
-        if (homewViewModel.photoLoading.value == false) {
+        if (homeViewModel.photoLoading.value == false) {
             // hide the photo progress bar!
             place_progress_bar.visibility = View.GONE
         }
@@ -203,7 +206,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     private fun onClickLike() {
         // open dialog that allows user to rank the place from 1-5
-        homewViewModel.saveLikedPlace(placeId, rank)
+        homeViewModel.saveLikedPlace(placeId, rank)
         like_place_button.setImageResource(R.drawable.ic_baseline_favorite_44)
         view?.let {
             Snackbar.make(it, "saved", Snackbar.LENGTH_SHORT)
@@ -213,13 +216,13 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     // user click call and forward to phone on android
     private fun onClickCall() {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homewViewModel.getPhoneNumber(), null))
+        val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homeViewModel.getPhoneNumber(), null))
         startActivity(intent)
     }
 
     // what happens when user click on url button
     private fun onClickUrl(view: View) {
-        val url: Uri? = homewViewModel.place.value?.websiteUri
+        val url: Uri? = homeViewModel.place.value?.websiteUri
         if (url != null) {
             // TODO fix uri bug http://
             Log.i("Places", url.toString())
