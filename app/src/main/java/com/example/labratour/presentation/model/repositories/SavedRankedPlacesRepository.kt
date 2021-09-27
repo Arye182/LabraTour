@@ -10,16 +10,16 @@ import com.example.labratour.presentation.model.data.SavedRankedPlaceModel
 class SavedRankedPlacesRepository(private val dao: SavedRankedPlaceDao) {
 
     // get liked places for a user!
-//    fun getLikedPlaces(user_id_arg: String): List<String> {
-//        return dao.getLikedPlaces(user_id_arg)
-//    }
+    fun getLikedPlaces(user_id: String): List<String> {
+        return dao.getLikedPlaces(user_id)
+    }
 
     // insert a place liked
     suspend fun insertSavedPlace(place: SavedRankedPlaceModel) {
         dao.insertSavedPlace(place)
     }
 
-    suspend fun deleteAllSavedPlaces() {
-        dao.deleteAllSavedPlaces()
+    suspend fun deleteAllSavedPlaces(user_id: String) {
+        dao.deleteAllSavedPlaces(user_id)
     }
 }

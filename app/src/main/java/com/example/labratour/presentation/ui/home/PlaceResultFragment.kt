@@ -23,7 +23,8 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     private var star_pressed_three: Boolean = false
     private var star_pressed_four: Boolean = false
     private var star_pressed_five: Boolean = false
-
+    private var liked: Boolean = false
+    private var user_id: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val args: PlaceResultFragmentArgs by navArgs()
@@ -49,20 +50,23 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         rank_place_five_star.setOnClickListener { onClickStar(5) }
 
         // rank buttons
-        button_clear_rank.setOnClickListener{clearStars()}
-        button_rank.setOnClickListener{rankPlace()}
+        button_clear_rank.setOnClickListener { clearStars() }
+        button_rank.setOnClickListener { rankPlace() }
 
         // vm
         this.homewViewModel.photoLoading.observe(viewLifecycleOwner, { onPhotoLoadingChanged(view) })
         this.homewViewModel.place.observe(viewLifecycleOwner, { onPlaceChanged(view) })
         this.homewViewModel.photoBitmap.observe(viewLifecycleOwner, { onBitampChanged(view) })
         this.homewViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(view) })
+
+        // TODO - get place from db to update like and rank
+        // ...
     }
 
     private fun rankPlace() {
         val place_id = (homewViewModel.place.value?.id).toString()
-        //val user_id =
-        //homewViewModel.rankPlace()
+        // val user_id =
+        // homewViewModel.rankPlace()
     }
 
     private fun onClickStar(i: Int) {
@@ -131,12 +135,11 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                     star_pressed_four = true
                     star_pressed_five = true
                 }
-
             }
         }
     }
 
-    private fun clearStars(){
+    private fun clearStars() {
         rank_place_one_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
         rank_place_two_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
         rank_place_three_star.setImageResource(R.drawable.ic_baseline_star_outline_24)
@@ -200,7 +203,12 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     private fun onClickLike() {
         // open dialog that allows user to rank the place from 1-5
+        homewViewModel.saveLikedPlace(placeId, rank)
         like_place_button.setImageResource(R.drawable.ic_baseline_favorite_44)
+        view?.let {
+            Snackbar.make(it, "saved", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.success)).show()
+        }
     }
 
     // user click call and forward to phone on android
@@ -221,7 +229,6 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
             Snackbar.make(view, "Url Not Available, Sorry!", Snackbar.LENGTH_SHORT)
                 .setBackgroundTint(resources.getColor(R.color.error)).show()
             Log.i("Places", url.toString())
-
         }
     }
 

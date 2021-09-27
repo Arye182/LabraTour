@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
 import com.example.labratour.presentation.model.data.PlaceModel
+import com.example.labratour.presentation.model.data.SavedRankedPlaceModel
 import com.example.labratour.presentation.model.data.UserModel
 import com.example.labratour.presentation.model.repositories.PlacesRepository
 import com.example.labratour.presentation.model.repositories.SavedRankedPlacesRepository
@@ -32,10 +33,29 @@ class UserHomeViewModel(
 ) : ViewModel() {
     lateinit var user: UserModel
     // Construct a request object, passing the place ID and fields array.
+
     private lateinit var request: FetchPlaceRequest
+    // lists
     private var testPlacesList = ArrayList<PlaceModel>()
+
+    // nearby list
     private var nearbyPlacesStringList = ArrayList<String>()
     private var nearbyPlacesList = ArrayList<PlaceModel>()
+    val nearByPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+        MutableLiveData<ArrayList<PlaceModel>>()
+    }
+
+    // user liked list
+    private var likedPlacesStringList = ArrayList<String>()
+    val likedPlacesStringListLive: MutableLiveData<ArrayList<String>> by lazy {
+        MutableLiveData<ArrayList<String>>()
+    }
+    private var likedPlacesList = ArrayList<PlaceModel>()
+    val likedPlacesFinalList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+        MutableLiveData<ArrayList<PlaceModel>>()
+    }
+
+    //
     var firstLoaded: Boolean = false
 
     // Specify the fields to return.
@@ -53,10 +73,6 @@ class UserHomeViewModel(
         Place.Field.TYPES,
         Place.Field.USER_RATINGS_TOTAL,
     )
-
-    val currentUserId: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
 
     val userModel: MutableLiveData<UserModel> by lazy {
         MutableLiveData<UserModel>()
@@ -83,10 +99,6 @@ class UserHomeViewModel(
     }
 
     val nearByPlacesListTest: MutableLiveData<ArrayList<PlaceModel>> by lazy {
-        MutableLiveData<ArrayList<PlaceModel>>()
-    }
-
-    val nearByPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
 
@@ -250,6 +262,8 @@ class UserHomeViewModel(
         this.categoryPlacesList.setValue(testPlacesList)
     }
 
+    // ------------------------------------ PLACES LISTS ------------------------------------------
+
     // this is getting the places list with the string list that came from domain
     fun generateNearByPlacesList() {
         viewModelScope.launch() {
@@ -328,6 +342,78 @@ class UserHomeViewModel(
         this.nearByPlacesList.setValue(nearbyPlacesList)
     }
 
+    suspend fun likedPlacesListCoRoutine() {
+        Log.i("Places", "likedPlacesListRoutine : starting to fetch liked places by id")
+
+        for (place_id in this.likedPlacesStringListLive.value!!) {
+            var bitmap: Bitmap
+            var googlePlace: Place
+            request = place_id.let { FetchPlaceRequest.newInstance(it, placeFields) }
+            Log.i("Places", "likedPlacesListRoutine : trying to fetch place by id.... with id:{$place_id}")
+            suspendCoroutine<Unit> { continuation ->
+                placesClient.fetchPlace(request)
+                    .addOnSuccessListener { response: FetchPlaceResponse ->
+                        Log.i("Places", "likedPlacesListRoutine : fetch place data success!")
+                        val place = response.place
+                        googlePlace = place
+                        Log.i("Places", "likedPlacesListRoutine : trying to fetch photo!")
+                        // Get the photo metadata.
+                        val metada = googlePlace.photoMetadatas
+                        if (metada == null || metada.isEmpty()) {
+                            Log.i("Places", "likedPlacesListRoutine : No photo metadata.")
+                        }
+                        val photoMetadata = metada?.first()
+                        // Create a FetchPhotoRequest.
+                        val photoRequest = photoMetadata?.let {
+                            FetchPhotoRequest.builder(it)
+                                .setMaxWidth(1500) // Optional.
+                                .setMaxHeight(600) // Optional.
+                                .build()
+                        }
+                        if (photoRequest != null) {
+                            placesClient.fetchPhoto(photoRequest)
+                                .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                                    var bitmapw = fetchPhotoResponse.bitmap
+                                    Log.i("Places", "likedPlacesListRoutine : fetching photo success!")
+                                    // TODO test!
+                                    bitmap = bitmapw
+                                    this.likedPlacesList.add(PlaceModel(googlePlace, true, 5, bitmap))
+                                    continuation.resume(Unit)
+                                }.addOnFailureListener { exception: Exception ->
+                                    if (exception is ApiException) {
+                                        photoLoading.postValue(false)
+                                        Log.e(
+                                            ContentValues.TAG,
+                                            "Place not found: ${exception.message}"
+                                        )
+                                        Log.i("Places", "likedPlacesListRoutine : fetching photo failed")
+                                        error.postValue(exception.message)
+                                    }
+                                }
+                        } else {
+                            Log.i("Places", "likedPlacesListRoutine : fetching photo failed")
+                            val w: Int = 150
+                            val h: Int = 150
+                            val conf = Bitmap.Config.ARGB_8888 // see other conf types
+                            val bmp =
+                                Bitmap.createBitmap(w, h, conf) // this creates a MUTABLE bitmap
+                            bitmap = bmp
+                            this.likedPlacesList.add(PlaceModel(googlePlace, true, 5, bitmap))
+                            continuation.resume(Unit)
+                        }
+                    }.addOnFailureListener { exception: Exception ->
+                        if (exception is ApiException) {
+                            Log.e(ContentValues.TAG, "likedPlacesListRoutine : Place not found: ${exception.message}")
+                            // val statusCode = exception.statusCode
+                            error.postValue(exception.message)
+                        }
+                    }
+            }
+        }
+        Log.i("Places", "likedPlacesListRoutine : size of list:" + likedPlacesList.size)
+        this.likedPlacesFinalList.postValue(likedPlacesList)
+    }
+
     // get all places list started
     fun getAllPlacesLists(lat: String, long: String) {
         Log.i("Places", "Starting To Update Places Lists (vm)")
@@ -345,29 +431,49 @@ class UserHomeViewModel(
     fun rankPlace(user_id: String, place_id: String, rank: Int) {
     }
 
-    // user related functions
-    fun getCurrentUserID(): String {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        var currentUserID = ""
-        if (currentUser != null) {
-            currentUserID = currentUser.uid
-            this.currentUserId.postValue(currentUserID)
-            viewModelScope.launch {
-                getUserRoutine()
-            }
+    // ------------------------------------ USER ----------------------------------------------
+    fun getUserTrigger() {
+        viewModelScope.launch {
+            getUserRoutine()
         }
-        return currentUserID
     }
 
     suspend fun getUserRoutine() = withContext(Dispatchers.IO) {
-        val user = userRepository.getUser(getCurrentUserID())
+        val user = FirebaseAuth.getInstance().currentUser?.uid?.let { userRepository.getUser(it) }
         userModel.postValue(user)
+        getLikedPlacesStringList()
     }
 
-//    init {
-//        viewModelScope.launch {
-//            getCurrentUserID()
-//            getUserRoutine()
-//        }
-//    }
+    fun saveLikedPlace(place_id: String, rank: Int) {
+        viewModelScope.launch {
+            val user_id = FirebaseAuth.getInstance().currentUser?.uid
+            Log.i("Places", "likedPlacesStringList : user id: $user_id")
+            Log.i("Places", "Saving user id: $user_id, at place id: $place_id")
+            user_id?.let { SavedRankedPlaceModel(saved_id = 0, user_id = it, place_id = place_id, liked = 1, rank = rank) }?.let {
+                savedRankedPlacesRepository.insertSavedPlace(
+                    it
+                )
+            }
+        }
+    }
+
+    fun getLikedPlacesList() {
+        viewModelScope.launch {
+            likedPlacesListCoRoutine()
+        }
+    }
+
+    suspend fun getLikedPlacesStringList() = withContext(Dispatchers.IO) {
+        val user_id = FirebaseAuth.getInstance().currentUser?.uid
+        Log.i("Places", "likedPlacesStringList : user id: $user_id")
+        Log.i("Places", "likedPlacesStringList : user id: $user_id")
+        val list = user_id?.let { savedRankedPlacesRepository.getLikedPlaces(user_id) } as ArrayList<String>?
+        if (list != null) {
+            Log.i("Places", "likedPlacesStringList : size of list:" + list.size)
+        }
+        Log.i("Places", "likedPlacesStringList : list: $list")
+
+        likedPlacesStringListLive.postValue(list)
+
+    }
 }

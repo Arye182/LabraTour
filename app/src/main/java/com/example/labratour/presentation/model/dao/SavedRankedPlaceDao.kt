@@ -7,13 +7,13 @@ import com.example.labratour.presentation.model.data.SavedRankedPlaceModel
 interface SavedRankedPlaceDao {
 
     // get liked places for a user!
-//    @Query("SELECT * FROM saved_places WHERE user_id = :user_id_arg AND liked = 1")
-//    fun getLikedPlaces(user_id_arg: String): List<String>
+    @Query("SELECT place_id FROM saved_places WHERE user_id = :user_id_arg  AND liked = 1")
+    fun getLikedPlaces(user_id_arg: String): List<String>
 
-    // insert a place liked
+    // insert a place likedm
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSavedPlace(place: SavedRankedPlaceModel)
 
-    @Query("DELETE FROM saved_places")
-    suspend fun deleteAllSavedPlaces()
+    @Query("DELETE FROM saved_places WHERE user_id = :user_id_arg")
+    suspend fun deleteAllSavedPlaces(user_id_arg: String)
 }
