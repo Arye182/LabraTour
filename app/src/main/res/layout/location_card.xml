@@ -6,6 +6,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="35dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.ui.home.HomeFragment"
     app:cardBackgroundColor="@color/card">
 
     <LinearLayout
@@ -31,14 +33,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="LatLong: "
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
-                    />
-                <TextView
                     android:id="@+id/location_ltlng_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -62,6 +56,7 @@
                     android:textColor="?android:attr/textColorSecondary"
                     />
                 <TextView
+                    android:id="@+id/country_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -84,6 +79,7 @@
                     android:textColor="?android:attr/textColorSecondary"
                     />
                 <TextView
+                    android:id="@+id/city_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
