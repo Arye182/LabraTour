@@ -21,6 +21,7 @@ public class JobExecutor implements ExecutionThread {
     }
 
     @Override public void execute(@NotNull Runnable runnable) {
+
         Log.i("thrad",
                 "new thread num " );
         this.threadPoolExecutor.execute(runnable);

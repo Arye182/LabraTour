@@ -52,10 +52,9 @@ public class PlacesRepositoryImplTest extends TestCase {
             ArrayList <PlaceOpeningHoursPeriod> list= new  ArrayList<PlaceOpeningHoursPeriod>();
             for (int i=0; i<6;i++){
                 list.add(new PlaceOpeningHoursPeriod(new PlaceOpeningHoursPeriodDetail(i, "0000")));}
-            ArrayList<String> types = new ArrayList<String>();
-            types.add("resturant");
-            types.add("spa");
-            return new PoiDetailsEntity(  new OpeningHours(list), "3", 4.0, types, 3);
+            String[] types =new String[]{"spa"};
+
+            return new PoiDetailsEntity(new OpeningHours(list), "3", 4.0, types, 3);
 
         }
     }

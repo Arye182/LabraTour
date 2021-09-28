@@ -3,7 +3,6 @@ package com.example.labratour.data.Entity;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 //
@@ -42,7 +41,7 @@ public class PoiDetailsEntity  implements Serializable{
         private String scope;
 
         @SerializedName("types")
-        private ArrayList<String> types = new ArrayList<String>();
+        private String[] types;
 
         @SerializedName("vicinity")
         private String vicinity;
@@ -80,7 +79,7 @@ public class PoiDetailsEntity  implements Serializable{
 
 
 
-    public PoiDetailsEntity( OpeningHours openingHours,  String placeId, Double rating, ArrayList<String> types, Integer priceLevel) {
+    public PoiDetailsEntity( OpeningHours openingHours,  String placeId, Double rating, String[] types, Integer priceLevel) {
         this.openingHours = openingHours;
         this.placeId = placeId;
         this.rating = rating;
@@ -189,14 +188,14 @@ public class PoiDetailsEntity  implements Serializable{
         /**
          * @return The types
          */
-        public ArrayList<String> getTypes() {
+        public String[] getTypes() {
             return types;
         }
 
         /**
          * @param types The types
          */
-        public void setTypes(ArrayList<String> types) {
+        public void setTypes(String[] types) {
             this.types = types;
         }
 

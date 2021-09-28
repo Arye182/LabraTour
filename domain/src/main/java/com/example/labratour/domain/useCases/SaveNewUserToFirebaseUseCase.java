@@ -7,7 +7,7 @@ import com.example.labratour.domain.repositories.UserRepository;
 
 import io.reactivex.Observable;
 
-public class SaveNewUserToFirebaseUseCase extends UseCase<Void, UserDomain> {
+public class SaveNewUserToFirebaseUseCase extends UseCase<String, UserDomain> {
   private final UserRepository userRepository;
 
   public SaveNewUserToFirebaseUseCase(
@@ -29,7 +29,7 @@ public class SaveNewUserToFirebaseUseCase extends UseCase<Void, UserDomain> {
 
 
     @Override
-    public Observable<Void> buildUseCaseObservable(UserDomain userDomain)  {
+    public Observable<String> buildUseCaseObservable(UserDomain userDomain)  {
       return userRepository.saveNewUser(userDomain, userDomain.getUserId());
     }
 

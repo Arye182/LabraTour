@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class AtributesRepositoryImpl implements AtributesRepository{
 
@@ -31,10 +32,11 @@ public class AtributesRepositoryImpl implements AtributesRepository{
             public UserAtributes apply(HashMap<String, Object> stringObjectHashMap) throws Exception {
                 return UserDataMapper.transform(stringObjectHashMap);
             }
-        });
+        }).subscribeOn(Schedulers.io()).observeOn(Schedulers.computation());
     }
 
-    public Single<String> updateNewAtributes(UserAtributes userAtributes, String userId) {
+    public Single<String> updateNewAtributes(HashMap<String, Object> userAtributes, String userId) {
+
         return this.userEntityFirebaseStore.updateUserAtributes(userAtributes, userId);
     }
 

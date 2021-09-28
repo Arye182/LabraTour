@@ -3,13 +3,14 @@ package com.example.labratour.data.net;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Looper;
+import android.util.Log;
 
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -32,15 +33,17 @@ public class RestApi {
   this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
   this.placeDetailsDataMapper = new PlaceDetailesDataMapper();
  }
- public Observable<ArrayList<String>> nearbyPlaces(String lat, String lon) {
+ public Observable<String> nearbyPlaces(String lat, String lon) {
+  Log.e("testNearbyUseCase","inside nearbyplaces in restapi  before create  run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+
   return Observable.create(emitter -> {
    if (isThereInternetConnection()) {
     try {
 
      String response = getNearbyPlacesIds(lat, lon);
      if (response != null) {
-      emitter.onNext(this.nearbyPlaceJsonMapper.transformCollectionToIds(
-              response));
+      emitter.onNext(
+              response);
       emitter.onComplete();
      } else {
       emitter.onError(new Exception());
@@ -54,6 +57,8 @@ public class RestApi {
   });
  }
  private String getNearbyPlacesIds(String lat, String lon) throws MalformedURLException {
+  Log.e("testNearbyUseCase","inside nearbyplacesIds in restapi  called from inside emitter   run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+
   Connection connection = Connection.createGET("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&key="+API_KEY);
   return connection.requestSyncCall();
  }
@@ -68,6 +73,8 @@ public class RestApi {
   return isConnected;
  }
  public Single<PoiDetailsEntity> getPlaceById(String id) {
+  Log.e("UpdateUseCase","inside getPlaceId in restapi  before create  run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+
   return Single.create(emitter -> {
    if (isThereInternetConnection()) {
     try {

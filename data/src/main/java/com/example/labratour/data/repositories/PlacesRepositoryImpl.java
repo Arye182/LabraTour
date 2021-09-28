@@ -1,6 +1,7 @@
 package com.example.labratour.data.repositories;
 
 import com.example.labratour.data.Entity.PoiDetailsEntity;
+import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 import com.example.labratour.data.net.RestApi;
 import com.example.labratour.domain.Atributes;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class PlacesRepositoryImpl implements PlacesRepository {
 
@@ -29,16 +31,13 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
 
     public Observable<ArrayList<String>> nearbyPlacesIds(String lat, String lon) {
         return this.restApi
-                .nearbyPlaces(lat, lon);
-//                .map(
-//                        new Function<List<NearbyPlaceResult>, ArrayList<String>>() {
-//
-//
-//                            @Override
-//                            public ArrayList<String> apply(List<NearbyPlaceResult> result) throws Exception {
-//                                return new NearbyPlacesDataMapper().transform(result);
-//                            }
-//                        });
+                .nearbyPlaces(lat, lon).map(new Function<String, ArrayList<String>>() {
+                    @Override
+                    public ArrayList<String> apply(String s) throws Exception {
+                        return new NearbyPlaceJsonMapper().transformCollectionToIds(s);
+                    }
+                });
+                //.subscribeOn(Schedulers.io()).observeOn(Schedulers.computation());
 
 
 
@@ -58,6 +57,6 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
             public Atributes apply(PoiDetailsEntity poiDetailsEntity) throws Exception {
                 return placeDetailesDataMapper.transform(poiDetailsEntity);
             }
-        });
+        }).subscribeOn(Schedulers.io()).observeOn(Schedulers.computation());
     }
 }

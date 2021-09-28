@@ -82,7 +82,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-  public Observable<Void> saveNewUser(UserDomain userDomain, String id) {
+  public Observable<String> saveNewUser(UserDomain userDomain, String id) {
     Log.i( "signup", "before calling userEntityFirebaseStore.createUserIfNotExists");
     return this.userEntityFirebaseStore.createUserIfNotExists(userDomain, id);
   }

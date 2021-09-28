@@ -1,5 +1,8 @@
 package com.example.labratour.data.Entity.mapper;
 
+import android.os.Looper;
+import android.util.Log;
+
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.domain.Entity.UserDomain;
 import com.example.labratour.domain.UserAtributes;
@@ -64,8 +67,10 @@ exception.printStackTrace();}
 
 
 public static HashMap<String, Object> transform(UserAtributes userAtributes) {
+    Log.e("UpdateUseCase","inside transform called from apply on zip run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
 
-          HashMap<String, Object> atributesDict = new HashMap<>();
+
+    HashMap<String, Object> atributesDict = new HashMap<>();
 try{
           atributesDict.put("ratesCounter",userAtributes.getRatesCounter());
           atributesDict.put("pricelevel", userAtributes.getPrice_level());

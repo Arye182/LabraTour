@@ -1,5 +1,8 @@
 package com.example.labratour.data.Entity.mapper;
 
+import android.os.Looper;
+import android.util.Log;
+
 import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,7 +26,9 @@ public class NearbyPlaceJsonMapper {
     }
     public  ArrayList<String> transformCollectionToIds(String response)
           {
-        JsonArray arr = JsonParser.parseString(response).getAsJsonObject().getAsJsonArray("results");
+              Log.e("testNearbyUseCase","inside JsonMapper.transformCollectionToIds called from apply in placesRepository.getPoiById  run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+
+              JsonArray arr = JsonParser.parseString(response).getAsJsonObject().getAsJsonArray("results");
 //todo ArrayList<NearbyPlaceResult> transformCollection(JsonArray nearbyPlaces)
         ArrayList<String> Ids = new ArrayList<String>(20);
         for (int i = 0; i< arr.size(); i++) {

@@ -96,7 +96,7 @@ UserAuthViewModel(
         }
     }
 
-    private inner class SaveNewUserToFirebaseUseCaseObserver : DefaultObserver<Void>() {
+    private inner class SaveNewUserToFirebaseUseCaseObserver : DefaultObserver<String>() {
         override fun onComplete() {
             Log.i("Firebase", "SaveNewUserToFirebaseUseCase - On Complete...")
             isLoading.postValue(false)
@@ -107,7 +107,7 @@ UserAuthViewModel(
             saveNewUserToFirebaseTaskStatus.postValue(false)
             error.postValue(exception.message)
         }
-        override fun onNext(v: Void) {
+        override fun onNext(v: String) {
             Log.i("Firebase", "SaveNewUserToFirebaseUseCase - On Next...")
             isLoading.postValue(false)
             saveNewUserToFirebaseTaskStatus.postValue(true)

@@ -9,8 +9,8 @@ import com.example.labratour.data.net.RestApi;
 import com.example.labratour.data.utils.JobExecutor;
 import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.UserAtributes;
-import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
+import com.example.labratour.domain.useCases.DefaultObserver;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,9 +25,12 @@ import java.util.ArrayList;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.Single;
-import io.reactivex.functions.Predicate;
+import io.reactivex.SingleObserver;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.schedulers.TestScheduler;
 
 import static org.mockito.BDDMockito.given;
 
@@ -50,20 +53,20 @@ public class RatingsRepositoryImplTest {
     @Mock
     AtributesRepositoryImpl atributesRepository;
 
-    @Mock
-    private ExecutionThread executionThread;
-
-
+    private JobExecutor executionThread;
+private TestScheduler testScheduler;
+@Mock
     private PostExecutionThread postExecutionThread;
     private PoiDetailsEntity poiDetailsEntity;
 
     @Before
 public void setUp() throws MalformedURLException, NoSuchFieldException {
+      testScheduler =   new TestScheduler();
     repository = new RatingsRepositoryImpl( mMockPlacesRepositoryImpl, atributesRepository);
     // repository = new RatingsRepositoryImpl(userRepository, placesRepository, executionThread, postExecutionThread);
 //        ioScheduler =  Schedulers.from(executionThread);
-    this.postExecutionThread = new IoThreadTest();
-    this.executionThread = new JobExecutor();
+given(postExecutionThread.getScheduler()).willReturn(testScheduler);
+executionThread = new JobExecutor();
     atributes =  generateAtributes();
          userOldAtributes  = generateUserAtributes(0,0,0,1,1,3/5, 4/5);
          userExpectedNewAtributes = generateUserAtributes(0,0, 0, 12/15, 12/15, 12/25, 48/75);
@@ -91,26 +94,73 @@ public void setUp() throws MalformedURLException, NoSuchFieldException {
 
     }
     @Test
-    public void testBuildPoiAtributesSingle() throws MalformedURLException {
-    given(mMockRestApi.getPlaceById("3")).willReturn(Single.just(GenerateAtributesPoiDetails.newInstance()));
-    repository.buildPoiAtributesSingle("3").test().assertValue((Predicate<Atributes>) Single.just(GenerateAtributesPoiDetails.newInstance()));
+    public void testFirstRateByUser() throws MalformedURLException {
+   // given(mMockRestApi.getPlaceById("3")).willReturn(Single.just(GenerateAtributesPoiDetails.newInstance()));
+        given(mMockPlacesRepositoryImpl.getPoiById("3")).willReturn(Single.just(generateAtributes()));
+        SingleObserver<UserAtributes> testObserver = new SingleObserver<UserAtributes>() {
+            public UserAtributes result=null;
+           public int code=0;
 
-        }
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onSuccess(UserAtributes value) {
+                code = 2;
+result = value;
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        };
+        Single<Atributes> o1 = repository.buildPoiAtributesSingle("3");
+        //todo
+        Single<UserAtributes> o2 = Single.just(generateUserAtributes(0,0, 0, 0, 0, 0, 0));
+
+        Single<UserAtributes> single= Single.zip(o1, o2, new BiFunction<Atributes, UserAtributes, UserAtributes>() {
+            @Override
+            public UserAtributes apply(Atributes atributes, UserAtributes userAtributes)  {
+                return repository.calculateNewAtributesForUser(atributes, userAtributes, 0, 5);
+
+
+            }}
+            //subscribe the zip to the observer argument
+        );
+        testObserver = single.subscribeWith(testObserver);
+        Assert.assertNotNull(single.blockingGet());
+        Assert.assertEquals(generateAtributes().getUsersAggragateRating(), single.blockingGet().getUsersAggragateRating(),0);
+        Assert.assertEquals(generateAtributes().getPrice_level(), single.blockingGet().getPrice_level(), 0);
+
+
+
+
+    }
 
   @Test
   public void testBuildUserAtributesSingle() {}
 
 @Test
-    public void testUpdateUserProfileByRate() throws MalformedURLException {
-        given(mMockPlacesRepositoryImpl.getPoiById("3")).willReturn(Single.just(atributes));
-        given(atributesRepository.getUserAtributes("3")).willReturn(Single.just(userOldAtributes));
-        Observable<String> observable = this.repository.updateUserProfileByRate("3", "3",4, new JobExecutor());
-        observable.subscribeOn(Schedulers.from(executionThread)).observeOn(this.postExecutionThread.getScheduler());
-        UpdateUserProfileByRateObserverTest observer = observable.subscribeWith(testObserver);
+    public void
 
-        Assert.assertTrue(observer.isDisposed());
-        Assert.assertNotNull(observer.getResult());
+testUpdateUserProfileByRate() throws MalformedURLException {
+    DefaultObserver<String> testObserver = new DefaultObserver<String>() ;
+    UserAtributes newAtributes = repository.calculateNewAtributesForUser(generateAtributes(), userOldAtributes, userCount, rate);
+    given(mMockPlacesRepositoryImpl.getPoiById("3")).willReturn(Single.just(generateAtributes()));
 
+    given(atributesRepository.getUserAtributes("3")).willReturn(Single.just(userOldAtributes));
+//given(atributesRepository.updateNewAtributes(newAtributes, "3")).willReturn(Single.just("atributes: " + newAtributes.toString()+ "saved for user: "+"3"));
+
+        Observable<String> observable = this.repository.updateUserProfileByRate("3", "3",rate, executionThread);
+
+
+     observable.subscribeWith(testObserver);
+    Assert.assertNotNull(observable.blockingFirst());
+    Assert.assertEquals("atributes: " + newAtributes.toString()+ "saved for user: "+"3",observable.blockingFirst());
 
     }
 @Test
@@ -125,6 +175,7 @@ public void setUp() throws MalformedURLException, NoSuchFieldException {
         g_atributes.setArt_gallery(true);
         g_atributes.setPrice_level(3/5);
         g_atributes.setUsersAggragateRating(4/5);
+
         return g_atributes;
 
     }
@@ -181,17 +232,18 @@ public void setUp() throws MalformedURLException, NoSuchFieldException {
             return Schedulers.io();
                 }
     }
-class GenerateAtributesPoiDetails  {
 
-    public static PoiDetailsEntity newInstance(){
-        ArrayList list = new  ArrayList<PlaceOpeningHoursPeriod>();
-        for (int i=0; i<7;i++){
-            list.add(new PlaceOpeningHoursPeriod(null,new PlaceOpeningHoursPeriodDetail(i, "0000")));}
-        ArrayList<String> types = new ArrayList<>();
-        types.add("resturant");
-        types.add("spa");
-        return new PoiDetailsEntity(  new OpeningHours(list), "3", 4.0, types, 3);
+    class GenerateAtributesPoiDetails  {
+        public static PoiDetailsEntity newInstance(){
+            ArrayList <PlaceOpeningHoursPeriod> list= new  ArrayList<PlaceOpeningHoursPeriod>();
+            for (int i=0; i<6;i++){
+                list.add(new PlaceOpeningHoursPeriod(new PlaceOpeningHoursPeriodDetail(i, "0000")));}
+            String[] types =new String[]{"spa"};
 
+            return new PoiDetailsEntity(new OpeningHours(list), "3", 4.0, types, 3);
+
+        }
     }
-}
+
+
 

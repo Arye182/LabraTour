@@ -14,6 +14,6 @@ public interface UserRepository {
     public Observable<UserDomain> getUser(String userId, boolean fromServer);
      Single<UserDomain> getUser(String userId);
 
-    Observable<Void> saveNewUser(UserDomain userDomain, String userId) ;
+    Observable<String> saveNewUser(UserDomain userDomain, String userId) ;
 
 }

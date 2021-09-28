@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.domain.Entity.UserDomain;
-import com.example.labratour.domain.UserAtributes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,13 +44,13 @@ public class UserEntityFirebaseStore {
     this.database = FirebaseDatabase.getInstance();
   }
 
-public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) {
+public Observable<String> createUserIfNotExists(UserDomain userDomain, String id) {
 
     UserEntity userEntity = UserDataMapper.transform(userDomain);
     return Observable.create(
-        new ObservableOnSubscribe<Void>() {
+        new ObservableOnSubscribe<String>() {
           @Override
-          public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
+          public void subscribe(ObservableEmitter<String> emitter) throws Exception {
 
               Task<Void> task= database
                   .getReference()
@@ -62,7 +61,7 @@ public Observable<Void> createUserIfNotExists(UserDomain userDomain, String id) 
                           @Override
                           public void onSuccess(Void unused) {
 
-                          emitter.onNext(Void.TYPE.cast(unused));}}).addOnFailureListener(new OnFailureListener() {
+                          emitter.onNext("");}}).addOnFailureListener(new OnFailureListener() {
                           @Override
                           public void onFailure(@NonNull @NotNull Exception e) {
                               emitter.onError(e.getCause());
@@ -164,12 +163,11 @@ public Observable<UserEntity> getUserRealtime(String userId) {
 }
 
 
-    public Single<String> updateUserAtributes(UserAtributes userAtributes, String id) {
+    public Single<String> updateUserAtributes(HashMap<String, Object>  atributes, String id) {
         return Single.create(
                 new SingleOnSubscribe<String>() {
                     @Override
                     public void subscribe(SingleEmitter<String> emitter) throws Exception {
-                        HashMap<String, Object> atributes = UserDataMapper.transform(userAtributes);
                         usersDBref
                                 .child(id)
                                 .child("atributes")
@@ -188,7 +186,8 @@ public Observable<UserEntity> getUserRealtime(String userId) {
                     }
                 });
     }
-    public Single<HashMap<String, Object>> getUserAtributes(String userId) {
+    public Single<HashMap<String, Object>>
+    getUserAtributes(String userId) {
         return Single.create(
                 new SingleOnSubscribe<HashMap<String, Object>>() {
                     @Override

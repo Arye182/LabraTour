@@ -1,13 +1,18 @@
 package com.example.labratour.domain.useCases;
 
+import android.os.Looper;
+import android.util.Log;
+
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
 import com.example.labratour.domain.repositories.PlacesRepository;
+import com.fernandocejas.arrow.checks.Preconditions;
 
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class GetNearbyPlacesUseCase extends UseCase<ArrayList<String>, GetNearbyPlacesUseCase.RequestInput> {
 
@@ -22,7 +27,19 @@ public class GetNearbyPlacesUseCase extends UseCase<ArrayList<String>, GetNearby
 
 
     public void execute(DisposableObserver observer, String lat, String lon) {
-        execute(observer, new RequestInput(lat,lon));}
+        Preconditions.checkNotNull(observer);
+        Log.i("testNearbyUseCase", "execute before calling build, thread: "+ Looper.myLooper());
+        final Observable<ArrayList<String> > observable =
+                this.buildUseCaseObservable(new RequestInput(lat, lon)).
+       // Log.i("testNearbyUseCase", "execute Fter calling build  befor subscribing: "+ Looper.myLooper());
+
+        subscribeOn(Schedulers.from(executionThread)).observeOn(postExecutionThread.getScheduler());
+        Log.i("testNearbyUseCase", "execute after calling build and subscribeOn AND observeOn befor subscribing: "+ Looper.myLooper());
+
+        addDisposable(observable.subscribeWith(observer));
+        Log.i("testNearbyUseCase", "execute after  subscribing: "+ Looper.myLooper());
+
+    }
     @Override
     public Observable<ArrayList<String>> buildUseCaseObservable(RequestInput requestInput) {
         return placesRepository.nearbyPlacesIds(requestInput.lat, requestInput.lon);
