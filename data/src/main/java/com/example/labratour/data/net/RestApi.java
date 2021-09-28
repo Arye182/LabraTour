@@ -6,11 +6,13 @@ import android.net.NetworkInfo;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -57,8 +59,9 @@ public class RestApi {
   });
  }
  private String getNearbyPlacesIds(String lat, String lon) throws MalformedURLException {
-  Log.i("testNearbyUseCase","inside nearbyplacesIds in restapi  called from inside emitter   run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
-
+  //Log.i("testNearbyUseCase","inside nearbyplacesIds in restapi  called from inside emitter   run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+ // Retrofit retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place");
+//  MapsGoogleApiService service = retrofit.create(MapsGoogleApiService.class);
   Connection connection = Connection.createGET("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1000&key="+API_KEY);
   return connection.requestSyncCall();
  }
@@ -104,6 +107,34 @@ else {
     }
 
  });}
+ public Observable<List<NearbyPlaceResult>> getPlaceNearbyAlternative(String lat, String lon) {
+
+  return Observable.create(emitter -> {
+   if (isThereInternetConnection()) {
+    try {
+     Retrofit retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place");
+     MapsGoogleApiService service = retrofit.create(MapsGoogleApiService.class);
+     service.nearbyPlaces(lat, lon).enqueue(new Callback<List<NearbyPlaceResult>>() {
+      @Override
+      public void onResponse(Call<List<NearbyPlaceResult>> call, Response<List<NearbyPlaceResult>> response) {
+       emitter.onNext(response.body());
+
+      }
+
+      @Override
+      public void onFailure(Call<List<NearbyPlaceResult>> call, Throwable t) {
+       emitter.onError(t);
+      }
+     });
+    } catch (Exception e) {
+     emitter.onError(new Exception(e.getCause()));
+    }
+   }
+   else {
+    emitter.onError(new Exception("No Internet Conection"));
+   }
+
+  });}
 
 
 

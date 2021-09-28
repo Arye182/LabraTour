@@ -1,8 +1,5 @@
 package com.example.labratour.domain.useCases;
 
-import android.os.Looper;
-import android.util.Log;
-
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
 import com.example.labratour.domain.repositories.PlacesRepository;
@@ -28,15 +25,15 @@ public class GetNearbyPlacesUseCase extends UseCase<ArrayList<String>, GetNearby
 
     public void execute(DisposableObserver observer, String lat, String lon) {
         Preconditions.checkNotNull(observer);
-        Log.i("testNearbyUseCase", "execute before calling build, thread: "+ Looper.myLooper());
+       // Log.i("testNearbyUseCase", "execute before calling build, thread: "+ Looper.myLooper());
     final Observable<ArrayList<String>> observable =
         this.buildUseCaseObservable(new RequestInput(lat, lon))
                 .subscribeOn(Schedulers.from(executionThread))
             .observeOn(postExecutionThread.getScheduler());
-        Log.i("testNearbyUseCase", "execute after calling build and subscribeOn AND observeOn befor subscribing: "+ Looper.myLooper());
+        //Log.i("testNearbyUseCase", "execute after calling build and subscribeOn AND observeOn befor subscribing: "+ Looper.myLooper());
 
         addDisposable(observable.subscribeWith(observer));
-        Log.i("testNearbyUseCase", "execute after  subscribing: "+ Looper.myLooper());
+      //  Log.i("testNearbyUseCase", "execute after  subscribing: "+ Looper.myLooper());
 
     }
     @Override

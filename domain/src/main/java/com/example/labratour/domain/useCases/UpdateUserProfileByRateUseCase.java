@@ -26,9 +26,7 @@ public class UpdateUserProfileByRateUseCase extends UseCase<String, UpdateUserPr
         Log.e("UpdateUseCase","before build execute run on:" +Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
 
         final Observable<String> observable =
-                this.buildUseCaseObservable(new RequestInput(userId, poiId, rate));
-        Log.e("UpdateUseCase","before subscription and subscribeON, ObserveOn execute run on:" +Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
-        observable.subscribeOn(Schedulers.from(executionThread)).observeOn(postExecutionThread.getScheduler());
+                this.buildUseCaseObservable(new RequestInput(userId, poiId, rate)).subscribeOn(Schedulers.from(executionThread)).observeOn(postExecutionThread.getScheduler());
         Log.e("UpdateUseCase","before subscription and after subscribeON, ObserveOn execute run on:" +Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
 
 
