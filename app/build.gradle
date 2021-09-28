@@ -98,6 +98,11 @@ dependencies {
 
     // google places
     implementation 'com.google.android.libraries.places:places:2.4.0'
+
+    // markdown
+    implementation 'us.feras.mdv:markdownview:1.1.0'
+
+
 }
 
 apply plugin: 'com.google.gms.google-services'

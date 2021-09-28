@@ -5,11 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".presentation.ui.general.AboutFragment">
 
-    <TextView
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="About Fragment">
+        android:layout_height="wrap_content">
 
-    </TextView>
+        <us.feras.mdv.MarkdownView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/markdown_about"/>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
