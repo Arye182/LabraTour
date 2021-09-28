@@ -12,7 +12,6 @@ import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 
 import java.net.MalformedURLException;
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -107,22 +106,22 @@ else {
     }
 
  });}
- public Observable<List<NearbyPlaceResult>> getPlaceNearbyAlternative(String lat, String lon) {
+ public Observable<NearbyPlaceResult[]> getPlaceNearbyAlternative(String lat, String lon) {
 
   return Observable.create(emitter -> {
    if (isThereInternetConnection()) {
     try {
      Retrofit retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place");
      MapsGoogleApiService service = retrofit.create(MapsGoogleApiService.class);
-     service.nearbyPlaces(lat, lon).enqueue(new Callback<List<NearbyPlaceResult>>() {
+     service.nearbyPlaces(lat, lon).enqueue(new Callback<NearbyPlaceResult[]>() {
       @Override
-      public void onResponse(Call<List<NearbyPlaceResult>> call, Response<List<NearbyPlaceResult>> response) {
+      public void onResponse(Call<NearbyPlaceResult[]> call, Response<NearbyPlaceResult[]> response) {
        emitter.onNext(response.body());
 
       }
 
       @Override
-      public void onFailure(Call<List<NearbyPlaceResult>> call, Throwable t) {
+      public void onFailure(Call<NearbyPlaceResult[]> call, Throwable t) {
        emitter.onError(t);
       }
      });

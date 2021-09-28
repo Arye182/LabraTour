@@ -7,9 +7,7 @@ import com.example.labratour.data.net.RestApi;
 import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.repositories.PlacesRepository;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -31,19 +29,24 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
     }
 
     @Override
+    public Observable<ArrayList<String>> nearbyPlacesByType(String lat, String lon) {
+        return null;
+    }
+
+    @Override
     public Observable<ArrayList<String>> nearbyPlaces(String lat, String lon) {
         return null;
     }
 
     public Observable<ArrayList<String>> nearbyPlacesIds(String lat, String lon) {
         return this.restApi
-                .getPlaceNearbyAlternative(lat, lon).map(new Function<List<NearbyPlaceResult>, ArrayList<String>>() {
+                .getPlaceNearbyAlternative(lat, lon).map(new Function<NearbyPlaceResult[], ArrayList<String>>() {
 
                     @Override
-                    public ArrayList<String> apply(List<NearbyPlaceResult> nearbyPlaceResults)  {
+                    public ArrayList<String> apply(NearbyPlaceResult[] nearbyPlaceResults)  {
                          ArrayList<String> ids = new ArrayList<>();
-                         for (NearbyPlaceResult p : nearbyPlaceResults) {
-                             ids.add(p.getId());
+                         for (int i = 0; i<nearbyPlaceResults.length;i++) {
+                             ids.add(nearbyPlaceResults[i].getId());
 
                          }
                          return ids;}
@@ -59,7 +62,7 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
 
 
 
-    public Single<Atributes> getPoiById(String Id) throws MalformedURLException {
+    public Single<Atributes> getPoiById(String Id)  {
         return this.restApi.getPlaceById(Id).map(new Function<PoiDetailsEntity, Atributes>() {
             @Override
             public Atributes apply(PoiDetailsEntity poiDetailsEntity) throws Exception {
