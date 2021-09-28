@@ -29,11 +29,10 @@ public class GetNearbyPlacesUseCase extends UseCase<ArrayList<String>, GetNearby
     public void execute(DisposableObserver observer, String lat, String lon) {
         Preconditions.checkNotNull(observer);
         Log.i("testNearbyUseCase", "execute before calling build, thread: "+ Looper.myLooper());
-        final Observable<ArrayList<String> > observable =
-                this.buildUseCaseObservable(new RequestInput(lat, lon)).
-       // Log.i("testNearbyUseCase", "execute Fter calling build  befor subscribing: "+ Looper.myLooper());
-
-        subscribeOn(Schedulers.from(executionThread)).observeOn(postExecutionThread.getScheduler());
+    final Observable<ArrayList<String>> observable =
+        this.buildUseCaseObservable(new RequestInput(lat, lon))
+                .subscribeOn(Schedulers.from(executionThread))
+            .observeOn(postExecutionThread.getScheduler());
         Log.i("testNearbyUseCase", "execute after calling build and subscribeOn AND observeOn befor subscribing: "+ Looper.myLooper());
 
         addDisposable(observable.subscribeWith(observer));

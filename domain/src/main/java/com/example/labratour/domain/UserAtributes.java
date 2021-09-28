@@ -16,7 +16,7 @@ public class UserAtributes {
     private int RatesCounter = 0;
 
     @SerializedName("price_level")
-    private double price_level = 0 ;
+    private double pricelevel = 0 ;
     //
     // @JsonProperty("rating")
     @SerializedName("useraggragaterating")
@@ -144,7 +144,7 @@ public class UserAtributes {
     }
 
     public void setPrice_level(double price_level) {
-        this.price_level = price_level;
+        this.pricelevel = price_level;
     }
 
     public void setUsersAggragateRating(double usersAggragateRating) {
@@ -231,7 +231,7 @@ public class UserAtributes {
 
 
     public double getPrice_level() {
-        return price_level;
+        return pricelevel;
     }
 
     public double getUsersAggragateRating() {

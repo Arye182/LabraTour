@@ -34,7 +34,7 @@ public class RestApi {
   this.placeDetailsDataMapper = new PlaceDetailesDataMapper();
  }
  public Observable<String> nearbyPlaces(String lat, String lon) {
-  Log.e("testNearbyUseCase","inside nearbyplaces in restapi  before create  run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+//  Log.i("testNearbyUseCase","inside nearbyplaces in restapi  before create  run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
 
   return Observable.create(emitter -> {
    if (isThereInternetConnection()) {
@@ -57,9 +57,9 @@ public class RestApi {
   });
  }
  private String getNearbyPlacesIds(String lat, String lon) throws MalformedURLException {
-  Log.e("testNearbyUseCase","inside nearbyplacesIds in restapi  called from inside emitter   run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+  Log.i("testNearbyUseCase","inside nearbyplacesIds in restapi  called from inside emitter   run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
 
-  Connection connection = Connection.createGET("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1500&key="+API_KEY);
+  Connection connection = Connection.createGET("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1000&key="+API_KEY);
   return connection.requestSyncCall();
  }
  private boolean isThereInternetConnection() {
