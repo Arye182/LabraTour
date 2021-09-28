@@ -6,6 +6,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
 import kotlinx.android.synthetic.main.location_card.view.*
+import java.util.*
 
 const val LOCATION_REQUEST = 100
 const val GPS_REQUEST = 101
@@ -83,6 +86,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             viewLifecycleOwner,
             { onCustomPlacesListChanged(frag_view) }
         )
+        this.homeViewModel.error.observe(viewLifecycleOwner, {
+            onErrorChanged(frag_view)
+        })
         // pull to refresh
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
@@ -99,9 +105,37 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         customed_places_list_progress_bar.visibility = View.VISIBLE
         if (this.homeViewModel.nearByListFirstLoaded) {
             updatePlacesRoutine()
+            updateCityCountry()
         }
         this.homeViewModel.nearByListFirstLoaded = true
         return
+    }
+
+    private fun onErrorChanged(view: View) {
+        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.error)).show()
+    }
+
+    fun updateCityCountry() {
+        val geocoder: Geocoder
+        val addresses: List<Address>
+        geocoder = Geocoder(activity as HomeActivity, Locale.getDefault())
+        val lat = this.locationViewModel.getLocationData().value?.latitude!!
+        val long = this.locationViewModel.getLocationData().value?.longitude!!
+
+        addresses = geocoder.getFromLocation(lat, long, 1)
+
+        val address: String =
+            addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+        val city: String = addresses[0].getLocality()
+        val state: String = addresses[0].getAdminArea()
+        val country: String = addresses[0].getCountryName()
+        // val postalCode: String = addresses[0].getPostalCode()
+        val knownName: String = addresses[0].getFeatureName() // Only if availa
+
+        location_card.country_tv.text = country
+        location_card.city_tv.text = city
     }
 
     // --------------------        stoping and pausing destroying ---------------------------------
@@ -142,6 +176,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             // pullToRefresh.isRefreshing = true
             // update lists!
             updatePlacesRoutine()
+            updateCityCountry()
+
             pullToRefresh.isRefreshing = false
         }
     }
@@ -224,6 +260,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         )
         if (!this.nearByPlacesLoaded && !this.customPlacesLoaded) {
             updatePlacesRoutine()
+            updateCityCountry()
             nearByPlacesLoaded = true
             customPlacesLoaded = true
         }
