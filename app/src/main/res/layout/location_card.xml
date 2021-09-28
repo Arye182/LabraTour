@@ -25,13 +25,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location"
+                android:text="Your Current Location"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 />
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Coordinates: "
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    />
                 <TextView
                     android:id="@+id/location_ltlng_txt"
                     android:layout_width="wrap_content"
@@ -52,8 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Country: "
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
+                    android:textAppearance="?attr/textAppearanceBody1"
                     />
                 <TextView
                     android:id="@+id/country_tv"
@@ -75,8 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="City: "
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary"
+                    android:textAppearance="?attr/textAppearanceBody1"
                     />
                 <TextView
                     android:id="@+id/city_tv"
