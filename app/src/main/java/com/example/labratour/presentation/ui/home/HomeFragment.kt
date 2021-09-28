@@ -86,6 +86,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             viewLifecycleOwner,
             { onCustomPlacesListChanged(frag_view) }
         )
+        this.homeViewModel.error.observe(viewLifecycleOwner, {
+            onErrorChanged(frag_view)
+        })
         // pull to refresh
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
@@ -109,6 +112,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         return
     }
 
+    private fun onErrorChanged(view: View) {
+        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.error)).show()
+    }
+
     fun updateCityCountry() {
         val geocoder: Geocoder
         val addresses: List<Address>
@@ -124,7 +132,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         val city: String = addresses[0].getLocality()
         val state: String = addresses[0].getAdminArea()
         val country: String = addresses[0].getCountryName()
-        val postalCode: String = addresses[0].getPostalCode()
+        //val postalCode: String = addresses[0].getPostalCode()
         val knownName: String = addresses[0].getFeatureName() // Only if availa
 
         location_card.country_tv.text = country
