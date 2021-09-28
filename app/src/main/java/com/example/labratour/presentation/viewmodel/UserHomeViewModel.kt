@@ -114,7 +114,7 @@ class UserHomeViewModel(
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Error: " + exception.message)
             // isLoading.postValue(false)
             // logInTaskStatus.postValue(false)
-            error.postValue(exception.message)
+            error.postValue("NearbyPlacesStringListFetcherObserver Observer - On Error: " +exception.message)
         }
         override fun onNext(value: ArrayList<String>) {
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next...")

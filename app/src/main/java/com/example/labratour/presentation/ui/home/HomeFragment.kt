@@ -106,7 +106,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         if (this.homeViewModel.nearByListFirstLoaded) {
             updatePlacesRoutine()
             updateCityCountry()
-
         }
         this.homeViewModel.nearByListFirstLoaded = true
         return
@@ -132,7 +131,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         val city: String = addresses[0].getLocality()
         val state: String = addresses[0].getAdminArea()
         val country: String = addresses[0].getCountryName()
-        //val postalCode: String = addresses[0].getPostalCode()
+        // val postalCode: String = addresses[0].getPostalCode()
         val knownName: String = addresses[0].getFeatureName() // Only if availa
 
         location_card.country_tv.text = country
