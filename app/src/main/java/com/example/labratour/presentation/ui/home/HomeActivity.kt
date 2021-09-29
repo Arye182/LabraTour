@@ -69,9 +69,7 @@ class HomeActivity : BaseActivity() {
         drawer_home.setupWithNavController(navController)
 
         // Lookup navigation view
-        // Lookup navigation view
         navigationView = findViewById<View>(R.id.drawer_home) as NavigationView
-        // Inflate the header view at runtime
         // Inflate the header view at runtime
         navigationView.inflateHeaderView(R.layout.header_navigation_drawer)
     }

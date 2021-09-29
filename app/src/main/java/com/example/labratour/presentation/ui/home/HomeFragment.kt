@@ -1,4 +1,4 @@
-package com.example.labratour.presentation .ui.home
+package com.example.labratour.presentation.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -19,10 +19,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.labratour.R
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
+import com.example.labratour.presentation.utils.Constants
 import com.example.labratour.presentation.utils.GpsUtils
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
@@ -53,8 +55,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.frag_view = view
-
-
 
         // view models observation
         if (!nearByPlacesLoaded) {
@@ -92,10 +92,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.error.observe(viewLifecycleOwner, {
             onErrorChanged(frag_view)
         })
-
-        homeViewModel.userModel.observe(viewLifecycleOwner,{ onUserChanged() })
+        this.homeViewModel.userModel.observe(
+            viewLifecycleOwner, { onUserChanged() }
+        )
+        // get user details so you can update them in the view
         homeViewModel.getUserTrigger()
-
         // pull to refresh
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
@@ -247,6 +248,34 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.nearByListFirstLoaded = false
     }
 
+    // whenever you click on an item from the recylcler - but need to know which one
+    override fun onItemClick(position: Int) {
+
+        val clickedNearbyPlacesItem: PlaceModel =
+            homeViewModel.nearByPlacesList.value?.get(position)!!
+
+        val id: String = clickedNearbyPlacesItem.googlePlace.id!!
+        view?.let {
+            Snackbar.make(it, "item $id Clicked", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.success)).show()
+        }
+
+        // move to fragment of result of place!
+        val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
+        findNavController().navigate(action)
+    }
+
+    fun onUserChanged() {
+        if ((activity as HomeActivity).navigationView.headerCount > 0) {
+            // avoid NPE by first checking if there is at least one Header View available
+            val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
+            val user_name : String = homeViewModel.userModel.value?.userName!!
+            headerLayout.username_drawer_header.text = user_name
+            headerLayout.email_drawer_header.text = homeViewModel.userModel.value?.email
+            (activity as HomeActivity).toolbar.title = "Welcome Back, $user_name"
+        }
+    }
+
     // ---------------------------------------- gps -----------------------------------------------
     fun checkGps() {
         // gps
@@ -332,32 +361,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             LOCATION_REQUEST -> {
                 invokeLocationAction()
             }
-        }
-    }
-
-    // whenever you click on an item from the recylcler - but need to know which one
-    override fun onItemClick(position: Int) {
-
-        val clickedNearbyPlacesItem: PlaceModel =
-            homeViewModel.nearByPlacesList.value?.get(position)!!
-
-        val id: String = clickedNearbyPlacesItem.googlePlace.id!!
-        view?.let {
-            Snackbar.make(it, "item $id Clicked", Snackbar.LENGTH_SHORT)
-                .setBackgroundTint(resources.getColor(R.color.success)).show()
-        }
-
-        // move to fragment of result of place!
-        val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
-        findNavController().navigate(action)
-    }
-
-    fun onUserChanged(){
-        if ((activity as HomeActivity).navigationView.headerCount > 0) {
-            // avoid NPE by first checking if there is at least one Header View available
-            val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
-            headerLayout.username_drawer_header.text= homeViewModel.userModel.value?.userName
-            headerLayout.email_drawer_header.text= homeViewModel.userModel.value?.email
         }
     }
 }
