@@ -204,6 +204,17 @@
                         app:trackColor="@color/reply_orange_500"
                         android:indeterminate="true">
                     </com.google.android.material.progressindicator.CircularProgressIndicator>
+                    <TextView
+                        android:id="@+id/liked_places_no_places_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Seems Like You Are A New User! Liked A PLACE? Dont want to miss it for the next time? please save it !"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="invisible"
+
+                        android:textAppearance="?attr/textAppearanceBody1"
+                        android:padding="16dp"/>
                 </RelativeLayout>
             </LinearLayout>
 

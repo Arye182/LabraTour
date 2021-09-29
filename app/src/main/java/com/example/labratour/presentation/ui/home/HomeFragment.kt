@@ -3,7 +3,6 @@ package com.example.labratour.presentation.ui.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -19,18 +18,25 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.labratour.R
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
+import com.example.labratour.presentation.utils.GPS_REQUEST
 import com.example.labratour.presentation.utils.GpsUtils
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
+import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.location_card.view.*
 import java.util.*
 
 const val LOCATION_REQUEST = 100
 const val GPS_REQUEST = 101
+// lists codes
+const val NEARBY_LIST_CODE = 15
+const val LIKED_LIST_CODE = 16
+const val CUSTOMIZED_LIST_CODE = 17
 
 class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
 
@@ -43,151 +49,65 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private lateinit var frag_view: View
 
     // --------------------------------- fragment functions ---------------------------------------
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.i("Places", "HomeFragment onAttach")
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        this.frag_view = view
-
-        // view models observation
-        if (!nearByPlacesLoaded) {
-            places_close_to_you_recycler_view.visibility = View.GONE
-            nearby_places_list_progress_bar.visibility = View.VISIBLE
-        }
-        if (!customPlacesLoaded) {
-            customed_places_recycler_view.visibility = View.GONE
-            customed_places_list_progress_bar.visibility = View.VISIBLE
-        }
-
-        Log.i("Places", "HomeFragment onViewCreated")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
+        // this.homeViewModel.invokeGetUser()
+        // this.homeViewModel.invokeGetLikedPlacesList()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.i("Places", "HomeFragment onViewCreated")
+
+        this.frag_view = view
+
+        // view models observation
+        this.homeViewModel.customizedPlaceModelListLiveData.observe(viewLifecycleOwner, { onCustomPlacesListChanged() })
+        this.homeViewModel.userModelLiveData.observe(viewLifecycleOwner, { onUserChanged() })
+        this.homeViewModel.nearByPlaceModelListLiveData.observe(viewLifecycleOwner, { onNearByPlacesListChanged(frag_view) })
+        this.homeViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(frag_view) })
+        this.locationViewModel.getLocationData().observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
+
+        // listeners
+        pullToRefresh = home_refresh_layout
+        setPullToRefreshListener()
+
+        //
         checkGps()
         invokeLocationAction()
     }
 
-    override fun onStart() {
-        super.onStart()
-        this.locationViewModel.getLocationData()
-            .observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
-        this.homeViewModel.nearByPlacesList.observe(
-            viewLifecycleOwner,
-            { onNearByPlacesListChanged(frag_view) }
-        )
-        this.homeViewModel.nearByPlacesListTest.observe(
-            viewLifecycleOwner,
-            { onCustomPlacesListChanged(frag_view) }
-        )
-        this.homeViewModel.error.observe(viewLifecycleOwner, {
-            onErrorChanged(frag_view)
-        })
-        // pull to refresh
-        pullToRefresh = home_refresh_layout
-        setPullToRefreshListener()
-        Log.i("Places", "HomeFragment onStart")
-        // invokeLocationAction()
-    }
-
     override fun onResume() {
         super.onResume()
-        Log.i("Places", "HomeFragment onResume")
-        places_close_to_you_recycler_view.visibility = View.GONE
-        nearby_places_list_progress_bar.visibility = View.VISIBLE
-        customed_places_recycler_view.visibility = View.GONE
-        customed_places_list_progress_bar.visibility = View.VISIBLE
-        if (this.homeViewModel.nearByListFirstLoaded) {
-            updatePlacesRoutine()
-            updateCityCountry()
-        }
-        this.homeViewModel.nearByListFirstLoaded = true
-        return
+        invokeLocationAction()
     }
 
-    private fun onErrorChanged(view: View) {
-        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
-            .setBackgroundTint(resources.getColor(R.color.error)).show()
-    }
 
-    fun updateCityCountry() {
-        val geocoder: Geocoder
-        val addresses: List<Address>
-        geocoder = Geocoder(activity as HomeActivity, Locale.getDefault())
-        val lat = this.locationViewModel.getLocationData().value?.latitude!!
-        val long = this.locationViewModel.getLocationData().value?.longitude!!
 
-        addresses = geocoder.getFromLocation(lat, long, 1)
 
-        val address: String =
-            addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-
-        val city: String = addresses[0].getLocality()
-        val state: String = addresses[0].getAdminArea()
-        val country: String = addresses[0].getCountryName()
-        // val postalCode: String = addresses[0].getPostalCode()
-        val knownName: String = addresses[0].getFeatureName() // Only if availa
-
-        location_card.country_tv.text = country
-        location_card.city_tv.text = city
-    }
-
-    // --------------------        stoping and pausing destroying ---------------------------------
-    override fun onPause() {
-        super.onPause()
-        clearLists()
-        Log.i("Places", "HomeFragment onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        clearLists()
-        Log.i("Places", "HomeFragment onStop")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        clearLists()
-        Log.i("Places", "HomeFragment onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // in case we destroy the frasgent we want to clear the list
-        this.homeViewModel.nearByListFirstLoaded = false
-        clearLists()
-        Log.i("Places", "HomeFragment onDestroy")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        clearLists()
-        Log.i("Places", "HomeFragment onDetach")
-    }
 
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
-            // pullToRefresh.isRefreshing = true
             // update lists!
-            updatePlacesRoutine()
-            updateCityCountry()
-
+            this.homeViewModel.initializeViewModel()
+            checkGps()
+            this.invokeLocationAction()
             pullToRefresh.isRefreshing = false
         }
     }
 
     // ----------------------------- On Live Data Changed Handlers --------------------------------
-    // update the recycler view when list of nearby places is ready!
+    private fun onErrorChanged(view: View) {
+        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.error)).show()
+    }
+
     private fun onNearByPlacesListChanged(view: View) {
-        places_close_to_you_recycler_view.adapter = this.homeViewModel.nearByPlacesList.value?.let {
+        places_close_to_you_recycler_view.adapter = this.homeViewModel.nearByPlaceModelListLiveData.value?.let {
             SmallPlaceCardRecyclerAdapter(
-                it, this
+                it, this, NEARBY_LIST_CODE
             )
         }
         places_close_to_you_recycler_view.layoutManager =
@@ -198,48 +118,54 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.nearByPlacesLoaded = true
     }
 
-    // update the recycler view when list of custom places is ready!
-    private fun onCustomPlacesListChanged(view: View) {
-        customed_places_recycler_view.adapter = this.homeViewModel.nearByPlacesListTest.value?.let {
-            SmallPlaceCardRecyclerAdapter(
-                it, this
-            )
+    fun onCustomPlacesListChanged() {
+        if (this.homeViewModel.customizedPlaceModelList.size > 0) {
+            customed_places_list_progress_bar.visibility = View.GONE
+            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelList, this, CUSTOMIZED_LIST_CODE)
+            customed_places_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            customed_places_recycler_view.setHasFixedSize(true)
+            customed_places_recycler_view.visibility = View.VISIBLE
+        } else {
+            customed_places_list_progress_bar.visibility = View.VISIBLE
+            customed_places_recycler_view.visibility = View.GONE
         }
-        customed_places_recycler_view.layoutManager =
-            LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-        customed_places_recycler_view.setHasFixedSize(true)
-        customed_places_list_progress_bar.visibility = View.GONE
-        customed_places_recycler_view.visibility = View.VISIBLE
-        this.customPlacesLoaded = true
     }
 
-    fun updatePlacesRoutine() {
-        // update lists!
-        this.homeViewModel.nearByPlacesListTest.value?.clear()
-        this.homeViewModel.nearByPlacesList.value?.clear()
-        nearByPlacesLoaded = false
-        customPlacesLoaded = false
-        //
-        // get current lat long
-        val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
-        val long = this.locationViewModel.getLocationData().value?.longitude.toString()
-        this.homeViewModel.getAllPlacesLists(lat, long)
-        // checkGps()
-        // invokeLocationAction()
-        places_close_to_you_recycler_view.visibility = View.GONE
-        customed_places_recycler_view.visibility = View.GONE
-        nearby_places_list_progress_bar.visibility = View.VISIBLE
-        customed_places_list_progress_bar.visibility = View.VISIBLE
-        nearByPlacesLoaded = false
-        customPlacesLoaded = false
+    // whenever you click on an item from the recylcler - but need to know which one
+    override fun onItemClick(position: Int, code: Int) {
+
+        var clickedPlaceItem: PlaceModel? = null
+        var id: String = ""
+        when(code){
+            NEARBY_LIST_CODE ->  {
+                clickedPlaceItem = homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+            CUSTOMIZED_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.customizedPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+            LIKED_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+
+        }
+        // move to fragment of result of place!
+        val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
+        findNavController().navigate(action)
     }
 
-    fun clearLists() {
-        this.homeViewModel.nearByPlacesListTest.value?.clear()
-        this.homeViewModel.nearByPlacesList.value?.clear()
-        nearByPlacesLoaded = false
-        customPlacesLoaded = false
-        this.homeViewModel.nearByListFirstLoaded = false
+    fun onUserChanged() {
+        if ((activity as HomeActivity).navigationView.headerCount > 0) {
+            // avoid NPE by first checking if there is at least one Header View available
+            val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
+            val user_name: String = homeViewModel.userModelLiveData.value?.userName!!
+            headerLayout.username_drawer_header.text = user_name
+            headerLayout.email_drawer_header.text = homeViewModel.userModelLiveData.value?.email
+            (activity as HomeActivity).toolbar.title = "Welcome Back, $user_name"
+        }
     }
 
     // ---------------------------------------- gps -----------------------------------------------
@@ -253,17 +179,20 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     private fun startLocationUpdate(view: View) {
-        location_card.location_ltlng_txt.text = getString(
-            R.string.latLong,
-            locationViewModel.getLocationData().value?.latitude,
-            locationViewModel.getLocationData().value?.longitude
-        )
-        if (!this.nearByPlacesLoaded && !this.customPlacesLoaded) {
-            updatePlacesRoutine()
-            updateCityCountry()
-            nearByPlacesLoaded = true
-            customPlacesLoaded = true
+        val lat = this.locationViewModel.getLocationData().value?.latitude
+        val long = this.locationViewModel.getLocationData().value?.longitude
+
+        if (lat != null && long != null) {
+            location_card.location_ltlng_txt.text = getString(
+                R.string.latLong,
+                locationViewModel.getLocationData().value?.latitude,
+                locationViewModel.getLocationData().value?.longitude
+            )
+            this.homeViewModel.invokeNearbyPlacesRoutinr(lat.toString(), long.toString())
+        } else {
+            location_card.location_ltlng_txt.text = "GPS unavailable!"
         }
+        updateCityCountry()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -278,7 +207,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
     private fun invokeLocationAction() {
         when {
-            !isGPSEnabled -> location_card.location_ltlng_txt.text = getString(R.string.enable_gps)
+            !isGPSEnabled -> {
+                location_card.location_ltlng_txt.text = "GPS unavailable!"
+                location_card.country_tv.text = "GPS unavailable!"
+                location_card.city_tv.text = "GPS unavailable!"
+            }
 
             isPermissionsGranted() -> view?.let { startLocationUpdate(it) }
 
@@ -286,15 +219,48 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 location_card.location_ltlng_txt.text =
                     getString(R.string.permission_request)
 
-            else -> ActivityCompat.requestPermissions(
-                (activity as HomeActivity),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                LOCATION_REQUEST
-            )
+            else -> {
+                requestPermiision()
+            }
         }
+    }
+
+    fun updateCityCountry() {
+        val geocoder: Geocoder
+        val addresses: List<Address>
+        geocoder = Geocoder(activity as HomeActivity, Locale.getDefault())
+        val lat = this.locationViewModel.getLocationData().value?.latitude
+        val long = this.locationViewModel.getLocationData().value?.longitude
+
+        if (lat != null && long != null) {
+            addresses = geocoder.getFromLocation(lat, long, 1)
+
+            val address: String =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+            val city: String = addresses[0].getLocality()
+            val state: String = addresses[0].getAdminArea()
+            val country: String = addresses[0].getCountryName()
+            // val postalCode: String = addresses[0].getPostalCode()
+            val knownName: String = addresses[0].getFeatureName() // Only if availa
+
+            location_card.country_tv.text = country
+            location_card.city_tv.text = city
+        } else {
+            location_card.country_tv.text = "GPS unavailable!"
+            location_card.city_tv.text = "GPS unavailable!"
+        }
+    }
+
+    fun requestPermiision() {
+        ActivityCompat.requestPermissions(
+            (activity as HomeActivity),
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            LOCATION_REQUEST
+        )
     }
 
     private fun isPermissionsGranted() =
@@ -322,28 +288,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        Log.i("Places", "LOCATION PERMISSION GRANTED")
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             LOCATION_REQUEST -> {
                 invokeLocationAction()
+                Log.i("Places", "LOCATION PERMISSION GRANTED")
+            }
+            GPS_REQUEST -> {
+                invokeLocationAction()
+                Log.i("Places", "LOCATION PERMISSION GRANTED")
             }
         }
-    }
-
-    // whenever you click on an item from the recylcler - but need to know which one
-    override fun onItemClick(position: Int) {
-
-        val clickedNearbyPlacesItem: PlaceModel =
-            homeViewModel.nearByPlacesList.value?.get(position)!!
-
-        val id: String = clickedNearbyPlacesItem.googlePlace.id!!
-        view?.let {
-            Snackbar.make(it, "item $id Clicked", Snackbar.LENGTH_SHORT)
-                .setBackgroundTint(resources.getColor(R.color.success)).show()
-        }
-
-        // move to fragment of result of place!
-        val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
-        findNavController().navigate(action)
     }
 }
