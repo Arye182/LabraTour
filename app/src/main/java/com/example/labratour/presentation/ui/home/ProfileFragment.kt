@@ -55,26 +55,36 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
             viewLifecycleOwner,
             { onLikedPlacesListChanged() }
         )
-        //this.homeViewModel.invokeGetUser()
-        //this.homeViewModel.invokeGetLikedPlacesList()
+        // this.homeViewModel.invokeGetUser()
+        // this.homeViewModel.invokeGetLikedPlacesList()
         updatePlacesRoutine()
-
     }
 
     override fun onResume() {
         super.onResume()
         Log.i("Places", "ProfileFragment onResume")
-        liked_places_list_progress_bar.visibility = View.VISIBLE
-        liked_places_recycler_view.visibility = View.GONE
-        if (this.homeViewModel.likedListFirstLoaded) {
-            updatePlacesRoutine()
+        if (liked_places_no_places_message.visibility == View.VISIBLE && this.homeViewModel.likedPlacesStringListLive.value?.size == 0) {
+            return
+        } else {
+            liked_places_no_places_message.visibility = View.GONE
+            liked_places_list_progress_bar.visibility = View.VISIBLE
+            liked_places_recycler_view.visibility = View.GONE
+            if (this.homeViewModel.likedListFirstLoaded) {
+                updatePlacesRoutine()
+            }
+            this.homeViewModel.nearByListFirstLoaded = true
         }
-        this.homeViewModel.nearByListFirstLoaded = true
         return
     }
 
     private fun onLikedPlacesStringListChange() {
-        this.homeViewModel.getLikedPlacesList()
+        if (this.homeViewModel.likedPlacesStringListLive.value?.size == 0) run {
+            liked_places_no_places_message.visibility = View.VISIBLE
+            liked_places_list_progress_bar.visibility = View.GONE
+            return
+        } else {
+            this.homeViewModel.getLikedPlacesList()
+        }
     }
 
     private fun onLikedPlacesListChanged() {
@@ -84,6 +94,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         liked_places_recycler_view.layoutManager =
             LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
         liked_places_recycler_view.setHasFixedSize(true)
+        liked_places_no_places_message.visibility = View.GONE
         liked_places_list_progress_bar.visibility = View.GONE
         liked_places_recycler_view.visibility = View.VISIBLE
         this.likedPlacesLoaded = true
