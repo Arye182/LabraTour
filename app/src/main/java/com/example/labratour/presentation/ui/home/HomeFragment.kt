@@ -33,6 +33,10 @@ import java.util.*
 
 const val LOCATION_REQUEST = 100
 const val GPS_REQUEST = 101
+// lists codes
+const val NEARBY_LIST_CODE = 15
+const val LIKED_LIST_CODE = 16
+const val CUSTOMIZED_LIST_CODE = 17
 
 class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
 
@@ -51,7 +55,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         // this.homeViewModel.invokeGetUser()
         // this.homeViewModel.invokeGetLikedPlacesList()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,37 +79,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         invokeLocationAction()
     }
 
-    private fun onErrorChanged(view: View) {
-        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
-            .setBackgroundTint(resources.getColor(R.color.error)).show()
+    override fun onResume() {
+        super.onResume()
+        invokeLocationAction()
     }
 
-    fun updateCityCountry() {
-        val geocoder: Geocoder
-        val addresses: List<Address>
-        geocoder = Geocoder(activity as HomeActivity, Locale.getDefault())
-        val lat = this.locationViewModel.getLocationData().value?.latitude
-        val long = this.locationViewModel.getLocationData().value?.longitude
 
-        if (lat != null && long != null) {
-            addresses = geocoder.getFromLocation(lat, long, 1)
 
-            val address: String =
-                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-            val city: String = addresses[0].getLocality()
-            val state: String = addresses[0].getAdminArea()
-            val country: String = addresses[0].getCountryName()
-            // val postalCode: String = addresses[0].getPostalCode()
-            val knownName: String = addresses[0].getFeatureName() // Only if availa
-
-            location_card.country_tv.text = country
-            location_card.city_tv.text = city
-        } else {
-            location_card.country_tv.text = "GPS unavailable!"
-            location_card.city_tv.text = "GPS unavailable!"
-        }
-    }
 
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
@@ -119,10 +99,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     // ----------------------------- On Live Data Changed Handlers --------------------------------
+    private fun onErrorChanged(view: View) {
+        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.error)).show()
+    }
+
     private fun onNearByPlacesListChanged(view: View) {
         places_close_to_you_recycler_view.adapter = this.homeViewModel.nearByPlaceModelListLiveData.value?.let {
             SmallPlaceCardRecyclerAdapter(
-                it, this
+                it, this, NEARBY_LIST_CODE
             )
         }
         places_close_to_you_recycler_view.layoutManager =
@@ -136,7 +121,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     fun onCustomPlacesListChanged() {
         if (this.homeViewModel.customizedPlaceModelList.size > 0) {
             customed_places_list_progress_bar.visibility = View.GONE
-            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelList, this)
+            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelList, this, CUSTOMIZED_LIST_CODE)
             customed_places_recycler_view.layoutManager =
                 LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
             customed_places_recycler_view.setHasFixedSize(true)
@@ -148,17 +133,25 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     // whenever you click on an item from the recylcler - but need to know which one
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int, code: Int) {
 
-        val clickedNearbyPlacesItem: PlaceModel =
-            homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
+        var clickedPlaceItem: PlaceModel? = null
+        var id: String = ""
+        when(code){
+            NEARBY_LIST_CODE ->  {
+                clickedPlaceItem = homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+            CUSTOMIZED_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.customizedPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+            LIKED_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
 
-        val id: String = clickedNearbyPlacesItem.googlePlace.id!!
-        view?.let {
-            Snackbar.make(it, "item $id Clicked", Snackbar.LENGTH_SHORT)
-                .setBackgroundTint(resources.getColor(R.color.success)).show()
         }
-
         // move to fragment of result of place!
         val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
         findNavController().navigate(action)
@@ -183,13 +176,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 isGPSEnabled = isGPSEnable
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-//        checkGps()
-//        invokeLocationAction()
-        invokeLocationAction()
     }
 
     private fun startLocationUpdate(view: View) {
@@ -233,14 +219,40 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 location_card.location_ltlng_txt.text =
                     getString(R.string.permission_request)
 
-            else ->{
+            else -> {
                 requestPermiision()
             }
-
         }
     }
 
-    fun requestPermiision(){
+    fun updateCityCountry() {
+        val geocoder: Geocoder
+        val addresses: List<Address>
+        geocoder = Geocoder(activity as HomeActivity, Locale.getDefault())
+        val lat = this.locationViewModel.getLocationData().value?.latitude
+        val long = this.locationViewModel.getLocationData().value?.longitude
+
+        if (lat != null && long != null) {
+            addresses = geocoder.getFromLocation(lat, long, 1)
+
+            val address: String =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+            val city: String = addresses[0].getLocality()
+            val state: String = addresses[0].getAdminArea()
+            val country: String = addresses[0].getCountryName()
+            // val postalCode: String = addresses[0].getPostalCode()
+            val knownName: String = addresses[0].getFeatureName() // Only if availa
+
+            location_card.country_tv.text = country
+            location_card.city_tv.text = city
+        } else {
+            location_card.country_tv.text = "GPS unavailable!"
+            location_card.city_tv.text = "GPS unavailable!"
+        }
+    }
+
+    fun requestPermiision() {
         ActivityCompat.requestPermissions(
             (activity as HomeActivity),
             arrayOf(

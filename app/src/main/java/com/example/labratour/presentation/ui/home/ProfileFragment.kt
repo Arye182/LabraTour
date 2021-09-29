@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.labratour.R
+import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -51,7 +53,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         Log.i("Places", "ProfileFragment $size")
 
         liked_places_recycler_view.adapter = this.homeViewModel.likedPlaceModelListLiveData.value?.let {
-            SmallPlaceCardRecyclerAdapter(it, this)
+            SmallPlaceCardRecyclerAdapter(it, this, LIKED_LIST_CODE)
         }
         liked_places_recycler_view.layoutManager =
             LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -61,7 +63,25 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         liked_places_recycler_view.visibility = View.VISIBLE
     }
 
-    override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+    override fun onItemClick(position: Int, code: Int) {
+        var clickedPlaceItem: PlaceModel? = null
+        var id: String = ""
+        when (code) {
+            NEARBY_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+            CUSTOMIZED_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.customizedPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+            LIKED_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.googlePlace.id!!
+            }
+        }
+        // move to fragment of result of place!
+        val action = ProfileFragmentDirections.actionProfileFragmentToPlaceResultFragment(id)
+        findNavController().navigate(action)
     }
 }

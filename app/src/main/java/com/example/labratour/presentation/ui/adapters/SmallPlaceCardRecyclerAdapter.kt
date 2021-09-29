@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.place_card_small.view.*
 
 class SmallPlaceCardRecyclerAdapter(
     private val placesList: List<PlaceModel>,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener, private val code: Int
 ) : RecyclerView.Adapter<SmallPlaceCardRecyclerAdapter.SmallPlaceViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallPlaceViewHolder {
@@ -46,12 +46,12 @@ class SmallPlaceCardRecyclerAdapter(
         override fun onClick(v: View?) {
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+                listener.onItemClick(position, code)
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, code: Int)
     }
 }

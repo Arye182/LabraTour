@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_profileFragment_to_placeResultFragment"
             app:destination="@id/placeResultFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_placeResultFragment2"
+            app:destination="@id/placeResultFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_termsFragment"
