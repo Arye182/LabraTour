@@ -1,6 +1,6 @@
-# LabraTour
+# "LabraTour" - Final Project
 
-# Description
+## Description
 With our passion to travel and tour the world combining the covid challenges around the world we came up with this idea.
 Labratour is our final project on Computer Science Class. nowadays recommendation applications are very popular (netflix, spotify, etc…).
 We would like to develop a point of interest recommendation system that will make tourists' lives easier.
@@ -8,7 +8,21 @@ Target Clients: Mainly Tourists and People abroad who want to explore new places
 Innovation Aspects: “LabraTour” is  an attractions recommendation system in a mobile app  environment , which provides a tourist on his trip
 a  customized info and recommendations for points of interest around,   based on his location, his own personal preference and others  with similar interests nearby.
 
-[comment]: <> (![Alt ScreenShot]&#40;https://github.com/Arye182/LabraTour/blob/master/GitHubPics/app_screen_1.JPG?raw=true "ScreenShot 1"&#41;)
+## Problem
+Most of the tourists spend a lot of time searching for points of interest nearby them. thinking about what they should wear
+today or what to take with them. We want to make these challenges easier with our app.
+Most of the apps that suggest this idea have no user based recommendations for pois or a nice and clean user interface.
+Nowadays, nobody wants to use tour books and carry them all around.
+
+## Vision
+Our Product is For Tourists Who need all the relevant information in one center. “LabraTour” is a
+Mobile App That studies the user and Customizes him the best Points Of Interest he needs based on a Near-By Algorithm.
+
+[Vision Clip](https://drive.google.com/drive/folders/1QB2G8W83gZMo1F9RghH-OQyRx7Rc6yu3)
+
+## Solution
+“LabraTour” is  an attractions recommendation system in a mobile app  environment , which provides a tourist on his trip  
+a  customized info and recommendations for points of interest around,   based on his location, his own personal preference and others  with similar interests nearby.
 
 ## Clean - Architecture
 we use clean architecture in our project. all UI and View is in the presentation Module.
@@ -20,13 +34,9 @@ we believe in clean code.
   responsible for the buisness logic that happens in there. it is only responsible for the view change!!!!
 - Domain is - .....
 - Data is - .....
-
-
-
-<img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
+  <img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
 
 ### Presentation Module:
-
 - Module - App
 - Programming Language - Kotlin
 - Kotlin Documantation
@@ -38,7 +48,6 @@ we believe in clean code.
 
 
 ### Domain Module:
-
 - Module - Domain
 - Programming Language - Java
 - UseCases
@@ -46,7 +55,6 @@ we believe in clean code.
 - Reactive JX
 
 ### Data Module:
-
 - Module - Data
 - Programming Language - Java
 
