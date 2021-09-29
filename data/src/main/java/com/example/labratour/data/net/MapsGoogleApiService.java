@@ -11,8 +11,8 @@ public interface MapsGoogleApiService {
   @GET(
       "details/json?place_id=\"+Id+\"&fields=name%2Crating%2Ctypes&key=\"+API_KEY")
   Call<PoiDetailsEntity> poiDetailes(@Path("Id") String user);
-  @GET("/nearbysearch/json?location=\"+lat+\"lon+\"&radius=1000&key=\"+API_KEY")
+  @GET("nearbysearch/json?location=\"+lat+\"lon+\"&radius=1000&key=\"+API_KEY")
   Call<NearbyPlaceResult[]> nearbyPlaces(@Path("lat") String lat, @Path("lon")String lon);
-  @GET("/nearbysearch/json?location=\"+lat+\"lon+\"&radius=1000&type=\"+type+\"&key=\"+API_KEY")
+  @GET("nearbysearch/json?location=\"+lat+\"lon+\"&radius=1000&type=\"type+\"&key=\"+API_KEY")
   Call<NearbyPlaceResult[]> nearbyPlacesByType(@Path("lat") String lat, @Path("lon")String lon, @Path("type")String type);
 }

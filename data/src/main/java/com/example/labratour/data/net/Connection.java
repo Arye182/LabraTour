@@ -18,7 +18,7 @@ public class Connection implements Callable<String> {
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_VALUE_JSON = "application/json; charset=utf-8";
 
-    private URL url;
+    private URL url = new URL("https://maps.googleapis.com/maps/api/place");
     private String response;
 
     private Connection(String url) throws MalformedURLException {

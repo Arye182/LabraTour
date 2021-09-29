@@ -29,15 +29,15 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
     }
 
     @Override
-    public Observable<ArrayList<String>> nearbyPlacesByType(String lat, String lon) {
+    public Observable<ArrayList<String>> nearbyPlacesByType(String lat, String lon, String type) {
         return this.restApi
-                .getPlaceNearbyAlternative(lat, lon).map(new Function<NearbyPlaceResult[], ArrayList<String>>() {
+                .getPlaceNearbyType(lat, lon, type).map(new Function<NearbyPlaceResult[], ArrayList<String>>() {
 
                                                              @Override
                                                              public ArrayList<String> apply(NearbyPlaceResult[] nearbyPlaceResults)  {
                                                                  ArrayList<String> ids = new ArrayList<>();
                                                                  for (int i = 0; i<nearbyPlaceResults.length;i++) {
-                                                                     ids.add(nearbyPlaceResults[i].getId());
+                                                                     ids.add(nearbyPlaceResults[i].getPlaceId());
 
                                                                  }
                                                                  return ids;}
@@ -57,7 +57,7 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
                     public ArrayList<String> apply(NearbyPlaceResult[] nearbyPlaceResults)  {
                          ArrayList<String> ids = new ArrayList<>();
                          for (int i = 0; i<nearbyPlaceResults.length;i++) {
-                             ids.add(nearbyPlaceResults[i].getId());
+                             ids.add(nearbyPlaceResults[i].getPlaceId());
 
                          }
                          return ids;}

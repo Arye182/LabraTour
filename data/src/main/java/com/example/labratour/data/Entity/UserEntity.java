@@ -91,7 +91,7 @@ this.atributes = initAtributesMap();
     public HashMap<String, Object> initAtributesMap() {
         HashMap<String, Object> atributesDict = new HashMap<>();
         atributesDict.put("ratesCounter",0);
-        atributesDict.put("pricelevel", 0);
+        atributesDict.put("price_level", 0);
         atributesDict.put("useraggragaterating", 0);
         atributesDict.put("always_open", 0);
         atributesDict.put("casino", 0);

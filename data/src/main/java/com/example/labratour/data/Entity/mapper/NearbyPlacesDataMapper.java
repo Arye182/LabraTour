@@ -13,7 +13,7 @@ public class NearbyPlacesDataMapper {
         for (NearbyPlaceResult n :result) {
             final String placesId = transform(n);
             if (placesId != null){
-                placesIds.add(new String(n.getId()));}
+                placesIds.add(new String(n.getPlaceId()));}
         }
         return placesIds;}
 
@@ -22,7 +22,7 @@ public class NearbyPlacesDataMapper {
     public String transform(NearbyPlaceResult result) {
         String id = null;
         if (result != null) {
-            id  = result.getId();
+            id  = result.getPlaceId();
         }
         return id;
     }}
