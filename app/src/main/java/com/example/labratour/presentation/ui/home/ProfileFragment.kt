@@ -22,7 +22,6 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
-        // this.homeViewModel.getUser()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,6 +126,8 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
     fun updatePlacesRoutine() {
         // update lists!
         this.homeViewModel.likedPlacesFinalList.value?.clear()
+        this.homeViewModel.likedPlacesStringListLive.value?.clear()
+
         likedPlacesLoaded = false
         //
         this.homeViewModel.invokeGetLikedPlacesList()
