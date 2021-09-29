@@ -33,6 +33,13 @@ class UserHomeViewModel(
     private val placeCacheRepository: PlacesRepository,
     private val savedRankedPlacesRepository: SavedRankedPlacesRepository
 ) : ViewModel() {
+
+    init {
+        viewModelScope.launch {
+            invokeGetUser()
+            invokeGetLikedPlacesList()
+        }
+    }
     // ------------------------------------- members ----------------------------------------------
     // user
     lateinit var user: UserModel
@@ -381,7 +388,6 @@ class UserHomeViewModel(
     suspend fun getUserRoutine() = withContext(Dispatchers.IO) {
         val user = FirebaseAuth.getInstance().currentUser?.uid?.let { userRepository.getUser(it) }
         userModel.postValue(user)
-        //getLikedPlacesStringList()
     }
 
     fun saveLikedPlace(place_id: String, rank: Int) {
@@ -409,9 +415,11 @@ class UserHomeViewModel(
         val list = user_id?.let { savedRankedPlacesRepository.getLikedPlaces(user_id) } as ArrayList<String>?
         if (list != null) {
             Log.i("Places", "get - likedPlacesStringList : size of list:" + list.size)
+            likedPlacesStringListLive.postValue(list)
+            likedPlacesStringList = list
+            likedPlacesListCoRoutine()
         }
         // Log.i("Places", "get - likedPlacesStringList : list: $list")
-        likedPlacesStringListLive.postValue(list)
     }
 
     fun getLikedPlacesList() {
@@ -423,7 +431,7 @@ class UserHomeViewModel(
     suspend fun likedPlacesListCoRoutine() {
         Log.i("Places", "likedPlacesListRoutine : starting to fetch liked places by id")
 
-        for (place_id in this.likedPlacesStringListLive.value!!) {
+        for (place_id in this.likedPlacesStringList) {
             var bitmap: Bitmap
             var googlePlace: Place
             request = place_id.let { FetchPlaceRequest.newInstance(it, placeFields) }

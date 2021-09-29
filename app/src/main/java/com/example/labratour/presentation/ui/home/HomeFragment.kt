@@ -73,6 +73,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         super.onCreate(savedInstanceState)
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
+        //this.homeViewModel.invokeGetUser()
+        //this.homeViewModel.invokeGetLikedPlacesList()
         checkGps()
         //invokeLocationAction()
     }
