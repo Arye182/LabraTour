@@ -1,4 +1,4 @@
-package com.example.labratour.presentation.ui.home
+package com.example.labratour.presentation .ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -26,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
+import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.location_card.view.*
 import java.util.*
 
@@ -52,6 +53,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.frag_view = view
+
+
 
         // view models observation
         if (!nearByPlacesLoaded) {
@@ -89,6 +92,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.error.observe(viewLifecycleOwner, {
             onErrorChanged(frag_view)
         })
+
+        homeViewModel.userModel.observe(viewLifecycleOwner,{ onUserChanged() })
+        homeViewModel.getUserTrigger()
+
         // pull to refresh
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
@@ -343,5 +350,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         // move to fragment of result of place!
         val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
         findNavController().navigate(action)
+    }
+
+    fun onUserChanged(){
+        if ((activity as HomeActivity).navigationView.headerCount > 0) {
+            // avoid NPE by first checking if there is at least one Header View available
+            val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
+            headerLayout.username_drawer_header.text= homeViewModel.userModel.value?.userName
+            headerLayout.email_drawer_header.text= homeViewModel.userModel.value?.email
+        }
     }
 }

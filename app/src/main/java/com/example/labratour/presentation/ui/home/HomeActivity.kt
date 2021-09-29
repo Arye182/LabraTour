@@ -3,6 +3,7 @@ package com.example.labratour.presentation.ui.home
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +19,7 @@ import com.example.labratour.presentation.di.GooglePlacesContainer
 import com.example.labratour.presentation.ui.base.BaseActivity
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BaseActivity() {
@@ -30,6 +32,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var googlePlacesContainer: GooglePlacesContainer
     lateinit var searchText: EditText
     lateinit var locationViewModel: LocationViewModel
+    lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +59,7 @@ class HomeActivity : BaseActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.homeFragment, R.id.searchFragment, R.id.profileFragment, R.id.settingsFragment), home_draw_layout
         )
+
         // toolbar
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -63,6 +67,13 @@ class HomeActivity : BaseActivity() {
         // bottom nav bar
         bottom_nav.setupWithNavController(navController)
         drawer_home.setupWithNavController(navController)
+
+        // Lookup navigation view
+        // Lookup navigation view
+        navigationView = findViewById<View>(R.id.drawer_home) as NavigationView
+        // Inflate the header view at runtime
+        // Inflate the header view at runtime
+        navigationView.inflateHeaderView(R.layout.header_navigation_drawer)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
