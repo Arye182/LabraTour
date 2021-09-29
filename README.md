@@ -34,7 +34,8 @@ we believe in clean code.
   responsible for the buisness logic that happens in there. it is only responsible for the view change!!!!
 - Domain is - .....
 - Data is - .....
-  <img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
+  
+<img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
 
 ### Presentation Module:
 - Module - App
