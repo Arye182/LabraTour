@@ -19,7 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.labratour.R
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
-import com.example.labratour.presentation.utils.Constants
+import com.example.labratour.presentation.utils.GPS_REQUEST
 import com.example.labratour.presentation.utils.GpsUtils
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
@@ -74,7 +74,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         checkGps()
-        invokeLocationAction()
+        //invokeLocationAction()
     }
 
     override fun onStart() {
@@ -96,7 +96,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             viewLifecycleOwner, { onUserChanged() }
         )
         // get user details so you can update them in the view
-        homeViewModel.getUserTrigger()
+        homeViewModel.invokeGetUser()
         // pull to refresh
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
@@ -128,22 +128,27 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         val geocoder: Geocoder
         val addresses: List<Address>
         geocoder = Geocoder(activity as HomeActivity, Locale.getDefault())
-        val lat = this.locationViewModel.getLocationData().value?.latitude!!
-        val long = this.locationViewModel.getLocationData().value?.longitude!!
+        val lat = this.locationViewModel.getLocationData().value?.latitude
+        val long = this.locationViewModel.getLocationData().value?.longitude
 
-        addresses = geocoder.getFromLocation(lat, long, 1)
+        if (lat != null && long != null) {
+            addresses = geocoder.getFromLocation(lat, long, 1)
 
-        val address: String =
-            addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            val address: String =
+                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-        val city: String = addresses[0].getLocality()
-        val state: String = addresses[0].getAdminArea()
-        val country: String = addresses[0].getCountryName()
-        // val postalCode: String = addresses[0].getPostalCode()
-        val knownName: String = addresses[0].getFeatureName() // Only if availa
+            val city: String = addresses[0].getLocality()
+            val state: String = addresses[0].getAdminArea()
+            val country: String = addresses[0].getCountryName()
+            // val postalCode: String = addresses[0].getPostalCode()
+            val knownName: String = addresses[0].getFeatureName() // Only if availa
 
-        location_card.country_tv.text = country
-        location_card.city_tv.text = city
+            location_card.country_tv.text = country
+            location_card.city_tv.text = city
+        } else {
+            location_card.country_tv.text = "GPS unavailable!"
+            location_card.city_tv.text = "GPS unavailable!"
+        }
     }
 
     // --------------------        stoping and pausing destroying ---------------------------------
@@ -182,6 +187,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
+            startLocationUpdate(frag_view)
             updatePlacesRoutine()
             updateCityCountry()
             pullToRefresh.isRefreshing = false
@@ -269,7 +275,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         if ((activity as HomeActivity).navigationView.headerCount > 0) {
             // avoid NPE by first checking if there is at least one Header View available
             val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
-            val user_name : String = homeViewModel.userModel.value?.userName!!
+            val user_name: String = homeViewModel.userModel.value?.userName!!
             headerLayout.username_drawer_header.text = user_name
             headerLayout.email_drawer_header.text = homeViewModel.userModel.value?.email
             (activity as HomeActivity).toolbar.title = "Welcome Back, $user_name"
@@ -287,11 +293,19 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     private fun startLocationUpdate(view: View) {
-        location_card.location_ltlng_txt.text = getString(
-            R.string.latLong,
-            locationViewModel.getLocationData().value?.latitude,
-            locationViewModel.getLocationData().value?.longitude
-        )
+        val lat = this.locationViewModel.getLocationData().value?.latitude
+        val long = this.locationViewModel.getLocationData().value?.longitude
+
+        if (lat != null && long != null) {
+            location_card.location_ltlng_txt.text = getString(
+                R.string.latLong,
+                locationViewModel.getLocationData().value?.latitude,
+                locationViewModel.getLocationData().value?.longitude
+            )
+        } else {
+            location_card.location_ltlng_txt.text = "GPS unavailable!"
+        }
+        updateCityCountry()
         if (!this.nearByPlacesLoaded && !this.customPlacesLoaded) {
             updatePlacesRoutine()
             updateCityCountry()
@@ -324,7 +338,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 (activity as HomeActivity),
                 arrayOf(
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 ),
                 LOCATION_REQUEST
             )
@@ -338,7 +352,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         ) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(
             (activity as HomeActivity),
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
     private fun shouldShowRequestPermissionRationale() =
@@ -347,7 +361,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             Manifest.permission.ACCESS_FINE_LOCATION
         ) && ActivityCompat.shouldShowRequestPermissionRationale(
             (activity as HomeActivity),
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
         )
 
     @SuppressLint("MissingPermission")
@@ -356,10 +370,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         permissions: Array<String>,
         grantResults: IntArray
     ) {
+        Log.i("Places", "LOCATION PERMISSION GRANTED")
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             LOCATION_REQUEST -> {
                 invokeLocationAction()
+                Log.i("Places", "LOCATION PERMISSION GRANTED")
+            }
+            GPS_REQUEST -> {
+                invokeLocationAction()
+                Log.i("Places", "LOCATION PERMISSION GRANTED")
             }
         }
     }

@@ -11,6 +11,7 @@ import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdap
 import com.example.labratour.presentation.ui.login.LoginActivity
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
@@ -26,6 +27,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!likedPlacesLoaded) {
+            liked_places_recycler_view.visibility = View.GONE
+            liked_places_list_progress_bar.visibility = View.VISIBLE
+        }
+        Log.i("Places", "ProfileFragment onViewCreated")
+    }
+
+    override fun onStart() {
+        super.onStart()
         // logout button on click listener
         button_logout.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
@@ -45,7 +55,22 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
             viewLifecycleOwner,
             { onLikedPlacesListChanged() }
         )
-        this.homeViewModel.getUserTrigger()
+        //this.homeViewModel.invokeGetUser()
+        //this.homeViewModel.invokeGetLikedPlacesList()
+        updatePlacesRoutine()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("Places", "ProfileFragment onResume")
+        liked_places_list_progress_bar.visibility = View.VISIBLE
+        liked_places_recycler_view.visibility = View.GONE
+        if (this.homeViewModel.likedListFirstLoaded) {
+            updatePlacesRoutine()
+        }
+        this.homeViewModel.nearByListFirstLoaded = true
+        return
     }
 
     private fun onLikedPlacesStringListChange() {
@@ -93,6 +118,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         this.homeViewModel.likedPlacesFinalList.value?.clear()
         likedPlacesLoaded = false
         //
+        this.homeViewModel.invokeGetLikedPlacesList()
         liked_places_recycler_view.visibility = View.GONE
         liked_places_list_progress_bar.visibility = View.VISIBLE
         likedPlacesLoaded = false
@@ -106,37 +132,39 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
     override fun onPause() {
         super.onPause()
         clearLists()
-        Log.i("Places", "HomeFragment onPause")
+        Log.i("Places", "ProfileFragment onPause")
     }
 
     override fun onStop() {
         super.onStop()
         clearLists()
-        Log.i("Places", "HomeFragment onStop")
+        Log.i("Places", "ProfileFragment onStop")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         clearLists()
-        Log.i("Places", "HomeFragment onDestroyView")
+        Log.i("Places", "ProfileFragment onDestroyView")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         // in case we destroy the frasgent we want to clear the list
-        this.homeViewModel.nearByListFirstLoaded = false
+        this.homeViewModel.likedListFirstLoaded = false
         clearLists()
-        Log.i("Places", "HomeFragment onDestroy")
+        Log.i("Places", "ProfileFragment onDestroy")
     }
 
     override fun onDetach() {
         super.onDetach()
         clearLists()
-        Log.i("Places", "HomeFragment onDetach")
+        Log.i("Places", "ProfileFragment onDetach")
     }
 
-    fun clearLists(){
+    fun clearLists() {
         this.homeViewModel.likedPlacesFinalList.value?.clear()
+        this.homeViewModel.likedPlacesStringListLive.value?.clear()
         likedPlacesLoaded = false
+        this.homeViewModel.likedListFirstLoaded = false
     }
 }
