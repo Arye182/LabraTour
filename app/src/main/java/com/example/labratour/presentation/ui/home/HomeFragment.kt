@@ -51,8 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         // this.homeViewModel.invokeGetUser()
         // this.homeViewModel.invokeGetLikedPlacesList()
-        checkGps()
-        invokeLocationAction()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,6 +70,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         // listeners
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
+
+        //
+        checkGps()
+        invokeLocationAction()
     }
 
     private fun onErrorChanged(view: View) {
@@ -184,7 +187,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
     override fun onResume() {
         super.onResume()
-        checkGps()
+//        checkGps()
+//        invokeLocationAction()
+        invokeLocationAction()
     }
 
     private fun startLocationUpdate(view: View) {
@@ -216,7 +221,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
     private fun invokeLocationAction() {
         when {
-            !isGPSEnabled -> location_card.location_ltlng_txt.text = getString(R.string.enable_gps)
+            !isGPSEnabled -> {
+                location_card.location_ltlng_txt.text = "GPS unavailable!"
+                location_card.country_tv.text = "GPS unavailable!"
+                location_card.city_tv.text = "GPS unavailable!"
+            }
 
             isPermissionsGranted() -> view?.let { startLocationUpdate(it) }
 
@@ -224,15 +233,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 location_card.location_ltlng_txt.text =
                     getString(R.string.permission_request)
 
-            else -> ActivityCompat.requestPermissions(
-                (activity as HomeActivity),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                ),
-                LOCATION_REQUEST
-            )
+            else ->{
+                requestPermiision()
+            }
+
         }
+    }
+
+    fun requestPermiision(){
+        ActivityCompat.requestPermissions(
+            (activity as HomeActivity),
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            LOCATION_REQUEST
+        )
     }
 
     private fun isPermissionsGranted() =
@@ -242,7 +258,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         ) == PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(
             (activity as HomeActivity),
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
 
     private fun shouldShowRequestPermissionRationale() =
@@ -251,7 +267,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             Manifest.permission.ACCESS_FINE_LOCATION
         ) && ActivityCompat.shouldShowRequestPermissionRationale(
             (activity as HomeActivity),
-            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION
         )
 
     @SuppressLint("MissingPermission")
