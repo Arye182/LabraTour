@@ -1,11 +1,16 @@
 #LabraTour
 
 #Description
-A - Mobile Android App that helps getting customized reccomended Points-Of-Interests.
+With our passion to travel and tour the world combining the covid challenges around the world we came up with this idea.
+Labratour is our final project on Computer Science Class. nowadays recommendation applications are very popular (netflix, spotify, etc…).
+We would like to develop a point of interest recommendation system that will make tourists' lives easier.
+Target Clients: Mainly Tourists and People abroad who want to explore new places in their current location.  for any age, gender and beliefs.
+Innovation Aspects: “LabraTour” is  an attractions recommendation system in a mobile app  environment , which provides a tourist on his trip
+a  customized info and recommendations for points of interest around,   based on his location, his own personal preference and others  with similar interests nearby.
 
 [comment]: <> (![Alt ScreenShot]&#40;https://github.com/Arye182/LabraTour/blob/master/GitHubPics/app_screen_1.JPG?raw=true "ScreenShot 1"&#41;)
 
-#Clean - Architecture
+##Clean - Architecture
 we use clean architecture in our project. all UI and View is in the presentation Module.
 we believe in clean code.
 
@@ -16,7 +21,11 @@ we believe in clean code.
 - Domain is - .....
 - Data is - .....
 
-##Presentation Module:
+
+
+<img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
+
+###Presentation Module:
 
 - Module - App
 - Programming Language - Kotlin
@@ -28,7 +37,7 @@ we believe in clean code.
 - ViewModel
 
 
-##Domain Module:
+###Domain Module:
 
 - Module - Domain
 - Programming Language - Java
@@ -36,39 +45,39 @@ we believe in clean code.
 - Repositories
 - Reactive JX
 
-##Data Module:
+###Data Module:
 
 - Module - Data
 - Programming Language - Java
 
-#UnitTests (Unit-Tests):
+##UnitTests (Unit-Tests):
 
 
-#System Requiremnets
+##System Requiremnets
 
 
-#Installation
+##Installation
 
 
-#Support
+##Support
 - arye.amsalem@gmail.com  
 - miriyungreis@gmail.com
 
-#Roadmap
+##Roadmap
 none.
 
-#Contributing
+##Contributing
 none.
 
-#Authors and acknowledgment
+##Authors and acknowledgment
 - Arye182
 - miriyungreis
 
-#License
+##License
 MIT
 
-#Project status
+##Project status
 on progress
 
-#Git Hub Link
+##Git Hub Link
 [Project On Github](https://github.com/Arye182/LabraTour)

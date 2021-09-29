@@ -173,11 +173,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
-            // pullToRefresh.isRefreshing = true
             // update lists!
             updatePlacesRoutine()
             updateCityCountry()
-
             pullToRefresh.isRefreshing = false
         }
     }

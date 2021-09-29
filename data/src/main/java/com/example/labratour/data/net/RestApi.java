@@ -39,7 +39,7 @@ private MapsGoogleApiService service;
  //this.context = context.getApplicationContext();
   this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
   this.placeDetailsDataMapper = new PlaceDetailesDataMapper();
-   retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place");
+   retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place/");
   MapsGoogleApiService service = retrofit.create(MapsGoogleApiService.class);
  }
  public Observable<String> nearbyPlaces(String lat, String lon) {
