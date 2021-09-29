@@ -25,6 +25,9 @@ Mobile App That studies the user and Customizes him the best Points Of Interest 
 a  customized info and recommendations for points of interest around,   based on his location, his own personal preference and others  with similar interests nearby.
 
 ## Clean - Architecture
+
+<img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
+
 we use clean architecture in our project. all UI and View is in the presentation Module.
 we believe in clean code.
 
@@ -34,8 +37,11 @@ we believe in clean code.
   responsible for the buisness logic that happens in there. it is only responsible for the view change!!!!
 - Domain is - .....
 - Data is - .....
-  
-<img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
+
+<img src="file:///android_asset/img/architecture.JPG" width="400" height="400">
+
+
+
 
 ### Presentation Module:
 - Module - App
