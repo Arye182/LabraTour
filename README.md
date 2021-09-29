@@ -28,7 +28,6 @@ we believe in clean code.
 <img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
 
 ### Presentation Module:
----
 
 - Module - App
 - Programming Language - Kotlin
@@ -41,7 +40,6 @@ we believe in clean code.
 
 
 ### Domain Module:
----
 
 - Module - Domain
 - Programming Language - Java
@@ -50,49 +48,38 @@ we believe in clean code.
 - Reactive JX
 
 ### Data Module:
----
 
 - Module - Data
 - Programming Language - Java
 
 ## UnitTests (Unit-Tests):
----
 
 
 ## System Requiremnets
----
 
 
 ## Installation
----
 
 
 ## Support
----
 - arye.amsalem@gmail.com
 - miriyungreis@gmail.com
 
 ## Roadmap
----
 none.
 
 ## Contributing
----
 none.
 
 ## Authors and acknowledgment
----
 - Arye182
 - miriyungreis
 
 ## License
----
 MIT
 
 ## Project status
----
 on progress
 
 ## Git Hub Link
----
 [Project On Github](https://github.com/Arye182/LabraTour)
