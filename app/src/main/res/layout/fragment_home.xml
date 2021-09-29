@@ -107,6 +107,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:listitem="@layout/place_card_small"
+                        android:visibility="invisible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
                     </androidx.recyclerview.widget.RecyclerView>
                     <com.google.android.material.progressindicator.CircularProgressIndicator

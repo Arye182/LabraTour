@@ -3,7 +3,6 @@ package com.example.labratour.presentation.ui.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
@@ -46,79 +45,32 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private lateinit var frag_view: View
 
     // --------------------------------- fragment functions ---------------------------------------
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.i("Places", "HomeFragment onAttach")
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        this.frag_view = view
-
-        // view models observation
-        if (!nearByPlacesLoaded) {
-            places_close_to_you_recycler_view.visibility = View.GONE
-            nearby_places_list_progress_bar.visibility = View.VISIBLE
-        }
-        if (!customPlacesLoaded) {
-            customed_places_recycler_view.visibility = View.GONE
-            customed_places_list_progress_bar.visibility = View.VISIBLE
-        }
-
-        Log.i("Places", "HomeFragment onViewCreated")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
-        //this.homeViewModel.invokeGetUser()
-        //this.homeViewModel.invokeGetLikedPlacesList()
+        // this.homeViewModel.invokeGetUser()
+        // this.homeViewModel.invokeGetLikedPlacesList()
         checkGps()
-        //invokeLocationAction()
+        invokeLocationAction()
     }
 
-    override fun onStart() {
-        super.onStart()
-        this.locationViewModel.getLocationData()
-            .observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
-        this.homeViewModel.nearByPlacesList.observe(
-            viewLifecycleOwner,
-            { onNearByPlacesListChanged(frag_view) }
-        )
-        this.homeViewModel.nearByPlacesListTest.observe(
-            viewLifecycleOwner,
-            { onCustomPlacesListChanged(frag_view) }
-        )
-        this.homeViewModel.error.observe(viewLifecycleOwner, {
-            onErrorChanged(frag_view)
-        })
-        this.homeViewModel.userModel.observe(
-            viewLifecycleOwner, { onUserChanged() }
-        )
-        // get user details so you can update them in the view
-        homeViewModel.invokeGetUser()
-        // pull to refresh
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.i("Places", "HomeFragment onViewCreated")
+
+        this.frag_view = view
+
+        // view models observation
+        this.homeViewModel.customizedPlaceModelListLiveData.observe(viewLifecycleOwner, { onCustomPlacesListChanged() })
+        this.homeViewModel.userModelLiveData.observe(viewLifecycleOwner, { onUserChanged() })
+        this.homeViewModel.nearByPlaceModelListLiveData.observe(viewLifecycleOwner, { onNearByPlacesListChanged(frag_view) })
+        this.homeViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(frag_view) })
+        this.locationViewModel.getLocationData().observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
+
+        // listeners
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
-        Log.i("Places", "HomeFragment onStart")
-        // invokeLocationAction()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("Places", "HomeFragment onResume")
-        places_close_to_you_recycler_view.visibility = View.GONE
-        nearby_places_list_progress_bar.visibility = View.VISIBLE
-        customed_places_recycler_view.visibility = View.GONE
-        customed_places_list_progress_bar.visibility = View.VISIBLE
-        if (this.homeViewModel.nearByListFirstLoaded) {
-            updatePlacesRoutine()
-            updateCityCountry()
-        }
-        this.homeViewModel.nearByListFirstLoaded = true
-        return
     }
 
     private fun onErrorChanged(view: View) {
@@ -153,53 +105,19 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         }
     }
 
-    // --------------------        stoping and pausing destroying ---------------------------------
-    override fun onPause() {
-        super.onPause()
-        clearLists()
-        Log.i("Places", "HomeFragment onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        clearLists()
-        Log.i("Places", "HomeFragment onStop")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        clearLists()
-        Log.i("Places", "HomeFragment onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        // in case we destroy the frasgent we want to clear the list
-        this.homeViewModel.nearByListFirstLoaded = false
-        clearLists()
-        Log.i("Places", "HomeFragment onDestroy")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        clearLists()
-        Log.i("Places", "HomeFragment onDetach")
-    }
-
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
-            startLocationUpdate(frag_view)
-            updatePlacesRoutine()
-            updateCityCountry()
+            this.homeViewModel.initializeViewModel()
+            checkGps()
+            this.invokeLocationAction()
             pullToRefresh.isRefreshing = false
         }
     }
 
     // ----------------------------- On Live Data Changed Handlers --------------------------------
-    // update the recycler view when list of nearby places is ready!
     private fun onNearByPlacesListChanged(view: View) {
-        places_close_to_you_recycler_view.adapter = this.homeViewModel.nearByPlacesList.value?.let {
+        places_close_to_you_recycler_view.adapter = this.homeViewModel.nearByPlaceModelListLiveData.value?.let {
             SmallPlaceCardRecyclerAdapter(
                 it, this
             )
@@ -212,55 +130,25 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.nearByPlacesLoaded = true
     }
 
-    // update the recycler view when list of custom places is ready!
-    private fun onCustomPlacesListChanged(view: View) {
-        customed_places_recycler_view.adapter = this.homeViewModel.nearByPlacesListTest.value?.let {
-            SmallPlaceCardRecyclerAdapter(
-                it, this
-            )
+    fun onCustomPlacesListChanged() {
+        if (this.homeViewModel.customizedPlaceModelList.size > 0) {
+            customed_places_list_progress_bar.visibility = View.GONE
+            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelList, this)
+            customed_places_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            customed_places_recycler_view.setHasFixedSize(true)
+            customed_places_recycler_view.visibility = View.VISIBLE
+        } else {
+            customed_places_list_progress_bar.visibility = View.VISIBLE
+            customed_places_recycler_view.visibility = View.GONE
         }
-        customed_places_recycler_view.layoutManager =
-            LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-        customed_places_recycler_view.setHasFixedSize(true)
-        customed_places_list_progress_bar.visibility = View.GONE
-        customed_places_recycler_view.visibility = View.VISIBLE
-        this.customPlacesLoaded = true
-    }
-
-    fun updatePlacesRoutine() {
-        // update lists!
-        this.homeViewModel.nearByPlacesListTest.value?.clear()
-        this.homeViewModel.nearByPlacesList.value?.clear()
-        nearByPlacesLoaded = false
-        customPlacesLoaded = false
-        //
-        // get current lat long
-        val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
-        val long = this.locationViewModel.getLocationData().value?.longitude.toString()
-        this.homeViewModel.getAllPlacesLists(lat, long)
-        // checkGps()
-        // invokeLocationAction()
-        places_close_to_you_recycler_view.visibility = View.GONE
-        customed_places_recycler_view.visibility = View.GONE
-        nearby_places_list_progress_bar.visibility = View.VISIBLE
-        customed_places_list_progress_bar.visibility = View.VISIBLE
-        nearByPlacesLoaded = false
-        customPlacesLoaded = false
-    }
-
-    fun clearLists() {
-        this.homeViewModel.nearByPlacesListTest.value?.clear()
-        this.homeViewModel.nearByPlacesList.value?.clear()
-        nearByPlacesLoaded = false
-        customPlacesLoaded = false
-        this.homeViewModel.nearByListFirstLoaded = false
     }
 
     // whenever you click on an item from the recylcler - but need to know which one
     override fun onItemClick(position: Int) {
 
         val clickedNearbyPlacesItem: PlaceModel =
-            homeViewModel.nearByPlacesList.value?.get(position)!!
+            homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
 
         val id: String = clickedNearbyPlacesItem.googlePlace.id!!
         view?.let {
@@ -277,9 +165,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         if ((activity as HomeActivity).navigationView.headerCount > 0) {
             // avoid NPE by first checking if there is at least one Header View available
             val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
-            val user_name: String = homeViewModel.userModel.value?.userName!!
+            val user_name: String = homeViewModel.userModelLiveData.value?.userName!!
             headerLayout.username_drawer_header.text = user_name
-            headerLayout.email_drawer_header.text = homeViewModel.userModel.value?.email
+            headerLayout.email_drawer_header.text = homeViewModel.userModelLiveData.value?.email
             (activity as HomeActivity).toolbar.title = "Welcome Back, $user_name"
         }
     }
@@ -294,6 +182,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkGps()
+    }
+
     private fun startLocationUpdate(view: View) {
         val lat = this.locationViewModel.getLocationData().value?.latitude
         val long = this.locationViewModel.getLocationData().value?.longitude
@@ -304,16 +197,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 locationViewModel.getLocationData().value?.latitude,
                 locationViewModel.getLocationData().value?.longitude
             )
+            this.homeViewModel.invokeNearbyPlacesRoutinr(lat.toString(), long.toString())
         } else {
             location_card.location_ltlng_txt.text = "GPS unavailable!"
         }
         updateCityCountry()
-        if (!this.nearByPlacesLoaded && !this.customPlacesLoaded) {
-            updatePlacesRoutine()
-            updateCityCountry()
-            nearByPlacesLoaded = true
-            customPlacesLoaded = true
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

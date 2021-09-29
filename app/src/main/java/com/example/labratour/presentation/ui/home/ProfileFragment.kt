@@ -27,30 +27,30 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
 
     private fun updateUser() {
         // first name
-        profile_first_name_tv.text = homeViewModel.userModel.value?.firstName
-        profile_email_tv.text = homeViewModel.userModel.value?.email
+        profile_first_name_tv.text = homeViewModel.userModelLiveData.value?.firstName
+        profile_email_tv.text = homeViewModel.userModelLiveData.value?.email
         // last name
-        profile_last_name_tv.text = homeViewModel.userModel.value?.lastName
+        profile_last_name_tv.text = homeViewModel.userModelLiveData.value?.lastName
         // user name -> details
-        profile_username_tv.text = homeViewModel.userModel.value?.userName
+        profile_username_tv.text = homeViewModel.userModelLiveData.value?.userName
         // user name -> title
-        user_profile_title.text = homeViewModel.userModel.value?.userName
+        user_profile_title.text = homeViewModel.userModelLiveData.value?.userName
         // phone
-        if (homeViewModel.userModel.value?.mobile.toString() == "0") {
+        if (homeViewModel.userModelLiveData.value?.mobile.toString() == "0") {
             profile_phone_tv.text = "Phone Not Updated Yet"
         } else {
-            profile_phone_tv.text = homeViewModel.userModel.value?.mobile.toString()
+            profile_phone_tv.text = homeViewModel.userModelLiveData.value?.mobile.toString()
         }
-        if (homeViewModel.userModel.value?.gender.toString() == "") {
+        if (homeViewModel.userModelLiveData.value?.gender.toString() == "") {
             profile_gender_tv.text = "Gender Not Updated Yet"
         } else {
-            profile_gender_tv.text = homeViewModel.userModel.value?.gender.toString()
+            profile_gender_tv.text = homeViewModel.userModelLiveData.value?.gender.toString()
         }
 //        username_drawer_header.text = homeViewModel.userModel.value?.userName
-        val size: Int = this.homeViewModel.likedPlacesFinalList.value?.size!!
+        val size: Int = this.homeViewModel.likedPlaceModelListLiveData.value?.size!!
         Log.i("Places", "ProfileFragment $size")
 
-        liked_places_recycler_view.adapter = this.homeViewModel.likedPlacesFinalList.value?.let {
+        liked_places_recycler_view.adapter = this.homeViewModel.likedPlaceModelListLiveData.value?.let {
             SmallPlaceCardRecyclerAdapter(it, this)
         }
         liked_places_recycler_view.layoutManager =

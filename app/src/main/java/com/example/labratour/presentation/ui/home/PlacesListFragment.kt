@@ -82,7 +82,7 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
         // get current lat long
         val lat = this.locationViewModel.getLocationData().value?.latitude.toString()
         val long = this.locationViewModel.getLocationData().value?.longitude.toString()
-        this.homeViewModel.updateCategoryList(this.category, lat, long)
+        //this.homeViewModel.updateCategoryList(this.category, lat, long)
         //
         category_places_list_recycler_view.visibility = View.GONE
         category_places_list_progress_bar.visibility = View.VISIBLE
