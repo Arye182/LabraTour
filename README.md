@@ -1,7 +1,6 @@
 # LabraTour
 
 # Description
----
 With our passion to travel and tour the world combining the covid challenges around the world we came up with this idea.
 Labratour is our final project on Computer Science Class. nowadays recommendation applications are very popular (netflix, spotify, etc…).
 We would like to develop a point of interest recommendation system that will make tourists' lives easier.
@@ -12,7 +11,6 @@ a  customized info and recommendations for points of interest around,   based on
 [comment]: <> (![Alt ScreenShot]&#40;https://github.com/Arye182/LabraTour/blob/master/GitHubPics/app_screen_1.JPG?raw=true "ScreenShot 1"&#41;)
 
 ## Clean - Architecture
----
 we use clean architecture in our project. all UI and View is in the presentation Module.
 we believe in clean code.
 
