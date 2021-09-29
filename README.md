@@ -1,6 +1,6 @@
-#LabraTour
+# LabraTour
 
-#Description
+# Description
 ---
 With our passion to travel and tour the world combining the covid challenges around the world we came up with this idea.
 Labratour is our final project on Computer Science Class. nowadays recommendation applications are very popular (netflix, spotify, etc…).
@@ -11,7 +11,7 @@ a  customized info and recommendations for points of interest around,   based on
 
 [comment]: <> (![Alt ScreenShot]&#40;https://github.com/Arye182/LabraTour/blob/master/GitHubPics/app_screen_1.JPG?raw=true "ScreenShot 1"&#41;)
 
-##Clean - Architecture
+## Clean - Architecture
 ---
 we use clean architecture in our project. all UI and View is in the presentation Module.
 we believe in clean code.
@@ -27,7 +27,7 @@ we believe in clean code.
 
 <img src="https://cdn.statically.io/img/miro.medium.com/max/768/1*Xz9N14Fx30za5vggYnkBeA.png" width="400" height="200">
 
-###Presentation Module:
+### Presentation Module:
 ---
 
 - Module - App
@@ -40,7 +40,7 @@ we believe in clean code.
 - ViewModel
 
 
-###Domain Module:
+### Domain Module:
 ---
 
 - Module - Domain
@@ -49,50 +49,50 @@ we believe in clean code.
 - Repositories
 - Reactive JX
 
-###Data Module:
+### Data Module:
 ---
 
 - Module - Data
 - Programming Language - Java
 
-##UnitTests (Unit-Tests):
+## UnitTests (Unit-Tests):
 ---
 
 
-##System Requiremnets
+## System Requiremnets
 ---
 
 
-##Installation
+## Installation
 ---
 
 
-##Support
+## Support
 ---
 - arye.amsalem@gmail.com
 - miriyungreis@gmail.com
 
-##Roadmap
+## Roadmap
 ---
 none.
 
-##Contributing
+## Contributing
 ---
 none.
 
-##Authors and acknowledgment
+## Authors and acknowledgment
 ---
 - Arye182
 - miriyungreis
 
-##License
+## License
 ---
 MIT
 
-##Project status
+## Project status
 ---
 on progress
 
-##Git Hub Link
+## Git Hub Link
 ---
 [Project On Github](https://github.com/Arye182/LabraTour)
