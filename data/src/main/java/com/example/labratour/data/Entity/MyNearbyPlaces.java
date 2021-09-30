@@ -6,9 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class MyNearbyPlaces implements Serializable {
-    public void setResults(NearbyPlaceResult[] results) {
-        this.results = results;
-    }
+
+
 
     public MyNearbyPlaces(NearbyPlaceResult[] results) {
         this.results = results;
@@ -19,8 +18,8 @@ public class MyNearbyPlaces implements Serializable {
     }
 
     //    private String next_page_token;
-       @SerializedName("results")
-   private NearbyPlaceResult[] results;
+    @SerializedName("results")
+    public NearbyPlaceResult[] results;
 }
 
 //

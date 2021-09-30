@@ -13,9 +13,22 @@ public interface MapsGoogleApiService {
   Call<PoiDetailsEntity> poiDetailes(@Query("Id") String user);
 
   @GET("nearbysearch/json?location=\"location\"&radius=1000&key=\"+API_KEY")
-  Call<MyNearbyPlaces> nearbyPlaces(@Query("location") String location);
 
+  Call<MyNearbyPlaces> nearbyPlaces(
+  @Query("location") String location);
+
+
+
+
+  /**
+   * @param location
+   * @param type
+   * @return
+   */
   @GET("nearbysearch/json?location=\"{location}\"&radius=1000&type=\"type+\"&key=\"+API_KEY")
-  Call<MyNearbyPlaces> nearbyPlacesByType(
-      @Query("location") String location, @Query("type") String type);
+  Call<MyNearbyPlaces> nearbyPlacesByType(@Query("location") String location,
+
+
+    @Query("type") String type);
+
 }

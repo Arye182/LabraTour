@@ -18,8 +18,8 @@ public class NearbyPlacesAllTypes extends NearbyPlaces<NearbyPlacesAllTypes.Para
 
 
     public static class Param {
-    protected String lat;
-    protected String lon;
+    public String lat;
+    public String lon;
 
         public Param(String lat, String lon) {
             this.lat = lat;
