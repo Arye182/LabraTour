@@ -14,12 +14,10 @@ import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 
 public class NearbyPlacesRepositoryImpl implements NearbyPlacesRepository {
-    private final NearbyPlaces restApi;
     private  NearbyPlacesByType nearbyPlacesByType;
     private NearbyPlacesAllTypes nearbyPlacesAllTypes;
-private  final  NearbyPlacesDataMapper nearbyPlacesDataMapper;
+private    NearbyPlacesDataMapper nearbyPlacesDataMapper;
     public NearbyPlacesRepositoryImpl(NearbyPlaces restApi) {
-        this.restApi = restApi;
         nearbyPlacesDataMapper = new NearbyPlacesDataMapper();
     nearbyPlacesAllTypes = new NearbyPlacesAllTypes(restApi.getContext().getApplicationContext());
         nearbyPlacesByType = new NearbyPlacesByType(restApi.getContext().getApplicationContext());

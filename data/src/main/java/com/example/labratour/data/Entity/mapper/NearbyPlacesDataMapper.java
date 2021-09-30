@@ -5,7 +5,8 @@ import com.example.labratour.data.Entity.MyNearbyPlaces;
 import java.util.ArrayList;
 
 public  class NearbyPlacesDataMapper {
-
+    public NearbyPlacesDataMapper() {
+    }
 
 //    public ArrayList<String> transform(Collection<NearbyPlaceResult> result) {
 //        final ArrayList<String> placesIds = new ArrayList<>(20);
