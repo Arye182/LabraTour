@@ -11,6 +11,7 @@ import com.example.labratour.presentation.utils.UIThread
 import com.example.labratour.presentation.viewmodel.UserAuthViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Singleton
 
 // import com.google.firebase.firestore.FirebaseFirestore
 
@@ -21,11 +22,16 @@ class FirebaseContainer(labratourApplication: LabratourApplication, userCacheRep
     // val firebaseFirestore = FirebaseFirestore.getInstance()
 
     // create user repo
+    @Singleton
     val userRepo = UserRepositoryImpl(firebaseAuth, firebaseDatabase)
     // create user usecases
+    @Singleton
     val loginUseCase = LogInUseCase(userRepo, JobExecutor(), UIThread())
+    @Singleton
     val registerNewUserUseCase = RegisterNewUserUseCase(userRepo, JobExecutor(), UIThread())
+    @Singleton
     val saveNewUserToFirebaseUseCase = SaveNewUserToFirebaseUseCase(userRepo, JobExecutor(), UIThread())
     // ViewModel Factories
+    @Singleton
     val userAuthViewModelFactory = UserAuthViewModelFactory(loginUseCase, registerNewUserUseCase, saveNewUserToFirebaseUseCase, userCacheRepository)
 }

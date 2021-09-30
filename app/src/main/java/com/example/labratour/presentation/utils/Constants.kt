@@ -1,5 +1,8 @@
 package com.example.labratour.presentation.utils
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+
 object Constants {
     const val USERS: String = "users"
 
@@ -78,6 +81,8 @@ object Constants {
         "tourist_attraction" to "Attraction",
     )
 }
+
+
 
 // banned
 // accounting

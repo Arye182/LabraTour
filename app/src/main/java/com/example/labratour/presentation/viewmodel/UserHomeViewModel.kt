@@ -162,13 +162,13 @@ class UserHomeViewModel(
         likedPlaceModelListLiveData.value?.clear()
 
         // run updates
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getUserRoutine()
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getLikedPlacesStringList()
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             customizedPlacesListCoRoutine()
         }
     }
@@ -178,7 +178,7 @@ class UserHomeViewModel(
         // placesListCoRoutine()
     }
     fun invokeNearbyPlacesRoutinr(lat: String, long: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             Log.i("Places", "Starting To Update Places Lists (vm)")
             getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
         }
@@ -195,7 +195,7 @@ class UserHomeViewModel(
     }
 
     fun saveLikedPlace(place_id: String, rank: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val user_id = FirebaseAuth.getInstance().currentUser?.uid
             Log.i("Places", "likedPlacesStringList : user id: $user_id")
             Log.i("Places", "Saving user id: $user_id, at place id: $place_id")

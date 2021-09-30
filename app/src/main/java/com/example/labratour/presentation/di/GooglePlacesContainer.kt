@@ -25,6 +25,7 @@ import com.example.labratour.presentation.viewmodel.UserHomeViewModelFactory
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import javax.inject.Singleton
 
 class GooglePlacesContainer(labratourApplication: LabratourApplication, userCacheRepository: UserRepository) {
 
@@ -32,9 +33,13 @@ class GooglePlacesContainer(labratourApplication: LabratourApplication, userCach
     val firebaseDatabase = FirebaseDatabase.getInstance()
 
     // remote near by use case
+    @Singleton
     val placesClient = Places.createClient(labratourApplication)
+    @Singleton
     val restApi = NearbyPlacesAllTypes(labratourApplication)
+    @Singleton
     val placesRepository = NearbyPlacesRepositoryImpl(restApi)
+    @Singleton
     val getNearbyPlacesUseCase =
         GetNearbyPlacesAllTypesUseCase(
             placesRepository,
@@ -43,22 +48,33 @@ class GooglePlacesContainer(labratourApplication: LabratourApplication, userCach
         )
 
     // rank place usecase
+    @Singleton
     val rankPlacesRepository = PlacesRepositoryImpl(restApi)
+    @Singleton
     val atrRepository = AtributesRepositoryImpl(firebaseAuth, firebaseDatabase)
+    @Singleton
     val rankRepository = RatingsRepositoryImpl(rankPlacesRepository, atrRepository)
+    @Singleton
     val updateUseProfileByRateUseCase = UpdateUserProfileByRateUseCase(JobExecutor(), UIThread(), rankRepository)
 
     // cache
     // just places
+    @Singleton
     val placeDatabase: PlacesDatabase = Room.databaseBuilder(labratourApplication, PlacesDatabase::class.java, "places_database").build()
+    @Singleton
     val placesDao: PlaceDao = placeDatabase.placeDao()
+    @Singleton
     val placeCacheRepository = PlacesRepository(placesDao)
 
     // saved places and ranked
+    @Singleton
     val savedRankedPlacesDatabase: SavedRankedPlacesDatabase = Room.databaseBuilder(labratourApplication, SavedRankedPlacesDatabase::class.java, "saved_ranked_places_database").build()
+    @Singleton
     val savedRankedPlaceDao: SavedRankedPlaceDao = savedRankedPlacesDatabase.savedRankedPlaceDao()
+    @Singleton
     val savedRankedPlacesRepository = SavedRankedPlacesRepository(savedRankedPlaceDao)
 
     // view model
+    @Singleton
     val userHomeViewModelFactory = UserHomeViewModelFactory(placesClient, updateUseProfileByRateUseCase, getNearbyPlacesUseCase, userCacheRepository, placeCacheRepository, savedRankedPlacesRepository)
 }

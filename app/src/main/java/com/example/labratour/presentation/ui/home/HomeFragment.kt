@@ -20,6 +20,7 @@ import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
 import com.example.labratour.presentation.utils.GPS_REQUEST
 import com.example.labratour.presentation.utils.GpsUtils
+import com.example.labratour.presentation.viewmodel.CurrencyViewModel
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -40,12 +41,15 @@ const val CUSTOMIZED_LIST_CODE = 17
 
 class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
 
-    private var customPlacesLoaded: Boolean = false
+    // viewmodels
+
     private lateinit var homeViewModel: UserHomeViewModel
     private lateinit var locationViewModel: LocationViewModel
+    // gps
     private var isGPSEnabled = false
-    private var nearByPlacesLoaded = false
+    // pull to refresh
     private lateinit var pullToRefresh: SwipeRefreshLayout
+    // view
     private lateinit var frag_view: View
 
     // --------------------------------- fragment functions ---------------------------------------

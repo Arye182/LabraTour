@@ -17,21 +17,23 @@ import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.di.AppContainer
 import com.example.labratour.presentation.di.GooglePlacesContainer
 import com.example.labratour.presentation.ui.base.BaseActivity
+import com.example.labratour.presentation.viewmodel.CurrencyViewModel
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BaseActivity() {
-    // data members
+    // viewmodels
     lateinit var userHomeViewModel: UserHomeViewModel
+    lateinit var locationViewModel: LocationViewModel
+    lateinit var currencyViewModel: CurrencyViewModel
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var appContainer: AppContainer
     private lateinit var googlePlacesContainer: GooglePlacesContainer
     lateinit var searchText: EditText
-    lateinit var locationViewModel: LocationViewModel
     lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +43,21 @@ class HomeActivity : BaseActivity() {
         appContainer = (application as LabratourApplication).appContainer
         googlePlacesContainer = appContainer.googlePlacesContainer
 
-        // view models
+        // user view model
         val userDataViewModelFactory = googlePlacesContainer.userHomeViewModelFactory
         userHomeViewModel = ViewModelProvider(this, userDataViewModelFactory).get(UserHomeViewModel::class.java)
+
+        // location view model
         locationViewModel = ViewModelProviders.of(this).get(LocationViewModel::class.java)
+
+        // currency view model
+        val currencyViewModelFactory = appContainer.currencyContainer.currencyViewModelFactory
+        currencyViewModel = ViewModelProvider(this, currencyViewModelFactory).get(CurrencyViewModel::class.java)
 
         // set view
         setContentView(R.layout.activity_home)
 
-        //
+        // ??
         searchText = edit_text_place_to_search
 
         // navigation container
