@@ -105,17 +105,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     private fun onNearByPlacesListChanged(view: View) {
-        places_close_to_you_recycler_view.adapter = this.homeViewModel.nearByPlaceModelListLiveData.value?.let {
-            SmallPlaceCardRecyclerAdapter(
-                it, this, NEARBY_LIST_CODE
-            )
-        }
+        places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelList, this, NEARBY_LIST_CODE)
         places_close_to_you_recycler_view.layoutManager =
             LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
         places_close_to_you_recycler_view.setHasFixedSize(true)
         nearby_places_list_progress_bar.visibility = View.GONE
         places_close_to_you_recycler_view.visibility = View.VISIBLE
-        this.nearByPlacesLoaded = true
     }
 
     fun onCustomPlacesListChanged() {

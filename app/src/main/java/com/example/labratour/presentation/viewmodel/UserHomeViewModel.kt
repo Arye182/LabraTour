@@ -9,14 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
 import com.example.labratour.domain.useCases.UpdateUserProfileByRateUseCase
-import com.example.labratour.presentation.model.data.LocationLiveData
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.SavedRankedPlaceModel
 import com.example.labratour.presentation.model.data.UserModel
 import com.example.labratour.presentation.model.repositories.PlacesRepository
 import com.example.labratour.presentation.model.repositories.SavedRankedPlacesRepository
 import com.example.labratour.presentation.model.repositories.UserRepository
-import com.example.labratour.presentation.ui.home.HomeActivity
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
@@ -44,7 +42,6 @@ class UserHomeViewModel(
     }
 
     // locatrion
-
 
     //  ----------------------------------- fetch single place ------------------------------------
     private lateinit var request: FetchPlaceRequest
@@ -78,7 +75,7 @@ class UserHomeViewModel(
 
     //  ----------------------------------- nearby list -------------------------------------------
     private var nearByPlacesIdList = ArrayList<String>()
-    private var nearByPlaceModelList = ArrayList<PlaceModel>()
+    var nearByPlaceModelList = ArrayList<PlaceModel>()
     val nearByPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
@@ -244,7 +241,6 @@ class UserHomeViewModel(
         viewModelScope.launch {
             customizedPlacesListCoRoutine()
         }
-
     }
 
     // ------------------------------------ PLACES LISTS ------------------------------------------
@@ -253,7 +249,7 @@ class UserHomeViewModel(
         // placesListCoRoutine()
     }
 
-    fun invokeNearbyPlacesRoutinr(lat: String, long: String){
+    fun invokeNearbyPlacesRoutinr(lat: String, long: String) {
         viewModelScope.launch {
 
             Log.i("Places", "Starting To Update Places Lists (vm)")
@@ -433,6 +429,8 @@ class UserHomeViewModel(
             }
         }
         Log.i("Places", "iD's To Places Routine : size of list:" + temp_list.size)
-        return temp_list
+        var temp_list_to_send: ArrayList<PlaceModel> = mutableListOf<PlaceModel>().apply { addAll(temp_list) } as ArrayList<PlaceModel>
+        temp_list.clear()
+        return temp_list_to_send
     }
 }
