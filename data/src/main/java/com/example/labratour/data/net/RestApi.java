@@ -6,6 +6,7 @@ import android.net.NetworkInfo;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.labratour.data.Entity.MyNearbyPlaces;
 import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
@@ -39,37 +40,8 @@ private MapsGoogleApiService service;
   this.placeDetailsDataMapper = new PlaceDetailesDataMapper();
    retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place/");
    service = retrofit.create(MapsGoogleApiService.class);
+   this.context = context.getApplicationContext();
  }
-// public Observable<String> nearbyPlaces(String lat, String lon) {
-////  Log.i("testNearbyUseCase","inside nearbyplaces in restapi  before create  run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
-//
-//  return Observable.create(emitter -> {
-//   if (isThereInternetConnection()) {
-//    try {
-//
-//     String response = getNearbyPlacesIds(lat, lon);
-//     if (response != null) {
-//      emitter.onNext(
-//              response);
-//      emitter.onComplete();
-//     } else {
-//      emitter.onError(new Exception());
-//     }
-//    } catch (Exception e) {
-//     emitter.onError(new Exception(e.getCause()));
-//    }
-//   } else {
-//    emitter.onError(new Exception());
-//   }
-//  });
-// }
-// private String getNearbyPlacesIds(String lat, String lon) throws MalformedURLException {
-//  //Log.i("testNearbyUseCase","inside nearbyplacesIds in restapi  called from inside emitter   run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
-// // Retrofit retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place");
-////  MapsGoogleApiService service = retrofit.create(MapsGoogleApiService.class);
-//  Connection connection = Connection.createGET("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+lat+","+lon+"&radius=1000&key="+API_KEY);
-//  return connection.requestSyncCall();
-// }
  private boolean isThereInternetConnection() {
   boolean isConnected;
 
@@ -112,36 +84,43 @@ else {
     }
 
  });}
- public Observable<NearbyPlaceResult[]> getPlaceNearbyAlternative(String lat, String lon) {
+ public Observable<MyNearbyPlaces> getPlaceNearbyAlternative(String lat, String lon) {
 
   return Observable.create(emitter -> {
    if (isThereInternetConnection()) {
     try {
 //     Retrofit retrofit =  RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place");
 //     MapsGoogleApiService service = retrofit.create(MapsGoogleApiService.class);
-     service.nearbyPlaces(lat, lon).enqueue(new Callback<NearbyPlaceResult[]>() {
+     service.nearbyPlaces(lat+"%2C"+lon).enqueue(new Callback<MyNearbyPlaces>() {
       @Override
-      public void onResponse(@NotNull Call<NearbyPlaceResult[]> call, @NotNull Response<NearbyPlaceResult[]> response) {
+      public void onResponse(@NotNull Call<MyNearbyPlaces> call, Response<MyNearbyPlaces> response) {
+       if(response.isSuccessful()){
        emitter.onNext(response.body());
+      }else {
+        Log.i("testNearbyUseCase", " ");
+        Log.i("testNearbyUseCase", " not succesful");
 
+        emitter.onError(new Throwable(String.valueOf(response.code())));
+       }
       }
 
       @Override
-      public void onFailure(@NotNull Call<NearbyPlaceResult[]> call, Throwable t) {
-       Log.i("testNearbyUseCase", "call failed");
+      public void onFailure(@NotNull Call<MyNearbyPlaces> call, Throwable t) {
+       Log.i("testNearbyUseCase", " ");
 
-       emitter.onError(t);
       }
+
+
      });
     } catch (Exception e) {
-     Log.i("testNearbyUseCase", " ");
+     Log.i("testNearbyUseCase", " exception in emmision:" + e.getMessage());
 
-     emitter.onError(e);
+
     }
    }
    else {
     Log.i("testNearbyUseCase", "No Internet Conection");
-    emitter.onError(new Exception("No Internet Conection"));
+  //  emitter.onError(new Exception("No Internet Conection"));
    }
 
   });}
@@ -151,7 +130,7 @@ else {
            if (isThereInternetConnection()) {
             try {
 
-             service.nearbyPlacesByType(lat, lon, type).enqueue(new Callback<NearbyPlaceResult[]>() {
+             service.nearbyPlacesByType(lat+"%2C"+lon, type).enqueue(new Callback<NearbyPlaceResult[]>() {
               @Override
               public void onResponse(@NotNull Call<NearbyPlaceResult[]> call, @NotNull Response<NearbyPlaceResult[]> response) {
                emitter.onNext(response.body());

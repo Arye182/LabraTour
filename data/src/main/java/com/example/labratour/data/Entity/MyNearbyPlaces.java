@@ -1,14 +1,28 @@
-//package com.example.labratour.data.Entity;
-//
-//
-//import com.google.gson.annotations.SerializedName;
-//
-//import java.io.Serializable;
-//
-//public class MyNearbyPlaces implements Serializable {
-//    private String next_page_token;
-//       @SerializedName("results")
-//   private NearbyPlaceResult[] results = null;
+package com.example.labratour.data.Entity;
+
+
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class MyNearbyPlaces implements Serializable {
+    public void setResults(NearbyPlaceResult[] results) {
+        this.results = results;
+    }
+
+    public MyNearbyPlaces(NearbyPlaceResult[] results) {
+        this.results = results;
+    }
+
+    public NearbyPlaceResult[] getResults() {
+        return results;
+    }
+
+    //    private String next_page_token;
+       @SerializedName("results")
+   private NearbyPlaceResult[] results;
+}
+
 //
 //    private String[] html_attributions;
 //

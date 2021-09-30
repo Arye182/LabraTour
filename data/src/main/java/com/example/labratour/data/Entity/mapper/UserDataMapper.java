@@ -107,7 +107,7 @@ try{
     UserAtributes userAtributes = new UserAtributes();
     for (Map.Entry<String, Object> entry: stringObjectHashMap.entrySet()) {
         try{
-          Field field = UserAtributes.class.getField(entry.getKey());
+          Field field = UserAtributes.class.getDeclaredField(entry.getKey());
           Class<?> targetType = field.getType();
           if(targetType.isPrimitive()){
             field.setDouble(userAtributes, (Double) entry.getValue());

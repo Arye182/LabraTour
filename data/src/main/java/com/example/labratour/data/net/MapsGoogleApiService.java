@@ -1,18 +1,22 @@
 package com.example.labratour.data.net;
 
+import com.example.labratour.data.Entity.MyNearbyPlaces;
 import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface MapsGoogleApiService {
   @GET(
-      "details/json?place_id=\"+Id+\"&fields=name%2Crating%2Ctypes&key=\"+API_KEY")
-  Call<PoiDetailsEntity> poiDetailes(@Path("Id") String user);
-  @GET("nearbysearch/json?location=\"+lat+\"lon+\"&radius=1000&key=\"+API_KEY")
-  Call<NearbyPlaceResult[]> nearbyPlaces(@Path("lat") String lat, @Path("lon")String lon);
-  @GET("nearbysearch/json?location=\"+lat+\"lon+\"&radius=1000&type=\"type+\"&key=\"+API_KEY")
-  Call<NearbyPlaceResult[]> nearbyPlacesByType(@Path("lat") String lat, @Path("lon")String lon, @Path("type")String type);
+      "details/json?place_id=\"Id\"&fields=name%2Crating%2Ctypes&key=\"+API_KEY")
+  Call<PoiDetailsEntity> poiDetailes(@Query("Id") String user);
+
+  @GET("nearbysearch/json?location=\"location\"&radius=1000&key=\"+API_KEY")
+  Call<MyNearbyPlaces> nearbyPlaces(@Query("location") String location);
+
+  @GET("nearbysearch/json?location=\"{location}\"&radius=1000&type=\"type+\"&key=\"+API_KEY")
+  Call<NearbyPlaceResult[]> nearbyPlacesByType(
+      @Query("location") String location, @Query("type") String type);
 }

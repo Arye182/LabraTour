@@ -1,5 +1,6 @@
 package com.example.labratour.data.repositories;
 
+import com.example.labratour.data.Entity.MyNearbyPlaces;
 import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
@@ -50,19 +51,22 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
     }
 
     public Observable<ArrayList<String>> nearbyPlacesIds(String lat, String lon) {
-        return this.restApi
-                .getPlaceNearbyAlternative(lat, lon).map(new Function<NearbyPlaceResult[], ArrayList<String>>() {
+    return this.restApi
+        .getPlaceNearbyAlternative(lat, lon)
+        .map(
+            new Function<MyNearbyPlaces, ArrayList<String>>() {
 
-                    @Override
-                    public ArrayList<String> apply(NearbyPlaceResult[] nearbyPlaceResults)  {
-                         ArrayList<String> ids = new ArrayList<>();
-                         for (int i = 0; i<nearbyPlaceResults.length;i++) {
-                             ids.add(nearbyPlaceResults[i].getPlaceId());
-
-                         }
-                         return ids;}
-                    }
-                );
+              @Override
+              public ArrayList<String> apply(MyNearbyPlaces nearbyPlaceResults) {
+                  ArrayList<String> ids = new ArrayList<>();
+                if (nearbyPlaceResults.getResults() != null) {
+                for (int i = 0; i < nearbyPlaceResults.getResults().length; i++) {
+                    if(nearbyPlaceResults.getResults()[i].getPlaceId()!=null){
+                  ids.add(nearbyPlaceResults.getResults()[i].getPlaceId());
+                }}}
+                return ids;
+              }
+            });
                 //.subscribeOn(Schedulers.io()).observeOn(Schedulers.computation());
 
 
