@@ -19,7 +19,7 @@ public abstract class NearbyPlacesUseCase {
         this.myDisposables = new CompositeDisposable();
         this.executionThread = executionThread;
         this.postExecutionThread = postExecutionThread;
-        this.repository = repository;
+        repository = nearbyPlacesRepository;
     }
 
 
