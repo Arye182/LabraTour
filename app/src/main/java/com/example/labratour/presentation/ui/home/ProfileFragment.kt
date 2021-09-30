@@ -52,9 +52,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         val size: Int = this.homeViewModel.likedPlaceModelListLiveData.value?.size!!
         Log.i("Places", "ProfileFragment $size")
 
-        liked_places_recycler_view.adapter = this.homeViewModel.likedPlaceModelListLiveData.value?.let {
-            SmallPlaceCardRecyclerAdapter(it, this, LIKED_LIST_CODE)
-        }
+        liked_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.likedPlaceModelList, this, LIKED_LIST_CODE)
         liked_places_recycler_view.layoutManager =
             LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
         liked_places_recycler_view.setHasFixedSize(true)

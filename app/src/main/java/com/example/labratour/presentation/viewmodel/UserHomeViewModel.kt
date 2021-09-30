@@ -105,7 +105,7 @@ class UserHomeViewModel(
 
     //  ----------------------------------- userLiked list ----------------------------------------
     private var likedPlacesIdList = ArrayList<String>()
-    private var likedPlaceModelList = ArrayList<PlaceModel>()
+    var likedPlaceModelList = ArrayList<PlaceModel>()
     val likedPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
@@ -116,80 +116,10 @@ class UserHomeViewModel(
         if (list != null) {
             Log.i("Places", "get - likedPlacesStringList : size of list:" + list.size)
             likedPlacesIdList = list
-            likedPlacesListCoRoutine()
+            var placeModelList: ArrayList<PlaceModel> = idsToPlaceModelCoRoutine(likedPlacesIdList)
+            likedPlaceModelList = placeModelList
+            likedPlaceModelListLiveData.postValue(placeModelList)
         }
-        // Log.i("Places", "get - likedPlacesStringList : list: $list")
-    }
-    private suspend fun likedPlacesListCoRoutine() {
-        Log.i("Places", "likedPlacesListRoutine : starting to fetch liked places by id")
-
-        for (place_id in this.likedPlacesIdList) {
-            var bitmap: Bitmap
-            var googlePlace: Place
-            request = place_id.let { FetchPlaceRequest.newInstance(it, placeFields) }
-            Log.i("Places", "likedPlacesListRoutine : trying to fetch place by id.... with id:{$place_id}")
-            suspendCoroutine<Unit> { continuation ->
-                placesClient.fetchPlace(request)
-                    .addOnSuccessListener { response: FetchPlaceResponse ->
-                        Log.i("Places", "likedPlacesListRoutine : fetch place data success!")
-                        val place = response.place
-                        googlePlace = place
-                        Log.i("Places", "likedPlacesListRoutine : trying to fetch photo!")
-                        // Get the photo metadata.
-                        val metada = googlePlace.photoMetadatas
-                        if (metada == null || metada.isEmpty()) {
-                            Log.i("Places", "likedPlacesListRoutine : No photo metadata.")
-                        }
-                        val photoMetadata = metada?.first()
-                        // Create a FetchPhotoRequest.
-                        val photoRequest = photoMetadata?.let {
-                            FetchPhotoRequest.builder(it)
-                                .setMaxWidth(1500) // Optional.
-                                .setMaxHeight(600) // Optional.
-                                .build()
-                        }
-                        if (photoRequest != null) {
-                            placesClient.fetchPhoto(photoRequest)
-                                .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
-                                    var bitmapw = fetchPhotoResponse.bitmap
-                                    Log.i("Places", "likedPlacesListRoutine : fetching photo success!")
-                                    // TODO test!
-                                    bitmap = bitmapw
-                                    this.likedPlaceModelList.add(PlaceModel(googlePlace, true, 5, bitmap))
-                                    continuation.resume(Unit)
-                                }.addOnFailureListener { exception: Exception ->
-                                    if (exception is ApiException) {
-                                        photoLoading.postValue(false)
-                                        Log.e(
-                                            ContentValues.TAG,
-                                            "Place not found: ${exception.message}"
-                                        )
-                                        Log.i("Places", "likedPlacesListRoutine : fetching photo failed")
-                                        error.postValue(exception.message)
-                                    }
-                                }
-                        } else {
-                            Log.i("Places", "likedPlacesListRoutine : fetching photo failed")
-                            val w: Int = 150
-                            val h: Int = 150
-                            val conf = Bitmap.Config.ARGB_8888 // see other conf types
-                            val bmp =
-                                Bitmap.createBitmap(w, h, conf) // this creates a MUTABLE bitmap
-                            bitmap = bmp
-                            this.likedPlaceModelList.add(PlaceModel(googlePlace, true, 5, bitmap))
-                            continuation.resume(Unit)
-                        }
-                    }.addOnFailureListener { exception: Exception ->
-                        if (exception is ApiException) {
-                            Log.e(ContentValues.TAG, "likedPlacesListRoutine : Place not found: ${exception.message}")
-                            // val statusCode = exception.statusCode
-                            error.postValue(exception.message)
-                        }
-                    }
-            }
-        }
-        Log.i("Places", "likedPlacesListRoutine : size of list:" + likedPlaceModelList.size)
-        this.likedPlaceModelListLiveData.postValue(likedPlaceModelList)
     }
 
     //  ----------------------------------- category list -----------------------------------------
@@ -244,16 +174,12 @@ class UserHomeViewModel(
     }
 
     // ------------------------------------ PLACES LISTS ------------------------------------------
-
     fun updateCategoryList(category: String, lat: String, long: String) {
         // placesListCoRoutine()
     }
-
     fun invokeNearbyPlacesRoutinr(lat: String, long: String) {
         viewModelScope.launch {
-
             Log.i("Places", "Starting To Update Places Lists (vm)")
-            // TODO get lat long!!!!!
             getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
         }
     }
@@ -280,7 +206,6 @@ class UserHomeViewModel(
             }
         }
     }
-
     fun rankPlace(user_id: String, place_id: String, rank: Int) {
         this.updateUseProfileByRateUseCase.execute(RankPlaceObserver(), user_id, place_id, rank)
     }
@@ -363,6 +288,8 @@ class UserHomeViewModel(
     }
 
     suspend fun idsToPlaceModelCoRoutine(ids: List<String>): ArrayList<PlaceModel> {
+        var temp_list_temp = ArrayList<PlaceModel>()
+
         for (place_id in ids) {
             var bitmap: Bitmap
             var googlePlace: Place
@@ -373,6 +300,7 @@ class UserHomeViewModel(
                     .addOnSuccessListener { response: FetchPlaceResponse ->
                         Log.i("Places", "iD's To Places Routine : fetch place data success!")
                         val place = response.place
+
                         googlePlace = place
                         Log.i("Places", "iD's To Places Routine : trying to fetch photo!")
                         // Get the photo metadata.
@@ -395,7 +323,7 @@ class UserHomeViewModel(
                                     Log.i("Places", "iD's To Places Routine : fetching photo success!")
                                     // TODO test!
                                     bitmap = bitmapw
-                                    this.temp_list.add(PlaceModel(googlePlace, true, 5, bitmap))
+                                    temp_list_temp.add(PlaceModel(googlePlace, true, 0, bitmap))
                                     continuation.resume(Unit)
                                 }.addOnFailureListener { exception: Exception ->
                                     if (exception is ApiException) {
@@ -429,8 +357,7 @@ class UserHomeViewModel(
             }
         }
         Log.i("Places", "iD's To Places Routine : size of list:" + temp_list.size)
-        var temp_list_to_send: ArrayList<PlaceModel> = mutableListOf<PlaceModel>().apply { addAll(temp_list) } as ArrayList<PlaceModel>
-        temp_list.clear()
-        return temp_list_to_send
+
+        return temp_list_temp
     }
 }
