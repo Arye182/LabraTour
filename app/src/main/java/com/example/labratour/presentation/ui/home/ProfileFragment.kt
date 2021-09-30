@@ -1,5 +1,6 @@
 package com.example.labratour.presentation.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.labratour.R
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
+import com.example.labratour.presentation.ui.login.LoginActivity
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
@@ -23,8 +26,17 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        button_logout.setOnClickListener { logOut() }
         updateUser()
         Log.i("Places", "ProfileFragment onViewCreated")
+    }
+
+    fun logOut() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(activity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        activity?.finish()
     }
 
     private fun updateUser() {

@@ -83,7 +83,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         foodanddrinks.setOnClickListener(View.OnClickListener { categoryIntent("Food & Drinks") })
         shopping.setOnClickListener(View.OnClickListener { categoryIntent("Shopping") })
         religion.setOnClickListener(View.OnClickListener { categoryIntent("Religion") })
-        medical.setOnClickListener(View.OnClickListener { categoryIntent("Medical") })
+        medical.setOnClickListener { categoryIntent("Medical") }
         fun_sub.setOnClickListener(View.OnClickListener { categoryIntent("Fun") })
         sports.setOnClickListener(View.OnClickListener { categoryIntent("Sports") })
         general.setOnClickListener(View.OnClickListener { categoryIntent("General") })

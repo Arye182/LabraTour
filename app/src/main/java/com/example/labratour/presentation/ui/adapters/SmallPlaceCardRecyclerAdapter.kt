@@ -12,7 +12,8 @@ import kotlinx.android.synthetic.main.place_card_small.view.*
 
 class SmallPlaceCardRecyclerAdapter(
     private val placesList: List<PlaceModel>,
-    private val listener: OnItemClickListener, private val code: Int
+    private val listener: OnItemClickListener,
+    private val code: Int
 ) : RecyclerView.Adapter<SmallPlaceCardRecyclerAdapter.SmallPlaceViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SmallPlaceViewHolder {
