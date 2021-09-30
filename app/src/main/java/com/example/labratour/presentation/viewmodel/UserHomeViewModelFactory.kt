@@ -19,7 +19,7 @@ class UserHomeViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(UserHomeViewModel::class.java)) {
-            return UserHomeViewModel(placesClient, updateUseProfileByRateUseCase,  getNearbyPlacesUseCase, userRepository, placeCacheRepository, savedRankedPlacesRepository) as T
+            return UserHomeViewModel(placesClient, updateUseProfileByRateUseCase, getNearbyPlacesUseCase, userRepository, placeCacheRepository, savedRankedPlacesRepository) as T
         }
         throw IllegalArgumentException("Unknown View Model class")
     }
