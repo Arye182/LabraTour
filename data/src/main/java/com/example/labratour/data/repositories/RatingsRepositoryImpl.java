@@ -9,7 +9,7 @@ import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.UserAtributes;
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.repositories.PlacesRepository;
-import com.example.labratour.domain.repositories.PoiDetailesDomain;
+import com.example.labratour.domain.PoiDetailesDomain;
 import com.example.labratour.domain.repositories.RatingsRepository;
 
 import java.net.MalformedURLException;

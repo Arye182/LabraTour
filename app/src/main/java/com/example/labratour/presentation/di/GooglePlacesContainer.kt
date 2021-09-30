@@ -6,7 +6,7 @@ import com.example.labratour.data.repositories.AtributesRepositoryImpl
 import com.example.labratour.data.repositories.PlacesRepositoryImpl
 import com.example.labratour.data.repositories.RatingsRepositoryImpl
 import com.example.labratour.data.utils.JobExecutor
-import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
+import com.example.labratour.domain.useCases.GetNearbyPlacesAllTypesUseCase
 import com.example.labratour.domain.useCases.UpdateUserProfileByRateUseCase
 import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.model.cache.PlacesDatabase
@@ -31,7 +31,12 @@ class GooglePlacesContainer(labratourApplication: LabratourApplication, userCach
     val placesClient = Places.createClient(labratourApplication)
     val restApi = RestApi(labratourApplication)
     val placesRepository = PlacesRepositoryImpl(restApi)
-    val getNearbyPlacesUseCase = GetNearbyPlacesUseCase(placesRepository, JobExecutor(), UIThread())
+    val getNearbyPlacesUseCase =
+        GetNearbyPlacesAllTypesUseCase(
+            placesRepository,
+            JobExecutor(),
+            UIThread()
+        )
 
     // rank place usecase
     val atrRepository = AtributesRepositoryImpl(firebaseAuth, firebaseDatabase)

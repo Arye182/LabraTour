@@ -1,7 +1,6 @@
 package com.example.labratour.data.net;
 
 import com.example.labratour.data.Entity.MyNearbyPlaces;
-import com.example.labratour.data.Entity.NearbyPlaceResult;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
 
 import retrofit2.Call;
@@ -17,6 +16,6 @@ public interface MapsGoogleApiService {
   Call<MyNearbyPlaces> nearbyPlaces(@Query("location") String location);
 
   @GET("nearbysearch/json?location=\"{location}\"&radius=1000&type=\"type+\"&key=\"+API_KEY")
-  Call<NearbyPlaceResult[]> nearbyPlacesByType(
+  Call<MyNearbyPlaces> nearbyPlacesByType(
       @Query("location") String location, @Query("type") String type);
 }

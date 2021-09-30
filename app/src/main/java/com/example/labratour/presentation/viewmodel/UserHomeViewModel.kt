@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.labratour.domain.useCases.DefaultObserver
-import com.example.labratour.domain.useCases.GetNearbyPlacesUseCase
+import com.example.labratour.domain.useCases.GetNearbyPlacesAllTypesUseCase
 import com.example.labratour.domain.useCases.UpdateUserProfileByRateUseCase
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.SavedRankedPlaceModel
@@ -26,7 +26,7 @@ import kotlin.coroutines.suspendCoroutine
 class UserHomeViewModel(
     private val placesClient: PlacesClient,
     private val updateUseProfileByRateUseCase: UpdateUserProfileByRateUseCase,
-    private val getNearbyPlacesUseCase: GetNearbyPlacesUseCase,
+    private val getNearbyPlacesUseCase: GetNearbyPlacesAllTypesUseCase,
     private val userRepository: UserRepository,
     private val placeCacheRepository: PlacesRepository,
     private val savedRankedPlacesRepository: SavedRankedPlacesRepository

@@ -1,29 +1,29 @@
 package com.example.labratour.data.Entity.mapper;
 
-import com.example.labratour.data.Entity.NearbyPlaceResult;
+import com.example.labratour.data.Entity.MyNearbyPlaces;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
-public class NearbyPlacesDataMapper {
+public  class NearbyPlacesDataMapper {
 
 
-    public ArrayList<String> transform(Collection<NearbyPlaceResult> result) {
-        final ArrayList<String> placesIds = new ArrayList<>(20);
-        for (NearbyPlaceResult n :result) {
-            final String placesId = transform(n);
-            if (placesId != null){
-                placesIds.add(new String(n.getPlaceId()));}
+//    public ArrayList<String> transform(Collection<NearbyPlaceResult> result) {
+//        final ArrayList<String> placesIds = new ArrayList<>(20);
+//        for (NearbyPlaceResult n :result) {
+//            final String placesId = transform(n);
+//            if (placesId != null){
+//                placesIds.add(new String(n.getPlaceId()));}
+//        }
+//        return placesIds;}
+
+
+
+    public static ArrayList<String> transform(MyNearbyPlaces myNearbyPlaces){
+        ArrayList<String> ids = new ArrayList<>();
+        for (int i = 0; i < myNearbyPlaces.getResults().length; i++) {
+            ids.add(myNearbyPlaces.getResults()[i].getPlaceId());
         }
-        return placesIds;}
-
-
-
-    public String transform(NearbyPlaceResult result) {
-        String id = null;
-        if (result != null) {
-            id  = result.getPlaceId();
-        }
-        return id;
-    }}
+        return ids;
+    }
+    }
 
