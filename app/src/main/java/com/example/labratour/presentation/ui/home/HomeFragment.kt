@@ -84,10 +84,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         invokeLocationAction()
     }
 
-
-
-
-
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
@@ -105,12 +101,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     private fun onNearByPlacesListChanged(view: View) {
-        places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelList, this, NEARBY_LIST_CODE)
-        places_close_to_you_recycler_view.layoutManager =
-            LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-        places_close_to_you_recycler_view.setHasFixedSize(true)
-        nearby_places_list_progress_bar.visibility = View.GONE
-        places_close_to_you_recycler_view.visibility = View.VISIBLE
+        if (this.homeViewModel.nearByPlaceModelList.size > 0) {
+            places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelList, this, NEARBY_LIST_CODE)
+            places_close_to_you_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            places_close_to_you_recycler_view.setHasFixedSize(true)
+            nearby_places_list_progress_bar.visibility = View.GONE
+            places_close_to_you_recycler_view.visibility = View.VISIBLE
+        }
     }
 
     fun onCustomPlacesListChanged() {
@@ -132,8 +130,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
         var clickedPlaceItem: PlaceModel? = null
         var id: String = ""
-        when(code){
-            NEARBY_LIST_CODE ->  {
+        when (code) {
+            NEARBY_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
                 id = clickedPlaceItem.googlePlace.id!!
             }
@@ -145,7 +143,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
                 id = clickedPlaceItem.googlePlace.id!!
             }
-
         }
         // move to fragment of result of place!
         val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
