@@ -22,7 +22,12 @@ public class RestApi {
   protected MapsGoogleApiService service;
   // private static final String API_KEY ="AIzaSyDjOvu7E3j3ddZAUG0PBFE6tmfHEaR3kZc" ;
   protected Context context;
-  private PlaceDetailesDataMapper placeDetailsDataMapper;
+
+    public Context getContext() {
+        return context;
+    }
+
+    private PlaceDetailesDataMapper placeDetailsDataMapper;
   private NearbyPlaceJsonMapper nearbyPlaceJsonMapper;
 
   public RestApi(Context context) {

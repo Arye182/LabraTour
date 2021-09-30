@@ -106,12 +106,14 @@ try{
   public static UserAtributes transform(HashMap<String, Object> stringObjectHashMap) {
     UserAtributes userAtributes = new UserAtributes();
     for (Map.Entry<String, Object> entry: stringObjectHashMap.entrySet()) {
+        if(entry.getKey()!="ratesCounter"){
         try{
           Field field = UserAtributes.class.getDeclaredField(entry.getKey());
           Class<?> targetType = field.getType();
-          if(targetType.isPrimitive()){
+
+
             field.setDouble(userAtributes, (Double) entry.getValue());
-          }
+
           Object objectValue = targetType.newInstance();
           field.set(userAtributes, entry.getValue());
     } catch (NoSuchFieldException e) {
@@ -124,7 +126,7 @@ try{
           e.printStackTrace();
           return userAtributes;
         }
-    }
+    }}
     return userAtributes;
   }
 

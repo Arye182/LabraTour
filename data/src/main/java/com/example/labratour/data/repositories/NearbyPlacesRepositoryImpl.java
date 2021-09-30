@@ -15,10 +15,14 @@ import io.reactivex.functions.Function;
 
 public class NearbyPlacesRepositoryImpl implements NearbyPlacesRepository {
     private final NearbyPlaces restApi;
+    private  NearbyPlacesByType nearbyPlacesByType;
+    private NearbyPlacesAllTypes nearbyPlacesAllTypes;
 private  final  NearbyPlacesDataMapper nearbyPlacesDataMapper;
     public NearbyPlacesRepositoryImpl(NearbyPlaces restApi) {
         this.restApi = restApi;
         nearbyPlacesDataMapper = new NearbyPlacesDataMapper();
+    nearbyPlacesAllTypes = new NearbyPlacesAllTypes(restApi.getContext().getApplicationContext());
+        nearbyPlacesByType = new NearbyPlacesByType(restApi.getContext().getApplicationContext());
     }
 
 
@@ -26,7 +30,7 @@ private  final  NearbyPlacesDataMapper nearbyPlacesDataMapper;
 
     @Override
     public Observable<ArrayList<String>> get(String lat, String lon, String type) {
-         return restApi
+         return nearbyPlacesByType
                 .getResult(new NearbyPlacesByType.Param(lat, lon, type))
                 .map(
                         new Function<MyNearbyPlaces, ArrayList<String>>() {
@@ -40,7 +44,7 @@ private  final  NearbyPlacesDataMapper nearbyPlacesDataMapper;
 
     @Override
     public Observable<ArrayList<String>> get(String lat, String lon) {
-        return restApi
+        return nearbyPlacesAllTypes
                 .getResult(new NearbyPlacesAllTypes.Param(lat, lon))
                 .map(
                         new Function<MyNearbyPlaces, ArrayList<String>>() {

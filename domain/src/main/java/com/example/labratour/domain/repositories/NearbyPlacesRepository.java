@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import io.reactivex.Observable;
 
-public interface  NearbyPlacesRepository <T>{
+public interface  NearbyPlacesRepository {
     Observable<ArrayList<String>> get(String lat, String lon);
 
 
