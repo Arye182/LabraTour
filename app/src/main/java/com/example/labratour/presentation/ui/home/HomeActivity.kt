@@ -20,6 +20,7 @@ import com.example.labratour.presentation.ui.base.BaseActivity
 import com.example.labratour.presentation.viewmodel.CurrencyViewModel
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
+import com.example.labratour.presentation.viewmodel.WeatherViewModel
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -28,6 +29,7 @@ class HomeActivity : BaseActivity() {
     lateinit var userHomeViewModel: UserHomeViewModel
     lateinit var locationViewModel: LocationViewModel
     lateinit var currencyViewModel: CurrencyViewModel
+    lateinit var weatherViewModel: WeatherViewModel
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -53,6 +55,10 @@ class HomeActivity : BaseActivity() {
         // currency view model
         val currencyViewModelFactory = appContainer.currencyContainer.currencyViewModelFactory
         currencyViewModel = ViewModelProvider(this, currencyViewModelFactory).get(CurrencyViewModel::class.java)
+
+        //weather viewmodel
+        val weatherViewModelFactory = appContainer.weatherContainer.weatherViewModelFactory
+        weatherViewModel = ViewModelProvider(this, weatherViewModelFactory).get(WeatherViewModel::class.java)
 
         // set view
         setContentView(R.layout.activity_home)

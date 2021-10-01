@@ -3,7 +3,7 @@ package com.example.labratour.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.labratour.presentation.model.data.Rates
+import com.example.labratour.presentation.model.data.currency.Rates
 import com.example.labratour.presentation.model.repositories.CurrencyRepository
 import com.example.labratour.presentation.utils.DispatcherProvider
 import com.example.labratour.presentation.utils.Resource

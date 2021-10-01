@@ -1,4 +1,4 @@
-package com.example.labratour.presentation.model.data
+package com.example.labratour.presentation.model.data.currency
 
 data class CurrencyResponse(
     val base: String,
