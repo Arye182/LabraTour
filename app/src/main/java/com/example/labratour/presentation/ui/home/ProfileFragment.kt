@@ -67,11 +67,10 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         } else {
             profile_gender_tv.text = homeViewModel.userModelLiveData.value?.gender.toString()
         }
-//        username_drawer_header.text = homeViewModel.userModel.value?.userName
-        val size: Int = this.homeViewModel.likedPlaceModelListLiveData.value?.size!!
-        Log.i("Places", "ProfileFragment $size")
 
         if (this.homeViewModel.likedPlaceModelList.size > 0) {
+            val size: Int = this.homeViewModel.likedPlaceModelListLiveData.value?.size!!
+            Log.i("Places", "ProfileFragment $size")
             liked_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.likedPlaceModelList, this, LIKED_LIST_CODE)
             liked_places_recycler_view.layoutManager =
                 LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -79,9 +78,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
             liked_places_no_places_message.visibility = View.GONE
             liked_places_list_progress_bar.visibility = View.GONE
             liked_places_recycler_view.visibility = View.VISIBLE
-        } else {
+        } else if (this.homeViewModel.likedPlaceModelList.isEmpty()) {
             liked_places_no_places_message.visibility = View.VISIBLE
             liked_places_list_progress_bar.visibility = View.GONE
+            liked_places_recycler_view.visibility = View.GONE
+        } else {
+            liked_places_no_places_message.visibility = View.GONE
+            liked_places_list_progress_bar.visibility = View.VISIBLE
             liked_places_recycler_view.visibility = View.GONE
         }
     }

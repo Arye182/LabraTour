@@ -20,7 +20,6 @@ import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
 import com.example.labratour.presentation.utils.GPS_REQUEST
 import com.example.labratour.presentation.utils.GpsUtils
-import com.example.labratour.presentation.viewmodel.CurrencyViewModel
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -91,7 +90,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
-            this.homeViewModel.initializeViewModel()
+            // this.homeViewModel.initializeViewModel()
             checkGps()
             this.invokeLocationAction()
             pullToRefresh.isRefreshing = false
