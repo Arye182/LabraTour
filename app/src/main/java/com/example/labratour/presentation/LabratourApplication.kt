@@ -2,6 +2,7 @@ package com.example.labratour.presentation
 
 import android.app.Application
 import com.example.labratour.presentation.di.AppContainer
+import com.example.labratour.presentation.utils.Keys.API_KEY_GOOGLE
 import com.google.android.libraries.places.api.Places
 import com.google.firebase.FirebaseApp
 
@@ -20,7 +21,7 @@ class LabratourApplication : Application() {
         super.onCreate()
         instance = this
         FirebaseApp.initializeApp(this)
-        Places.initialize(this, "AIzaSyDjOvu7E3j3ddZAUG0PBFE6tmfHEaR3kZc")
+        Places.initialize(this, API_KEY_GOOGLE)
         appContainer = AppContainer(this)
     }
 }
