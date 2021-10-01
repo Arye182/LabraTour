@@ -72,7 +72,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:gravity="fill_horizontal">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -126,7 +126,7 @@
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginTop="16dp">
 
                         <com.google.android.material.textview.MaterialTextView
@@ -137,16 +137,14 @@
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/place_address_tv"
                             style="@style/TextAppearance.Reply.Body2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="place's address"
-                            app:autoSizeTextType="uniform"/>
+                            android:text="place's address" />
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
@@ -162,7 +160,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/TextAppearance.Reply.Headline6"                            android:layout_width="wrap_content"
@@ -178,7 +176,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView
                             style="@style/TextAppearance.Reply.Headline6"
@@ -195,6 +193,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:gravity="fill_horizontal">
                         <com.google.android.material.textview.MaterialTextView

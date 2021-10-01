@@ -35,14 +35,12 @@ class CurrencyFragment : Fragment(R.layout.fragment_currency) {
                         tvResult.setTextColor(Color.BLACK)
                         tvResult.text = event.resultText
                         Log.i("Places", "CurrencyFragment " + event.resultText)
-
                     }
                     is CurrencyViewModel.CurrencyEvent.Failure -> {
                         progressBar.isVisible = false
                         tvResult.setTextColor(Color.RED)
                         tvResult.text = event.errorText
                         Log.i("Places", "CurrencyFragment " + event.errorText)
-
                     }
                     is CurrencyViewModel.CurrencyEvent.Loading -> {
                         progressBar.isVisible = true

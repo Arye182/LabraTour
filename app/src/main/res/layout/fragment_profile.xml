@@ -220,13 +220,13 @@
 
             <!-- logout button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_clear_cache"
+                android:id="@+id/button_delete_saved_places"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Clear Cache"
+                android:text="Delete Saved Places"
                 android:layout_gravity="center"/>
 
 

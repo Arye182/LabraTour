@@ -14,6 +14,6 @@ interface SavedRankedPlaceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSavedPlace(place: SavedRankedPlaceModel)
 
-    @Query("DELETE FROM saved_places WHERE user_id = :user_id_arg")
+    @Query("DELETE FROM saved_places WHERE user_id = :user_id_arg AND liked = 1")
     suspend fun deleteAllSavedPlaces(user_id_arg: String)
 }
