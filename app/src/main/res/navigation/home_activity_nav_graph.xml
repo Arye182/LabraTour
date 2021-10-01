@@ -93,7 +93,8 @@
         android:label="PlacesListFragment">
         <argument
             android:name="sub_category"
-            app:argType="string"/>
+            app:argType="string"
+            android:defaultValue="liked_places"/>
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"

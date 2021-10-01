@@ -27,8 +27,18 @@
     </group>
 
     <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/placesListFragment"
+            android:title="Liked Places"
+            android:icon="@drawable/ic_baseline_favorite_24" />
+    </group>
+
+    <group
         android:id="@+id/group2"
         android:checkableBehavior="single">
+
         <item
             android:id="@+id/currencyFragment"
             android:title="Currency"
