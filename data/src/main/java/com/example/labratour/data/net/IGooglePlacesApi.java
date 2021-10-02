@@ -1,7 +1,7 @@
 package com.example.labratour.data.net;
 
 
-import com.example.labratour.data.Entity.Results;
+import com.example.labratour.domain.Results;
 
 import retrofit2.Call;
 import retrofit2.http.Query;

@@ -1,7 +1,7 @@
 package com.example.labratour.data.net;
 
 import com.example.labratour.data.Entity.PoiDetailsEntity;
-import com.example.labratour.data.Entity.RootObject;
+import com.example.labratour.domain.Entity.NearbyPlaceEntity;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,7 +13,7 @@ public interface MapsGoogleApiService {
   Call<PoiDetailsEntity> poiDetailes(@Query("Id") String user);
 
   @GET("nearbysearch/json?")
-  Call<RootObject> nearbyPlaces(
+  Call<NearbyPlaceEntity> nearbyPlaces(
 @Query("location") String location,
   @Query("radius") int radius,
   @Query("key") String key);
@@ -28,7 +28,7 @@ public interface MapsGoogleApiService {
    * @return
    */
   @GET("nearbysearch/json?")
-  Call<RootObject> nearbyPlacesByType(
+  Call<NearbyPlaceEntity> nearbyPlacesByType(
 
 
                                                               @Query("location") String location,

@@ -1,5 +1,7 @@
-package com.example.labratour.data.Entity;
+package com.example.labratour.domain;
 
+import com.example.labratour.domain.Entity.Entity.Geometry;
+import com.example.labratour.domain.Entity.OpeningHours1;
 import com.google.gson.annotations.SerializedName;
 
 public class  Results{

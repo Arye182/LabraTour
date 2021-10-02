@@ -3,7 +3,7 @@ package com.example.labratour.data.net;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.labratour.data.Entity.RootObject;
+import com.example.labratour.domain.Entity.NearbyPlaceEntity;
 
 import retrofit2.Call;
 
@@ -15,7 +15,7 @@ public class NearbyPlacesByType extends NearbyPlaces<NearbyPlacesByType.Param>{
     }
 
     @Override
-    public Call<RootObject> getNearbyPlaces(Param param) {
+    public Call<NearbyPlaceEntity> getNearbyPlaces(Param param) {
       Log.i("type", "lat:"+param.lat+ "lon:" + param.lon+ param.type);
 
       return this.service.nearbyPlacesByType(

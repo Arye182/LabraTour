@@ -3,7 +3,7 @@ package com.example.labratour.data.net;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.labratour.data.Entity.RootObject;
+import com.example.labratour.domain.Entity.NearbyPlaceEntity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,16 +20,16 @@ public abstract class NearbyPlaces<Param> extends RestApi {
     //private Context context;
 
 
-    public abstract Call<RootObject> getNearbyPlaces(Param requestInput) ;
+    public abstract Call<NearbyPlaceEntity> getNearbyPlaces(Param requestInput) ;
 
 
-        public Observable<RootObject> getResult(Param input) {
+        public Observable<NearbyPlaceEntity> getResult(Param input) {
         return Observable.create(emitter -> {
                 if (isThereInternetConnection()) {
 
-                        getNearbyPlaces(input).enqueue(new Callback<RootObject>() {
+                            getNearbyPlaces(input).enqueue(new Callback<NearbyPlaceEntity>() {
                             @Override
-                            public void onResponse(@NotNull Call<RootObject> call, Response<RootObject> response) {
+                            public void onResponse(@NotNull Call<NearbyPlaceEntity> call, Response<NearbyPlaceEntity> response) {
                                 if(response.isSuccessful()){
                                     Log.i("testNearbyUseCase", "response:"+ response.body().toString()+"request: "+ call.request().toString());
                                     emitter.onNext(response.body());
@@ -41,7 +41,7 @@ public abstract class NearbyPlaces<Param> extends RestApi {
                             }
 
                             @Override
-                            public void onFailure(@NotNull Call<RootObject> call, Throwable t) {
+                            public void onFailure(@NotNull Call<NearbyPlaceEntity> call, Throwable t) {
                                 Log.i("testNearbyUseCase", t.getMessage());
 
                                 Log.i("testNearbyUseCase", call.request().toString());

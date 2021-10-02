@@ -1,9 +1,9 @@
-package com.example.labratour.data.Entity;
+package com.example.labratour.domain.Entity;
 
 import com.example.labratour.domain.Results;
 import com.google.gson.annotations.SerializedName;
 
-public class RootObject {
+public class NearbyPlaceEntity {
   private String[] html_attributions; //assumed data type to be string
   private String next_page_token;
   private Results[] results;

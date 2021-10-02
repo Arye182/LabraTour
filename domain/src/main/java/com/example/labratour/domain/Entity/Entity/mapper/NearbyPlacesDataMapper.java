@@ -1,4 +1,5 @@
-package com.example.labratour.data.Entity.mapper;
+package com.example.labratour.domain.Entity.Entity.mapper;
+
 
 public  class NearbyPlacesDataMapper {
     public NearbyPlacesDataMapper() {
@@ -15,7 +16,7 @@ public  class NearbyPlacesDataMapper {
 
 
 //
-//    public static ArrayList<NearbyPlaceEntity> transform(NearbyPlaceEntity myNearbyPlaces){
+//    public static NearbyPlaceEntity transform(NearbyPlaceEntity myNearbyPlaces){
 //        ArrayList<String> ids = new ArrayList<>();
 //        for (int i = 0; i < myNearbyPlaces.getResults().length; i++) {
 //            ids.add(myNearbyPlaces.getResults()[i].getPlaceId());
