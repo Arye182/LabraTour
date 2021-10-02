@@ -3,6 +3,7 @@ package com.example.labratour.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.labratour.presentation.model.data.weather.IntervalWeather
 import com.example.labratour.presentation.model.repositories.WeatherRepository
 import com.example.labratour.presentation.utils.DispatcherProvider
 import com.example.labratour.presentation.utils.Keys.API_KEY_WEATHER
@@ -10,15 +11,14 @@ import com.example.labratour.presentation.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.math.round
 
 class WeatherViewModel(
     private val repository: WeatherRepository,
     private val dispatchers: DispatcherProvider
-) : ViewModel(){
+) : ViewModel() {
 
     sealed class WeatherEvent {
-        class Success(val resultText: String) : WeatherEvent()
+        class Success(val forecast: List<IntervalWeather>) : WeatherEvent()
         class Failure(val errorText: String) : WeatherEvent()
         object Loading : WeatherEvent()
         object Empty : WeatherEvent()
@@ -45,22 +45,10 @@ class WeatherViewModel(
                     Log.i("Places", "WeatherViewModel: error in resource" + weatherResponse.message)
                 }
                 is Resource.Success -> {
-                    val forecast = weatherResponse.data!!.city
-                    Log.i("Places", "WeatherViewModel:" + forecast.toString())
-//                    //val rate = getRateForCurrency(toCurrency, rates)
-//                    if (forecast == null) {
-//                        _conversion.value = CurrencyEvent.Failure("Unexpected error")
-//                        Log.i("Places", "CurrencyFragment: Unexpected error rate is null")
-//
-//                    } else {
-//                        var convertedCurrency = round(fromAmount * 100) / 100
-//                        convertedCurrency *= rate as Float
-//                        _conversion.value = CurrencyEvent.Success(
-//                            "$fromAmount $fromCurrency = $convertedCurrency $toCurrency"
-//                        )
-//                        Log.i("Places", "CurrencyFragment " + "$fromAmount $fromCurrency = $convertedCurrency $toCurrency")
-//
-//                    }
+                    val forecast = weatherResponse.data!!.list
+                    _weather.value = WeatherEvent.Success(forecast)
+                    //Log.i("Places", "WeatherViewModel:" + forecast.toString())
+                    // take only 6 entities from forecast - current and the rest 5 intervals 3 hour jumps
                 }
             }
         }

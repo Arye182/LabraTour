@@ -3,6 +3,7 @@ package com.example.labratour.presentation.viewmodel
 import android.content.ContentValues
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,19 +31,7 @@ class UserHomeViewModel(
     private val userRepository: UserRepository,
     private val placeCacheRepository: PlacesRepository,
     private val savedRankedPlacesRepository: SavedRankedPlacesRepository
-
 ) : ViewModel() {
-    var locationUpdated: Boolean = false
-
-    // ------------------------------------- members ----------------------------------------------
-    // user
-    lateinit var userModel: UserModel
-    val userModelLiveData: MutableLiveData<UserModel> by lazy {
-        MutableLiveData<UserModel>()
-    }
-
-    // locatrion
-
     //  ----------------------------------- fetch single place ------------------------------------
     private lateinit var request: FetchPlaceRequest
     val place: MutableLiveData<Place> by lazy {
@@ -57,28 +46,26 @@ class UserHomeViewModel(
     private var temp_list = ArrayList<PlaceModel>()
 
     //  ----------------------------------- customized list ---------------------------------------
-    var customizedPlaceModelList = ArrayList<PlaceModel>()
-    val customizedPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+    private val _customizedPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
+    var customizedPlaceModelListLiveData: LiveData<ArrayList<PlaceModel>> = _customizedPlaceModelListLiveData
     private suspend fun customizedPlacesListCoRoutine() {
-        var list = ArrayList<String>()
+        val list = ArrayList<String>()
         for (i in 0 until 10) {
-            var id = "ChIJcURkgp492jERS4A65dNZuts"
+            val id = "ChIJcURkgp492jERS4A65dNZuts"
             list.add(id)
         }
         Log.i("Places", "size of nearby ids list:" + list.size)
-        var placeModelList: ArrayList<PlaceModel> = idsToPlaceModelCoRoutine(list)
-        this.customizedPlaceModelList = placeModelList
-        this.customizedPlaceModelListLiveData.postValue(placeModelList)
+        this._customizedPlaceModelListLiveData.postValue(idsToPlaceModelCoRoutine(list))
     }
 
     //  ----------------------------------- nearby list -------------------------------------------
     private var nearByPlacesIdList = ArrayList<String>()
-    var nearByPlaceModelList = ArrayList<PlaceModel>()
-    val nearByPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+    private val _nearByPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
+    var nearByPlaceModelListLiveData: LiveData<ArrayList<PlaceModel>> = _nearByPlaceModelListLiveData
     private inner class NearbyPlacesStringListFetcherObserver : DefaultObserver<ArrayList<String>>() {
         override fun onComplete() {
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Complete...")
@@ -96,97 +83,50 @@ class UserHomeViewModel(
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... Value Size = ${value.size}")
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... list = $value")
             viewModelScope.launch {
-                var placeModelList: ArrayList<PlaceModel> = idsToPlaceModelCoRoutine(nearByPlacesIdList)
-                nearByPlaceModelList = placeModelList
-                nearByPlaceModelListLiveData.postValue(placeModelList)
+                _nearByPlaceModelListLiveData.postValue(idsToPlaceModelCoRoutine(nearByPlacesIdList))
             }
+        }
+    }
+    fun nearbyPlacesCoRoutine(lat: String, long: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.i("Places", "Co-Routine - Starting To Update Near By Places List")
+            getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
+        }
+    }
+
+    //  ------------------------------- category places list --------------------------------------
+    private val _categoryPlacesListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+        MutableLiveData<ArrayList<PlaceModel>>()
+    }
+    var categoryPlacesListLiveData: LiveData<ArrayList<PlaceModel>> = _categoryPlacesListLiveData
+    fun updateCategoryList(category: String, lat: String, long: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.i("Places", "Co-Routine - Starting To Update Category Places List")
+//            getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
         }
     }
 
     //  ----------------------------------- userLiked list ----------------------------------------
-    private var likedPlacesIdList = ArrayList<String>()
-    var likedPlaceModelList = ArrayList<PlaceModel>()
-    val likedPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+    private val _likedPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
+    var likedPlaceModelListLiveData: LiveData<ArrayList<PlaceModel>> = _likedPlaceModelListLiveData
     private suspend fun getLikedPlacesStringList() = withContext(Dispatchers.IO) {
         val user_id = FirebaseAuth.getInstance().currentUser?.uid
         Log.i("Places", "get - likedPlacesStringList : user id: $user_id")
         val list = user_id?.let { savedRankedPlacesRepository.getLikedPlaces(user_id) } as ArrayList<String>?
         if (list != null) {
             Log.i("Places", "get - likedPlacesStringList : size of list:" + list.size)
-            likedPlacesIdList = list
-            var placeModelList: ArrayList<PlaceModel> = idsToPlaceModelCoRoutine(likedPlacesIdList)
-            likedPlaceModelList = placeModelList
-            likedPlaceModelListLiveData.postValue(placeModelList)
-        }
-    }
-
-    //  ----------------------------------- category list -----------------------------------------
-    val categoryPlacesList: MutableLiveData<ArrayList<PlaceModel>> by lazy {
-        MutableLiveData<ArrayList<PlaceModel>>()
-    }
-
-    // messages
-    val error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-    val place_ranked: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
-    }
-    val placeFields = listOf(
-        Place.Field.ID,
-        Place.Field.NAME,
-        Place.Field.ADDRESS,
-        Place.Field.LAT_LNG,
-        Place.Field.BUSINESS_STATUS,
-        Place.Field.OPENING_HOURS,
-        Place.Field.PHONE_NUMBER,
-        Place.Field.PHOTO_METADATAS,
-        Place.Field.PRICE_LEVEL,
-        Place.Field.RATING,
-        Place.Field.TYPES,
-        Place.Field.USER_RATINGS_TOTAL,
-    )
-
-    init {
-        initializeViewModel()
-    }
-
-    fun initializeViewModel() {
-        // clear lists
-        customizedPlaceModelList.clear()
-        customizedPlaceModelListLiveData.value?.clear()
-
-        likedPlacesIdList.clear()
-        likedPlaceModelListLiveData.value?.clear()
-
-        // run updates
-        viewModelScope.launch(Dispatchers.IO) {
-            getUserRoutine()
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            getLikedPlacesStringList()
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            customizedPlacesListCoRoutine()
-        }
-    }
-
-    // ------------------------------------ PLACES LISTS ------------------------------------------
-    fun updateCategoryList(category: String, lat: String, long: String) {
-        // placesListCoRoutine()
-    }
-    fun invokeNearbyPlacesRoutinr(lat: String, long: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.i("Places", "Starting To Update Places Lists (vm)")
-            getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
+            _likedPlaceModelListLiveData.postValue(idsToPlaceModelCoRoutine(list))
         }
     }
 
     // ------------------------------------ USER ----------------------------------------------
-
-    suspend fun getUserRoutine() = withContext(Dispatchers.IO) {
+    lateinit var userModel: UserModel
+    val userModelLiveData: MutableLiveData<UserModel> by lazy {
+        MutableLiveData<UserModel>()
+    }
+    private suspend fun getUserRoutine() = withContext(Dispatchers.IO) {
         val user = FirebaseAuth.getInstance().currentUser?.uid?.let { userRepository.getUser(it) }
         if (user != null) {
             userModel = user
@@ -208,9 +148,7 @@ class UserHomeViewModel(
     }
     fun deleteUserLikedPlaces() {
         viewModelScope.launch(Dispatchers.IO) {
-            likedPlaceModelListLiveData.value?.clear()
-            likedPlaceModelList.clear()
-            likedPlacesIdList.clear()
+            _likedPlaceModelListLiveData.value?.clear()
             savedRankedPlacesRepository.deleteAllSavedPlaces(userModel.id)
             getLikedPlacesStringList()
         }
@@ -231,9 +169,29 @@ class UserHomeViewModel(
             place_ranked.postValue(value)
         }
     }
+    val place_ranked: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     // ------------------------------------ General ----------------------------------------------
     // fetch place by id
+    val error: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val placeFields = listOf(
+        Place.Field.ID,
+        Place.Field.NAME,
+        Place.Field.ADDRESS,
+        Place.Field.LAT_LNG,
+        Place.Field.BUSINESS_STATUS,
+        Place.Field.OPENING_HOURS,
+        Place.Field.PHONE_NUMBER,
+        Place.Field.PHOTO_METADATAS,
+        Place.Field.PRICE_LEVEL,
+        Place.Field.RATING,
+        Place.Field.TYPES,
+        Place.Field.USER_RATINGS_TOTAL,
+    )
     fun getPlaceById(id: String) {
         request = id.let { FetchPlaceRequest.newInstance(it, placeFields) }
         Log.i("Places", "trying to fetch place by id.... with id:{$id}")
@@ -251,7 +209,7 @@ class UserHomeViewModel(
                 }
             }
     }
-    fun fetchPhoto() {
+    private fun fetchPhoto() {
         Log.i("Places", "trying to fetch photo!")
         // Get the photo metadata.
         // val metada = currentPlace?.photoMetadatas
@@ -299,15 +257,15 @@ class UserHomeViewModel(
             var bitmap: Bitmap
             var googlePlace: Place
             request = place_id.let { FetchPlaceRequest.newInstance(it, placeFields) }
-            Log.i("Places", "iD's To Places Routine : trying to fetch place by id.... with id:{$place_id}")
+            // Log.i("Places", "iD's To Places Routine : trying to fetch place by id.... with id:{$place_id}")
             suspendCoroutine<Unit> { continuation ->
                 placesClient.fetchPlace(request)
                     .addOnSuccessListener { response: FetchPlaceResponse ->
-                        Log.i("Places", "iD's To Places Routine : fetch place data success!")
+                        // Log.i("Places", "iD's To Places Routine : fetch place data success!")
                         val place = response.place
 
                         googlePlace = place
-                        Log.i("Places", "iD's To Places Routine : trying to fetch photo!")
+                        // Log.i("Places", "iD's To Places Routine : trying to fetch photo!")
                         // Get the photo metadata.
                         val metada = googlePlace.photoMetadatas
                         if (metada == null || metada.isEmpty()) {
@@ -325,7 +283,7 @@ class UserHomeViewModel(
                             placesClient.fetchPhoto(photoRequest)
                                 .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
                                     var bitmapw = fetchPhotoResponse.bitmap
-                                    Log.i("Places", "iD's To Places Routine : fetching photo success!")
+                                    // Log.i("Places", "iD's To Places Routine : fetching photo success!")
                                     // TODO test!
                                     bitmap = bitmapw
                                     temp_list_temp.add(PlaceModel(googlePlace, true, 0, bitmap))
@@ -349,7 +307,6 @@ class UserHomeViewModel(
                             val bmp =
                                 Bitmap.createBitmap(w, h, conf) // this creates a MUTABLE bitmap
                             bitmap = bmp
-                            this.nearByPlaceModelList.add(PlaceModel(googlePlace, true, 5, bitmap))
                             continuation.resume(Unit)
                         }
                     }.addOnFailureListener { exception: Exception ->
@@ -362,7 +319,28 @@ class UserHomeViewModel(
             }
         }
         Log.i("Places", "iD's To Places Routine : size of list:" + temp_list.size)
-
         return temp_list_temp
+    }
+
+    // ----------------------------------- initialize ---------------------------------------------
+    init {
+        initializeViewModel()
+    }
+    private fun initializeViewModel() {
+        // clear lists
+        _customizedPlaceModelListLiveData.value?.clear()
+        _nearByPlaceModelListLiveData.value?.clear()
+        _likedPlaceModelListLiveData.value?.clear()
+
+        // run updates
+        viewModelScope.launch(Dispatchers.IO) {
+            getUserRoutine()
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            getLikedPlacesStringList()
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            customizedPlacesListCoRoutine()
+        }
     }
 }

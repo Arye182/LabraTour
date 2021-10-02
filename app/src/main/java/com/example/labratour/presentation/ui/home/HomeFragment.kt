@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,14 +27,15 @@ import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.example.labratour.presentation.viewmodel.WeatherViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_currency.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.location_card.view.*
+import kotlinx.android.synthetic.main.weather_card.view.*
 import kotlinx.coroutines.flow.collect
 import java.util.*
+import kotlin.math.floor
 
 const val LOCATION_REQUEST = 100
 const val GPS_REQUEST = 101
@@ -59,11 +61,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     // --------------------------------- fragment functions ---------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // get references to view models on creation
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         this.weatherViewModel = (activity as HomeActivity?)?.weatherViewModel!!
-        // this.homeViewModel.invokeGetUser()
-        // this.homeViewModel.invokeGetLikedPlacesList()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -79,35 +80,65 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(frag_view) })
         this.locationViewModel.getLocationData().observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
 
-        // listeners
+        // pull to refresh define
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
 
-        //
+        // invoke location routines (fetch location, weather, nearby, recommended...)
         checkGps()
         invokeLocationAction()
         launchWeatherForecast()
     }
 
-    fun launchWeatherForecast() {
+    private fun launchWeatherForecast() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             weatherViewModel.weather.collect {
                 event ->
                 when (event) {
                     is WeatherViewModel.WeatherEvent.Success -> {
-//                            progressBar.isVisible = false
-//                            tvResult.setTextColor(Color.BLACK)
-//                            tvResult.text = event.resultText
-                        Log.i("Places", "CurrencyFragment " + event.resultText)
+                        // update visibility
+                        weather_card_progress_bar.isVisible = false
+                        weather_card.isVisible = true
+                        // current weather temperature
+                        val current_temp: Double = floor((event.forecast[0].main.temp) / 10)
+                        weather_card.current_degrees_tv.text = current_temp.toString() + "\u2103"
+                        // update current icon
+                        val current_condition: String = event.forecast[0].weather[0].main
+                        when (current_condition) {
+                            "Clear" -> {
+                                weather_card.current_weather_icon.setImageResource(R.drawable.ic_day)
+                            }
+                            "Clouds" -> {
+                                weather_card.current_weather_icon.setImageResource(R.drawable.ic_cloudy_day_1)
+                            }
+                            "Snow" -> {
+                                weather_card.current_weather_icon.setImageResource(R.drawable.ic_snowy_1)
+                            }
+                            "Rain" -> {
+                                weather_card.current_weather_icon.setImageResource(R.drawable.ic_rainy_1)
+                            }
+                            "Drizzle" -> {
+                            }
+                            "Thunderstorm" -> {
+                                weather_card.current_weather_icon.setImageResource(R.drawable.ic_thunder)
+                            }
+                        }
+                        // update sunset and sunrise
+                        // ...
+                        // update list
+                        // ....
+                        // log
+                        Log.i("Places", "Weather Collector Success")
                     }
                     is WeatherViewModel.WeatherEvent.Failure -> {
 //                            progressBar.isVisible = false
 //                            tvResult.setTextColor(Color.RED)
 //                            tvResult.text = event.errorText
-                        Log.i("Places", "CurrencyFragment " + event.errorText)
+                        Log.i("Places", "Weather Collector Failure " + event.errorText)
                     }
                     is WeatherViewModel.WeatherEvent.Loading -> {
-//                            progressBar.isVisible = true
+                        weather_card_progress_bar.isVisible = true
+                        weather_card.isVisible = false
                     }
                     else -> Unit
                 }
@@ -137,8 +168,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     private fun onNearByPlacesListChanged(view: View) {
-        if (this.homeViewModel.nearByPlaceModelList.size > 0) {
-            places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelList, this, NEARBY_LIST_CODE)
+        if (this.homeViewModel.nearByPlaceModelListLiveData.value?.size!! > 0) {
+            places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelListLiveData.value!!, this, NEARBY_LIST_CODE)
             places_close_to_you_recycler_view.layoutManager =
                 LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
             places_close_to_you_recycler_view.setHasFixedSize(true)
@@ -147,10 +178,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         }
     }
 
-    fun onCustomPlacesListChanged() {
-        if (this.homeViewModel.customizedPlaceModelList.size > 0) {
+    private fun onCustomPlacesListChanged() {
+        if (this.homeViewModel.customizedPlaceModelListLiveData.value?.size!! > 0) {
             customed_places_list_progress_bar.visibility = View.GONE
-            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelList, this, CUSTOMIZED_LIST_CODE)
+            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelListLiveData.value!!, this, CUSTOMIZED_LIST_CODE)
             customed_places_recycler_view.layoutManager =
                 LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
             customed_places_recycler_view.setHasFixedSize(true)
@@ -185,7 +216,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         findNavController().navigate(action)
     }
 
-    fun onUserChanged() {
+    private fun onUserChanged() {
         if ((activity as HomeActivity).navigationView.headerCount > 0) {
             // avoid NPE by first checking if there is at least one Header View available
             val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
@@ -197,7 +228,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     // ---------------------------------------- gps -----------------------------------------------
-    fun checkGps() {
+    private fun checkGps() {
         // gps
         GpsUtils(activity as HomeActivity).turnGPSOn(object : GpsUtils.OnGpsListener {
             override fun gpsStatus(isGPSEnable: Boolean) {
@@ -217,7 +248,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 locationViewModel.getLocationData().value?.longitude
             )
             // SINCE THE LAT LONG IS GOOD WE CAN FORECAST THINGS !!!
-            this.homeViewModel.invokeNearbyPlacesRoutinr(lat.toString(), long.toString())
+            this.homeViewModel.nearbyPlacesCoRoutine(lat.toString(), long.toString())
             this.weatherViewModel.forecast(lat.toString(), long.toString())
         } else {
             location_card.location_ltlng_txt.text = "GPS unavailable!"
