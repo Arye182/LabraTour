@@ -5,5 +5,5 @@ import com.example.labratour.presentation.utils.Resource
 
 interface CurrencyRepository {
 
-    suspend fun getRates(base: String): Resource<CurrencyResponse>
+    suspend fun getRates(base: String, key: String): Resource<CurrencyResponse>
 }

@@ -11,7 +11,6 @@ import com.example.labratour.presentation.utils.Constants
 import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_places_full_list.*
 
 class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlaceCardRecyclerAdapter.OnItemClickListener {
@@ -47,25 +46,28 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
 
     override fun onStart() {
         super.onStart()
-        if (this.category != "liked_places") {
-            this.homeViewModel.categoryPlacesList.observe(
-                viewLifecycleOwner,
-                { onCategoryPlacesListChanged(frag_view) }
-            )
-        } else {
-            loadLikedPlacesList()
+        when (this.category) {
+            "liked_places" -> {
+                loadLikedPlacesList()
+            }
+            "Customized" -> {
+                loadCustomizedPlacesList()
+            }
+            "Nearby" -> {
+                loadNearbyPlacesList()
+            }
+            else -> {
+                this.homeViewModel.categoryPlacesListLiveData.observe(
+                    viewLifecycleOwner,
+                    { onCategoryPlacesListChanged(frag_view) }
+                )
+            }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        //updatePlacesRoutine()
-    }
-
     fun loadLikedPlacesList() {
-
-        if (this.homeViewModel.likedPlaceModelList.size > 0) {
-            category_places_list_recycler_view.adapter = BigPlaceCardRecyclerAdapter(this.homeViewModel.likedPlaceModelList, this)
+        if (this.homeViewModel.likedPlaceModelListLiveData.value?.size!! > 0) {
+            category_places_list_recycler_view.adapter = BigPlaceCardRecyclerAdapter(this.homeViewModel.likedPlaceModelListLiveData.value!!, this)
             category_places_list_recycler_view.layoutManager =
                 LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.VERTICAL, false)
             category_places_list_recycler_view.setHasFixedSize(true)
@@ -73,11 +75,34 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
             category_places_list_recycler_view.visibility = View.VISIBLE
             this.categoryPlacesLoaded = true
         }
+    }
 
+    fun loadNearbyPlacesList() {
+        if (this.homeViewModel.nearByPlaceModelListLiveData.value?.size!! > 0) {
+            category_places_list_recycler_view.adapter = BigPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelListLiveData.value!!, this)
+            category_places_list_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.VERTICAL, false)
+            category_places_list_recycler_view.setHasFixedSize(true)
+            category_places_list_progress_bar.visibility = View.GONE
+            category_places_list_recycler_view.visibility = View.VISIBLE
+            this.categoryPlacesLoaded = true
+        }
+    }
+
+    fun loadCustomizedPlacesList() {
+        if (this.homeViewModel.customizedPlaceModelListLiveData.value?.size!! > 0) {
+            category_places_list_recycler_view.adapter = BigPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelListLiveData.value!!, this)
+            category_places_list_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.VERTICAL, false)
+            category_places_list_recycler_view.setHasFixedSize(true)
+            category_places_list_progress_bar.visibility = View.GONE
+            category_places_list_recycler_view.visibility = View.VISIBLE
+            this.categoryPlacesLoaded = true
+        }
     }
 
     private fun onCategoryPlacesListChanged(fragView: View) {
-        category_places_list_recycler_view.adapter = this.homeViewModel.categoryPlacesList.value?.let {
+        category_places_list_recycler_view.adapter = this.homeViewModel.categoryPlacesListLiveData.value?.let {
             BigPlaceCardRecyclerAdapter(
                 it, this
             )

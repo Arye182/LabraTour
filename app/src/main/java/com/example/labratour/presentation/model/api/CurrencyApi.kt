@@ -7,11 +7,9 @@ import retrofit2.http.Query
 
 interface CurrencyApi {
 
-    // d630dce72ffb56f933d7f05abec89ca4
-    // https://api.exchangeratesapi.io/v1/latest?access_key=d630dce72ffb56f933d7f05abec89ca4&format=1
-
-    @GET("latest?access_key=d630dce72ffb56f933d7f05abec89ca4")
+    @GET("latest?")
     suspend fun getRates(
-        @Query("base") base: String
+        @Query("base") base: String,
+        @Query("access_key") key: String
     ): Response<CurrencyResponse>
 }

@@ -3,14 +3,13 @@ package com.example.labratour.presentation.model.repositories
 import android.util.Log
 import com.example.labratour.presentation.model.api.WeatherApi
 import com.example.labratour.presentation.model.data.weather.WeatherResponse
-import com.example.labratour.presentation.utils.Keys.API_KEY_WEATHER
 import com.example.labratour.presentation.utils.Resource
 import java.lang.Exception
 
 class WeatherRepositoryImpl(private val api: WeatherApi) : WeatherRepository {
-    override suspend fun getWeather(lat: String, long: String, key: String): Resource<WeatherResponse> {
+    override suspend fun getWeather(lat: String, long: String, key: String, units: String): Resource<WeatherResponse> {
         return try {
-            val response = api.getWeather(lat, long, key)
+            val response = api.getWeather(lat, long, key, units)
             Log.i("Places", response.code().toString())
             Log.i("Places", response.isSuccessful.toString())
             Log.i("Places", response.toString())

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- location -->
+            <!-- location card -->
             <include
                 android:layout_marginTop="8dp"
                 android:id="@+id/location_card"
@@ -28,15 +28,39 @@
                 android:layout_width="match_parent"/>
 
             <!-- weather -->
-
-            <!-- random pois -->
-            <include
-                android:id="@+id/weather_card"
-                layout="@layout/weather_card"
+            <LinearLayout
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/card">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp">
+                    <include
+                        android:id="@+id/weather_card"
+                        layout="@layout/weather_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp" />
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/weather_card_progress_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="16dp"
+                        android:visibility="visible"
+                        app:trackColor="@color/reply_orange_500"
+                        android:indeterminate="true">
+                    </com.google.android.material.progressindicator.CircularProgressIndicator>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!-- random nearby places card-->
             <LinearLayout
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -44,6 +68,7 @@
                 android:orientation="vertical"
                 android:background="@color/card">
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/places_near_by_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="0dp"
@@ -75,13 +100,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
-                    android:layout_marginLeft="4dp">
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginBottom="8dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/places_close_to_you_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
                         android:clipToPadding="false"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -102,8 +127,7 @@
                 </RelativeLayout>
             </LinearLayout>
 
-
-            <!-- custom pois -->
+            <!-- customized places lists and card pois -->
             <LinearLayout
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
@@ -112,6 +136,7 @@
                 android:orientation="vertical"
                 android:background="@color/card">
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/customized_places_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="0dp"

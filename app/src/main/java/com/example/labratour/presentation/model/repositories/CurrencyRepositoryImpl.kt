@@ -7,9 +7,9 @@ import com.example.labratour.presentation.utils.Resource
 import java.lang.Exception
 
 class CurrencyRepositoryImpl(private val api: CurrencyApi) : CurrencyRepository {
-    override suspend fun getRates(base: String): Resource<CurrencyResponse> {
+    override suspend fun getRates(base: String, key: String): Resource<CurrencyResponse> {
         return try {
-            val response = api.getRates(base)
+            val response = api.getRates(base, key)
             Log.i("Places", response.code().toString())
             Log.i("Places", response.isSuccessful.toString())
             Log.i("Places", response.toString())
