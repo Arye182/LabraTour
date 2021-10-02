@@ -45,9 +45,7 @@ const val LIKED_LIST_CODE = 16
 const val CUSTOMIZED_LIST_CODE = 17
 
 class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
-
     // viewmodels
-
     private lateinit var homeViewModel: UserHomeViewModel
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var weatherViewModel: WeatherViewModel
@@ -80,6 +78,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(frag_view) })
         this.locationViewModel.getLocationData().observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
 
+        // set on listeners
+        customized_places_button.setOnClickListener { onCustomizedPlacesClicked() }
+        places_near_by_button.setOnClickListener { onPlacesNearByClicked() }
+
         // pull to refresh define
         pullToRefresh = home_refresh_layout
         setPullToRefreshListener()
@@ -87,10 +89,67 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         // invoke location routines (fetch location, weather, nearby, recommended...)
         checkGps()
         invokeLocationAction()
-        launchWeatherForecast()
+        onWeatherForecastChanged()
     }
 
-    private fun launchWeatherForecast() {
+    override fun onResume() {
+        super.onResume()
+        invokeLocationAction()
+    }
+
+    // ----------------------------------- On Click Listeners--------------------------------------
+    private fun setPullToRefreshListener() {
+        pullToRefresh.setOnRefreshListener {
+            // update lists!
+            // this.homeViewModel.initializeViewModel()
+            checkGps()
+            this.invokeLocationAction()
+            pullToRefresh.isRefreshing = false
+        }
+    }
+
+    private fun onCustomizedPlacesClicked(){
+        val action = HomeFragmentDirections.actionHomeFragmentToPlacesListFragment("Customized")
+        findNavController().navigate(action)
+    }
+
+    private fun onPlacesNearByClicked(){
+        val action = HomeFragmentDirections.actionHomeFragmentToPlacesListFragment("Nearby")
+        findNavController().navigate(action)
+    }
+
+    // ----------------------------- On Live Data Changed Handlers --------------------------------
+    private fun onErrorChanged(view: View) {
+        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(resources.getColor(R.color.error)).show()
+    }
+
+    private fun onNearByPlacesListChanged(view: View) {
+        if (this.homeViewModel.nearByPlaceModelListLiveData.value?.size!! > 0) {
+            places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelListLiveData.value!!, this, NEARBY_LIST_CODE)
+            places_close_to_you_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            places_close_to_you_recycler_view.setHasFixedSize(true)
+            nearby_places_list_progress_bar.visibility = View.GONE
+            places_close_to_you_recycler_view.visibility = View.VISIBLE
+        }
+    }
+
+    private fun onCustomPlacesListChanged() {
+        if (this.homeViewModel.customizedPlaceModelListLiveData.value?.size!! > 0) {
+            customed_places_list_progress_bar.visibility = View.GONE
+            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelListLiveData.value!!, this, CUSTOMIZED_LIST_CODE)
+            customed_places_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+            customed_places_recycler_view.setHasFixedSize(true)
+            customed_places_recycler_view.visibility = View.VISIBLE
+        } else {
+            customed_places_list_progress_bar.visibility = View.VISIBLE
+            customed_places_recycler_view.visibility = View.GONE
+        }
+    }
+
+    private fun onWeatherForecastChanged() {
         viewLifecycleOwner.lifecycleScope.launchWhenResumed {
             weatherViewModel.weather.collect {
                 event ->
@@ -146,53 +205,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        invokeLocationAction()
-    }
-
-    private fun setPullToRefreshListener() {
-        pullToRefresh.setOnRefreshListener {
-            // update lists!
-            // this.homeViewModel.initializeViewModel()
-            checkGps()
-            this.invokeLocationAction()
-            pullToRefresh.isRefreshing = false
+    private fun onUserChanged() {
+        if ((activity as HomeActivity).navigationView.headerCount > 0) {
+            // avoid NPE by first checking if there is at least one Header View available
+            val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
+            val user_name: String = homeViewModel.userModelLiveData.value?.userName!!
+            headerLayout.username_drawer_header.text = user_name
+            headerLayout.email_drawer_header.text = homeViewModel.userModelLiveData.value?.email
+            (activity as HomeActivity).toolbar.title = "Welcome Back, $user_name"
         }
     }
 
-    // ----------------------------- On Live Data Changed Handlers --------------------------------
-    private fun onErrorChanged(view: View) {
-        Snackbar.make(view, this.homeViewModel.error.value.toString(), Snackbar.LENGTH_SHORT)
-            .setBackgroundTint(resources.getColor(R.color.error)).show()
-    }
-
-    private fun onNearByPlacesListChanged(view: View) {
-        if (this.homeViewModel.nearByPlaceModelListLiveData.value?.size!! > 0) {
-            places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelListLiveData.value!!, this, NEARBY_LIST_CODE)
-            places_close_to_you_recycler_view.layoutManager =
-                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-            places_close_to_you_recycler_view.setHasFixedSize(true)
-            nearby_places_list_progress_bar.visibility = View.GONE
-            places_close_to_you_recycler_view.visibility = View.VISIBLE
-        }
-    }
-
-    private fun onCustomPlacesListChanged() {
-        if (this.homeViewModel.customizedPlaceModelListLiveData.value?.size!! > 0) {
-            customed_places_list_progress_bar.visibility = View.GONE
-            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelListLiveData.value!!, this, CUSTOMIZED_LIST_CODE)
-            customed_places_recycler_view.layoutManager =
-                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-            customed_places_recycler_view.setHasFixedSize(true)
-            customed_places_recycler_view.visibility = View.VISIBLE
-        } else {
-            customed_places_list_progress_bar.visibility = View.VISIBLE
-            customed_places_recycler_view.visibility = View.GONE
-        }
-    }
-
-    // whenever you click on an item from the recylcler - but need to know which one
     override fun onItemClick(position: Int, code: Int) {
 
         var clickedPlaceItem: PlaceModel? = null
@@ -216,16 +239,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         findNavController().navigate(action)
     }
 
-    private fun onUserChanged() {
-        if ((activity as HomeActivity).navigationView.headerCount > 0) {
-            // avoid NPE by first checking if there is at least one Header View available
-            val headerLayout: View = (activity as HomeActivity).navigationView.getHeaderView(0)
-            val user_name: String = homeViewModel.userModelLiveData.value?.userName!!
-            headerLayout.username_drawer_header.text = user_name
-            headerLayout.email_drawer_header.text = homeViewModel.userModelLiveData.value?.email
-            (activity as HomeActivity).toolbar.title = "Welcome Back, $user_name"
-        }
-    }
+
 
     // ---------------------------------------- gps -----------------------------------------------
     private fun checkGps() {

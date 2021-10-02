@@ -68,6 +68,7 @@
                 android:orientation="vertical"
                 android:background="@color/card">
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/places_near_by_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="0dp"
@@ -135,6 +136,7 @@
                 android:orientation="vertical"
                 android:background="@color/card">
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/customized_places_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardElevation="0dp"
