@@ -1,7 +1,5 @@
 package com.example.labratour.domain.useCases;
 
-import android.util.Log;
-
 import com.example.labratour.domain.Entity.NearbyPlaceEntity;
 import com.example.labratour.domain.executors.ExecutionThread;
 import com.example.labratour.domain.executors.PostExecutionThread;
@@ -12,7 +10,7 @@ import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class GetNearbyPlacesByTypeUseCase  extends NearbyPlacesUseCase{
+public class GetNearbyPlacesByTypeUseCase extends NearbyPlacesUseCase{
 
 
   public GetNearbyPlacesByTypeUseCase(NearbyPlacesRepository nearbyPlacesRepository, ExecutionThread executionThread, PostExecutionThread postExecutionThread) {
@@ -21,8 +19,7 @@ public class GetNearbyPlacesByTypeUseCase  extends NearbyPlacesUseCase{
 
   public void execute(DisposableObserver observer, String lat, String lon, String type) {
       Preconditions.checkNotNull(observer);
-      final Observable<NearbyPlaceEntity
-              > observable =
+      final Observable<NearbyPlaceEntity> observable =
               this.buildUseCaseObservable(lat,  lon, type)
                       .subscribeOn(Schedulers.from(executionThread))
                       .observeOn(postExecutionThread
@@ -32,9 +29,7 @@ public class GetNearbyPlacesByTypeUseCase  extends NearbyPlacesUseCase{
 
 
     public Observable<NearbyPlaceEntity> buildUseCaseObservable(String lat, String lon, String type) {
-      Log.i("testNearbyTypeUseCase", "lat:"+lat+ "lon:" + lon+ type);
-
-      return repository.get(lat, lon, type);
+        return repository.get(lat, lon, type);
     }
 
 
