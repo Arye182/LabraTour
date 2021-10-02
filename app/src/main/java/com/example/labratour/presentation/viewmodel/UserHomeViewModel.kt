@@ -162,13 +162,13 @@ class UserHomeViewModel(
         likedPlaceModelListLiveData.value?.clear()
 
         // run updates
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getUserRoutine()
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             getLikedPlacesStringList()
         }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             customizedPlacesListCoRoutine()
         }
     }
@@ -178,7 +178,7 @@ class UserHomeViewModel(
         // placesListCoRoutine()
     }
     fun invokeNearbyPlacesRoutinr(lat: String, long: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             Log.i("Places", "Starting To Update Places Lists (vm)")
             getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
         }
@@ -193,9 +193,8 @@ class UserHomeViewModel(
             userModelLiveData.postValue(user)
         }
     }
-
     fun saveLikedPlace(place_id: String, rank: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val user_id = FirebaseAuth.getInstance().currentUser?.uid
             Log.i("Places", "likedPlacesStringList : user id: $user_id")
             Log.i("Places", "Saving user id: $user_id, at place id: $place_id")
@@ -204,6 +203,16 @@ class UserHomeViewModel(
                     it
                 )
             }
+            getLikedPlacesStringList()
+        }
+    }
+    fun deleteUserLikedPlaces() {
+        viewModelScope.launch(Dispatchers.IO) {
+            likedPlaceModelListLiveData.value?.clear()
+            likedPlaceModelList.clear()
+            likedPlacesIdList.clear()
+            savedRankedPlacesRepository.deleteAllSavedPlaces(userModel.id)
+            getLikedPlacesStringList()
         }
     }
     fun rankPlace(user_id: String, place_id: String, rank: Int) {
@@ -242,7 +251,6 @@ class UserHomeViewModel(
                 }
             }
     }
-
     fun fetchPhoto() {
         Log.i("Places", "trying to fetch photo!")
         // Get the photo metadata.
@@ -257,8 +265,7 @@ class UserHomeViewModel(
         // Create a FetchPhotoRequest.
         val photoRequest = photoMetadata?.let {
             FetchPhotoRequest.builder(it)
-                .setMaxWidth(1500) // Optional.
-                .setMaxHeight(600) // Optional.
+                .setMaxHeight(750) // Optional.
                 .build()
         }
         if (photoRequest != null) {
@@ -282,11 +289,9 @@ class UserHomeViewModel(
                 }
         }
     }
-
     fun getPhoneNumber(): String? {
         return this.place.value?.phoneNumber
     }
-
     suspend fun idsToPlaceModelCoRoutine(ids: List<String>): ArrayList<PlaceModel> {
         var temp_list_temp = ArrayList<PlaceModel>()
 

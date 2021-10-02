@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView android:id="@+id/place_small_card"
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/place_small_card"
     android:layout_width="200dp"
-    android:layout_height="match_parent"
+    android:layout_height="260dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="35dp"
     app:cardBackgroundColor="@color/card"
-    android:layout_marginLeft="8dp"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginBottom="16dp"
+    app:cardElevation="0dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -15,12 +18,13 @@
         android:orientation="vertical"
         >
         <!-- Media -->
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/place_small_card_image"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             app:srcCompat="@drawable/ic_baseline_wb_sunny_24"
             android:scaleType="centerCrop"
+            app:shapeAppearance="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
             android:contentDescription="This is Image Description"/>
 
 
@@ -51,77 +55,6 @@
                 android:text="address"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"/>
-
-
-            <!-- buttons? -->
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:orientation="horizontal">-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="1">-->
-<!--                    <ImageView-->
-<!--                        android:id="@+id/call_place_button"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@drawable/ic_twotone_star" />-->
-<!--                </LinearLayout>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="1">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@drawable/ic_twotone_star" />-->
-<!--                </LinearLayout>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="1">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@drawable/ic_twotone_star" />-->
-<!--                </LinearLayout>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="1">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@drawable/ic_twotone_star" />-->
-<!--                </LinearLayout>-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:gravity="center"-->
-<!--                    android:layout_weight="1">-->
-<!--                    <ImageView-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:src="@drawable/ic_twotone_star" />-->
-<!--                </LinearLayout>-->
-<!--            </LinearLayout>-->
 
 
         </LinearLayout>

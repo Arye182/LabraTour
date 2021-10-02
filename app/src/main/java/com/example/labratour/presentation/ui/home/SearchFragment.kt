@@ -100,7 +100,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         if (requestCode == 100 && resultCode == RESULT_OK) {
             var place: Place? = data?.let { Autocomplete.getPlaceFromIntent(it) }
             if (place != null) {
-                (activity as HomeActivity).searchText.setText(place.address)
+                //(activity as HomeActivity).searchText.setText(place.address)
                 this.id = (place.id).toString()
                 Log.i("Places", "search fragment id: ${this.id}")
                 // move to result place page

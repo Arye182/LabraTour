@@ -171,28 +171,49 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@color/card">
-                <com.google.android.material.textview.MaterialTextView
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/TextAppearance.Reply.Headline5"
-                    android:text="Your Liked Places"
-                    android:layout_marginTop="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingBottom="16dp">
-                </com.google.android.material.textview.MaterialTextView>
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    app:cardElevation="0dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.Reply.Headline5"
+                            android:text="Your Liked Places"
+                            android:layout_marginTop="16dp"
+                            android:paddingLeft="16dp"
+                            android:paddingBottom="16dp"/>
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_arrow_forward_24"
+                            android:layout_marginTop="16dp"
+                            android:paddingLeft="16dp"
+                            android:paddingBottom="16dp"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginLeft="4dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/liked_places_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
                         android:clipToPadding="false"
                         android:orientation="horizontal"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/place_card_small" />
+                        tools:listitem="@layout/place_card_small"
+                        android:scrollbars="horizontal"
+                        android:requiresFadingEdge="horizontal"/>
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/liked_places_list_progress_bar"
                         android:layout_width="match_parent"
@@ -220,13 +241,13 @@
 
             <!-- logout button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_clear_cache"
+                android:id="@+id/button_delete_saved_places"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Clear Cache"
+                android:text="Delete Saved Places"
                 android:layout_gravity="center"/>
 
 

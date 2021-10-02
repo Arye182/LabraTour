@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.labratour.R
 import com.example.labratour.presentation.model.data.PlaceModel
+import com.google.android.material.imageview.ShapeableImageView
 import kotlinx.android.synthetic.main.place_card_small.view.*
 
 class BigPlaceCardRecyclerAdapter(
@@ -34,7 +35,7 @@ class BigPlaceCardRecyclerAdapter(
         RecyclerView.ViewHolder(itemView),
         View.OnClickListener {
 
-        val imageView: ImageView = itemView.place_small_card_image
+        val imageView: ShapeableImageView = itemView.place_small_card_image
         val adreesTextView: TextView = itemView.place_small_card_address
         val typeTextView: TextView = itemView.place_small_card_type
         val nameTextView: TextView = itemView.place_small_card_name

@@ -190,7 +190,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         place_title_name.text = (homeViewModel.place.value?.name).toString()
         place_address_tv.text = (homeViewModel.place.value?.address).toString()
         place_website_tv.text = (homeViewModel.place.value?.websiteUri).toString()
-        place_type_tv.text = (homeViewModel.place.value?.types).toString()
+        place_type_tv.text = ((homeViewModel.place.value?.types)?.get(0)).toString()
 
         // place_opening_hours_tv.text = (place.openingHours).toString()
         if (homeViewModel.place.value?.isOpen == true) {
