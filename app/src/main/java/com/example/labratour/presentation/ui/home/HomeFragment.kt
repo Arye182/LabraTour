@@ -100,7 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                         weather_card_progress_bar.isVisible = false
                         weather_card.isVisible = true
                         // current weather temperature
-                        val current_temp: Double = floor((event.forecast[0].main.temp) / 10)
+                        val current_temp: Double = floor(event.forecast[0].main.temp)
                         weather_card.current_degrees_tv.text = current_temp.toString() + "\u2103"
                         // update current icon
                         val current_condition: String = event.forecast[0].weather[0].main

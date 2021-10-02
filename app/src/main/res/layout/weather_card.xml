@@ -33,7 +33,7 @@
                     android:id="@+id/current_degrees_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="31\u2103"
+                    android:text="00\u2103"
                     android:textSize="72dp"
                     android:textColor="?android:attr/textColorSecondary" />
 

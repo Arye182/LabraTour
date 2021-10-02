@@ -44,6 +44,75 @@ class UserHomeViewModel(
         MutableLiveData<Boolean>()
     }
     private var temp_list = ArrayList<PlaceModel>()
+    val placeFields = listOf(
+        Place.Field.ID,
+        Place.Field.NAME,
+        Place.Field.ADDRESS,
+        Place.Field.LAT_LNG,
+        Place.Field.BUSINESS_STATUS,
+        Place.Field.OPENING_HOURS,
+        Place.Field.PHONE_NUMBER,
+        Place.Field.PHOTO_METADATAS,
+        Place.Field.PRICE_LEVEL,
+        Place.Field.RATING,
+        Place.Field.TYPES,
+        Place.Field.USER_RATINGS_TOTAL,
+    )
+    fun getPlaceById(id: String) {
+        request = id.let { FetchPlaceRequest.newInstance(it, placeFields) }
+        Log.i("Places", "trying to fetch place by id.... with id:{$id}")
+        placesClient.fetchPlace(request)
+            .addOnSuccessListener { response: FetchPlaceResponse ->
+                Log.i("Places", "fetch place data success!")
+                val place = response.place
+                this.place.setValue(place)
+                this.fetchPhoto()
+            }.addOnFailureListener { exception: Exception ->
+                if (exception is ApiException) {
+                    Log.e(ContentValues.TAG, "Place not found: ${exception.message}")
+                    // val statusCode = exception.statusCode
+                    error.postValue(exception.message)
+                }
+            }
+    }
+    private fun fetchPhoto() {
+        Log.i("Places", "trying to fetch photo!")
+        // Get the photo metadata.
+        // val metada = currentPlace?.photoMetadatas
+        val metada = this.place.value?.photoMetadatas
+        if (metada == null || metada.isEmpty()) {
+            Log.i("Places", "No photo metadata.")
+        }
+        val photoMetadata = metada?.first()
+        // Get the attribution text.
+        val attributions = photoMetadata?.attributions
+        // Create a FetchPhotoRequest.
+        val photoRequest = photoMetadata?.let {
+            FetchPhotoRequest.builder(it)
+                .setMaxHeight(750) // Optional.
+                .build()
+        }
+        if (photoRequest != null) {
+            placesClient.fetchPhoto(photoRequest)
+                .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                    val bitmap = fetchPhotoResponse.bitmap
+                    Log.i("Places", "fetching photo success!")
+                    // TODO test!
+                    // this.testBitmap = bitmap
+                    this.photoBitmap.setValue(bitmap)
+                    // this.photoBitmapp.postValue(bitmap)
+                    photoLoading.postValue(false)
+                }.addOnFailureListener { exception: Exception ->
+                    if (exception is ApiException) {
+                        photoLoading.postValue(false)
+                        Log.e(ContentValues.TAG, "Place not found: ${exception.message}")
+                        Log.i("Places", "fetching photo failed")
+                        val statusCode = exception.statusCode
+                        error.postValue(exception.message)
+                    }
+                }
+        }
+    }
 
     //  ----------------------------------- customized list ---------------------------------------
     private val _customizedPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
@@ -177,75 +246,6 @@ class UserHomeViewModel(
     // fetch place by id
     val error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
-    }
-    val placeFields = listOf(
-        Place.Field.ID,
-        Place.Field.NAME,
-        Place.Field.ADDRESS,
-        Place.Field.LAT_LNG,
-        Place.Field.BUSINESS_STATUS,
-        Place.Field.OPENING_HOURS,
-        Place.Field.PHONE_NUMBER,
-        Place.Field.PHOTO_METADATAS,
-        Place.Field.PRICE_LEVEL,
-        Place.Field.RATING,
-        Place.Field.TYPES,
-        Place.Field.USER_RATINGS_TOTAL,
-    )
-    fun getPlaceById(id: String) {
-        request = id.let { FetchPlaceRequest.newInstance(it, placeFields) }
-        Log.i("Places", "trying to fetch place by id.... with id:{$id}")
-        placesClient.fetchPlace(request)
-            .addOnSuccessListener { response: FetchPlaceResponse ->
-                Log.i("Places", "fetch place data success!")
-                val place = response.place
-                this.place.setValue(place)
-                this.fetchPhoto()
-            }.addOnFailureListener { exception: Exception ->
-                if (exception is ApiException) {
-                    Log.e(ContentValues.TAG, "Place not found: ${exception.message}")
-                    // val statusCode = exception.statusCode
-                    error.postValue(exception.message)
-                }
-            }
-    }
-    private fun fetchPhoto() {
-        Log.i("Places", "trying to fetch photo!")
-        // Get the photo metadata.
-        // val metada = currentPlace?.photoMetadatas
-        val metada = this.place.value?.photoMetadatas
-        if (metada == null || metada.isEmpty()) {
-            Log.i("Places", "No photo metadata.")
-        }
-        val photoMetadata = metada?.first()
-        // Get the attribution text.
-        val attributions = photoMetadata?.attributions
-        // Create a FetchPhotoRequest.
-        val photoRequest = photoMetadata?.let {
-            FetchPhotoRequest.builder(it)
-                .setMaxHeight(750) // Optional.
-                .build()
-        }
-        if (photoRequest != null) {
-            placesClient.fetchPhoto(photoRequest)
-                .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
-                    val bitmap = fetchPhotoResponse.bitmap
-                    Log.i("Places", "fetching photo success!")
-                    // TODO test!
-                    // this.testBitmap = bitmap
-                    this.photoBitmap.setValue(bitmap)
-                    // this.photoBitmapp.postValue(bitmap)
-                    photoLoading.postValue(false)
-                }.addOnFailureListener { exception: Exception ->
-                    if (exception is ApiException) {
-                        photoLoading.postValue(false)
-                        Log.e(ContentValues.TAG, "Place not found: ${exception.message}")
-                        Log.i("Places", "fetching photo failed")
-                        val statusCode = exception.statusCode
-                        error.postValue(exception.message)
-                    }
-                }
-        }
     }
     fun getPhoneNumber(): String? {
         return this.place.value?.phoneNumber

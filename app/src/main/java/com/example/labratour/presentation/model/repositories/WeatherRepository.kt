@@ -5,5 +5,5 @@ import com.example.labratour.presentation.utils.Resource
 
 interface WeatherRepository {
 
-    suspend fun getWeather(lat: String, long: String, key: String): Resource<WeatherResponse>
+    suspend fun getWeather(lat: String, long: String, key: String, units: String): Resource<WeatherResponse>
 }

@@ -39,7 +39,7 @@ class WeatherViewModel(
 
         viewModelScope.launch(dispatchers.io) {
             _weather.value = WeatherEvent.Loading
-            when (val weatherResponse = repository.getWeather(lat, long, API_KEY_WEATHER)) {
+            when (val weatherResponse = repository.getWeather(lat, long, API_KEY_WEATHER, "metric")) {
                 is Resource.Error -> {
                     _weather.value = WeatherEvent.Failure(weatherResponse.message!!)
                     Log.i("Places", "WeatherViewModel: error in resource" + weatherResponse.message)
