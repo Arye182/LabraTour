@@ -29,7 +29,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         button_logout.setOnClickListener { logOut() }
         button_delete_saved_places.setOnClickListener { deleteSavedPlaces() }
         this.homeViewModel.likedPlaceModelListLiveData.observe(viewLifecycleOwner, { onLikedPlacesListChanged() })
-        onUserProfileChanged()
+        this.homeViewModel.userModelLiveData.observe(viewLifecycleOwner, { onUserProfileChanged() })
         Log.i("Places", "ProfileFragment onViewCreated")
     }
 

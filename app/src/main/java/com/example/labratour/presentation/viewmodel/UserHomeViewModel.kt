@@ -191,15 +191,14 @@ class UserHomeViewModel(
     }
 
     // ------------------------------------ USER ----------------------------------------------
-    lateinit var userModel: UserModel
-    val userModelLiveData: MutableLiveData<UserModel> by lazy {
+    private val _userModelLiveData: MutableLiveData<UserModel> by lazy {
         MutableLiveData<UserModel>()
     }
+    var userModelLiveData: LiveData<UserModel> = _userModelLiveData
     private suspend fun getUserRoutine() = withContext(Dispatchers.IO) {
         val user = FirebaseAuth.getInstance().currentUser?.uid?.let { userRepository.getUser(it) }
         if (user != null) {
-            userModel = user
-            userModelLiveData.postValue(user)
+            _userModelLiveData.postValue(user)
         }
     }
     fun saveLikedPlace(place_id: String, rank: Int) {
@@ -218,7 +217,7 @@ class UserHomeViewModel(
     fun deleteUserLikedPlaces() {
         viewModelScope.launch(Dispatchers.IO) {
             _likedPlaceModelListLiveData.value?.clear()
-            savedRankedPlacesRepository.deleteAllSavedPlaces(userModel.id)
+            userModelLiveData.value?.let { savedRankedPlacesRepository.deleteAllSavedPlaces(it.id) }
             getLikedPlacesStringList()
         }
     }
