@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class OpeningHours {
+public class OpeningHours1 {
     public void setPeriods(ArrayList<PlaceOpeningHoursPeriod> periods) {
         this.periods = periods;
     }
@@ -13,7 +13,7 @@ public class OpeningHours {
         return periods;
     }
 
-    public OpeningHours(ArrayList<PlaceOpeningHoursPeriod> periods) {
+    public OpeningHours1(ArrayList<PlaceOpeningHoursPeriod> periods) {
         this.periods = periods;
     }
 

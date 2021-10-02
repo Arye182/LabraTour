@@ -1,7 +1,7 @@
 package com.example.labratour.data.net;
 
-import com.example.labratour.data.Entity.MyNearbyPlaces;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
+import com.example.labratour.data.Entity.RootObject;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -12,10 +12,12 @@ public interface MapsGoogleApiService {
       "details/json?place_id=\"Id\"&fields=name%2Crating%2Ctypes&key=\"+API_KEY")
   Call<PoiDetailsEntity> poiDetailes(@Query("Id") String user);
 
-  @GET("nearbysearch/json?location=\"location\"&radius=1000&key=\"+API_KEY")
+  @GET("nearbysearch/json?")
+  Call<RootObject> nearbyPlaces(
+@Query("location") String location,
+  @Query("radius") int radius,
+  @Query("key") String key);
 
-  Call<MyNearbyPlaces> nearbyPlaces(
-  @Query("location") String location);
 
 
 
@@ -25,10 +27,13 @@ public interface MapsGoogleApiService {
    * @param type
    * @return
    */
-  @GET("nearbysearch/json?location=\"{location}\"&radius=1000&type=\"type+\"&key=\"+API_KEY")
-  Call<MyNearbyPlaces> nearbyPlacesByType(@Query("location") String location,
+  @GET("nearbysearch/json?")
+  Call<RootObject> nearbyPlacesByType(
 
 
-    @Query("type") String type);
+                                                              @Query("location") String location,
+                                                      @Query("radius") int radius,
+          @Query("type") String type,
+                                                      @Query("key") String key);
 
 }

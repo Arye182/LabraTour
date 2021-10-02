@@ -1,6 +1,6 @@
 package com.example.labratour.data.repositories;
 
-import com.example.labratour.data.Entity.OpeningHours;
+import com.example.labratour.data.Entity.OpeningHours1;
 import com.example.labratour.data.Entity.PlaceOpeningHoursPeriod;
 import com.example.labratour.data.Entity.PlaceOpeningHoursPeriodDetail;
 import com.example.labratour.data.Entity.PoiDetailsEntity;
@@ -54,7 +54,7 @@ public class PlacesRepositoryImplTest extends TestCase {
                 list.add(new PlaceOpeningHoursPeriod(new PlaceOpeningHoursPeriodDetail(i, "0000")));}
             String[] types =new String[]{"spa"};
 
-            return new PoiDetailsEntity(new OpeningHours(list), "3", 4.0, types, 3);
+            return new PoiDetailsEntity(new OpeningHours1(list), "3", 4.0, types, 3);
 
         }
     }

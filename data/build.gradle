@@ -63,6 +63,8 @@ dependencies {
     implementation "com.squareup.okhttp:okhttp:${okHttpVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${gsonConverterVersion}"
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+
 //    implementation 'com.google.code.gson:gson:latest.version'
     //noinspection GradleCompatible,GradleCompatible
     //implementation 'com.android.support:recyclerview-v5:latest.version'

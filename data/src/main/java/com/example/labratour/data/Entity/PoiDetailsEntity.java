@@ -23,7 +23,7 @@ public class PoiDetailsEntity  implements Serializable{
         private String name;
 
         @SerializedName("opening_hours")
-        private OpeningHours openingHours;
+        private OpeningHours1 openingHours1;
 
         @SerializedName("photos")
         private List<Object> photos = null;
@@ -79,8 +79,8 @@ public class PoiDetailsEntity  implements Serializable{
 
 
 
-    public PoiDetailsEntity( OpeningHours openingHours,  String placeId, Double rating, String[] types, Integer priceLevel) {
-        this.openingHours = openingHours;
+    public PoiDetailsEntity(OpeningHours1 openingHours1, String placeId, Double rating, String[] types, Integer priceLevel) {
+        this.openingHours1 = openingHours1;
         this.placeId = placeId;
         this.rating = rating;
         this.types = types;
@@ -104,15 +104,15 @@ public class PoiDetailsEntity  implements Serializable{
         /**
          * @return The openingHours
          */
-        public OpeningHours getOpeningHours() {
-            return openingHours;
+        public OpeningHours1 getOpeningHours() {
+            return openingHours1;
         }
 
         /**
-         * @param openingHours The opening_hours
+         * @param openingHours1 The opening_hours
          */
-        public void setOpeningHours(OpeningHours openingHours) {
-            this.openingHours = openingHours;
+        public void setOpeningHours(OpeningHours1 openingHours1) {
+            this.openingHours1 = openingHours1;
         }
 //
 //        /**

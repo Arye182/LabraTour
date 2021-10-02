@@ -20,7 +20,7 @@ public class RestApi {
 
   private final Retrofit retrofit;
   protected MapsGoogleApiService service;
-  // private static final String API_KEY ="AIzaSyDjOvu7E3j3ddZAUG0PBFE6tmfHEaR3kZc" ;
+   protected static final String API_KEY ="AIzaSyDjOvu7E3j3ddZAUG0PBFE6tmfHEaR3kZc" ;
   protected Context context;
 
     public Context getContext() {

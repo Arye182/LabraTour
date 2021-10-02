@@ -1,8 +1,9 @@
 package com.example.labratour.data.net;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.example.labratour.data.Entity.MyNearbyPlaces;
+import com.example.labratour.data.Entity.RootObject;
 
 import retrofit2.Call;
 
@@ -12,8 +13,9 @@ public class NearbyPlacesAllTypes extends NearbyPlaces<NearbyPlacesAllTypes.Para
     }
 
 
-  public Call<MyNearbyPlaces> getNearbyPlaces(Param requestInput) {
-    return service.nearbyPlaces(requestInput.lat + "%2C" + requestInput.lon);
+  public Call<RootObject> getNearbyPlaces(Param requestInput) {
+        Log.i("testNearbyUseCase", "lat:"+requestInput.lat+ "lon:" + requestInput.lon);
+    return service.nearbyPlaces(requestInput.lat+","+requestInput.lon, 2000, API_KEY);
   }
 
 

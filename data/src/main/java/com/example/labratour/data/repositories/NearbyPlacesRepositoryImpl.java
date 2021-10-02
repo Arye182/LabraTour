@@ -1,6 +1,8 @@
 package com.example.labratour.data.repositories;
 
-import com.example.labratour.data.Entity.MyNearbyPlaces;
+import android.util.Log;
+
+import com.example.labratour.data.Entity.RootObject;
 import com.example.labratour.data.Entity.mapper.NearbyPlacesDataMapper;
 import com.example.labratour.data.net.NearbyPlaces;
 import com.example.labratour.data.net.NearbyPlacesAllTypes;
@@ -28,13 +30,16 @@ private    NearbyPlacesDataMapper nearbyPlacesDataMapper;
 
     @Override
     public Observable<ArrayList<String>> get(String lat, String lon, String type) {
-         return nearbyPlacesByType
+      Log.i("testNearbyTypeUseCase", "lat:"+lat+ "lon:" + lon+ type);
+
+      return nearbyPlacesByType
+
                 .getResult(new NearbyPlacesByType.Param(lat, lon, type))
                 .map(
-                        new Function<MyNearbyPlaces, ArrayList<String>>() {
+                        new Function<RootObject, ArrayList<String>>() {
 
                             @Override
-                            public ArrayList<String> apply(@NotNull MyNearbyPlaces myNearbyPlaces) throws Exception {
+                            public ArrayList<String> apply(@NotNull RootObject myNearbyPlaces) throws Exception {
                                 return NearbyPlacesDataMapper.transform(myNearbyPlaces);
                             }
                         });
@@ -45,9 +50,9 @@ private    NearbyPlacesDataMapper nearbyPlacesDataMapper;
         return nearbyPlacesAllTypes
                 .getResult(new NearbyPlacesAllTypes.Param(lat, lon))
                 .map(
-                        new Function<MyNearbyPlaces, ArrayList<String>>() {
+                        new Function<RootObject, ArrayList<String>>() {
                             @Override
-                            public ArrayList<String> apply(MyNearbyPlaces myNearbyPlaces) throws Exception {
+                            public ArrayList<String> apply(RootObject myNearbyPlaces) throws Exception {
                                 return NearbyPlacesDataMapper.transform(myNearbyPlaces);
                             }});}
 

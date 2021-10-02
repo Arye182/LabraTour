@@ -1,6 +1,6 @@
 package com.example.labratour.data.Entity.mapper;
 
-import com.example.labratour.data.Entity.MyNearbyPlaces;
+import com.example.labratour.data.Entity.RootObject;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public  class NearbyPlacesDataMapper {
 
 
 
-    public static ArrayList<String> transform(MyNearbyPlaces myNearbyPlaces){
+    public static ArrayList<String> transform(RootObject myNearbyPlaces){
         ArrayList<String> ids = new ArrayList<>();
         for (int i = 0; i < myNearbyPlaces.getResults().length; i++) {
             ids.add(myNearbyPlaces.getResults()[i].getPlaceId());
