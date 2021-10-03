@@ -128,14 +128,17 @@ class UserHomeViewModel(
         MutableLiveData<ArrayList<PlaceModel>>()
     }
     var customizedPlaceModelListLiveData: LiveData<ArrayList<PlaceModel>> = _customizedPlaceModelListLiveData
-    private suspend fun customizedPlacesListCoRoutine() {
-        val list = ArrayList<String>()
-        for (i in 0 until 10) {
-            val id = "ChIJcURkgp492jERS4A65dNZuts"
-            list.add(id)
+    fun customizedPlacesListCoRoutine() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _customizedPlaceModelListLiveData.postValue(null)
+            val list = ArrayList<String>()
+            for (i in 0 until 10) {
+                val id = "ChIJcURkgp492jERS4A65dNZuts"
+                list.add(id)
+            }
+            Log.i("Places", "size of nearby ids list:" + list.size)
+            _customizedPlaceModelListLiveData.postValue(idsToPlaceModelCoRoutine(list))
         }
-        Log.i("Places", "size of nearby ids list:" + list.size)
-        this._customizedPlaceModelListLiveData.postValue(idsToPlaceModelCoRoutine(list))
     }
 
     //  ----------------------------------- nearby list -------------------------------------------
@@ -163,6 +166,7 @@ class UserHomeViewModel(
     fun nearbyPlacesCoRoutine(lat: String, long: String) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.i("Places", "Co-Routine - Starting To Update Near By Places List")
+            _nearByPlaceModelListLiveData.postValue(null)
             getNearbyPlacesUseCase.execute(NearbyPlacesObserver(), lat, long)
         }
     }
@@ -337,7 +341,7 @@ class UserHomeViewModel(
                     }
             }
         }
-        Log.i("Places", "iD's To Places Routine : size of list:" + temp_list.size)
+        Log.i("Places", "iD's To Places Routine : size of list:" + temp_list_temp.size)
         return temp_list_temp
     }
     suspend fun nearbyPlaceEntityToPlaceModelCoRoutine(entities: NearbyPlaceEntity): ArrayList<PlaceModel> {
@@ -357,7 +361,7 @@ class UserHomeViewModel(
                         // Get the photo metadata.
                         val metada = googlePlace.photoMetadatas
                         if (metada == null || metada.isEmpty()) {
-                            Log.i("Places", "iD's To Places Routine : No photo metadata.")
+                            Log.i("Places", "nearbyPlaceEntityToPlaceModelCoRoutine : No photo metadata.")
                         }
                         val photoMetadata = metada?.first()
                         // Create a FetchPhotoRequest.
@@ -382,30 +386,31 @@ class UserHomeViewModel(
                                             ContentValues.TAG,
                                             "Place not found: ${exception.message}"
                                         )
-                                        Log.i("Places", "iD's To Places Routine : fetching photo failed")
+                                        //Log.i("Places", "nearbyPlaceEntityToPlaceModelCoRoutine : fetching photo failed")
                                         error.postValue(exception.message)
                                     }
                                 }
                         } else {
-                            Log.i("Places", "iD's To Places Routine : fetching photo failed")
+                            //Log.i("Places", "nearbyPlaceEntityToPlaceModelCoRoutine : fetching photo failed")
                             val w: Int = 150
                             val h: Int = 150
                             val conf = Bitmap.Config.ARGB_8888 // see other conf types
                             val bmp =
                                 Bitmap.createBitmap(w, h, conf) // this creates a MUTABLE bitmap
                             bitmap = bmp
+                            temp_list_temp.add(PlaceModel(api_place.placeId, googlePlace, false, 0, bitmap))
                             continuation.resume(Unit)
                         }
                     }.addOnFailureListener { exception: Exception ->
                         if (exception is ApiException) {
-                            Log.e(ContentValues.TAG, "iD's To Places Routine : Place not found: ${exception.message}")
+                            Log.e(ContentValues.TAG, "nearbyPlaceEntityToPlaceModelCoRoutine : Place not found: ${exception.message}")
                             // val statusCode = exception.statusCode
                             error.postValue(exception.message)
                         }
                     }
             }
         }
-        Log.i("Places", "iD's To Places Routine : size of list:" + temp_list.size)
+        Log.i("Places", "nearbyPlaceEntityToPlaceModelCoRoutine : size of list:" + temp_list_temp.size)
         return temp_list_temp
     }
 
@@ -425,9 +430,6 @@ class UserHomeViewModel(
         }
         viewModelScope.launch(Dispatchers.IO) {
             getLikedPlacesStringList()
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            customizedPlacesListCoRoutine()
         }
     }
 }

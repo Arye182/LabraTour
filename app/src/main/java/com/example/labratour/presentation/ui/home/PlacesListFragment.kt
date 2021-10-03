@@ -15,16 +15,12 @@ import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_places_full_list.*
 
-
-
 class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlaceCardRecyclerAdapter.OnItemClickListener {
     private lateinit var frag_view: View
     private lateinit var category: String
     private var categoryPlacesLoaded: Boolean = false
     private lateinit var homeViewModel: UserHomeViewModel
     private lateinit var locationViewModel: LocationViewModel
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +42,7 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
         }
         this.frag_view = view
         // view models observation
-        if (!categoryPlacesLoaded) {
-            category_places_list_recycler_view.visibility = View.GONE
-            category_places_list_progress_bar.visibility = View.VISIBLE
-        }
+        this.homeViewModel.categoryPlacesListLiveData.observe(viewLifecycleOwner, {onCategoryPlacesListChanged(frag_view)})
     }
 
     override fun onStart() {
@@ -76,6 +69,11 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
                 )
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        this.homeViewModel.categoryPlacesListLiveData.value?.clear()
     }
 
     fun loadLikedPlacesList() {
@@ -114,16 +112,16 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
         }
     }
 
-    fun onCategoryPlacesListChanged(fragView: View) {
+    private fun onCategoryPlacesListChanged(fragView: View) {
         if (this.homeViewModel.categoryPlacesListLiveData.value?.size!! > 0) {
             category_places_list_recycler_view.adapter =
                 BigPlaceCardRecyclerAdapter(this.homeViewModel.categoryPlacesListLiveData.value!!, this, CATEGORY_LIST_CODE)
+            category_places_list_recycler_view.layoutManager =
+                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.VERTICAL, false)
+            category_places_list_recycler_view.setHasFixedSize(true)
+            category_places_list_progress_bar.visibility = View.GONE
+            category_places_list_recycler_view.visibility = View.VISIBLE
         }
-        category_places_list_recycler_view.layoutManager =
-            LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.VERTICAL, false)
-        category_places_list_recycler_view.setHasFixedSize(true)
-        category_places_list_progress_bar.visibility = View.GONE
-        category_places_list_recycler_view.visibility = View.VISIBLE
     }
 
     override fun onItemClick(position: Int, code: Int) {
@@ -140,6 +138,10 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
             }
             LIKED_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
+                id = clickedPlaceItem.id
+            }
+            CATEGORY_LIST_CODE -> {
+                clickedPlaceItem = homeViewModel.categoryPlacesListLiveData.value?.get(position)!!
                 id = clickedPlaceItem.id
             }
         }

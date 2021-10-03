@@ -78,6 +78,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.nearByPlaceModelListLiveData.observe(viewLifecycleOwner, { onNearByPlacesListChanged(frag_view) })
         this.homeViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(frag_view) })
         this.locationViewModel.getLocationData().observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
+        onWeatherForecastChanged()
 
         // set on listeners
         customized_places_button.setOnClickListener { onCustomizedPlacesClicked() }
@@ -90,19 +91,18 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         // invoke location routines (fetch location, weather, nearby, recommended...)
         checkGps()
         invokeLocationAction()
-        onWeatherForecastChanged()
     }
 
     override fun onResume() {
         super.onResume()
         invokeLocationAction()
+
     }
 
     // ----------------------------------- On Click Listeners--------------------------------------
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
-            // this.homeViewModel.initializeViewModel()
             checkGps()
             this.invokeLocationAction()
             pullToRefresh.isRefreshing = false
@@ -126,24 +126,31 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     private fun onNearByPlacesListChanged(view: View) {
-        if (this.homeViewModel.nearByPlaceModelListLiveData.value?.size!! > 0) {
-            places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelListLiveData.value!!, this, NEARBY_LIST_CODE)
-            places_close_to_you_recycler_view.layoutManager =
-                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-            places_close_to_you_recycler_view.setHasFixedSize(true)
-            nearby_places_list_progress_bar.visibility = View.GONE
-            places_close_to_you_recycler_view.visibility = View.VISIBLE
+        if (this.homeViewModel.nearByPlaceModelListLiveData.value != null) {
+            if (this.homeViewModel.nearByPlaceModelListLiveData.value?.size!! > 0) {
+                places_close_to_you_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.nearByPlaceModelListLiveData.value!!, this, NEARBY_LIST_CODE)
+                places_close_to_you_recycler_view.layoutManager =
+                    LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+                places_close_to_you_recycler_view.setHasFixedSize(true)
+                nearby_places_list_progress_bar.visibility = View.GONE
+                places_close_to_you_recycler_view.visibility = View.VISIBLE
+            }
+        } else {
+            nearby_places_list_progress_bar.visibility = View.VISIBLE
+            places_close_to_you_recycler_view.visibility = View.GONE
         }
     }
 
     private fun onCustomPlacesListChanged() {
-        if (this.homeViewModel.customizedPlaceModelListLiveData.value?.size!! > 0) {
-            customed_places_list_progress_bar.visibility = View.GONE
-            customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelListLiveData.value!!, this, CUSTOMIZED_LIST_CODE)
-            customed_places_recycler_view.layoutManager =
-                LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
-            customed_places_recycler_view.setHasFixedSize(true)
-            customed_places_recycler_view.visibility = View.VISIBLE
+        if (this.homeViewModel.customizedPlaceModelListLiveData.value != null) {
+            if (this.homeViewModel.customizedPlaceModelListLiveData.value?.size!! > 0) {
+                customed_places_list_progress_bar.visibility = View.GONE
+                customed_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.customizedPlaceModelListLiveData.value!!, this, CUSTOMIZED_LIST_CODE)
+                customed_places_recycler_view.layoutManager =
+                    LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+                customed_places_recycler_view.setHasFixedSize(true)
+                customed_places_recycler_view.visibility = View.VISIBLE
+            }
         } else {
             customed_places_list_progress_bar.visibility = View.VISIBLE
             customed_places_recycler_view.visibility = View.GONE
@@ -255,17 +262,37 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         val long = this.locationViewModel.getLocationData().value?.longitude
 
         if (lat != null && long != null) {
+            // update prev first time
+            if (!this.locationViewModel.started) {
+                this.locationViewModel.prevLat = lat
+                this.locationViewModel.prevLong = long
+                this.locationViewModel.started = true
+                updateUI()
+            }
+            // update coordinates
             location_card.location_ltlng_txt.text = getString(
                 R.string.latLong,
                 locationViewModel.getLocationData().value?.latitude,
                 locationViewModel.getLocationData().value?.longitude
             )
             // SINCE THE LAT LONG IS GOOD WE CAN FORECAST THINGS !!!
-            this.homeViewModel.nearbyPlacesCoRoutine(lat.toString(), long.toString())
-            this.weatherViewModel.forecast(lat.toString(), long.toString())
+            // check if current location against prev location
+            if (distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat) > 0.5) {
+                updateUI()
+            }
+            updateCityCountry()
         } else {
             location_card.location_ltlng_txt.text = "GPS unavailable!"
         }
+    }
+
+    private fun updateUI() {
+        val lat = this.locationViewModel.getLocationData().value?.latitude
+        val long = this.locationViewModel.getLocationData().value?.longitude
+        // updates
+        this.homeViewModel.nearbyPlacesCoRoutine(lat.toString(), long.toString())
+        this.homeViewModel.customizedPlacesListCoRoutine()
+        this.weatherViewModel.forecast(lat.toString(), long.toString())
         updateCityCountry()
     }
 
@@ -375,5 +402,23 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                 Log.i("Places", "LOCATION PERMISSION GRANTED")
             }
         }
+    }
+
+    fun distanceInKm(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val theta = lon1 - lon2
+        var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist = dist * 60 * 1.1515
+        dist = dist * 1.609344
+        return dist
+    }
+
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
     }
 }
