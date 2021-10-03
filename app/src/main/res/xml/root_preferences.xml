@@ -1,0 +1,56 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="Pull To Refresh Home Screen"
+        app:icon="@drawable/ic_baseline_refresh_24">
+
+        <SwitchPreferenceCompat
+            app:key="refresh_disabled"
+            app:summaryOff="You can always pull to refresh on home screen to refresh places lists and data"
+            app:summaryOn="You will not be able to refresh home screen , the app will refresh itself when indicates distance difference"
+            app:title="Location Limit On Refresh" />
+
+        <SeekBarPreference app:key="distance"
+            app:title="Distance Difference"
+            app:summary="This is the distance difference in Meters"
+            app:showSeekBarValue="true"
+            app:defaultValue="300"
+            app:min="0"
+            android:max="1000">
+
+        </SeekBarPreference>
+
+
+    </PreferenceCategory>
+
+
+
+
+    <PreferenceCategory
+        app:title="About"
+        app:icon="@drawable/ic_baseline_info_24">
+
+        <Preference
+            app:key="version"
+            app:title="Version"
+            app:summary="1.0">
+        </Preference>
+
+        <Preference
+            app:key="about"
+            app:title="About The App"
+            app:summary="Read Me File">
+        </Preference>
+
+        <Preference
+            app:key="party"
+            app:title="3-Party"
+            app:summary="Libraries Used In The Project">
+        </Preference>
+
+    </PreferenceCategory>
+
+
+
+
+</PreferenceScreen>

@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -15,6 +16,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.labratour.R
@@ -56,6 +58,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private lateinit var pullToRefresh: SwipeRefreshLayout
     // view
     private lateinit var frag_view: View
+    //
+    private lateinit var sp: SharedPreferences
+
 
     // --------------------------------- fragment functions ---------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,6 +69,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         this.weatherViewModel = (activity as HomeActivity?)?.weatherViewModel!!
+        sp = PreferenceManager.getDefaultSharedPreferences((context))
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,8 +110,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
-            checkGps()
-            this.invokeLocationAction()
+            val distance_disabled = sp.getBoolean("refresh_disabled", true)
+            if (!distance_disabled) {
+                checkGps()
+                this.invokeLocationAction()
+            }
             pullToRefresh.isRefreshing = false
         }
     }
@@ -277,7 +287,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             )
             // SINCE THE LAT LONG IS GOOD WE CAN FORECAST THINGS !!!
             // check if current location against prev location
-            if (distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat) > 0.5) {
+            val distance = sp.getInt("distance", 300)
+
+            if (distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat) > distance) {
+                this.locationViewModel.started = false
                 updateUI()
             }
             updateCityCountry()
