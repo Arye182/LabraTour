@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.labratour.R
@@ -14,7 +13,8 @@ import kotlinx.android.synthetic.main.place_card_small.view.*
 
 class BigPlaceCardRecyclerAdapter(
     private val placesList: List<PlaceModel>,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener,
+    private val code: Int
 ) : RecyclerView.Adapter<BigPlaceCardRecyclerAdapter.BigPlaceViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BigPlaceViewHolder {
@@ -52,7 +52,6 @@ class BigPlaceCardRecyclerAdapter(
         val nameTextView: TextView = itemView.place_small_card_name
         val openClosedTextView: TextView = itemView.place_small_card_opened_closed
 
-
         init {
             itemView.setOnClickListener(this)
         }
@@ -60,13 +59,12 @@ class BigPlaceCardRecyclerAdapter(
         override fun onClick(v: View?) {
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(position)
+                listener.onItemClick(position, code)
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int, code: Int)
     }
-
 }

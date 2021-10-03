@@ -98,6 +98,9 @@
             android:name="sub_category"
             app:argType="string"
             android:defaultValue="liked_places"/>
+        <action
+            android:id="@+id/action_placesListFragment_to_placeResultFragment"
+            app:destination="@id/placeResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"

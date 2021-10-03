@@ -11,6 +11,7 @@ import com.example.labratour.domain.Entity.NearbyPlaceEntity
 import com.example.labratour.domain.Results
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesAllTypesUseCase
+import com.example.labratour.domain.useCases.GetNearbyPlacesByTypeUseCase
 import com.example.labratour.domain.useCases.UpdateUserProfileByRateUseCase
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.model.data.SavedRankedPlaceModel
@@ -30,6 +31,7 @@ class UserHomeViewModel(
     private val placesClient: PlacesClient,
     private val updateUseProfileByRateUseCase: UpdateUserProfileByRateUseCase,
     private val getNearbyPlacesUseCase: GetNearbyPlacesAllTypesUseCase,
+    private val getNearbyPlacesByTypeUseCase: GetNearbyPlacesByTypeUseCase,
     private val userRepository: UserRepository,
     private val placeCacheRepository: PlacesRepository,
     private val savedRankedPlacesRepository: SavedRankedPlacesRepository
@@ -170,10 +172,27 @@ class UserHomeViewModel(
         MutableLiveData<ArrayList<PlaceModel>>()
     }
     var categoryPlacesListLiveData: LiveData<ArrayList<PlaceModel>> = _categoryPlacesListLiveData
-    fun updateCategoryList(category: String, lat: String, long: String) {
+    private inner class NearbyPlacesByTypeObserver : DefaultObserver<NearbyPlaceEntity>() {
+        override fun onComplete() {
+            Log.i("Places", "NearbyPlacesByTypeObserver  - On Complete...")
+        }
+        override fun onError(exception: Throwable) {
+            Log.i("Places", "NearbyPlacesByTypeObserver  - On Error: " + exception.message)
+            error.postValue("NearbyPlacesByTypeObserver  - On Error: " + exception.message)
+        }
+        override fun onNext(value: NearbyPlaceEntity) {
+            Log.i("Places", "NearbyPlacesByTypeObserver - On Next...")
+            Log.i("Places", "NearbyPlacesByTypeObserver - On Next... Value Size = ${value.results.size}")
+            Log.i("Places", "NearbyPlacesByTypeObserver - On Next... list = $value")
+            viewModelScope.launch {
+                _categoryPlacesListLiveData.postValue(nearbyPlaceEntityToPlaceModelCoRoutine(value))
+            }
+        }
+    }
+    fun categoryPlacesCoRoutine(category: String, lat: String, long: String) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.i("Places", "Co-Routine - Starting To Update Category Places List")
-//            getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
+            getNearbyPlacesByTypeUseCase.execute(NearbyPlacesByTypeObserver(), lat, long, category)
         }
     }
 

@@ -43,6 +43,7 @@ const val GPS_REQUEST = 101
 const val NEARBY_LIST_CODE = 15
 const val LIKED_LIST_CODE = 16
 const val CUSTOMIZED_LIST_CODE = 17
+const val CATEGORY_LIST_CODE = 18
 
 class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
     // viewmodels
