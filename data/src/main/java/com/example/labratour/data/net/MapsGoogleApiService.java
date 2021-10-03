@@ -10,8 +10,8 @@ import retrofit2.http.Query;
 public interface MapsGoogleApiService {
   @GET(
           "https://maps.googleapis.com/maps/api/place/details/json?")
-  Call<PoiDetailsEntity> poiDetailes(@Query("Id") String user,
-  @Query("fielsd") String fields,
+  Call<PoiDetailsEntity> poiDetailes(@Query("Id") String poiId,
+  @Query("fields") String fields,
   @Query("key") String Key);
 
 

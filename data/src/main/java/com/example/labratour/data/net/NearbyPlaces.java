@@ -34,10 +34,8 @@ public abstract class NearbyPlaces<Param> extends RestApi {
                             @Override
                             public void onResponse(@NotNull Call<NearbyPlaceEntity> call, Response<NearbyPlaceEntity> response) {
                                 if(response.isSuccessful()){
-                                    Log.i("type", "response:"+ response.body().toString()+"request: "+ call.request().toString());
                                     emitter.onNext(response.body());
                                 }else {
-                                    Log.i("type", "response:"+ response.errorBody().toString()+"request: "+ call.request().toString());
 
                                     emitter.onError(new Throwable(String.valueOf(response.code())));
                                 }

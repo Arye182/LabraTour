@@ -3,11 +3,7 @@ package com.example.labratour.data.repositories;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
-import com.example.labratour.data.Entity.mapper.UserDataMapper;
-import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.PoiDetailesDomain;
-import com.example.labratour.domain.UserAtributes;
 import com.example.labratour.domain.repositories.PlacesRepository;
 import com.example.labratour.domain.repositories.RatingsRepository;
 
@@ -138,35 +134,36 @@ public class RatingsRepositoryImpl implements RatingsRepository {
 
 
 
-    public UserAtributes calculateNewAtributesForUser (Atributes poiAtributes, UserAtributes userAtributes, int userRatesCount, int rate)
-    {
-        Log.e("UpdateUseCase","inside calculateNewAtributesForUser called from zip bifunction run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+//    public UserAtributes calculateNewAtributesForUser (Atributes poiAtributes, UserAtributes userAtributes, int userRatesCount, int rate)
+//    {
+//        Log.e("UpdateUseCase","inside calculateNewAtributesForUser called from zip bifunction run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
+//
+//        HashMap<String,Object> resultAtributes = new HashMap<>();
+//        HashMap<String, Object> userAtributesMap = UserDataMapper.transform(userAtributes);
+//        HashMap<String, Object> poiAtributesMap = PlaceDetailesDataMapper.transform(poiAtributes);
 
-        HashMap<String,Object> resultAtributes = new HashMap<>();
-        HashMap<String, Object> userAtributesMap = UserDataMapper.transform(userAtributes);
-        HashMap<String, Object> poiAtributesMap = PlaceDetailesDataMapper.transform(poiAtributes);
-
-        for (String key : poiAtributesMap.keySet()) {
-      double poiValue = 0;
-      double userValue = 0;
-      double resultValue = 0;
-
-      if (poiAtributesMap.get(key).getClass().isPrimitive()&&userAtributesMap.get(key).getClass().isPrimitive()) {
-        poiValue = ((double) poiAtributesMap.get(key));
-        userValue = ((double) userAtributesMap.get(key));
-        resultValue = ((poiValue * rate / 5) + (userValue * userRatesCount)) / (userRatesCount + 1);
-        resultAtributes.put(key, resultValue);
-      }
-    }
-        UserAtributes userAtributes1 = UserDataMapper.transform(resultAtributes);
-        userAtributes1.setRatesCounter(userRatesCount+1);
-        return userAtributes1;
-
-
-
-
-
-    }
+//        for (String key : poiAtributesMap.keySet()) {
+//      double poiValue = 0;
+//      double userValue = 0;
+//      double resultValue = 0;
+//
+//      if (poiAtributesMap.get(key).getClass().isPrimitive()&&userAtributesMap.get(key).getClass().isPrimitive()) {
+//
+//        poiValue = ((double) poiAtributesMap.get(key));
+//        userValue = ((double) userAtributesMap.get(key));
+//        resultValue = ((poiValue * rate / 5) + (userValue * userRatesCount)) / (userRatesCount + 1);
+//        resultAtributes.put(key, resultValue);
+//      }
+//    }
+//        UserAtributes userAtributes1 = UserDataMapper.transform(resultAtributes);
+//        userAtributes1.setRatesCounter(userRatesCount+1);
+//        return userAtributes1;
+//
+//
+//
+//
+//
+//    }
 
   public HashMap<String, Double> calculateNewAtributesForUser2 (HashMap<String, Object> poiAtributes, HashMap<String, Double> userAtributes, double userRatesCount, int rate)
   {
@@ -181,10 +178,11 @@ public class RatingsRepositoryImpl implements RatingsRepository {
       double resultValue = 0;
 
     //  if ((Objects.requireNonNull(poiAtributes.get(key)).getClass().isPrimitive())&&(userAtributes.get(key).getClass().isPrimitive())) {
-        if(poiAtributes.get(key).equals(true)){ poiValue = 1;}
+        if(poiAtributes.get(key).equals(true)){ poiValue = 1;}else{continue;}
+        if(userAtributes.containsKey(key)){
         userValue = ((double) userAtributes.get(key));
         resultValue = ((poiValue * rate / 5) + (userValue * userRatesCount)) / (userRatesCount + 1);
-        resultAtributes.put(key, resultValue);
+        resultAtributes.put(key, resultValue);}
       }
 
     //UserAtributes userAtributes1 = UserDataMapper.transform(resultAtributes);
