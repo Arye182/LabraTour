@@ -223,15 +223,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         when (code) {
             NEARBY_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
             CUSTOMIZED_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.customizedPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
             LIKED_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
         }
         // move to fragment of result of place!

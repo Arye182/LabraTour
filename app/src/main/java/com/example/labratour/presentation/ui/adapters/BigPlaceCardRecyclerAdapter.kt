@@ -24,9 +24,9 @@ class BigPlaceCardRecyclerAdapter(
     override fun onBindViewHolder(holder: BigPlaceViewHolder, position: Int) {
         val currntItem = placesList[position]
         holder.imageView.setImageBitmap(currntItem.bitmap)
-        holder.nameTextView.text = currntItem.googlePlace.name.toString()
-        holder.adreesTextView.text = currntItem.googlePlace.address.toString()
-        holder.typeTextView.text = (currntItem.googlePlace.types?.get(0)).toString()
+        holder.nameTextView.text = currntItem.googlePlaceSdk.name.toString()
+        holder.adreesTextView.text = currntItem.googlePlaceSdk.address.toString()
+        holder.typeTextView.text = (currntItem.googlePlaceSdk.types?.get(0)).toString()
     }
 
     override fun getItemCount() = placesList.size

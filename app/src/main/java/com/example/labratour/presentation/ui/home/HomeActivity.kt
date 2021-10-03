@@ -56,7 +56,7 @@ class HomeActivity : BaseActivity() {
         val currencyViewModelFactory = appContainer.currencyContainer.currencyViewModelFactory
         currencyViewModel = ViewModelProvider(this, currencyViewModelFactory).get(CurrencyViewModel::class.java)
 
-        //weather viewmodel
+        // weather viewmodel
         val weatherViewModelFactory = appContainer.weatherContainer.weatherViewModelFactory
         weatherViewModel = ViewModelProvider(this, weatherViewModelFactory).get(WeatherViewModel::class.java)
 

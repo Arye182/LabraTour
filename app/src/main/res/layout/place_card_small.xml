@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView
     android:id="@+id/place_small_card"
     android:layout_width="200dp"
-    android:layout_height="260dp"
+    android:layout_height="290dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardBackgroundColor="@color/card"
@@ -53,6 +53,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="address"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"/>
+            <TextView
+                android:id="@+id/place_small_card_opened_closed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="opened closed"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"/>
 
