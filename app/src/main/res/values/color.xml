@@ -43,5 +43,6 @@
 
     <color name="error">#D30606</color>
     <color name="success">#077318</color>
+    <color name="opened">#0DEC30</color>
 
 </resources>
