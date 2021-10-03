@@ -247,8 +247,16 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     // user click call and forward to phone on android
     private fun onClickCall() {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homeViewModel.getPhoneNumber(), null))
-        startActivity(intent)
+        if (homeViewModel.getPhoneNumber() != null) {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homeViewModel.getPhoneNumber(), null))
+            startActivity(intent)
+        } else {
+            view?.let {
+                Snackbar.make(it, "Phone Number Not Available", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
+            }
+        }
+
     }
 
     // what happens when user click on url button
