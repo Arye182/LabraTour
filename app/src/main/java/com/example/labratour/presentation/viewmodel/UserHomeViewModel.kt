@@ -251,7 +251,7 @@ class UserHomeViewModel(
     }
     private inner class RankPlaceObserver : DefaultObserver<String>() {
         override fun onComplete() {
-            Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Complete...")
+            Log.i("Places", "RankPlace Observer - On Complete...")
         }
         override fun onError(exception: Throwable) {
             Log.i("Places", "RankPlace Observer - On Error: " + exception.message)

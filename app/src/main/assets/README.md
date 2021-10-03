@@ -45,16 +45,16 @@ we believe in clean code.
 
 ### Presentation Module:
 - Module - App
-- Programming Language - Kotlin
-- Kotlin Documantation
-- Coding Style For Kotlin - KTLINT
+- Programming Language - Kotlin + XML
+- Kotlin Documentation
 - Material Design - for much more responsive and better ui/ux
 - 2 main activities - Login and Home - the rest is managed in fragments
 - Navigation Component of Android X jetpack
 - ViewModel, Shared View Model
-- LiveData, MutubaleLiveData
+- LiveData, MutableLiveData
 - StateFlow
-- 
+- Responsive UI with gestures (focus, clicks, navigation, colors, awareness)
+- Observers (lots of)
 
 ### Domain Module:
 - Module - Domain
@@ -69,16 +69,14 @@ we believe in clean code.
 - SQLITE ROOM (Local DB)
 - API's
 - Entities and Data Classes
-- 
 
 ## APIS:
-- [GOOGLE PLACES](https://developers.google.com/maps/documentation/places/web-service/overview)
+- [Google Places Api + SDK](https://developers.google.com/maps/documentation/places/web-service/overview)
 - [Open Weather Map](https://openweathermap.org/api)
 - [Currency Converter](https://api.exchangeratesapi.io/v1/)
 
-
 ## UnitTests (Unit-Tests):
-
+- Miri
 
 ## System Requiremnets
 - Android API 29 and ABOVE! (RECOMMENDED)

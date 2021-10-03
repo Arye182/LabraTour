@@ -35,24 +35,26 @@ we believe in clean code.
 - dependency injection is made manually
 - Presentation is handling only ui issues. it holds bridges to the layer undernith - the domain but does not
   responsible for the buisness logic that happens in there. it is only responsible for the view change!!!!
-- Domain is - .....
-- Data is - .....
+- Domain is - The domainholds UseCases that allow the VIEW to interact with the data layer and by using the
+  execute function in every use case we can actually activate the repositories methods to fetch data. either from local room db or api requests.
+- Data is responsible of all the entities, repositories, apis, etc. every thing that related to the sources of the data. in this
+  project we used local room db, firebase database, api requests. the data layer is responsible to obtain all those requests in the suitable
+  channels.
 
 <img src="file:///android_asset/img/architecture.JPG" width="400" height="400">
 
-
-
-
 ### Presentation Module:
 - Module - App
-- Programming Language - Kotlin
-- Kotlin Documantation
-- Coding Style For Kotlin - KTLINT
+- Programming Language - Kotlin + XML
+- Kotlin Documentation
 - Material Design - for much more responsive and better ui/ux
 - 2 main activities - Login and Home - the rest is managed in fragments
 - Navigation Component of Android X jetpack
-- ViewModel
-
+- ViewModel, Shared View Model
+- LiveData, MutableLiveData
+- StateFlow
+- Responsive UI with gestures (focus, clicks, navigation, colors, awareness)
+- Observers (lots of)
 
 ### Domain Module:
 - Module - Domain
@@ -63,36 +65,39 @@ we believe in clean code.
 
 ### Data Module:
 - Module - Data
-- Programming Language - Java
+- Programming Language - Java + Kotlin
+- SQLITE ROOM (Local DB)
+- API's
+- Entities and Data Classes
+
+## APIS:
+- [Google Places Api + SDK](https://developers.google.com/maps/documentation/places/web-service/overview)
+- [Open Weather Map](https://openweathermap.org/api)
+- [Currency Converter](https://api.exchangeratesapi.io/v1/)
 
 ## UnitTests (Unit-Tests):
-
+- Miri
 
 ## System Requiremnets
-
+- Android API 29 and ABOVE! (RECOMMENDED)
 
 ## Installation
-
+- ask us for apk
 
 ## Support
 - arye.amsalem@gmail.com
 - miriyungreis@gmail.com
 
-## Roadmap
-none.
-
-## Contributing
-none.
-
 ## Authors and acknowledgment
-- Arye182
-- miriyungreis
+- [Arye182 On Github](https://github.com/Arye182)
+- [miriyungreis On Github](https://github.com/miriyungreis)
 
 ## License
-MIT
+MIT/Apache
 
 ## Project status
-on progress
+version 1 - OnProgress
+the app will be active until 5/10/2021 due to funds issues
 
 ## Git Hub Link
 [Project On Github](https://github.com/Arye182/LabraTour)
