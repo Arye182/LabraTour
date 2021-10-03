@@ -56,6 +56,13 @@
                 android:text="address"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"/>
+            <TextView
+                android:id="@+id/place_small_card_opened_closed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="opened closed"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"/>
 
 
             <!-- buttons? -->

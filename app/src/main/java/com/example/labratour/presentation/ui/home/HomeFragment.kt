@@ -108,12 +108,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         }
     }
 
-    private fun onCustomizedPlacesClicked(){
+    private fun onCustomizedPlacesClicked() {
         val action = HomeFragmentDirections.actionHomeFragmentToPlacesListFragment("Customized")
         findNavController().navigate(action)
     }
 
-    private fun onPlacesNearByClicked(){
+    private fun onPlacesNearByClicked() {
         val action = HomeFragmentDirections.actionHomeFragmentToPlacesListFragment("Nearby")
         findNavController().navigate(action)
     }
@@ -238,8 +238,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
         findNavController().navigate(action)
     }
-
-
 
     // ---------------------------------------- gps -----------------------------------------------
     private fun checkGps() {

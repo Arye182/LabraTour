@@ -1,5 +1,6 @@
 package com.example.labratour.presentation.ui.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,16 @@ class BigPlaceCardRecyclerAdapter(
         holder.nameTextView.text = currntItem.googlePlaceSdk.name.toString()
         holder.adreesTextView.text = currntItem.googlePlaceSdk.address.toString()
         holder.typeTextView.text = (currntItem.googlePlaceSdk.types?.get(0)).toString()
+        if (currntItem.googlePlaceSdk.isOpen == true) {
+            holder.openClosedTextView.text = "Opened"
+            holder.openClosedTextView.setTextColor(Color.GREEN)
+        } else if (currntItem.googlePlaceSdk.isOpen == false) {
+            holder.openClosedTextView.text = "Closed"
+            holder.openClosedTextView.setTextColor(Color.RED)
+        } else {
+            holder.openClosedTextView.text = ""
+            holder.openClosedTextView.setTextColor(Color.BLACK)
+        }
     }
 
     override fun getItemCount() = placesList.size
@@ -39,6 +50,8 @@ class BigPlaceCardRecyclerAdapter(
         val adreesTextView: TextView = itemView.place_small_card_address
         val typeTextView: TextView = itemView.place_small_card_type
         val nameTextView: TextView = itemView.place_small_card_name
+        val openClosedTextView: TextView = itemView.place_small_card_opened_closed
+
 
         init {
             itemView.setOnClickListener(this)
