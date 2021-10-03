@@ -8,6 +8,7 @@ import com.example.labratour.data.repositories.PlacesRepositoryImpl
 import com.example.labratour.data.repositories.RatingsRepositoryImpl
 import com.example.labratour.data.utils.JobExecutor
 import com.example.labratour.domain.useCases.GetNearbyPlacesAllTypesUseCase
+import com.example.labratour.domain.useCases.GetNearbyPlacesByTypeUseCase
 import com.example.labratour.domain.useCases.UpdateUserProfileByRateUseCase
 import com.example.labratour.presentation.LabratourApplication
 import com.example.labratour.presentation.model.cache.PlacesDatabase
@@ -44,6 +45,10 @@ class GooglePlacesContainer(labratourApplication: LabratourApplication, userCach
             UIThread()
         )
 
+    // category places usecase
+    @Singleton
+    val getNearbyPlacesByTypeUseCase = GetNearbyPlacesByTypeUseCase(placesRepository, JobExecutor(), UIThread())
+
     // rank place usecase
     @Singleton
     val rankPlacesRepository = PlacesRepositoryImpl(restApi)
@@ -73,5 +78,5 @@ class GooglePlacesContainer(labratourApplication: LabratourApplication, userCach
 
     // view model
     @Singleton
-    val userHomeViewModelFactory = UserHomeViewModelFactory(placesClient, updateUseProfileByRateUseCase, getNearbyPlacesUseCase, userCacheRepository, placeCacheRepository, savedRankedPlacesRepository)
+    val userHomeViewModelFactory = UserHomeViewModelFactory(placesClient, updateUseProfileByRateUseCase, getNearbyPlacesUseCase, getNearbyPlacesByTypeUseCase, userCacheRepository, placeCacheRepository, savedRankedPlacesRepository)
 }
