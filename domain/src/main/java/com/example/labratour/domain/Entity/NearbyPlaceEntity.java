@@ -39,6 +39,14 @@ public class NearbyPlaceEntity {
     this.results = results;
   }
 
+  public String[] getHtml_attributions() {
+    return html_attributions;
+  }
+
+  public String getNext_page_token() {
+    return next_page_token;
+  }
+
   @SerializedName("status")
   public String getStatus() {
     return status;

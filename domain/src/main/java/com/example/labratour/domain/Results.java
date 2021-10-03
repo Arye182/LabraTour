@@ -4,7 +4,8 @@ import com.example.labratour.domain.Entity.Entity.Geometry;
 import com.example.labratour.domain.Entity.OpeningHours1;
 import com.google.gson.annotations.SerializedName;
 
-public class  Results{
+public class
+Results{
     private Geometry geometry;
     private String icon;
     private String icon_background_color;
