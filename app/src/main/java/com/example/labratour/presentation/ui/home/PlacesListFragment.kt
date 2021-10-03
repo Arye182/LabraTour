@@ -37,10 +37,12 @@ class PlacesListFragment : Fragment(R.layout.fragment_places_full_list), BigPlac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // update the fragment title to the category's title
-        if (category != "liked_places") {
+        if (category == "liked_places") {
+            (activity as HomeActivity).toolbar.title = "Your Liked Places"
+        } else if (Constants.typesMap[category] != null) {
             (activity as HomeActivity).toolbar.title = Constants.typesMap[category]
         } else {
-            (activity as HomeActivity).toolbar.title = "Your Liked Places"
+            (activity as HomeActivity).toolbar.title = category
         }
         this.frag_view = view
         // view models observation

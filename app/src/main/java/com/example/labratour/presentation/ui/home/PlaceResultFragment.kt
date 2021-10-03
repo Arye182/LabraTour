@@ -185,19 +185,39 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         } else {
             place_phone_tv.text = (homeViewModel.place.value?.phoneNumber).toString()
         }
-        // place_phone_tv.text = (homewViewModel.place.value?.phoneNumber).toString()
         place_name_tv.text = (homeViewModel.place.value?.name).toString()
         place_title_name.text = (homeViewModel.place.value?.name).toString()
         place_address_tv.text = (homeViewModel.place.value?.address).toString()
         place_website_tv.text = (homeViewModel.place.value?.websiteUri).toString()
         place_type_tv.text = ((homeViewModel.place.value?.types)?.get(0)).toString()
 
-        // place_opening_hours_tv.text = (place.openingHours).toString()
+        if (homeViewModel.place.value?.openingHours != null) {
+            var todays_open_hour = homeViewModel.place.value?.openingHours!!.periods[0].open?.time?.hours.toString()
+            var todays_open_min = homeViewModel.place.value?.openingHours!!.periods[0].open?.time?.minutes.toString()
+            var todays_close_hour = homeViewModel.place.value?.openingHours!!.periods[0].close?.time?.hours.toString()
+            var todays_close_min = homeViewModel.place.value?.openingHours!!.periods[0].close?.time?.minutes.toString()
+            if (todays_open_hour == "0") {
+                todays_open_hour = "00"
+            }
+            if (todays_open_min == "0") {
+                todays_open_min = "00"
+            }
+            if (todays_close_hour == "0") {
+                todays_close_hour = "00"
+            }
+            if (todays_close_min == "0") {
+                todays_close_min = "00"
+            }
+            place_opening_hours_tv.text = "Today From: $todays_open_hour:$todays_open_min Until $todays_close_hour:$todays_close_min"
+            place_opening_hours_tv.setTextColor(Color.BLUE)
+        } else {
+            place_opening_hours_tv.text = "Not Available"
+        }
         if (homeViewModel.place.value?.isOpen == true) {
-            place_is_open_tv.text = "Opened!"
+            place_is_open_tv.text = "Opened Now"
             place_is_open_tv.setTextColor(Color.GREEN)
         } else if (homeViewModel.place.value?.isOpen == false) {
-            place_is_open_tv.text = "Closed!"
+            place_is_open_tv.text = "Closed"
             place_is_open_tv.setTextColor(Color.RED)
         } else {
             place_is_open_tv.text = "Not Available"
@@ -227,8 +247,16 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
 
     // user click call and forward to phone on android
     private fun onClickCall() {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homeViewModel.getPhoneNumber(), null))
-        startActivity(intent)
+        if (homeViewModel.getPhoneNumber() != null) {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", homeViewModel.getPhoneNumber(), null))
+            startActivity(intent)
+        } else {
+            view?.let {
+                Snackbar.make(it, "Phone Number Not Available", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(resources.getColor(R.color.error)).show()
+            }
+        }
+
     }
 
     // what happens when user click on url button
