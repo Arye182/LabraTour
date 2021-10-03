@@ -104,7 +104,7 @@ public class RatingsRepositoryImpl implements RatingsRepository {
                             @Override
                             public void onError(Throwable e) {
                                 if(!emitter.isDisposed()){
-                                    emitter.onError(e.getCause());
+                                    emitter.onError(e);
                                 }
                             }
                         });}
@@ -115,12 +115,12 @@ public class RatingsRepositoryImpl implements RatingsRepository {
                     @Override
                     public void onError(Throwable e) {
                         if(!emitter.isDisposed()){
-                            emitter.onError(e.getCause());
+                            emitter.onError(e);
                         }
                     }
                 });}catch (Exception e){
                 if (!emitter.isDisposed()){
-                emitter.onError(e.getCause());
+                emitter.onError(e);
                 }
                 }
                 }
