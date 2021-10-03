@@ -166,10 +166,10 @@ class SubCategoryFragment : Fragment() {
     }
 
     fun SubCategoryIntent(sub_category_name: String) {
-        view?.let {
-            Snackbar.make(it, "Button $sub_category_name Clicked", Snackbar.LENGTH_SHORT)
-                .setBackgroundTint(resources.getColor(R.color.success)).show()
-        }
+//        view?.let {
+//            Snackbar.make(it, "Button $sub_category_name Clicked", Snackbar.LENGTH_SHORT)
+//                .setBackgroundTint(resources.getColor(R.color.success)).show()
+//        }
         // TODO open a dialog of sub categories?
         // or navigate to another screen of sub categories?
         // move to fragment of result of place!

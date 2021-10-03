@@ -172,8 +172,12 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onBitampChanged(view: View) {
-        place_img.setImageBitmap(this.homeViewModel.photoBitmap.value)
-        place_progress_bar.visibility = View.GONE
+        if (this.homeViewModel.photoBitmap.value != null){
+            place_img.setImageBitmap(this.homeViewModel.photoBitmap.value)
+            place_progress_bar.visibility = View.GONE
+        } else {
+            place_progress_bar.visibility = View.VISIBLE
+        }
     }
 
     private fun onPlaceChanged(view: View) {
@@ -256,7 +260,6 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
                     .setBackgroundTint(resources.getColor(R.color.error)).show()
             }
         }
-
     }
 
     // what happens when user click on url button
@@ -277,6 +280,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     // -- fragment functions --
     override fun onPause() {
         super.onPause()
+        this.homeViewModel.photoBitmap.value = null
         Log.i("Places", "onPause")
     }
 
