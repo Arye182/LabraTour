@@ -172,22 +172,21 @@ public class RatingsRepositoryImpl implements RatingsRepository {
   {
     Log.i("UpdateUseCase","inside calculateNewAtributesForUser called from zip bifunction run on:" + Looper.myLooper().toString(), new Throwable("couldnt print my looper"));
 
-    HashMap<String,Double> resultAtributes = new HashMap<>();
-   // HashMap<String, Object> userAtributesMap = UserDataMapper.transform(userAtributes);
-   // HashMap<String, Object> poiAtributesMap = PlaceDetailesDataMapper.transform(poiAtributes);
+    HashMap<String,Double> resultAtributes = new HashMap<String, Double>();
+
 
     for (String key : poiAtributes.keySet()) {
       double poiValue = 0;
       double userValue = 0;
       double resultValue = 0;
 
-      if (poiAtributes.get(key).getClass().isPrimitive()&&userAtributes.get(key).getClass().isPrimitive()) {
-        poiValue = ((double) poiAtributes.get(key));
+    //  if ((Objects.requireNonNull(poiAtributes.get(key)).getClass().isPrimitive())&&(userAtributes.get(key).getClass().isPrimitive())) {
+        if(poiAtributes.get(key).equals(true)){ poiValue = 1;}
         userValue = ((double) userAtributes.get(key));
         resultValue = ((poiValue * rate / 5) + (userValue * userRatesCount)) / (userRatesCount + 1);
         resultAtributes.put(key, resultValue);
       }
-    }
+
     //UserAtributes userAtributes1 = UserDataMapper.transform(resultAtributes);
     resultAtributes.put("ratesCounter", (double) (userRatesCount+1));
     return resultAtributes;
