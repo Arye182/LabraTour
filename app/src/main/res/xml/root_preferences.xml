@@ -6,13 +6,13 @@
 
         <SwitchPreferenceCompat
             app:key="refresh_disabled"
-            app:summaryOff="You can always pull to refresh on home screen to refresh places lists and data"
+            app:summaryOff="You can always pull to refresh on home screen to refresh places lists and data BESIDES DISTANCE LIMIT!"
             app:summaryOn="You will not be able to refresh home screen , the app will refresh itself when indicates distance difference"
-            app:title="Location Limit On Refresh" />
+            app:title="Pull To Refresh On / Off" />
 
         <SeekBarPreference app:key="distance"
-            app:title="Distance Difference"
-            app:summary="This is the distance difference in Meters"
+            app:title="Distance Difference - Data Refresh"
+            app:summary="This is the distance difference in Meters - we dont want the app to update the ui every 1 second so we will define a distance difference saved variable to your preferences. if you want to disable this, set this to 0"
             app:showSeekBarValue="true"
             app:defaultValue="300"
             app:min="0"

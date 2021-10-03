@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.labratour.R
 import com.example.labratour.presentation.model.data.PlaceModel
 import com.example.labratour.presentation.ui.adapters.SmallPlaceCardRecyclerAdapter
+import com.example.labratour.presentation.ui.adapters.SmallWeatherCardRecyclerAdapter
 import com.example.labratour.presentation.utils.GPS_REQUEST
 import com.example.labratour.presentation.utils.GpsUtils
 import com.example.labratour.presentation.viewmodel.LocationViewModel
@@ -32,9 +33,16 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
 import kotlinx.android.synthetic.main.fragment_home.customed_places_recycler_view
+import kotlinx.android.synthetic.main.fragment_home.weather_card
 import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.location_card.view.*
+import kotlinx.android.synthetic.main.weather_card.*
 import kotlinx.android.synthetic.main.weather_card.view.*
+import kotlinx.android.synthetic.main.weather_card.view.current_degrees_tv
+import kotlinx.android.synthetic.main.weather_card.view.current_weather_icon
+import kotlinx.android.synthetic.main.weather_card.view.date_tv
+import kotlinx.android.synthetic.main.weather_card.view.description_tv
+import kotlinx.android.synthetic.main.weather_card.view.feels_like_tv
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
@@ -62,6 +70,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     //
     private lateinit var sp: SharedPreferences
 
+    private var distance_disabled: Boolean = false
 
     // --------------------------------- fragment functions ---------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,8 +79,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel = (activity as HomeActivity?)?.userHomeViewModel!!
         this.locationViewModel = (activity as HomeActivity?)?.locationViewModel!!
         this.weatherViewModel = (activity as HomeActivity?)?.weatherViewModel!!
-        sp = PreferenceManager.getDefaultSharedPreferences((context))
-
+        // load settings
+        loadSettings()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,15 +113,19 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     override fun onResume() {
         super.onResume()
         invokeLocationAction()
+        loadSettings()
+    }
 
+    fun loadSettings(){
+        sp = PreferenceManager.getDefaultSharedPreferences((context))
+        distance_disabled = sp.getBoolean("refresh_disabled", true)
     }
 
     // ----------------------------------- On Click Listeners--------------------------------------
     private fun setPullToRefreshListener() {
         pullToRefresh.setOnRefreshListener {
             // update lists!
-            val distance_disabled = sp.getBoolean("refresh_disabled", true)
-            if (!distance_disabled) {
+            if (!this.distance_disabled) {
                 checkGps()
                 this.invokeLocationAction()
             }
@@ -202,9 +215,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                             }
                         }
                         //
-                        weather_card.feels_like_tv.text = event.forecast[0].main.feels_like.toString()+ "\u2103"
+                        weather_card.feels_like_tv.text = event.forecast[0].main.feels_like.toString() + "\u2103"
                         weather_card.description_tv.text = event.forecast[0].weather[0].description
                         weather_card.date_tv.text = event.forecast[0].dt_txt
+
+                        // list
+                        weather_recycler_view.adapter = SmallWeatherCardRecyclerAdapter(event.forecast)
+                        weather_recycler_view.layoutManager =
+                            LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+                        weather_recycler_view.setHasFixedSize(true)
 
                         // log
                         Log.i("Places", "Weather Collector Success")
@@ -301,7 +320,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             // check if current location against prev location
             val distance = sp.getInt("distance", 300)
 
-            if (distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat) > distance) {
+            if (distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat) > distance / 1000) {
                 this.locationViewModel.started = false
                 updateUI()
             }

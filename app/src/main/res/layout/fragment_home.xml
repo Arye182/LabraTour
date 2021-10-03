@@ -40,6 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
                     android:layout_marginLeft="4dp">
+
                     <include
                         android:id="@+id/weather_card"
                         layout="@layout/weather_card"
@@ -109,10 +110,10 @@
                         android:layout_height="wrap_content"
                         android:clipToPadding="false"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/place_card_small"
+                        android:requiresFadingEdge="horizontal"
                         android:scrollbars="horizontal"
-                        android:requiresFadingEdge="horizontal"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/place_card_small" />
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/nearby_places_list_progress_bar"
                         android:layout_width="match_parent"
