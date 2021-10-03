@@ -72,6 +72,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
     private var distance_disabled: Boolean = false
 
+    private var km: Int = 300
+
     // --------------------------------- fragment functions ---------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,9 +118,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         loadSettings()
     }
 
-    fun loadSettings(){
+    fun loadSettings() {
         sp = PreferenceManager.getDefaultSharedPreferences((context))
         distance_disabled = sp.getBoolean("refresh_disabled", true)
+        km = sp.getInt("distance", 500)
     }
 
     // ----------------------------------- On Click Listeners--------------------------------------
@@ -299,9 +302,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     }
 
     private fun startLocationUpdate(view: View) {
+        loadSettings()
         val lat = this.locationViewModel.getLocationData().value?.latitude
         val long = this.locationViewModel.getLocationData().value?.longitude
-
         if (lat != null && long != null) {
             // update prev first time
             if (!this.locationViewModel.started) {
@@ -318,9 +321,14 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             )
             // SINCE THE LAT LONG IS GOOD WE CAN FORECAST THINGS !!!
             // check if current location against prev location
-            val distance = sp.getInt("distance", 300)
+            val dif: Double = distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat)
+            if (dif > (km / 1000)) {
+                Log.i("Places", "startLocationUpdate, PREV COORDINATES: ${this.locationViewModel.prevLat} / ${this.locationViewModel.prevLong}")
+                Log.i("Places", "startLocationUpdate, CURRENT COORDINATES:  $lat / $long")
+                Log.i("Places", "startLocationUpdate, DIFFERENCE DISTANCE IS: $dif")
 
-            if (distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat) > distance / 1000) {
+                Log.i("Places", "startLocationUpdate, KM PARAMETER IS: ${km / 1000}")
+
                 this.locationViewModel.started = false
                 updateUI()
             }
