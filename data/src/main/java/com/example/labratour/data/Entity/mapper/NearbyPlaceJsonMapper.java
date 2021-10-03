@@ -3,7 +3,7 @@ package com.example.labratour.data.Entity.mapper;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.labratour.data.Entity.NearbyPlaceResult;
+import com.example.labratour.domain.Entity.Entity.NearbyPlaceResult;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;

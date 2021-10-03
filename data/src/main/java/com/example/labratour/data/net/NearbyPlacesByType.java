@@ -19,7 +19,7 @@ public class NearbyPlacesByType extends NearbyPlaces<NearbyPlacesByType.Param>{
       Log.i("type", "lat:"+param.lat+ "lon:" + param.lon+ param.type);
 
       return this.service.nearbyPlacesByType(
-        param.lat + "%2C" + param.lon, 2000, param.type, API_KEY);
+        param.lat + "," + param.lon, 2000, param.type, API_KEY);
     }
 
 public static class Param {

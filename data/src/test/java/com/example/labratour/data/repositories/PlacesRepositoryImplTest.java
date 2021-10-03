@@ -1,11 +1,11 @@
 package com.example.labratour.data.repositories;
 
-import com.example.labratour.data.Entity.OpeningHours1;
-import com.example.labratour.data.Entity.PlaceOpeningHoursPeriod;
-import com.example.labratour.data.Entity.PlaceOpeningHoursPeriodDetail;
-import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.net.RestApi;
 import com.example.labratour.domain.Atributes;
+import com.example.labratour.domain.Entity.Entity.PlaceOpeningHoursPeriod;
+import com.example.labratour.domain.Entity.Entity.PlaceOpeningHoursPeriodDetail;
+import com.example.labratour.domain.Entity.Entity.PoiDetailsEntity;
+import com.example.labratour.domain.Entity.OpeningHours1;
 import com.example.labratour.domain.repositories.PlacesRepository;
 
 import junit.framework.TestCase;
