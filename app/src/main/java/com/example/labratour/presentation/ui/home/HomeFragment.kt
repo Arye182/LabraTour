@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.header_navigation_drawer.view.*
 import kotlinx.android.synthetic.main.location_card.view.*
 import kotlinx.android.synthetic.main.weather_card.view.*
 import kotlinx.coroutines.flow.collect
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.floor
 
@@ -200,10 +201,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                                 weather_card.current_weather_icon.setImageResource(R.drawable.ic_thunder)
                             }
                         }
-                        // update sunset and sunrise
-                        // ...
-                        // update list
-                        // ....
+                        //
+                        weather_card.feels_like_tv.text = event.forecast[0].main.feels_like.toString()+ "\u2103"
+                        weather_card.description_tv.text = event.forecast[0].weather[0].description
+                        weather_card.date_tv.text = event.forecast[0].dt_txt
+
                         // log
                         Log.i("Places", "Weather Collector Success")
                     }
@@ -220,6 +222,16 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
                     else -> Unit
                 }
             }
+        }
+    }
+
+    private fun getDateTime(s: String): String? {
+        try {
+            val sdf = SimpleDateFormat("MM/dd/yyyy")
+            val netDate = Date(s.toLong() * 1000)
+            return sdf.format(netDate)
+        } catch (e: Exception) {
+            return e.toString()
         }
     }
 
