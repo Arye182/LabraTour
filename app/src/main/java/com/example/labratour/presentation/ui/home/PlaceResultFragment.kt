@@ -172,7 +172,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onBitampChanged(view: View) {
-        if (this.homeViewModel.photoBitmap.value != null){
+        if (this.homeViewModel.photoBitmap.value != null) {
             place_img.setImageBitmap(this.homeViewModel.photoBitmap.value)
             place_progress_bar.visibility = View.GONE
         } else {
@@ -185,14 +185,30 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
         place_id_tv.text = (homeViewModel.place.value?.id).toString()
         Log.i("Places", "phone of place: " + (homeViewModel.place.value?.phoneNumber).toString())
         if (homeViewModel.place.value?.phoneNumber == null) {
-            place_phone_tv.text = "phone not available"
+            place_phone_tv.setTextColor(Color.RED)
+            place_phone_tv.text = "Not Available"
         } else {
             place_phone_tv.text = (homeViewModel.place.value?.phoneNumber).toString()
         }
+
         place_name_tv.text = (homeViewModel.place.value?.name).toString()
+
         place_title_name.text = (homeViewModel.place.value?.name).toString()
-        place_address_tv.text = (homeViewModel.place.value?.address).toString()
-        place_website_tv.text = (homeViewModel.place.value?.websiteUri).toString()
+
+        if (homeViewModel.place.value?.address != null) {
+            place_address_tv.text = (homeViewModel.place.value?.address).toString()
+        } else {
+            place_address_tv.setTextColor(Color.RED)
+            place_address_tv.text = "Not Available"
+        }
+
+        if (homeViewModel.place.value?.websiteUri != null) {
+            place_website_tv.text = (homeViewModel.place.value?.websiteUri).toString()
+        } else {
+            place_website_tv.setTextColor(Color.RED)
+            place_website_tv.text = "Not Available"
+        }
+
         place_type_tv.text = ((homeViewModel.place.value?.types)?.get(0)).toString()
 
         if (homeViewModel.place.value?.openingHours != null) {
@@ -212,18 +228,21 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
             if (todays_close_min == "0") {
                 todays_close_min = "00"
             }
-            place_opening_hours_tv.text = "Today From: $todays_open_hour:$todays_open_min Until $todays_close_hour:$todays_close_min"
             place_opening_hours_tv.setTextColor(Color.BLUE)
+            place_opening_hours_tv.text = "Today From: $todays_open_hour:$todays_open_min Until $todays_close_hour:$todays_close_min"
         } else {
+            place_opening_hours_tv.setTextColor(Color.RED)
             place_opening_hours_tv.text = "Not Available"
         }
+
         if (homeViewModel.place.value?.isOpen == true) {
-            place_is_open_tv.text = "Opened Now"
             place_is_open_tv.setTextColor(Color.GREEN)
+            place_is_open_tv.text = "Opened Now"
         } else if (homeViewModel.place.value?.isOpen == false) {
-            place_is_open_tv.text = "Closed"
             place_is_open_tv.setTextColor(Color.RED)
+            place_is_open_tv.text = "Closed"
         } else {
+            place_is_open_tv.setTextColor(Color.RED)
             place_is_open_tv.text = "Not Available"
         }
     }
@@ -236,7 +255,10 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onClickShare() {
-        TODO("Not yet implemented")
+        view?.let {
+            Snackbar.make(it, "Not Available in this version", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.error)).show()
+        }
     }
 
     private fun onClickLike() {
@@ -280,7 +302,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     // -- fragment functions --
     override fun onPause() {
         super.onPause()
-        this.homeViewModel.photoBitmap.value = null
+        this.homeViewModel.photoBitmap.postValue(null)
         Log.i("Places", "onPause")
     }
 

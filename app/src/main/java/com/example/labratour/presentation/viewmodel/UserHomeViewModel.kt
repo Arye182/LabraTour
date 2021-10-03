@@ -258,8 +258,8 @@ class UserHomeViewModel(
             error.postValue("RankPlace Observer - On Error: " + exception.message)
         }
         override fun onNext(value: String) {
-            Log.i("Places", "RankPlace Observer - On Next message: $value")
-            place_ranked.postValue(value)
+            Log.i("Places", "RankPlace Observer - On Next")
+            place_ranked.postValue("on next")
         }
     }
     val place_ranked: MutableLiveData<String> by lazy {

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/weather_small_card"
+    android:layout_width="160dp"
+    android:layout_height="160dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/card"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginBottom="16dp"
+    app:cardElevation="0dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/border"
+
+        >
+        <!-- Media -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:outlineProvider="bounds">
+
+
+        <TextView
+            android:id="@+id/current_degrees_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00\u2103"
+            android:textSize="28dp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"/>
+        <ImageView
+            android:id="@+id/weather_card_small_current_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cloudy_day_1"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="4dp">
+            <!-- Title, secondary and supporting text -->
+            <TextView
+                android:id="@+id/weather_small_card_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/weather_small_card_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_gravity="center"/>
+            <TextView
+                android:id="@+id/weather_small_card_feels_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="feels like"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
