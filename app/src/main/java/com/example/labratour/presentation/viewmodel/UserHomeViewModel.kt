@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.labratour.domain.Entity.NearbyPlaceEntity
+import com.example.labratour.domain.Results
 import com.example.labratour.domain.useCases.DefaultObserver
 import com.example.labratour.domain.useCases.GetNearbyPlacesAllTypesUseCase
 import com.example.labratour.domain.useCases.UpdateUserProfileByRateUseCase
@@ -45,18 +47,23 @@ class UserHomeViewModel(
     }
     private var temp_list = ArrayList<PlaceModel>()
     val placeFields = listOf(
-        Place.Field.ID,
-        Place.Field.NAME,
         Place.Field.ADDRESS,
-        Place.Field.LAT_LNG,
+        Place.Field.ADDRESS_COMPONENTS,
         Place.Field.BUSINESS_STATUS,
+        Place.Field.ID,
+        Place.Field.LAT_LNG,
+        Place.Field.NAME,
         Place.Field.OPENING_HOURS,
         Place.Field.PHONE_NUMBER,
         Place.Field.PHOTO_METADATAS,
+        Place.Field.PLUS_CODE,
         Place.Field.PRICE_LEVEL,
         Place.Field.RATING,
         Place.Field.TYPES,
         Place.Field.USER_RATINGS_TOTAL,
+        Place.Field.VIEWPORT,
+        Place.Field.UTC_OFFSET,
+        Place.Field.WEBSITE_URI,
     )
     fun getPlaceById(id: String) {
         request = id.let { FetchPlaceRequest.newInstance(it, placeFields) }
@@ -130,36 +137,31 @@ class UserHomeViewModel(
     }
 
     //  ----------------------------------- nearby list -------------------------------------------
-    private var nearByPlacesIdList = ArrayList<String>()
     private val _nearByPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
         MutableLiveData<ArrayList<PlaceModel>>()
     }
     var nearByPlaceModelListLiveData: LiveData<ArrayList<PlaceModel>> = _nearByPlaceModelListLiveData
-    private inner class NearbyPlacesStringListFetcherObserver : DefaultObserver<ArrayList<String>>() {
+    private inner class NearbyPlacesObserver : DefaultObserver<NearbyPlaceEntity>() {
         override fun onComplete() {
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Complete...")
-            // isLoading.postValue(false)
         }
         override fun onError(exception: Throwable) {
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Error: " + exception.message)
-            // isLoading.postValue(false)
-            // logInTaskStatus.postValue(false)
             error.postValue("NearbyPlacesStringListFetcherObserver Observer - On Error: " + exception.message)
         }
-        override fun onNext(value: ArrayList<String>) {
+        override fun onNext(value: NearbyPlaceEntity) {
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next...")
-            nearByPlacesIdList = value
-            Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... Value Size = ${value.size}")
+            Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... Value Size = ${value.results.size}")
             Log.i("Places", "NearbyPlacesStringListFetcherObserver Observer - On Next... list = $value")
             viewModelScope.launch {
-                _nearByPlaceModelListLiveData.postValue(idsToPlaceModelCoRoutine(nearByPlacesIdList))
+                _nearByPlaceModelListLiveData.postValue(nearbyPlaceEntityToPlaceModelCoRoutine(value))
             }
         }
     }
     fun nearbyPlacesCoRoutine(lat: String, long: String) {
         viewModelScope.launch(Dispatchers.IO) {
             Log.i("Places", "Co-Routine - Starting To Update Near By Places List")
-            getNearbyPlacesUseCase.execute(NearbyPlacesStringListFetcherObserver(), lat, long)
+            getNearbyPlacesUseCase.execute(NearbyPlacesObserver(), lat, long)
         }
     }
 
@@ -283,9 +285,76 @@ class UserHomeViewModel(
                                 .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
                                     var bitmapw = fetchPhotoResponse.bitmap
                                     // Log.i("Places", "iD's To Places Routine : fetching photo success!")
-                                    // TODO test!
                                     bitmap = bitmapw
-                                    temp_list_temp.add(PlaceModel(googlePlace, true, 0, bitmap))
+                                    temp_list_temp.add(PlaceModel(place_id, googlePlace, true, 0, bitmap))
+                                    continuation.resume(Unit)
+                                }.addOnFailureListener { exception: Exception ->
+                                    if (exception is ApiException) {
+                                        photoLoading.postValue(false)
+                                        Log.e(
+                                            ContentValues.TAG,
+                                            "Place not found: ${exception.message}"
+                                        )
+                                        Log.i("Places", "iD's To Places Routine : fetching photo failed")
+                                        error.postValue(exception.message)
+                                    }
+                                }
+                        } else {
+                            Log.i("Places", "iD's To Places Routine : fetching photo failed")
+                            val w: Int = 150
+                            val h: Int = 150
+                            val conf = Bitmap.Config.ARGB_8888 // see other conf types
+                            val bmp =
+                                Bitmap.createBitmap(w, h, conf) // this creates a MUTABLE bitmap
+                            bitmap = bmp
+                            continuation.resume(Unit)
+                        }
+                    }.addOnFailureListener { exception: Exception ->
+                        if (exception is ApiException) {
+                            Log.e(ContentValues.TAG, "iD's To Places Routine : Place not found: ${exception.message}")
+                            // val statusCode = exception.statusCode
+                            error.postValue(exception.message)
+                        }
+                    }
+            }
+        }
+        Log.i("Places", "iD's To Places Routine : size of list:" + temp_list.size)
+        return temp_list_temp
+    }
+    suspend fun nearbyPlaceEntityToPlaceModelCoRoutine(entities: NearbyPlaceEntity): ArrayList<PlaceModel> {
+        var temp_list_temp = ArrayList<PlaceModel>()
+        for ((index, api_place) in entities.results.withIndex()) {
+            var bitmap: Bitmap
+            var googlePlace: Place
+            request = FetchPlaceRequest.newInstance(api_place.placeId, placeFields)
+            // Log.i("Places", "iD's To Places Routine : trying to fetch place by id.... with id:{$place_id}")
+            suspendCoroutine<Unit> { continuation ->
+                placesClient.fetchPlace(request)
+                    .addOnSuccessListener { response: FetchPlaceResponse ->
+                        // Log.i("Places", "iD's To Places Routine : fetch place data success!")
+                        val place = response.place
+                        googlePlace = place
+                        // Log.i("Places", "iD's To Places Routine : trying to fetch photo!")
+                        // Get the photo metadata.
+                        val metada = googlePlace.photoMetadatas
+                        if (metada == null || metada.isEmpty()) {
+                            Log.i("Places", "iD's To Places Routine : No photo metadata.")
+                        }
+                        val photoMetadata = metada?.first()
+                        // Create a FetchPhotoRequest.
+                        val photoRequest = photoMetadata?.let {
+                            FetchPhotoRequest.builder(it)
+                                .setMaxWidth(1500) // Optional.
+                                .setMaxHeight(600) // Optional.
+                                .build()
+                        }
+                        if (photoRequest != null) {
+                            placesClient.fetchPhoto(photoRequest)
+                                .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                                    var bitmapw = fetchPhotoResponse.bitmap
+                                    // Log.i("Places", "iD's To Places Routine : fetching photo success!")
+                                    bitmap = bitmapw
+                                    temp_list_temp.add(PlaceModel(api_place.placeId, googlePlace, false, 0, bitmap))
                                     continuation.resume(Unit)
                                 }.addOnFailureListener { exception: Exception ->
                                     if (exception is ApiException) {

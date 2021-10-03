@@ -26,26 +26,15 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        button_logout.setOnClickListener { logOut() }
-        button_delete_saved_places.setOnClickListener { deleteSavedPlaces() }
+        button_logout.setOnClickListener { onLogOutButtonClicked() }
+        button_delete_saved_places.setOnClickListener { onDeleteSavedPlacesButtonClicked() }
+        liked_places_list_button.setOnClickListener { onLikedListClicked() }
         this.homeViewModel.likedPlaceModelListLiveData.observe(viewLifecycleOwner, { onLikedPlacesListChanged() })
         this.homeViewModel.userModelLiveData.observe(viewLifecycleOwner, { onUserProfileChanged() })
         Log.i("Places", "ProfileFragment onViewCreated")
     }
 
-    private fun logOut() {
-        FirebaseAuth.getInstance().signOut()
-        val intent = Intent(activity, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        activity?.finish()
-    }
-
-    private fun deleteSavedPlaces() {
-        liked_places_list_progress_bar.visibility = View.VISIBLE
-        this.homeViewModel.deleteUserLikedPlaces()
-    }
-
+    // observers
     private fun onUserProfileChanged() {
         // first name
         profile_first_name_tv.text = homeViewModel.userModelLiveData.value?.firstName
@@ -91,21 +80,40 @@ class ProfileFragment : Fragment(R.layout.fragment_profile), SmallPlaceCardRecyc
         }
     }
 
+    // on clicks
+    private fun onLogOutButtonClicked() {
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(activity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        activity?.finish()
+    }
+
+    private fun onDeleteSavedPlacesButtonClicked() {
+        liked_places_list_progress_bar.visibility = View.VISIBLE
+        this.homeViewModel.deleteUserLikedPlaces()
+    }
+
+    private fun onLikedListClicked(){
+        val action = ProfileFragmentDirections.actionProfileFragmentToPlacesListFragment("liked_places")
+        findNavController().navigate(action)
+    }
+
     override fun onItemClick(position: Int, code: Int) {
         var clickedPlaceItem: PlaceModel? = null
         var id: String = ""
         when (code) {
             NEARBY_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
             CUSTOMIZED_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.customizedPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
             LIKED_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
         }
         // move to fragment of result of place!

@@ -108,12 +108,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         }
     }
 
-    private fun onCustomizedPlacesClicked(){
+    private fun onCustomizedPlacesClicked() {
         val action = HomeFragmentDirections.actionHomeFragmentToPlacesListFragment("Customized")
         findNavController().navigate(action)
     }
 
-    private fun onPlacesNearByClicked(){
+    private fun onPlacesNearByClicked() {
         val action = HomeFragmentDirections.actionHomeFragmentToPlacesListFragment("Nearby")
         findNavController().navigate(action)
     }
@@ -223,23 +223,21 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         when (code) {
             NEARBY_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.nearByPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
             CUSTOMIZED_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.customizedPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
             LIKED_LIST_CODE -> {
                 clickedPlaceItem = homeViewModel.likedPlaceModelListLiveData.value?.get(position)!!
-                id = clickedPlaceItem.googlePlace.id!!
+                id = clickedPlaceItem.googlePlaceSdk.id!!
             }
         }
         // move to fragment of result of place!
         val action = HomeFragmentDirections.actionHomeFragmentToPlaceResultFragment(id)
         findNavController().navigate(action)
     }
-
-
 
     // ---------------------------------------- gps -----------------------------------------------
     private fun checkGps() {
