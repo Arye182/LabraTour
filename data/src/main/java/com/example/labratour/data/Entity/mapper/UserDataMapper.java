@@ -106,7 +106,7 @@ try{
   public static UserAtributes transform(HashMap<String, Object> stringObjectHashMap) {
     UserAtributes userAtributes = new UserAtributes();
     for (Map.Entry<String, Object> entry: stringObjectHashMap.entrySet()) {
-        if(entry.getKey()!="ratesCounter"){
+        if(entry.getKey()!="RatesCounter"){
         try{
           Field field = UserAtributes.class.getDeclaredField(entry.getKey());
           Class<?> targetType = field.getType();
