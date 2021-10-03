@@ -1,6 +1,6 @@
 package com.example.labratour.data.net;
 
-import com.example.labratour.data.Entity.PoiDetailsEntity;
+import com.example.labratour.domain.Entity.Entity.PoiDetailsEntity;
 import com.example.labratour.domain.Entity.NearbyPlaceEntity;
 
 import retrofit2.Call;
@@ -33,7 +33,7 @@ public interface MapsGoogleApiService {
 
                                                               @Query("location") String location,
                                                       @Query("radius") int radius,
-          @Query("type") String type,
+                                                        @Query("type") String type,
                                                       @Query("key") String key);
 
 }

@@ -1,14 +1,11 @@
 package com.example.labratour.data.repositories;
 
-import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 import com.example.labratour.data.net.RestApi;
 import com.example.labratour.domain.Atributes;
+import com.example.labratour.domain.Entity.Entity.PoiDetailsEntity;
 import com.example.labratour.domain.repositories.PlacesRepository;
 
-import java.util.ArrayList;
-
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;

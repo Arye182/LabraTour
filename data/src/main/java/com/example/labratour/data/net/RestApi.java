@@ -6,9 +6,9 @@ import android.net.NetworkInfo;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
+import com.example.labratour.domain.Entity.Entity.PoiDetailsEntity;
 
 import io.reactivex.Single;
 import retrofit2.Call;

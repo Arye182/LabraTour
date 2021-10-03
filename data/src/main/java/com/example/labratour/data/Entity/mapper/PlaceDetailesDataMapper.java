@@ -3,12 +3,12 @@ package com.example.labratour.data.Entity.mapper;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.labratour.data.Entity.PlaceOpeningHoursPeriod;
-import com.example.labratour.data.Entity.PoiDetailsEntity;
 import com.example.labratour.domain.Atributes;
+import com.example.labratour.domain.Entity.Entity.PlaceOpeningHoursPeriod;
+import com.example.labratour.domain.Entity.Entity.PoiDetailsEntity;
+import com.example.labratour.domain.Entity.OpeningHours1;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -24,7 +24,7 @@ public class PlaceDetailesDataMapper {
       atributes = new Atributes();
       atributes.setPrice_level((poiDetailsEntity.getPriceLevel()+1) / 5);
       atributes.setUsersAggragateRating(poiDetailsEntity.getRating() / 5);
-      atributes.setAlwaysOpen(isAlwaysOpen(poiDetailsEntity.getOpeningHours().getPeriods()));
+      atributes.setAlwaysOpen(isAlwaysOpen(poiDetailsEntity.getOpeningHours()));
       updateAtributesFields(poiDetailsEntity.getTypes(), atributes);
     }
     return atributes;
@@ -56,10 +56,10 @@ public class PlaceDetailesDataMapper {
     }
     }
 
-  private boolean isAlwaysOpen(ArrayList<PlaceOpeningHoursPeriod> periods) {
+  private boolean isAlwaysOpen(OpeningHours1 periods) {
     int sum = 0;
 
-    for (PlaceOpeningHoursPeriod period : periods) {
+    for (PlaceOpeningHoursPeriod period : periods.getPeriods()) {
 
       if (period.getClose() == null) {
         if ((period.getOpen().getDay() == 0) && (period.getOpen().getTime() == "0000")) {

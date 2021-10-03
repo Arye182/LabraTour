@@ -24,17 +24,20 @@ public abstract class NearbyPlaces<Param> extends RestApi {
 
 
         public Observable<NearbyPlaceEntity> getResult(Param input) {
-        return Observable.create(emitter -> {
+          Log.i("type", input.toString()+"before create emitter in get result");
+
+          return Observable.create(emitter -> {
                 if (isThereInternetConnection()) {
+                  Log.i("type", input.toString()+ "inside emitter in getresults");
 
                             getNearbyPlaces(input).enqueue(new Callback<NearbyPlaceEntity>() {
                             @Override
                             public void onResponse(@NotNull Call<NearbyPlaceEntity> call, Response<NearbyPlaceEntity> response) {
                                 if(response.isSuccessful()){
-                                    Log.i("testNearbyUseCase", "response:"+ response.body().toString()+"request: "+ call.request().toString());
+                                    Log.i("type", "response:"+ response.body().toString()+"request: "+ call.request().toString());
                                     emitter.onNext(response.body());
                                 }else {
-                                    Log.i("testNearbyUseCase", "response:"+ response.errorBody().toString()+"request: "+ call.request().toString());
+                                    Log.i("type", "response:"+ response.errorBody().toString()+"request: "+ call.request().toString());
 
                                     emitter.onError(new Throwable(String.valueOf(response.code())));
                                 }
@@ -42,16 +45,16 @@ public abstract class NearbyPlaces<Param> extends RestApi {
 
                             @Override
                             public void onFailure(@NotNull Call<NearbyPlaceEntity> call, Throwable t) {
-                                Log.i("testNearbyUseCase", t.getMessage());
+                                Log.i("type", t.getMessage());
 
-                                Log.i("testNearbyUseCase", call.request().toString());
+                                Log.i("type", call.request().toString());
                             }
 
 
                         });
                     }
                 else {
-                    Log.i("testNearbyUseCase", "No Internet Conection");
+                    Log.i("type", "No Internet Conection");
                     emitter.onError(new Throwable("No Internet Conection"));
                 }
 
