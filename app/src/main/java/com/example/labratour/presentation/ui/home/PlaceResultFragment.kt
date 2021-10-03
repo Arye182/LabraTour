@@ -172,7 +172,7 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onBitampChanged(view: View) {
-        if (this.homeViewModel.photoBitmap.value != null){
+        if (this.homeViewModel.photoBitmap.value != null) {
             place_img.setImageBitmap(this.homeViewModel.photoBitmap.value)
             place_progress_bar.visibility = View.GONE
         } else {
@@ -236,7 +236,10 @@ class PlaceResultFragment : Fragment(R.layout.fragment_place) {
     }
 
     private fun onClickShare() {
-        TODO("Not yet implemented")
+        view?.let {
+            Snackbar.make(it, "Not Available in this version", Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(resources.getColor(R.color.error)).show()
+        }
     }
 
     private fun onClickLike() {
