@@ -26,7 +26,8 @@ public class Geometry {
    }
 
    @SerializedName("viewport")
-   public void setViewport(Viewport viewport) {
+   public void setViewport(
+           Viewport viewport) {
      this.viewport = viewport;
    }
  }
