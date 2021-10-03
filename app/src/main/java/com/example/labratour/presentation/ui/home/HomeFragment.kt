@@ -72,7 +72,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
 
     private var distance_disabled: Boolean = false
 
-    private var km: Int = 300
+    private var km: Double = 0.3
 
     // --------------------------------- fragment functions ---------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,7 +121,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     fun loadSettings() {
         sp = PreferenceManager.getDefaultSharedPreferences((context))
         distance_disabled = sp.getBoolean("refresh_disabled", true)
-        km = sp.getInt("distance", 500)
+        km = (sp.getInt("distance", 500).toDouble() / 1000)
     }
 
     // ----------------------------------- On Click Listeners--------------------------------------
@@ -322,12 +322,12 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
             // SINCE THE LAT LONG IS GOOD WE CAN FORECAST THINGS !!!
             // check if current location against prev location
             val dif: Double = distanceInKm(long, lat, this.locationViewModel.prevLong, this.locationViewModel.prevLat)
-            if (dif > (km / 1000)) {
+            if (dif > (km)) {
                 Log.i("Places", "startLocationUpdate, PREV COORDINATES: ${this.locationViewModel.prevLat} / ${this.locationViewModel.prevLong}")
                 Log.i("Places", "startLocationUpdate, CURRENT COORDINATES:  $lat / $long")
                 Log.i("Places", "startLocationUpdate, DIFFERENCE DISTANCE IS: $dif")
 
-                Log.i("Places", "startLocationUpdate, KM PARAMETER IS: ${km / 1000}")
+                Log.i("Places", "startLocationUpdate, KM PARAMETER IS: $km")
 
                 this.locationViewModel.started = false
                 updateUI()
