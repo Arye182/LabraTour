@@ -11,24 +11,16 @@ import com.google.firebase.auth.AuthResult;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserDataMapper {
 
     public static String transformToId(AuthResult register){
-            return register.getUser().getUid();
+            return Objects.requireNonNull(register.getUser()).getUid();
 
     }
 
-  public static UserEntity transform(AuthResult authResult) {
-    UserEntity userEntity = null;
-    if (authResult != null) {
-      userEntity = new UserEntity(authResult.getUser().getUid());
-      //userEntity.setUserId(authResult.getUser().getUid());
-     // userEntity.setUserName(authResult.getUser().getDisplayName());
-      userEntity.setUserName(authResult.getUser().getEmail());
-    }
-    return userEntity;
-  }
+
 
   public static UserEntity transform(UserDomain userDomain)  {
       UserEntity userEntity = new UserEntity(userDomain.getUserId());
@@ -37,8 +29,8 @@ public class UserDataMapper {
         userEntity.setUserName(userDomain.getUserName());
         userEntity.setFirst_name(userDomain.getFirst_name());
         userEntity.setLast_name(userDomain.getLast_name());
-        userEntity.setAtributes(transform(
-                userDomain.getAtributes()));
+        userEntity.setAtributes(
+                userDomain.getAtributes());
       } catch (Exception exception){
 exception.printStackTrace();}
       return  userEntity;}
@@ -47,7 +39,7 @@ exception.printStackTrace();}
 
     public static UserDomain transform(UserEntity userEntity) {
     UserDomain userDomain = null;
-        if ((userEntity != null)){
+        if ((userEntity != null)&&(userEntity.getUserId()!=null)){
             userDomain = new UserDomain(userEntity.getUserId());
             try{
                // userDomain = new UserDomain(userEntity.getUserId());
@@ -56,7 +48,7 @@ exception.printStackTrace();}
                 userDomain.setFirst_name(userEntity.getFirst_name());
                 userDomain.setLast_name(userEntity.getLast_name());
 
-                userDomain.setAtributes(transform(userEntity.getAtributes()));
+                userDomain.setAtributes(userEntity.getAtributes());
             } catch (Exception e){
                 e.printStackTrace();
                 return userDomain;}

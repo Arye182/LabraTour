@@ -3,10 +3,12 @@ package com.example.labratour.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+
 public class Atributes {
     @SerializedName("pricelevel")
 
-    public int price_level = 0;
+    public double price_level = 0;
     //
    // @JsonProperty("rating")
     @SerializedName("useraggragaterating")
@@ -38,12 +40,12 @@ public class Atributes {
    public boolean tourist_attraction = false;
    public boolean zoo = false;
    public boolean gym = false;
-
+public HashMap<String, Object> atributesMap;
     public Atributes() {
-
+atributesMap = initAtributesMap();
     }
 
-    public void setPrice_level(int price_level) {
+    public void setPrice_level(double price_level) {
         this.price_level = price_level;
     }
 
@@ -128,7 +130,7 @@ public class Atributes {
         this.gym = gym;
     }
 
-    public int getPrice_level() {
+    public double getPrice_level() {
         return price_level;
     }
 
@@ -215,5 +217,35 @@ public class Atributes {
     public boolean isGym() {
         return gym;
     }
+
+  public HashMap<String, Object> getAtributesMap() {
+    return atributesMap;
+  }
+
+  public HashMap<String, Object> initAtributesMap() {
+    HashMap<String, Object> atributesDict = new HashMap<>();
+    atributesDict.put("price_level", 0);
+    atributesDict.put("useraggragaterating", 0);
+    atributesDict.put("always_open", 0);
+    atributesDict.put("casino", 0);
+    atributesDict.put("cafe", 0);
+    atributesDict.put("restaurant", 0);
+    atributesDict.put("rv_park", 0);
+    atributesDict.put("shopping_mall", 0);
+    atributesDict.put("amusement_park", 0);
+    atributesDict.put("aquarium",0);
+    atributesDict.put("art_gallery",0);
+    atributesDict.put("campground",0 );
+    atributesDict.put("night_club",0 );
+    atributesDict.put("painter", 0);
+    atributesDict.put("movie_theater", 0);
+    atributesDict.put("museum",0 );
+    atributesDict.put("spa", 0);
+    atributesDict.put("stadium",0 );
+    atributesDict.put("touristAttraction", 0);
+    atributesDict.put("zoo",0 );
+    atributesDict.put("gym",0 );
+    return atributesDict;
+  }
 }
 

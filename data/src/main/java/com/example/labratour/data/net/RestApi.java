@@ -3,12 +3,12 @@ package com.example.labratour.data.net;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Looper;
 import android.util.Log;
 
-import com.example.labratour.data.Entity.mapper.NearbyPlaceJsonMapper;
 import com.example.labratour.data.Entity.mapper.PlaceDetailesDataMapper;
 import com.example.labratour.domain.Entity.Entity.PoiDetailsEntity;
+
+import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Single;
 import retrofit2.Call;
@@ -28,10 +28,10 @@ public class RestApi {
     }
 
     private PlaceDetailesDataMapper placeDetailsDataMapper;
-  private NearbyPlaceJsonMapper nearbyPlaceJsonMapper;
+  //private NearbyPlaceJsonMapper nearbyPlaceJsonMapper;
 
   public RestApi(Context context) {
-    this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
+   // this.nearbyPlaceJsonMapper = new NearbyPlaceJsonMapper();
     this.placeDetailsDataMapper = new PlaceDetailesDataMapper();
     retrofit = RetrofitClient.getRetrofitClient("https://maps.googleapis.com/maps/api/place/");
     service = retrofit.create(MapsGoogleApiService.class);
@@ -50,40 +50,36 @@ public class RestApi {
   }
 
   public Single<PoiDetailsEntity> getPlaceById(String id) {
-    Log.e(
-        "UpdateUseCase",
-        "inside getPlaceId in restapi  before create  run on:" + Looper.myLooper().toString(),
-        new Throwable("couldnt print my looper"));
+    Log.i("UpdateUseCase", "1");
 
     return Single.create(
         emitter -> {
           if (isThereInternetConnection()) {
+            Log.i("UpdateUseCase", "2");
+
             try {
               service
-                  .poiDetailes(id)
+                  .poiDetailes(id, "opening_hours, price_level, rating", API_KEY)
                   .enqueue(
                       new Callback<PoiDetailsEntity>() {
                         @Override
                         public void onResponse(
-                            Call<PoiDetailsEntity> call, Response<PoiDetailsEntity> response) {
-                          if (response != null) {
-                            emitter.onSuccess(response.body());
-                            ;
-                          } else {
-                            emitter.onError(new Exception("No response from map/api"));
-                          }
+                            @NotNull Call<PoiDetailsEntity> call,
+                            @NotNull Response<PoiDetailsEntity> response) {
+                          emitter.onSuccess(response.body());
                         }
 
                         @Override
-                        public void onFailure(Call<PoiDetailsEntity> call, Throwable t) {
+                        public void onFailure(
+                            @NotNull Call<PoiDetailsEntity> call, @NotNull Throwable t) {
                           emitter.onError(t);
                         }
                       });
-            } catch (Exception e) {
-              emitter.onError(new Exception(e.getCause()));
+            } catch (Exception ignored) {
+
             }
           } else {
-            emitter.onError(new Exception("No Internet Conection"));
+            Log.i("UpdateUseCase", "eror");
           }
         });
   }

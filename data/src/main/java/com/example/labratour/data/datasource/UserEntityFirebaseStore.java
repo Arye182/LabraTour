@@ -11,6 +11,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +32,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
+import io.reactivex.functions.Function;
 
 //public static final String CHILD_USERS = "users";
 public class UserEntityFirebaseStore {
@@ -163,66 +166,84 @@ public Observable<UserEntity> getUserRealtime(String userId) {
 }
 
 
-    public Single<String> updateUserAtributes(HashMap<String, Object>  atributes, String id) {
+    public Single<Void> updateUserAtributes(HashMap<String, Double>  atributes, String id) {
         return Single.create(
-                new SingleOnSubscribe<String>() {
+                new SingleOnSubscribe<Void>() {
                     @Override
-                    public void subscribe(SingleEmitter<String> emitter) throws Exception {
-                        usersDBref
+                    public void subscribe(SingleEmitter<Void> emitter) throws Exception {
+                                                                          Log.i("UpdateUseCase", "before askjing from server");
+
+                      usersDBref
                                 .child(id)
                                 .child("atributes")
                                 .setValue(atributes).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                emitter.onSuccess("atributes: " + atributes.toString()+ "saved for user: "+id);
+                                emitter.onSuccess(unused);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull @NotNull Exception e) {
-                                emitter.onError(e.getCause());
+                              Log.i("UpdateUseCase", "error: ");
+
+                              emitter.onError(e.fillInStackTrace());
                             }
                         });
 
                     }
                 });
     }
-    public Single<HashMap<String, Object>>
+
+
+
+    public Single<HashMap<String, Double>>
     getUserAtributes(String userId) {
         return Single.create(
-                new SingleOnSubscribe<HashMap<String, Object>>() {
+
+      new SingleOnSubscribe<UserEntity>() {
+
                     @Override
-                    public void subscribe(SingleEmitter<HashMap<String, Object>> emitter) {
-                        try {
-                            usersDBref
-                                    .child(userId)
-                                    .child("atributes")
-                                    .get()
-                                    .addOnCompleteListener(
-                                            new OnCompleteListener() {
-                                                @Override
-                                                public void onComplete(@NonNull @NotNull Task task) {
-                                                    if (!task.isSuccessful()) {
-                                                        Log.e("firebase", "Error getting data", task.getException());
-                                                        emitter.onError(task.getException());
-                                                    } else {
-                                                        emitter.onSuccess((HashMap<String, Object>) task.getResult());
-                                                        Log.d("firebase", String.valueOf(task.getResult()));
-                                                    }
-                                                }
-                                            })
+                    public void subscribe(SingleEmitter<UserEntity> emitter) {
+FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                      try {
+                        assert currentUser != null;
+                        usersDBref
+                                    .child(currentUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>(){
+                              @Override
+                              public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
+                                if ((task.isComplete())&&(task.getResult()!=null)){
+                                  emitter.onSuccess((UserEntity) task.getResult().getValue());
+                                }
+
+                              }
+
+
+
+                            })
                                     .addOnFailureListener(
                                             new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull @NotNull Exception e) {
-                                                    emitter.onError(e.getCause());
+                                                  Log.i("UpdateUseCase", "before askjing from server"+ e.toString());
+
+                                                  emitter.onError(e);
                                                 }
                                             });
                         } catch (Exception e) {
-                            emitter.onError(e.getCause());
+                        Log.i("UpdateUseCase", "before askjing from server"+ e.toString());
+
+                        emitter.onError(e);
                         }
                     }
-                });
-    }}
+                }).map(new Function<UserEntity, HashMap<String, Double>>() {
+
+
+          @Override
+          public HashMap<String, Double> apply(UserEntity userEntity) throws Exception {
+            return userEntity.getAtributes();
+          }
+        });}}
+
 
 
 

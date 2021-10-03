@@ -2,7 +2,6 @@ package com.example.labratour.data.repositories;
 
 import android.util.Log;
 
-import com.example.labratour.data.Entity.mapper.NearbyPlacesDataMapper;
 import com.example.labratour.data.net.NearbyPlaces;
 import com.example.labratour.data.net.NearbyPlacesAllTypes;
 import com.example.labratour.data.net.NearbyPlacesByType;
@@ -14,10 +13,10 @@ import io.reactivex.Observable;
 public class NearbyPlacesRepositoryImpl implements NearbyPlacesRepository {
   private NearbyPlacesByType nearbyPlacesByType;
   private NearbyPlacesAllTypes nearbyPlacesAllTypes;
-  private NearbyPlacesDataMapper nearbyPlacesDataMapper;
+ // private NearbyPlacesDataMapper nearbyPlacesDataMapper;
 
   public NearbyPlacesRepositoryImpl(NearbyPlaces restApi) {
-    nearbyPlacesDataMapper = new NearbyPlacesDataMapper();
+   // nearbyPlacesDataMapper = new NearbyPlacesDataMapper();
     nearbyPlacesAllTypes = new NearbyPlacesAllTypes(restApi.getContext().getApplicationContext());
     nearbyPlacesByType = new NearbyPlacesByType(restApi.getContext().getApplicationContext());
   }

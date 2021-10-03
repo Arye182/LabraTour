@@ -1,15 +1,11 @@
 package com.example.labratour.data.Entity.mapper;
 
-import android.os.Looper;
-import android.util.Log;
-
 import com.example.labratour.domain.Atributes;
 import com.example.labratour.domain.Entity.Entity.PlaceOpeningHoursPeriod;
 import com.example.labratour.domain.Entity.Entity.PoiDetailsEntity;
 import com.example.labratour.domain.Entity.OpeningHours1;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class PlaceDetailesDataMapper {
@@ -17,44 +13,37 @@ public class PlaceDetailesDataMapper {
 
 
 
-  public Atributes transform(PoiDetailsEntity poiDetailsEntity) {
-    Log.i("looper", "transform: "+(Looper.myLooper() == Looper.getMainLooper())+"");
-    Atributes atributes = null;
+  public Atributes transform(PoiDetailsEntity poiDetailsEntity) throws NoSuchFieldException {
+    Atributes atributes = new Atributes();
     if (poiDetailsEntity != null) {
       atributes = new Atributes();
       atributes.setPrice_level((poiDetailsEntity.getPriceLevel()+1) / 5);
       atributes.setUsersAggragateRating(poiDetailsEntity.getRating() / 5);
-      atributes.setAlwaysOpen(isAlwaysOpen(poiDetailsEntity.getOpeningHours()));
+      if(poiDetailsEntity.getOpeningHours()==null){
+        atributes.setAlwaysOpen(false);
+      }else{
+      atributes.setAlwaysOpen(isAlwaysOpen(poiDetailsEntity.getOpeningHours()));}
       updateAtributesFields(poiDetailsEntity.getTypes(), atributes);
     }
     return atributes;
   }
 
-  private void updateAtributesFields(String[] types, Atributes atributes) {
-    Log.i("looper", "updateAtributesFields: ");
-    Looper.myLooper();
-    Looper.getMainLooper();
+  private void updateAtributesFields(String[] types, Atributes atributes) throws NoSuchFieldException {
 
-    Atributes atributes1 = new Atributes();
-    atributes1.setPrice_level(atributes.getPrice_level());
-    atributes1.setUsersAggragateRating(atributes.getUsersAggragateRating());
-    atributes1.setAlwaysOpen(atributes.isAlwaysOpen());
-    try {
-      //   Map<String, Object> myObjectAsDict = new HashMap<>();
-      Field[] allFields = Atributes.class.getDeclaredFields();
-      for (Field field : allFields) {
-        String fieldName = field.getName();
-        if (Arrays.asList(fieldName).contains(fieldName)) {
-          try {
-            field.setBoolean(atributes1, true);
-          } catch (IllegalAccessException e) {
+if((types!=null)&&(types.length>1)){
+      for(int i=0 ; i <types.length;i++){
+
+     try{
+       String fieldName = Atributes.class.getDeclaredField(types[i]).getName();
+        Field field = Atributes.class.getDeclaredField(types[i]);
+                field.setBoolean(atributes, true);
+     }
+
+     catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
           }
-        }}
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    }
+        }}}
+
 
   private boolean isAlwaysOpen(OpeningHours1 periods) {
     int sum = 0;

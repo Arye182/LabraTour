@@ -1,11 +1,11 @@
 package com.example.labratour.domain.repositories;
 
-import com.example.labratour.domain.Atributes;
+import java.util.HashMap;
 
 import io.reactivex.Single;
 
 public interface PlacesRepository {
-    public Single<Atributes> getPoiById(String Id);}
+    public Single<HashMap<String, Object>> getPoiById(String Id);}
 
 
 

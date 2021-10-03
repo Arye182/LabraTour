@@ -24,7 +24,7 @@ public class PoiDetailsEntity  implements Serializable{
         private String name;
 
         @SerializedName("opening_hours")
-        private OpeningHours1 openingHours1;
+        private OpeningHours1 openingHours1 = null;
 
         @SerializedName("photos")
         private List<Object> photos = null;
@@ -33,7 +33,7 @@ public class PoiDetailsEntity  implements Serializable{
         private String placeId;
 
         @SerializedName("rating")
-        private Double rating;
+        private double rating =0;
 
         @SerializedName("reference")
         private String reference;
@@ -48,7 +48,7 @@ public class PoiDetailsEntity  implements Serializable{
         private String vicinity;
 
         @SerializedName("price_level")
-        private Integer priceLevel;
+        private int priceLevel= 0;
 
         /**
          * @return The geometry
@@ -106,6 +106,8 @@ public class PoiDetailsEntity  implements Serializable{
          * @return The openingHours
          */
         public OpeningHours1 getOpeningHours() {
+
+
             return openingHours1;
         }
 
@@ -115,20 +117,7 @@ public class PoiDetailsEntity  implements Serializable{
         public void setOpeningHours(OpeningHours1 openingHours1) {
             this.openingHours1 = openingHours1;
         }
-//
-//        /**
-//         * @return The photos
-//         */
-//        public List<Photo> getPhotos() {
-//            return photos;
-//        }
-//
-//        /**
-//         * @param photos The photos
-//         */
-//        public void setPhotos(List<Photo> photos) {
-//            this.photos = photos;
-//        }
+
 
         /**
          * @return The placeId
@@ -217,7 +206,7 @@ public class PoiDetailsEntity  implements Serializable{
         /**
          * @return The priceLevel
          */
-        public Integer getPriceLevel() {
+        public double getPriceLevel() {
             return priceLevel;
         }
 

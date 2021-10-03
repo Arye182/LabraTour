@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
 
+import java.util.Objects;
+
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -20,7 +22,7 @@ import io.reactivex.functions.Function;
 public class UserRepositoryImpl implements UserRepository {
   private UserAuth userAuth;
 
-  private  UserEntityFirebaseStore userEntityFirebaseStore;
+  private final UserEntityFirebaseStore userEntityFirebaseStore;
   //   private UserDataMapper userDataMapper;
   // private final CloudUserDataSource cloudUserDataSource;
   public UserRepositoryImpl(FirebaseAuth firebaseAuth, FirebaseDatabase database) {
@@ -52,14 +54,14 @@ public class UserRepositoryImpl implements UserRepository {
             new Function<AuthResult, UserEntity>() {
               @Override
               public UserEntity apply(AuthResult authResult) throws Exception {
-                return new UserDataMapper().transform(authResult);
+                return new UserEntity(Objects.requireNonNull(authResult.getUser()).getUid());
               }
             })
         .map(
             new Function<UserEntity, UserDomain>() {
               @Override
               public UserDomain apply(UserEntity userEntity) throws Exception {
-                return new UserDataMapper().transform(userEntity);
+                return UserDataMapper.transform(userEntity);
               }
             });
   }

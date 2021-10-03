@@ -1,30 +1,51 @@
 package com.example.labratour.domain.Entity;
 
-import com.example.labratour.domain.UserAtributes;
-
+import java.util.HashMap;
 import java.util.Map;
 
 public class UserDomain {
     private  String userId;
 
-//    public UserDomain(String email, String password, String first_name, String last_name) {
-//        this.email = email;
-//        this.first_name = first_name;
-//        this.last_name = last_name;
-//    }
+
 
     public UserDomain(String  userId) {
         this.userId = userId;
-        this.atributes = new UserAtributes();
+        this.atributes = initAtributesMap();
 
     }
     public UserDomain() {
-        this.atributes = new UserAtributes();
+        this.atributes = initAtributesMap();
 
+    }
+    public HashMap<String, Double> initAtributesMap() {
+        HashMap<String, Double> atributesDict = new HashMap<>();
+        atributesDict.put("ratesCounter", (double) 0);
+        atributesDict.put("price_level", (double) 0);
+        atributesDict.put("useraggragaterating", 0.);
+        atributesDict.put("always_open", Double.valueOf(0));
+        atributesDict.put("casino", (double) 0);
+        atributesDict.put("cafe", (double) 0);
+        atributesDict.put("restaurant", (double) 0);
+        atributesDict.put("rv_park", (double) 0);
+        atributesDict.put("shopping_mall", (double) 0);
+        atributesDict.put("amusement_park", (double) 0);
+        atributesDict.put("aquarium", (double) 0);
+        atributesDict.put("art_gallery", (double) 0);
+        atributesDict.put("campground", (double) 0);
+        atributesDict.put("night_club", (double) 0);
+        atributesDict.put("painter", (double) 0);
+        atributesDict.put("movie_theater", (double) 0);
+        atributesDict.put("museum", (double) 0);
+        atributesDict.put("spa", (double) 0);
+        atributesDict.put("stadium", (double) 0);
+        atributesDict.put("touristAttraction", (double) 0);
+        atributesDict.put("zoo", (double) 0);
+        atributesDict.put("gym", (double) 0);
+        return atributesDict;
     }
 
 
-    public UserDomain(String userId, String email, String userName, Map<String, Integer> unUpdatedRates, UserAtributes atributes, String first_name, String last_name) {
+    public UserDomain(String userId, String email, String userName, Map<String, Integer> unUpdatedRates, HashMap atributes, String first_name, String last_name) {
         this.userId = userId;
         this.email = email;
         UserName = userName;
@@ -63,13 +84,13 @@ private Map<String, Integer> unUpdatedRates = null;
         return last_name;
     }
 
-    private UserAtributes atributes;
+    private HashMap atributes;
 private String first_name = null;
 private String last_name = null;
 
    // private int countRates;
 
-    public void setAtributes(UserAtributes atributes) {
+    public void setAtributes(HashMap atributes) {
         this.atributes = atributes;
     }
 //    private Object clusters;
@@ -97,7 +118,7 @@ private String last_name = null;
         this.email = email;
     }
 
-    public  UserAtributes getAtributes() {
+    public HashMap<String, Double> getAtributes() {
         return atributes;
     }
 

@@ -22,7 +22,7 @@ public class UserEntity  {
     @SerializedName("lastname")
     public String last_name = null;
     @SerializedName("atributes")
-    public HashMap<String, Object> atributes = null;
+    private HashMap<String, Double> atributes;
 
     public UserEntity(){
 this.atributes = initAtributesMap();
@@ -63,7 +63,7 @@ this.atributes = initAtributesMap();
 
 
 
-        public void setAtributes(HashMap<String, Object> atributes) {
+        public void setAtributes(HashMap<String, Double> atributes) {
                   this.atributes.putAll(atributes);
             };
 
@@ -85,33 +85,33 @@ this.atributes = initAtributesMap();
             this.email = email;
         }
 
-        public HashMap<String, Object> getAtributes() {
+        public HashMap<String, Double> getAtributes() {
             return atributes;
         }
-    public HashMap<String, Object> initAtributesMap() {
-        HashMap<String, Object> atributesDict = new HashMap<>();
-        atributesDict.put("ratesCounter",0);
-        atributesDict.put("price_level", 0);
-        atributesDict.put("useraggragaterating", 0);
-        atributesDict.put("always_open", 0);
-        atributesDict.put("casino", 0);
-        atributesDict.put("cafe", 0);
-        atributesDict.put("restaurant", 0);
-        atributesDict.put("rv_park", 0);
-        atributesDict.put("shopping_mall", 0);
-        atributesDict.put("amusement_park", 0);
-        atributesDict.put("aquarium",0);
-        atributesDict.put("art_gallery",0);
-        atributesDict.put("campground",0 );
-        atributesDict.put("night_club",0 );
-        atributesDict.put("painter", 0);
-        atributesDict.put("movie_theater", 0);
-        atributesDict.put("museum",0 );
-        atributesDict.put("spa", 0);
-        atributesDict.put("stadium",0 );
-        atributesDict.put("touristAttraction", 0);
-        atributesDict.put("zoo",0 );
-        atributesDict.put("gym",0 );
+    public HashMap<String, Double> initAtributesMap() {
+        HashMap<String, Double> atributesDict = new HashMap<>();
+        atributesDict.put("ratesCounter", (double) 0);
+        atributesDict.put("price_level", (double) 0);
+        atributesDict.put("useraggragaterating", 0.);
+        atributesDict.put("always_open", Double.valueOf(0));
+        atributesDict.put("casino", (double) 0);
+        atributesDict.put("cafe", (double) 0);
+        atributesDict.put("restaurant", (double) 0);
+        atributesDict.put("rv_park", (double) 0);
+        atributesDict.put("shopping_mall", (double) 0);
+        atributesDict.put("amusement_park", (double) 0);
+        atributesDict.put("aquarium", (double) 0);
+        atributesDict.put("art_gallery", (double) 0);
+        atributesDict.put("campground", (double) 0);
+        atributesDict.put("night_club", (double) 0);
+        atributesDict.put("painter", (double) 0);
+        atributesDict.put("movie_theater", (double) 0);
+        atributesDict.put("museum", (double) 0);
+        atributesDict.put("spa", (double) 0);
+        atributesDict.put("stadium", (double) 0);
+        atributesDict.put("touristAttraction", (double) 0);
+        atributesDict.put("zoo", (double) 0);
+        atributesDict.put("gym", (double) 0);
         return atributesDict;
     }
 
