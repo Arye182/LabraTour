@@ -107,7 +107,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_24"
+                            android:src="@drawable/labra_asset_27"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>

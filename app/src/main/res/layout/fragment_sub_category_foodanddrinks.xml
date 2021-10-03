@@ -45,7 +45,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -70,7 +70,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_26"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -106,7 +106,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -131,7 +131,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_26"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -171,7 +171,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -196,7 +196,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_26"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>
@@ -232,7 +232,7 @@
                         <com.google.android.material.imageview.ShapeableImageView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/labra_asset_beer"
+                            android:src="@drawable/labra_asset_5"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginBottom="4dp">
                         </com.google.android.material.imageview.ShapeableImageView>

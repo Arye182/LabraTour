@@ -7,4 +7,7 @@
         android:endColor="@color/reply_orange_300"
         android:type="linear">
     </gradient>
+    <corners android:radius="15dp">
+
+    </corners>
 </shape>
