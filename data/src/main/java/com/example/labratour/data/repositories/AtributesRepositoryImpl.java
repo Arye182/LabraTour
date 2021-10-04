@@ -1,13 +1,19 @@
 package com.example.labratour.data.repositories;
 
+import android.util.Log;
+
 import com.example.labratour.data.datasource.UserAuth;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
+import com.example.labratour.domain.Entity.UserDomain;
+import com.example.labratour.domain.UserAtributes;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 
 public class AtributesRepositoryImpl implements AtributesRepository{
 
@@ -23,14 +29,38 @@ public class AtributesRepositoryImpl implements AtributesRepository{
         this.userEntityFirebaseStore = new UserEntityFirebaseStore(database);
     }
     public Single<HashMap<String, Double>> getUserAtributes(String userId) {
-        return userEntityFirebaseStore.getUserAtributes(userId);
-//                .map(new Function<HashMap<String, Object>, UserAtributes>() {
-//            @Override
-//            public UserAtributes apply(HashMap<String, Object> stringObjectHashMap) throws Exception {
-//                return UserDataMapper.transform(stringObjectHashMap);
-//            }
-//        });
-    }
+    return userEntityFirebaseStore
+        .getUserAtributes(userId)
+        .map(
+            new Function<DataSnapshot, UserDomain>() {
+
+              @Override
+              public UserDomain apply(DataSnapshot dataSnapshot) throws Exception {
+                UserDomain userEntity = new UserDomain();
+
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                  userEntity.setUserId(ds.child("userId").getValue(String.class));
+                  userEntity.setEmail(ds.child("email").getValue(String.class));
+                  userEntity.setCountRate(ds.child("countRate").getValue(double.class));
+                  userEntity.setUserName(ds.child("userName").getValue(String.class));
+                  userEntity.setAtributes(ds.child("atributes").getValue(UserAtributes.class)
+                      );
+                }
+                return userEntity;
+              }
+            })
+        .map(
+            new Function<UserDomain, HashMap<String, Double>>() {
+              @Override
+              public HashMap<String, Double> apply(UserDomain userEntity) {
+                if (userEntity.getAtributes() == null) {
+               Log.i("Atributes", "userEntity.getAtributes()=null)");}
+                return userEntity.getAtributes();
+
+
+            }});}
+
+
 
     public Single<Void> updateNewAtributes(HashMap<String, Double> userAtributes, String userId) {
 

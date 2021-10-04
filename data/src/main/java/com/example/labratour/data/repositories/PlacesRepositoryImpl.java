@@ -37,7 +37,7 @@ private final PlaceDetailesDataMapper placeDetailesDataMapper;
         return this.restApi.getPlaceById(Id).map(new Function<PoiDetailsEntity, HashMap<String, Object>>() {
             @Override
             public HashMap<String, Object> apply(PoiDetailsEntity poiDetailsEntity) throws Exception {
-
+                Log.i("rate", "in apply of getpoibyid "+poiDetailsEntity.getTypes().toString());
                 return placeDetailesDataMapper.transform(poiDetailsEntity).getAtributesMap();
             }
         });

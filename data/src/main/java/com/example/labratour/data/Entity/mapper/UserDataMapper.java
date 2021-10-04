@@ -37,24 +37,7 @@ exception.printStackTrace();}
 
 
 
-    public static UserDomain transform(UserEntity userEntity) {
-    UserDomain userDomain = null;
-        if ((userEntity != null)&&(userEntity.getUserId()!=null)){
-            userDomain = new UserDomain(userEntity.getUserId());
-            try{
-               // userDomain = new UserDomain(userEntity.getUserId());
-                userDomain.setEmail(userEntity.getEmail());
-                userDomain.setUserName(userEntity.getUserName());
-                userDomain.setFirst_name(userEntity.getFirst_name());
-                userDomain.setLast_name(userEntity.getLast_name());
 
-                userDomain.setAtributes(userEntity.getAtributes());
-            } catch (Exception e){
-                e.printStackTrace();
-                return userDomain;}
-    }
-        return userDomain;
-        }
 
 
 

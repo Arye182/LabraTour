@@ -1,18 +1,15 @@
 package com.example.labratour.data.Entity;
 
-import android.util.Pair;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class UserEntity  {
     @SerializedName("userId")
 
     public String userId = null;
     @SerializedName("countrate")
-    public int countRate = 0;
+    public double countRate = 0;
     @SerializedName("email")
     public String email = null;
     @SerializedName("username")
@@ -34,11 +31,11 @@ this.atributes = initAtributesMap();
     public String getUserId() {
         return userId;
     }
-    public int getCountRate() {
+    public double getCountRate() {
         return countRate;
     }
 
-    public void setCountRate(int countRate) {
+    public void setCountRate(double countRate) {
         this.countRate = countRate;
     }
 
