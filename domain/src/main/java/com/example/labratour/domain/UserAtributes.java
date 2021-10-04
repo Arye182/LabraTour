@@ -170,7 +170,7 @@ public class UserAtributes {
     @SerializedName("gym")
     private double gym = 0;
 HashMap<String, Double> atributesDict = null;
-    public HashMap<String, Double> UserAtributes() {
+    public HashMap<String, Double> getUserAtributes() {
 if(atributesDict==null){
     initAtributesMap();
 }

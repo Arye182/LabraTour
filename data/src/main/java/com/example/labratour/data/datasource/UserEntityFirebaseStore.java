@@ -222,7 +222,7 @@ public class UserEntityFirebaseStore {
                       public void onComplete(@NonNull @NotNull Task<DataSnapshot> task) {
                         Log.i("rate", "getuserAtr before subscribe " + task);
 
-                        onComplete(task);
+                        emitter.onSuccess(task.getResult());
                       }
                     });
           }

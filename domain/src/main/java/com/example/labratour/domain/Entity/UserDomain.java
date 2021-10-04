@@ -4,7 +4,6 @@ import com.example.labratour.domain.UserAtributes;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
-
 public class UserDomain  {
     @SerializedName("userId")
 
@@ -24,11 +23,10 @@ public class UserDomain  {
     private UserAtributes userAtributes ;
 
     public UserDomain(){
-        this.atributes = initAtributesMap();
+
     }
     public UserDomain(String userId) {
         this.userId = userId;
-        this.atributes = initAtributesMap();
     }
     public String getUserId() {
         return userId;
@@ -64,9 +62,14 @@ public class UserDomain  {
 
     public void setAtributes(HashMap<String, Double> atributes) {
         this.atributes.putAll(atributes);
+
     };
     public void setAtributes(UserAtributes atributes) {
-this.userAtributes = atributes;    };
+this.userAtributes = atributes;
+    }
+
+
+
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -94,7 +97,7 @@ this.userAtributes = atributes;    };
         atributesDict.put("ratesCounter", (double) 0);
         atributesDict.put("price_level", (double) 0);
         atributesDict.put("useraggragaterating", 0.);
-        atributesDict.put("always_open", Double.valueOf(0));
+        atributesDict.put("always_open", 0.);
         atributesDict.put("casino", (double) 0);
         atributesDict.put("cafe", (double) 0);
         atributesDict.put("restaurant", (double) 0);

@@ -1,10 +1,8 @@
 package com.example.labratour.data.repositories;
 
-import android.os.Looper;
 import android.util.Log;
 
 import com.example.labratour.domain.PoiDetailesDomain;
-import com.example.labratour.domain.repositories.PlacesRepository;
 import com.example.labratour.domain.repositories.RatingsRepository;
 
 import java.util.HashMap;
@@ -50,6 +48,7 @@ public class RatingsRepositoryImpl implements RatingsRepository {
             try {
               Log.i("UpdateUseCase", "subscribe1" + userId + placeId + rate);
               Single<HashMap<String, Object>> o1 = buildPoiAtributesSingle(placeId);
+
               Single<HashMap<String, Double>> o2 = buildUserAtributesSingle(userId);
               Single.zip(
                       o1,
@@ -65,12 +64,12 @@ public class RatingsRepositoryImpl implements RatingsRepository {
 
                           //     assert atributes != null;
                           //      assert userAtributes != null;
-                          Log.i("UpdateUseCase", atributes.toString());
+                          Log.i("UpdateUseCase", userAtributes.toString());
                           double rateCounter = 0;
                           rateCounter = userAtributes.get("ratesCounter");
 
                           return calculateNewAtributesForUser2(
-                              atributes, userAtributes, rate, rate);
+                              atributes, userAtributes, rateCounter, rate);
                         }
 
                         // subscribe the zip to the observer argument
