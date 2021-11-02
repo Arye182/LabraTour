@@ -24,6 +24,9 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.*
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
+import okhttp3.internal.wait
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -35,6 +38,7 @@ class UserHomeViewModel(
     private val userRepository: UserRepository,
     private val placeCacheRepository: PlacesRepository,
     private val savedRankedPlacesRepository: SavedRankedPlacesRepository
+
 ) : ViewModel() {
     //  ----------------------------------- fetch single place ------------------------------------
     private lateinit var request: FetchPlaceRequest
@@ -176,7 +180,7 @@ class UserHomeViewModel(
         MutableLiveData<ArrayList<PlaceModel>>()
     }
     var categoryPlacesListLiveData: LiveData<ArrayList<PlaceModel>> = _categoryPlacesListLiveData
-    private inner class NearbyPlacesByTypeObserver : DefaultObserver<NearbyPlaceEntity>() {
+    private inner class NearbyPlacesByTypeObserver() : DefaultObserver<NearbyPlaceEntity>() {
         override fun onComplete() {
             Log.i("Places", "NearbyPlacesByTypeObserver  - On Complete...")
         }
@@ -215,6 +219,40 @@ class UserHomeViewModel(
         }
     }
 
+
+    //  ---------------------------------- user BASED Liked list ----------------------------------
+    private val _basedLikedPlaceModelListLiveData: MutableLiveData<ArrayList<PlaceModel>> by lazy {
+        MutableLiveData<ArrayList<PlaceModel>>()
+    }
+    var basedLikedPlaceModelListLiveData: LiveData<ArrayList<PlaceModel>> = _basedLikedPlaceModelListLiveData
+    private inner class BasedLikedNearbyPlacesByTypeObserver() : DefaultObserver<NearbyPlaceEntity>() {
+        override fun onComplete() {
+            Log.i("Places", "BasedLikedNearbyPlacesByTypeObserver  - On Complete...")
+        }
+        override fun onError(exception: Throwable) {
+            Log.i("Places", "BasedLikedNearbyPlacesByTypeObserver  - On Error: " + exception.message)
+            error.postValue("BasedLikedNearbyPlacesByTypeObserver  - On Error: " + exception.message)
+        }
+        override fun onNext(value: NearbyPlaceEntity) {
+            Log.i("Places", "BasedLikedNearbyPlacesByTypeObserver - On Next...")
+            Log.i("Places", "BasedLikedNearbyPlacesByTypeObserver - On Next... Value Size = ${value.results.size}")
+            Log.i("Places", "BasedLikedNearbyPlacesByTypeObserver - On Next... list = $value")
+            viewModelScope.launch {
+                _basedLikedPlaceModelListLiveData.postValue(nearbyPlaceEntityToPlaceModelCoRoutine(value))
+            }
+        }
+    }
+    fun basedLikedPlacesCoRoutine(user_id: String, lat: String, long: String) {
+        var category: String
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.i("Places", "Co-Routine - Starting To Update Category Places List")
+            category = savedRankedPlacesRepository.getTopCategoryLiked(user_id).lowercase()
+            Log.i("Places", "Co-Routine TOP CATEGORY IS: - $category")
+
+            getNearbyPlacesByTypeUseCase.execute(BasedLikedNearbyPlacesByTypeObserver(), lat, long, category)
+        }
+    }
+
     // ------------------------------------ USER ----------------------------------------------
     private val _userModelLiveData: MutableLiveData<UserModel> by lazy {
         MutableLiveData<UserModel>()
@@ -231,7 +269,7 @@ class UserHomeViewModel(
             val user_id = FirebaseAuth.getInstance().currentUser?.uid
             Log.i("Places", "likedPlacesStringList : user id: $user_id")
             Log.i("Places", "Saving user id: $user_id, at place id: $place_id")
-            user_id?.let { SavedRankedPlaceModel(saved_id = 0, user_id = it, place_id = place_id, liked = 1, rank = rank) }?.let {
+            user_id?.let { place.value?.types?.get(0)?.let { it1 -> SavedRankedPlaceModel(saved_id = 0, user_id = it, place_id = place_id, place_type = it1.toString(), liked = 1, rank = rank) } }?.let {
                 savedRankedPlacesRepository.insertSavedPlace(
                     it
                 )

@@ -29,6 +29,7 @@ import com.example.labratour.presentation.viewmodel.LocationViewModel
 import com.example.labratour.presentation.viewmodel.UserHomeViewModel
 import com.example.labratour.presentation.viewmodel.WeatherViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.customed_places_list_progress_bar
@@ -55,6 +56,7 @@ const val NEARBY_LIST_CODE = 15
 const val LIKED_LIST_CODE = 16
 const val CUSTOMIZED_LIST_CODE = 17
 const val CATEGORY_LIST_CODE = 18
+const val BASED_LIKED_CODE = 19
 
 class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAdapter.OnItemClickListener {
     // viewmodels
@@ -95,6 +97,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         this.homeViewModel.customizedPlaceModelListLiveData.observe(viewLifecycleOwner, { onCustomPlacesListChanged() })
         this.homeViewModel.userModelLiveData.observe(viewLifecycleOwner, { onUserChanged() })
         this.homeViewModel.nearByPlaceModelListLiveData.observe(viewLifecycleOwner, { onNearByPlacesListChanged(frag_view) })
+        this.homeViewModel.basedLikedPlaceModelListLiveData.observe(viewLifecycleOwner, { onBasedLikedPlacesListChanged(frag_view) })
         this.homeViewModel.error.observe(viewLifecycleOwner, { onErrorChanged(frag_view) })
         this.locationViewModel.getLocationData().observe(viewLifecycleOwner, { startLocationUpdate(frag_view) })
         onWeatherForecastChanged()
@@ -165,6 +168,22 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
         } else {
             nearby_places_list_progress_bar.visibility = View.VISIBLE
             places_close_to_you_recycler_view.visibility = View.GONE
+        }
+    }
+
+    private fun onBasedLikedPlacesListChanged(view: View) {
+        if (this.homeViewModel.basedLikedPlaceModelListLiveData.value != null) {
+            if (this.homeViewModel.basedLikedPlaceModelListLiveData.value?.size!! > 0) {
+                based_liked_places_recycler_view.adapter = SmallPlaceCardRecyclerAdapter(this.homeViewModel.basedLikedPlaceModelListLiveData.value!!, this, BASED_LIKED_CODE)
+                based_liked_places_recycler_view.layoutManager =
+                    LinearLayoutManager(activity as HomeActivity, LinearLayoutManager.HORIZONTAL, false)
+                based_liked_places_recycler_view.setHasFixedSize(true)
+                based_liked_places_list_progress_bar.visibility = View.GONE
+                based_liked_places_recycler_view.visibility = View.VISIBLE
+            }
+        } else {
+            based_liked_places_list_progress_bar.visibility = View.VISIBLE
+            based_liked_places_recycler_view.visibility = View.GONE
         }
     }
 
@@ -341,9 +360,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), SmallPlaceCardRecyclerAda
     private fun updateUI() {
         val lat = this.locationViewModel.getLocationData().value?.latitude
         val long = this.locationViewModel.getLocationData().value?.longitude
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
         // updates
         this.homeViewModel.nearbyPlacesCoRoutine(lat.toString(), long.toString())
         this.homeViewModel.customizedPlacesListCoRoutine()
+        if (uid != null) {
+            this.homeViewModel.basedLikedPlacesCoRoutine(uid, lat.toString(), long.toString())
+        }
         this.weatherViewModel.forecast(lat.toString(), long.toString())
         updateCityCountry()
     }

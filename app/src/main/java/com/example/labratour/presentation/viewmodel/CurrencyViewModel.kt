@@ -1,12 +1,14 @@
 package com.example.labratour.presentation.viewmodel
 
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.labratour.BuildConfig.API_KEY_CURRENCY
 import com.example.labratour.presentation.model.data.currency.Rates
 import com.example.labratour.presentation.model.repositories.CurrencyRepository
 import com.example.labratour.presentation.utils.DispatcherProvider
-import com.example.labratour.presentation.utils.Keys.API_KEY_CURRENCY
 import com.example.labratour.presentation.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,6 +42,7 @@ class CurrencyViewModel(
 
         viewModelScope.launch(dispatchers.io) {
             _conversion.value = CurrencyEvent.Loading
+
             when (val ratesResponse = repository.getRates(fromCurrency, API_KEY_CURRENCY)) {
                 is Resource.Error -> {
                     _conversion.value = CurrencyEvent.Failure(ratesResponse.message!!)

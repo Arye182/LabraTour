@@ -26,6 +26,15 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".presentation.ui.home.HomeActivity" />
+        <meta-data
+            android:name="weather_api_key"
+            android:value="${API_KEY_WEATHER}"/>
+        <meta-data
+            android:name="google_api_key"
+            android:value="${API_KEY_GOOGLE}"/>
+        <meta-data
+            android:name="currency_api_key"
+            android:value="${API_KEY_CURRENCY}"/>
     </application>
 
 

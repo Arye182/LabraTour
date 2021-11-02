@@ -1,8 +1,19 @@
-apply plugin:'com.android.application'
-apply plugin:'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
+
+//apply plugin:'com.android.application'
+//apply plugin:'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-kapt'
+//apply plugin: "androidx.navigation.safeargs.kotlin"
+//apply plugin: "com.google.secrets-gradle-plugin"
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+}
 
 
 android {
@@ -31,6 +42,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+
 }
 // dependencies
 dependencies {
@@ -119,5 +132,6 @@ dependencies {
 
 
 }
+
 
 apply plugin: 'com.google.gms.google-services'

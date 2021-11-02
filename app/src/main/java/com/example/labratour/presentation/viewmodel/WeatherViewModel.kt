@@ -3,10 +3,10 @@ package com.example.labratour.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.labratour.BuildConfig.API_KEY_WEATHER
 import com.example.labratour.presentation.model.data.weather.IntervalWeather
 import com.example.labratour.presentation.model.repositories.WeatherRepository
 import com.example.labratour.presentation.utils.DispatcherProvider
-import com.example.labratour.presentation.utils.Keys.API_KEY_WEATHER
 import com.example.labratour.presentation.utils.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
