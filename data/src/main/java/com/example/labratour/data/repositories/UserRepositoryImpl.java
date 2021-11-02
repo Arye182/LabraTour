@@ -2,7 +2,6 @@ package com.example.labratour.data.repositories;
 
 import android.util.Log;
 
-import com.example.labratour.data.Entity.UserEntity;
 import com.example.labratour.data.Entity.mapper.UserDataMapper;
 import com.example.labratour.data.datasource.UserAuth;
 import com.example.labratour.data.datasource.UserEntityFirebaseStore;
@@ -37,12 +36,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
   public Single<UserDomain> getUser(String userId) {
-    return this.userEntityFirebaseStore.getUser(userId).map(new Function<UserEntity, UserDomain>() {
-      @Override
-      public UserDomain apply(UserEntity userEntity) throws Exception {
-        return UserDataMapper.transform(userEntity);
-      }
-    });
+    return this.userEntityFirebaseStore.getUser(userId);
+            //.map(new Function<UserDomain, UserDomain>() {
+//      @Override
+//      public UserDomain apply(UserEntity userEntity) throws Exception {
+//        return UserDataMapper.transform(userEntity);
+//      }
+
 
   }
 
@@ -51,19 +51,19 @@ public class UserRepositoryImpl implements UserRepository {
     return this.userAuth
         .login(email, password)
         .map(
-            new Function<AuthResult, UserEntity>() {
+            new Function<AuthResult, UserDomain>() {
               @Override
-              public UserEntity apply(AuthResult authResult) throws Exception {
-                return new UserEntity(Objects.requireNonNull(authResult.getUser()).getUid());
-              }
-            })
-        .map(
-            new Function<UserEntity, UserDomain>() {
-              @Override
-              public UserDomain apply(UserEntity userEntity) throws Exception {
-                return UserDataMapper.transform(userEntity);
+              public UserDomain apply(AuthResult authResult) throws Exception {
+                return new UserDomain(Objects.requireNonNull(authResult.getUser()).getUid());
               }
             });
+//        .map(
+//            new Function<UserEntity, UserDomain>() {
+//              @Override
+//              public UserDomain apply(UserEntity userEntity) throws Exception {
+//                return UserDataMapper.transform(userEntity);
+//              }
+//            });
   }
 
 

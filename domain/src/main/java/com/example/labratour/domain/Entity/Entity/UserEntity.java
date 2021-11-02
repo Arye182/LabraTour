@@ -1,5 +1,6 @@
 package com.example.labratour.domain.Entity.Entity;
 
+import com.example.labratour.domain.UserAtributes;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
@@ -19,14 +20,12 @@ public class UserEntity  {
     @SerializedName("lastname")
     public String last_name = null;
     @SerializedName("atributes")
-    public HashMap<String, Object> atributes = null;
+    public UserAtributes atributes = null;
 
-    public UserEntity(){
-this.atributes = initAtributesMap();
-    }
+
     public UserEntity(String userId) {
         this.userId = userId;
-        this.atributes = initAtributesMap();
+        this.atributes = new UserAtributes();
     }
     public String getUserId() {
         return userId;
@@ -60,8 +59,8 @@ this.atributes = initAtributesMap();
 
 
 
-        public void setAtributes(HashMap<String, Object> atributes) {
-                  this.atributes.putAll(atributes);
+        public void setAtributes(UserAtributes userAtributes) {
+                  this.atributes = userAtributes;
             };
 
         public void setUserName(String userName) {
@@ -82,7 +81,7 @@ this.atributes = initAtributesMap();
             this.email = email;
         }
 
-        public HashMap<String, Object> getAtributes() {
+        public UserAtributes getAtributes() {
             return atributes;
         }
     public HashMap<String, Object> initAtributesMap() {

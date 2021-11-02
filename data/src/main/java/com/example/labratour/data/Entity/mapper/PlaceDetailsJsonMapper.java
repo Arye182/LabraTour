@@ -9,6 +9,7 @@ public class PlaceDetailsJsonMapper {
 
     public PlaceDetailsJsonMapper() {
         this.gson = new Gson();
+
     }
 
 }

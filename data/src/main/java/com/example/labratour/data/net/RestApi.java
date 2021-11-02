@@ -59,15 +59,18 @@ public class RestApi {
 
             try {
               service
-                  .poiDetailes(id, "opening_hours, price_level, rating", API_KEY)
+                  .poiDetailes(id, "opening_hours,price_level,rating", API_KEY)
                   .enqueue(
                       new Callback<PoiDetailsEntity>() {
                         @Override
                         public void onResponse(
                             @NotNull Call<PoiDetailsEntity> call,
                             @NotNull Response<PoiDetailsEntity> response) {
-                          emitter.onSuccess(response.body());
-                        }
+                          if(response.body()==null){
+                            Log.i("UpdateUseCase", "eror"+response.toString() );}
+else{
+                          emitter.onSuccess( response.body());
+                        }}
 
                         @Override
                         public void onFailure(
@@ -76,7 +79,6 @@ public class RestApi {
                         }
                       });
             } catch (Exception ignored) {
-
             }
           } else {
             Log.i("UpdateUseCase", "eror");

@@ -3,7 +3,13 @@ package com.example.labratour.domain;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.HashMap;
+
 public class UserAtributes {
+    public UserAtributes( ) {
+
+    }
+
     public void setRatesCounter(int ratesCounter) {
         RatesCounter = ratesCounter;
     }
@@ -11,7 +17,32 @@ public class UserAtributes {
     public int getRatesCounter() {
         return RatesCounter;
     }
-
+    private HashMap<String, Object> initAtributesMap() {
+        HashMap<String, Object> atributesDict = new HashMap<>();
+        atributesDict.put("ratesCounter",0);
+        atributesDict.put("price_level", 0);
+        atributesDict.put("useraggragaterating", 0);
+        atributesDict.put("always_open", 0);
+        atributesDict.put("casino", 0);
+        atributesDict.put("cafe", 0);
+        atributesDict.put("restaurant", 0);
+        atributesDict.put("rv_park", 0);
+        atributesDict.put("shopping_mall", 0);
+        atributesDict.put("amusement_park", 0);
+        atributesDict.put("aquarium",0);
+        atributesDict.put("art_gallery",0);
+        atributesDict.put("campground",0 );
+        atributesDict.put("night_club",0 );
+        atributesDict.put("painter", 0);
+        atributesDict.put("movie_theater", 0);
+        atributesDict.put("museum",0 );
+        atributesDict.put("spa", 0);
+        atributesDict.put("stadium",0 );
+        atributesDict.put("touristAttraction", 0);
+        atributesDict.put("zoo",0 );
+        atributesDict.put("gym",0 );
+        return atributesDict;
+    }
     @SerializedName("RatesCounter")
     private int RatesCounter = 0;
 
@@ -138,9 +169,12 @@ public class UserAtributes {
     private double zoo = 0;
     @SerializedName("gym")
     private double gym = 0;
-
-    public UserAtributes() {
-
+HashMap<String, Double> atributesDict = null;
+    public HashMap<String, Double> getUserAtributes() {
+if(atributesDict==null){
+    initAtributesMap();
+}
+return atributesDict;
     }
 
     public void setPrice_level(double price_level) {

@@ -10,12 +10,13 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class UpdateUserProfileByRateUseCase extends UseCase<String, UpdateUserProfileByRateUseCase.RequestInput> {
-    private final RatingsRepository repository;
+    private  RatingsRepository repository;
 
     public UpdateUserProfileByRateUseCase(ExecutionThread executionThread, PostExecutionThread postExecutionThread, RatingsRepository ratingRepository) {
         super(executionThread, postExecutionThread);
         this.repository = ratingRepository;
     }
+
     public void execute(DisposableObserver observer, String userId, String poiId, int rate) {
 
         Preconditions.checkNotNull(observer);
